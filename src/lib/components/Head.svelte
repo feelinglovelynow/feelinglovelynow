@@ -1,0 +1,35 @@
+<script lang="ts">
+  import getImageUrl from '$lib/file/getImageUrl'
+
+  export let title: string
+  export let ogImageId: string = ''
+  export let url: string = ''
+  export let description: string = ''
+
+  let imageSrc: string
+  let fullTitle: string
+
+  $: if (ogImageId) setImageSrc()
+  $: if (title) setFullTitle()
+
+  function setImageSrc () {
+    imageSrc = getImageUrl(ogImageId)
+  }
+
+  function setFullTitle () {
+    fullTitle = title + ' ⋅ Feeling Lovely Now'
+  }
+</script>
+
+<svelte:head>
+  <title>{ fullTitle }</title>
+  <meta name="description" content={ description || fullTitle } />
+  { #if imageSrc }
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.feelinglovelynow.com/{ url }" />
+    <meta property="og:image" content={ imageSrc } />
+    <meta property="og:image:secure_url" content={ imageSrc } />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content={ fullTitle } />
+  {/if}
+</svelte:head>

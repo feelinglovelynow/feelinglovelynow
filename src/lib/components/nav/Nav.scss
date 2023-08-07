@@ -1,0 +1,166 @@
+@import '../../scss/variables.scss';
+
+.nav {
+
+  @media only screen and (min-width: $move-nav-window-width) { // big screen
+    align-items: start;
+  }
+
+  .logo {
+    position: fixed;
+    z-index: $zindex-logo;
+    top: 0.9rem;
+    width: 4rem;
+    left: 50%;
+    margin-left: -2.7rem;
+    transition: all 0.9s;
+
+    @media only screen and (min-width: $move-logo-above-all-window-width) { // medium screen
+      left: 1rem;
+      margin-left: 0;
+      width: 8rem;
+      margin-left: 0;
+    }
+
+    @media only screen and (min-width: $move-nav-window-width) { // big screen
+      top: 1.8rem;
+    }
+
+    a {
+      transition: all 0.25s;
+      &.hidden {
+        opacity: 0;
+        cursor: default;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .name-wrapper {
+    position: fixed;
+    width: 100%;
+    top: 5.4rem;
+    right: 0;
+    left: 0;
+    padding: 0;
+    z-index: $zindex-nav;
+    $smallNameWidth: 21rem;
+    height: 6.3rem;
+    overflow: hidden;
+    transition: $move-nav-transition;
+    text-align: center;
+
+    @media only screen and (min-width: $move-logo-above-all-window-width) { // medium screen
+      top: 1.8rem;
+      padding: 0 0.9rem 0 9.1rem;
+    }
+
+    @media only screen and (min-width: $move-nav-window-width) { // big screen
+      top: 1.75rem;
+      left: calc(100% - $smallNameWidth - 1rem);
+      padding: 0;
+      font-size: 2.3rem;
+      margin-right: 1rem;
+      width: $smallNameWidth;
+    }
+
+    .name {
+      display: inline-block;
+      padding: 0.9rem 1.2rem 0.45rem;
+      font-size: 2.7rem;
+      text-align: center;
+      font-weight: 600;
+      border-radius: 0.9rem;
+      background-color: var(--opacity-bg);
+      transition: all 0.3s;
+      white-space: nowrap;
+      font-family: $font-family-papyrus;
+      color: var(--papyrus-text-color);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+  
+      @media only screen and (min-width: $move-nav-window-width) { // big screen
+        font-size: 2.21rem;
+      }
+    }
+  }
+
+  nav {
+    position: fixed;
+    z-index: $zindex-nav;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0;
+    padding: 0 1.2rem;
+    transition: $move-nav-transition;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--bottom-nav-bg);
+
+    @media only screen and (min-width: $move-nav-window-width) { // big screen
+      right: 1rem;
+      bottom: calc(100% - 11.4rem);
+      left: auto;
+      border-radius: 1rem;
+      background-color: var(--opacity-bg);
+    }
+
+    .item {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+      text-decoration: none;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      &.active {
+        text-decoration: underline;
+      }
+
+      @media only screen and (min-width: $move-nav-window-width) { // big screen
+        padding: 0;
+      }
+
+      svg:not(.loading-anchor__loading-icon) {
+        width: auto;
+        max-height: 2.1rem;
+        margin-bottom: 0.75rem;
+        transition: max-height $move-nav-speed, margin-bottom $move-nav-speed, opacity 0.25s;
+
+        @media only screen and (min-width: $move-nav-window-width) { // big screen
+          margin: 0;
+          max-height: 0;
+        }
+      }
+
+      .loading-anchor__loading-icon {
+        transform: translateY(-0.3rem);
+
+        @media only screen and (min-width: $move-nav-window-width) { // big screen
+          transform: none;
+        }
+      }
+
+      span {
+        font-size: 1.5rem;
+        transition: all 0.25s;
+        &.hidden {
+          @media only screen and (min-width: $move-nav-window-width) { // big screen
+            opacity: 0;
+          }
+        }
+
+        @media only screen and (min-width: $move-nav-window-width) { // big screen
+          padding: 1rem;
+          font-size: inherit;
+        }
+      }
+    }
+  }
+}

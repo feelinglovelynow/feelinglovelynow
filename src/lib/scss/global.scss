@@ -1,0 +1,109 @@
+@import '$lib/scss/form.scss';
+@import '$lib/scss/short.scss';
+@import '$lib/scss/toast.scss';
+@import '$lib/scss/chips.scss';
+@import '$lib/scss/modal.scss';
+@import '$lib/scss/source.scss';
+@import '$lib/scss/variables.scss';
+
+body {
+  font-family: $font-family;
+  background-color: var(--bg-color);
+  transition: background-color 0.9s;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  z-index: $zindex-main;
+  top: 9.9rem;
+  left: 0.9rem;
+  right: 0.9rem;
+  margin-left: 0;
+  padding-top: 3rem;
+  color: var(--text-color);
+  padding-bottom: 12rem;
+  transition: all 0.3s;
+
+  @media only screen and (min-width: $move-nav-window-width) { // big screen
+    padding-bottom: 3rem;
+  }
+
+  @media only screen and (min-width: 72rem) { // big screen
+    padding-left: 9vw;
+    padding-right: 9vw;
+  }
+
+  section {
+    border-radius: 1.8rem;
+    padding: 1.8rem;
+    background-color: var(--opacity-bg);
+    margin-bottom: 1.8rem;
+    transition: all 0.9s;
+    &.title {
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0.9rem 1.8rem;
+      text-align: center;
+      &.no-bottom {
+        max-width: 81vw;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-radius: 1.8rem 1.8rem 0 0;
+        transform: translateY(0.03rem);
+      }
+    }
+  }
+
+  ul,
+  ol {
+    padding-left: 3rem;
+    margin-top: 0;
+    margin-bottom: 0.9rem;
+
+    li {
+      margin-bottom: 0.6rem;
+      &.indent-dot {
+        list-style-type: circle;
+        margin-left: 2.7rem;
+      }
+    }
+  }
+}
+
+a {
+  color: var(--anchor-color);
+  text-decoration: none;
+  &:hover {
+    color: var(--gold-text-color);
+  }
+}
+
+strong {
+  font-weight: 600;
+}
+
+.papyrus {
+  line-height: 1.8;
+  font-weight: 600;
+  color: var(--papyrus-text-color);
+  font-family: $font-family-papyrus;
+  &.one {
+    font-size: 2.7rem;
+  }
+  &.two {
+    font-size: 2.31rem;
+  }
+  &.three {
+    font-size: 2.1rem;
+  }
+  &.four {
+    font-size: 1.8rem;
+  }
+  &.five {
+    font-size: 1.5rem;
+  }
+}

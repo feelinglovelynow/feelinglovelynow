@@ -1,0 +1,134 @@
+<script lang="ts">
+  import { page } from '$app/stores'
+  import { goto } from '$app/navigation'
+  import type { PageData } from './$types'
+  import Head from '$lib/components/Head.svelte'
+  import Title from '$lib/components/Title.svelte'
+  import Button from '$lib/components/forms/Button.svelte'
+  import { CF_OG_LIBRARY } from '$lib/util/cloudflareImages'
+  import Science from '$lib/components/source/Science.svelte'
+  import Product from '$lib/components/source/Product.svelte'
+  import Culture from '$lib/components/source/Culture.svelte'
+  import TypeChips from '$lib/components/chips/TypeChips.svelte'
+  import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
+
+  export let data: PageData
+
+  const titleParts: string[] = []
+  let isShowMoreButtonLoading: boolean
+  let showMoreSourcesButton: HTMLDivElement
+  let isShowMoreButtonVisible: boolean = true
+  let title: string = 'Welcome to our Library!'
+
+  $: if (showMoreSourcesButton) { // add observer to infinite scroll button
+    (new IntersectionObserver(showMoreSources, { rootMargin: '270px' })).observe(showMoreSourcesButton)
+  }
+
+  $: if (data.type || data.category || data.author) { // bind title
+    titleParts.length = 0
+    if (data.type) titleParts.push(data.type.charAt(0).toUpperCase() + data.type.slice(1))
+    if (data.category) titleParts.push(data.category.name)
+    if (data.author) titleParts.push(data.author.name)
+    if (titleParts.length) title = titleParts.join(' ⋅ ')
+  }
+
+  async function showMoreSources (entries: IntersectionObserverEntry[]) { // show 6 more sources AND update the url
+    if (entries[0].isIntersecting && data.sources) {
+      const visibleCount = data.sources.length + 6
+      const url = new URL($page.url)
+      url.searchParams.set('count', String(visibleCount))
+      goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
+
+      const urlStart = `?start=${ data.sources.length }`
+      const urlEnd = `&end=${ data.sources.length + 6 }`
+      const urlType = data.type ? '&type=' + data.type : ''
+      const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
+      const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
+
+      isShowMoreButtonLoading = true
+
+      const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
+      const response = await fetchResponse.json()
+
+      if (response?.sources?.length) data.sources = data.sources.concat(response.sources)
+      else isShowMoreButtonVisible = false
+
+      isShowMoreButtonLoading = false
+    }
+  }
+</script>
+
+
+<Head { title } ogImageId={ CF_OG_LIBRARY } description="Welcome to our library!" url="sources" />
+<Title text="Library" size="one" />
+<Title text={ title } size="two" />
+
+<div>
+  <div class="left">
+    <TypeChips type={ data.type } />
+    { #if data.categories }
+      <CategoryChips type={ data.type } category={ data.category } categories={ data.categories } location="nav" />
+    { /if }
+    { #if data.authors }
+      <AuthorChips author={ data.author } authors={ data.authors } location="nav" />
+    { /if }
+  </div>
+
+  { #if data.sources?.length }
+    { #each data.sources as source }
+      { #if source.type === 'science' }
+        <Science { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+      { :else if source.type === 'culture' }
+        <Culture { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+      { :else if source.type === 'product' }
+        <Product { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+      { /if }
+    { /each }
+  { :else }
+    <Title>
+      <span>No library items found. Would you love to <LoadingAnchor ssr={ true } href="/library" label="view all" loadWidth="big" />?!</span>
+    </Title>
+  { /if }
+
+  { #if isShowMoreButtonVisible }
+    <div bind:this={ showMoreSourcesButton } class="more-wrapper">
+      <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
+    </div>
+  { /if }
+  <div class="clear-both"></div>
+</div>
+
+
+<style lang="scss">
+  $view-width-swap: 900px;
+
+  .left,
+  :global(.no-results),
+  :global(.source){
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left {
+    float: left;
+    max-width: none;
+    transition: all 0.25s;
+    margin: 0;
+
+    @media only screen and (min-width: $view-width-swap) { // big screen
+      max-width: 36rem;
+      margin: 0 1.8rem 0 0;
+    }
+  }
+
+  :global(.source) {
+    margin-bottom: 1.8rem;
+  }
+
+  .more-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+</style>

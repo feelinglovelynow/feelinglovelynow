@@ -1,0 +1,28 @@
+@import '$lib/scss/variables.scss';
+
+.stl--modal {
+  z-index: $zindex-modal;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  &--container {
+    z-index: $zindex-modal-container;
+    background-color: rgba(black, 0.693);
+  }
+
+  &__header {
+    &__text {
+      @extend .papyrus, .two
+    }
+
+    &__close {
+
+      svg {
+        color: var(--anchor-color);
+        &:hover {
+          color: var(--gold-text-color);
+        }
+      }
+    }
+  }
+}

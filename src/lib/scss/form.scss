@@ -1,0 +1,191 @@
+@import '$lib/scss/variables';
+
+.two-form-items {
+  display: flex;
+
+  .form-item {
+    &:first-child {
+      margin-right: 1rem;
+    }
+
+    &:last-child {
+      margin-left: 1rem;
+    }
+
+    input {
+      width: calc(50vw - 3.69rem) !important;
+
+      @media only screen and (min-width: 45rem) { // big screen
+        width: 27rem !important;
+      }
+    }
+  }
+}
+
+.full-width-form {
+  width: 91vw;
+  transition: all 0.18s;
+
+  @media only screen and (min-width: 54rem) { // big screen
+    max-width: 54rem;
+  }
+}
+
+.form-item {
+  width: 100%;
+  margin-bottom: 1.2rem;
+  &.hidden {
+    display: none;
+  }
+
+  label,
+  input {
+    display: block;
+  }
+
+  label {
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+    &.checkbox {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .checkbox-input-wrapper {
+        margin-right: 1.5rem;
+        width: 2rem;
+        min-width: 2rem;
+      }
+
+      input {
+        width: 100%;
+        transform: scale(1.5);
+      }
+
+      span:first-child {
+        flex: auto;
+      }
+    }
+  }
+
+  textarea,
+  div[contenteditable="true"],
+  input:not([type="checkbox"]):not([type="radio"]) {
+    height: 4rem;
+    appearance: none;
+    width: 100%;
+    padding: 0.8rem;
+    line-height: 1.3;
+    border-radius: 3px;
+    color: var(--text-color);
+    border: 1px solid var(--input-border-color);
+    font-size: 1.5rem;
+    font-family: $font-family;
+    background-color: var(--input-bg-color);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color 0.9s;
+    &:focus {
+      outline: 0;
+      border-color: transparent;
+      box-shadow: var(--focus-box-shadow);
+    }
+    &.error {
+      border-color: transparent;
+      box-shadow: var(--focus-error-box-shadow);
+    }
+  }
+
+  div[contenteditable="true"] {
+    height: inherit;
+  }
+
+  textarea {
+    height: 12rem;
+  }
+
+  div.error {
+    font-size: 1.2rem;
+    color: var(--red-text-color);
+    margin: 0.5rem 0;
+  }
+}
+
+button.brand {
+  color: #FFF;
+  padding: .9rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  font-weight: 500;
+  border-radius: 0.4rem;
+  transition: all 0.9s;
+  border: 0.1rem solid transparent;
+  &.full-width {
+    width: 100%;
+    min-height: 3.4rem;
+    font-size: 1.8rem;
+    padding: 1.2rem 1.6rem;
+  }
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  &.loading {
+    cursor: default;
+    opacity: 0.5;
+
+    .loading-icon {
+      opacity: 1;
+    }
+
+    .text {
+      opacity: 0;
+    }
+  }
+
+  .text,
+  .loading-icon {
+    transition: all 0.15s;
+  }
+
+  .loading-icon {
+    width: 3rem;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -1.5rem;
+    margin-left: -1.5rem;
+  }
+
+  .text {
+    opacity: 1;
+  }
+}
+
+.theme--light button.brand {
+  color: white;
+  background-image: linear-gradient(to right, rgb(6, 182, 212), rgb(63, 131, 248));
+  &:hover {
+    background-image: linear-gradient(to left bottom, rgb(6, 182, 212), rgb(63, 131, 248));
+  }
+  &:focus {
+    box-shadow: var(--focus-box-shadow);
+  }
+}
+
+.theme--dark button.brand {
+  color: rgb(17, 24, 39);
+  background-image: linear-gradient(to left, var(--gold-text-color), var(--anchor-color));
+  &:hover {
+    background-image: linear-gradient(to right, var(--gold-text-color), var(--anchor-color));
+  }
+  &:focus {
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(3, 102, 114) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  }
+}
+
+.stl--create-post {
+  width: 100%;
+  max-width: 75rem;
+}
