@@ -14,12 +14,12 @@
 - [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/platform/compatibility-dates/)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
 - [Cloudflare API Fundamentals](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
+- [Dgraph](https://dgraph.io/docs)
+- [Dgraph Forum](https://discuss.dgraph.io/)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
-- [SubtleCrypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto)
 - [PNPM](https://pnpm.io/motivation)
-- [Mailchannels](https://api.mailchannels.net/tx/v1/documentation)
 - [Buffer](https://www.npmjs.com/package/buffer)
 - [Vite](https://vitejs.dev/)
 - [Wrangler](https://developers.cloudflare.com/workers/wrangler/)
@@ -30,22 +30,15 @@
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
-- [Sveltekit Authentication](https://github.com/huntabyte/sveltekit-protected-routes/tree/final-code)
-- [Sveltekit + Protected Routes](https://github.com/sveltejs/kit/issues/3912)
-- [Subtle Crypto](https://github.com/diafygi/webcrypto-examples#rsa-pss---generatekey)
-- [Cloudflare + JWT](https://github.com/tsndr/cloudflare-worker-jwt/blob/76b7fcef2707225c9214fcba0c4e8d6498039daa/src/index.ts)
-- [Cloudflare + MailChannels + DKIM](https://github.com/maggie-j-liu/mail/blob/main/src/index.ts)
 
 #### Articles
-- [ECDSA vs RSA](https://sectigostore.com/blog/ecdsa-vs-rsa-everything-you-need-to-know/)
-- [SubtleCrypto + JWT](https://coolaj86.com/articles/sign-jwt-webcrypto-vanilla-js/)
 - [NPM to PNPM](https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/)
 - [Cloudflare Worker Explanation](https://developers.cloudflare.com/workers/learning/how-workers-works)
 - [Sveltekit + Sass](https://blog.hao.dev/how-to-add-scss-or-sass-to-sveltekit)
 - [Cloudflare Global Network](https://www.cloudflare.com/network/)
-- [Cloudflare + MailChannels + DKIM](https://mailchannels.zendesk.com/hc/en-us/articles/7122849237389)
 - [Faster Websites](https://www.cloudflare.com/resources/images/slt3lc6tev37/1PdxTNFdaTagVJ1zxxTKCX/5fcc6da3f0a170414a8b8f9c7cd405d5/Getting_Faster_-_Performance_whitepaper.pdf)
 - [Relative Time](https://www.js-howto.com/how-to-format-dates-with-intl-relativetimeformat/)
+- [5 Ways to Maximize the Security, Performance and Reliability of Your Online Business](https://info.cloudflare.com/rs/713-XSC-918/images/Secure_Fast_Reliable_eBook.pdf)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -60,6 +53,7 @@
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)
+- [Dgraph: FREE for 25GB of storage and 1MB of data transfer per day](https://dgraph.io/pricing)
 - [Namecheap: $19.58/year for Domain Registration](https://www.namecheap.com/domains/)
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day & 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
