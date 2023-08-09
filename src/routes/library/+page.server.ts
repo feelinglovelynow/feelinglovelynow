@@ -1,6 +1,6 @@
 import search from '$lib/actions/search'
-import routeCatch from '$lib/catch/routeCatch'
 import type { Actions, PageServerLoad } from './$types'
+import serverPageCatch from '$lib/catch/serverPageCatch'
 import loopBackwards from '@sensethenlove/loop-backwards'
 import type { Source, SourceType, Author, Category, Quote } from '$lib/types/all'
 import { CLOUDFLARE_KV_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_NAMESPACE_ID } from '$env/static/private'
@@ -13,7 +13,7 @@ export const load = (async ({ request }) => {
 
     return sourcesToResponse(url, sources)
   } catch (e) {
-    return routeCatch(e)
+    return serverPageCatch(e)
   }
 }) satisfies PageServerLoad
 

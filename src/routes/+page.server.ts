@@ -1,8 +1,8 @@
 import get from '$lib/kv/get'
 import search from '$lib/actions/search'
-import routeCatch from '$lib/catch/routeCatch'
+import formatScience from '$lib/util/formatScience'
 import type { Actions, PageServerLoad } from './$types'
-import type { Source, Category } from '$lib/types/all'
+import serverPageCatch from '$lib/catch/serverPageCatch'
 
 
 export const load = (async ({ platform }) => {
@@ -10,7 +10,7 @@ export const load = (async ({ platform }) => {
     const sources = await get('MAIN_CACHE', 'sources', platform)
     return sourcesToResponse(sources)
   } catch (e) {
-    return routeCatch(e)
+    return serverPageCatch(e)
   }
 }) satisfies PageServerLoad
 
@@ -21,7 +21,7 @@ export const actions = {
 
 
 function sourcesToResponse (sources: any) {
-  if (!sources?.length) return { error: 'No sources found' }
+  if (!sources?.length) throw { _errors: [ 'No sources found' ] }
   else {
     let science, culture, product
 
@@ -39,21 +39,4 @@ function sourcesToResponse (sources: any) {
       science: formatScience(science)
     }
   }
-}
-
-
-function formatScience (source?: Source): Source | undefined {
-  if (source?.quotes) {
-    const categoryMap = new Map<string, Category>()
-
-    for (const quote of source.quotes) {
-      for (const category of quote.categories) {
-        categoryMap.set(category.slug, category)
-      }
-    }
-
-    source.categories = [...categoryMap.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name))
-  }
-
-  return source
 }

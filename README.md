@@ -54,7 +54,7 @@
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)
 - [Dgraph: FREE for 25GB of storage and 1MB of data transfer per day](https://dgraph.io/pricing)
-- [Namecheap: $19.58/year for Domain Registration](https://www.namecheap.com/domains/)
+- [Namecheap: $8.16/year for Domain Registration](https://www.namecheap.com/domains/)
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day & 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
 - [Cloudflare Images: $5/month for 100,000 images stored](https://www.cloudflare.com/products/cloudflare-images/)

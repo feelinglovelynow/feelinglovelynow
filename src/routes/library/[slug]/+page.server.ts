@@ -1,16 +1,17 @@
+import get from '$lib/kv/get'
 import search from '$lib/actions/search'
-import getSource from '$lib/dgraph/getSource'
-import routeCatch from '$lib/catch/routeCatch'
-import type { Actions, PageServerLoad } from './$types'
+import formatScience from '$lib/util/formatScience'
+import serverPageCatch from '$lib/catch/serverPageCatch'
+import type { Actions, PageServerLoad, RouteParams } from './$types'
 
 
-export const load = (async ({ params }) => {
+export const load = (async ({ params, platform }) => {
   try {
-    return {
-      source: await getSource(params.slug)
-    }
+    const sources = await get('MAIN_CACHE', 'sources', platform)
+    const source = sourcesToResponse(sources, params)
+    return { source }
   } catch (e) {
-    return routeCatch(e)
+    return serverPageCatch(e)
   }
 }) satisfies PageServerLoad
 
@@ -18,3 +19,13 @@ export const load = (async ({ params }) => {
 export const actions = {
   search,
 } satisfies Actions
+
+
+function sourcesToResponse (sources: any, params: RouteParams) {
+  if (!sources?.length) throw { _errors: [ 'No sources found' ] }
+  else {
+    for (const source of sources) {
+      if (source.slug === params.slug) return formatScience(source)
+    }
+  }
+}

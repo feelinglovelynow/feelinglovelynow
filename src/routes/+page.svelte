@@ -4,12 +4,14 @@
   import Title from '$lib/components/Title.svelte'
   import AboutUs from '$lib/components/AboutUs.svelte'
   import { CF_OG_HOME } from '$lib/util/cloudflareImages'
+  import toastRouteError from '$lib/util/toastRouteError'
   import Science from '$lib/components/source/Science.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
   export let data: PageData
+  toastRouteError(data)
 </script>
 
 

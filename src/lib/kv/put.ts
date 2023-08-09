@@ -1,14 +1,16 @@
-import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_API_TOKEN, CLOUDFLARE_KV_NAMESPACE_ID } from "$env/static/private"
+import getUrl from '$lib/kv/getUrl'
+import { CLOUDFLARE_KV_API_TOKEN } from '$env/static/private'
 
 
 export default async function put (key: string, value: string, metadata?: string) {
-  if (!value) return { errors: [{ message: 'No value provided to put' }] }
+  if (!key) throw { _errors: [ 'No key provided to kv > put' ] }
+  else if (!value) throw { _errors: [ 'No value provided to kv > put' ] }
   else {
     const formData  = new FormData()
     formData.append('value', value)
     formData.append('metadata', metadata || JSON.stringify({}))
 
-    const fetchResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ CLOUDFLARE_ACCOUNT_ID }/storage/kv/namespaces/${ CLOUDFLARE_KV_NAMESPACE_ID }/values/${ key }`, {
+    const fetchResponse = await fetch(getUrl(key), {
       method: 'PUT',
       body: formData,
       headers: {
@@ -16,6 +18,9 @@ export default async function put (key: string, value: string, metadata?: string
       }
     })
 
-    return await fetchResponse.json()
+    const response = await fetchResponse.json()
+
+    if (response?.success === false) throw { _errors: response.errors.map((e: any) => e.message) }
+    else return response
   }
 }

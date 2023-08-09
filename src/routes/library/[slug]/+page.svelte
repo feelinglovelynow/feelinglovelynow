@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
+  import toastRouteError from '$lib/util/toastRouteError'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
 
   export let data: PageData
+  toastRouteError(data)
 </script>
 
 

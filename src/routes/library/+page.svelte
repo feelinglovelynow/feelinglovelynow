@@ -4,6 +4,7 @@
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
   import { CF_OG_LIBRARY } from '$lib/util/cloudflareImages'
   import Science from '$lib/components/source/Science.svelte'
@@ -15,6 +16,7 @@
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
 
   export let data: PageData
+  toastRouteError(data)
 
   const titleParts: string[] = []
   let isShowMoreButtonLoading: boolean

@@ -14,7 +14,7 @@
     const response = await fetchResponse.json()
     isDgraphToKVLoading = false
 
-    if (response?.errors?.length) showToast({ type: 'info', items: [ 'An error has occured!' ] })
+    if (response?._errors?.length) showToast({ type: 'info', items: response._errors })
     else showToast({ type: 'success', items: [ 'Success!' ] })
   }
 </script>

@@ -2,4 +2,11 @@
 
 #stl--toast-wrapper {
   z-index: $zindex-toast;
+
+  a {
+    color: var(--gold-text-color);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
