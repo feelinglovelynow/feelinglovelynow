@@ -82,3 +82,14 @@
     <CategoryChips { type } category={ displayCategory } categories={ source.categories } location="science" />
   { /if }
 </section>
+
+
+<style lang="scss">
+  ol {
+    li {
+      :global(br) {
+        margin-bottom: 0.45rem;
+      }
+    }
+  }
+</style>
