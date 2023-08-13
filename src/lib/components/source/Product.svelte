@@ -5,6 +5,7 @@
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
   import type { Source, Author, Category, SourceType } from '$lib/types/all'
 
+  export let css = ''
   export let source: Source
   export let location: string
   export let type: SourceType = undefined
@@ -19,7 +20,7 @@
 </script>
 
 
-<section class="source type--product location--{ location }">
+<section class="source type--product location--{ location } { css }">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }

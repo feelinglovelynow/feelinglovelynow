@@ -13,10 +13,10 @@
   let productHref: string
 
   $: if ($page.url) {
-    allHref = getLibraryHref($page.url, [ [ 'type', '' ] ])
-    cultureHref = getLibraryHref($page.url, [ [ 'type', 'culture' ] ])
-    scienceHref = getLibraryHref($page.url, [ [ 'type', 'science' ] ])
-    productHref = getLibraryHref($page.url, [ [ 'type', 'product' ] ])
+    allHref = getLibraryHref($page.url, [ [ 'type', '' ], [ 'count', '' ] ])
+    cultureHref = getLibraryHref($page.url, [ [ 'type', 'culture' ], [ 'count', '' ] ])
+    scienceHref = getLibraryHref($page.url, [ [ 'type', 'science' ], [ 'count', '' ] ])
+    productHref = getLibraryHref($page.url, [ [ 'type', 'product' ], [ 'count', '' ] ])
   }
 </script>
 

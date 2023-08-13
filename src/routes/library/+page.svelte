@@ -19,10 +19,14 @@
   toastRouteError(data)
 
   const titleParts: string[] = []
+  let isShowMoreButtonVisible: boolean
   let isShowMoreButtonLoading: boolean
   let showMoreSourcesButton: HTMLDivElement
-  let isShowMoreButtonVisible: boolean = true
   let title: string = 'Welcome to our Library!'
+
+  $: if (data.sources?.length) { // Are the number of results showing the 6 initial or 6 additional via infinite scroll / ELSE no more results available
+    isShowMoreButtonVisible = Number.isInteger(Number(data.sources?.length) / 6)
+  }
 
   $: if (showMoreSourcesButton) { // add observer to infinite scroll button
     (new IntersectionObserver(showMoreSources, { rootMargin: '270px' })).observe(showMoreSourcesButton)
@@ -67,8 +71,8 @@
 <Title text="Library" size="one" />
 <Title text={ title } size="two" />
 
-<div>
-  <div class="left">
+<div class="content">
+  <div class="flow-layout__left">
     <TypeChips type={ data.type } />
     { #if data.categories }
       <CategoryChips type={ data.type } category={ data.category } categories={ data.categories } location="nav" />
@@ -81,21 +85,21 @@
   { #if data.sources?.length }
     { #each data.sources as source }
       { #if source.type === 'science' }
-        <Science { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+        <Science { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
       { :else if source.type === 'culture' }
-        <Culture { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+        <Culture { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
       { :else if source.type === 'product' }
-        <Product { source } type={ data.type } category={ data.category } author={ data.author } location="library" />
+        <Product { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
       { /if }
     { /each }
   { :else }
-    <Title>
+    <Title css="flow-layout__right-item">
       <span>No library items found. Would you love to <LoadingAnchor ssr={ true } href="/library" label="view all" loadWidth="big" />?!</span>
     </Title>
   { /if }
 
   { #if isShowMoreButtonVisible }
-    <div bind:this={ showMoreSourcesButton } class="more-wrapper">
+    <div bind:this={ showMoreSourcesButton } class="more-wrapper flow-layout__right-item">
       <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
     </div>
   { /if }
@@ -104,33 +108,15 @@
 
 
 <style lang="scss">
-  $view-width-swap: 900px;
+  .content {
 
-  .left,
-  :global(.no-results),
-  :global(.source){
-    display: flex;
-    flex-direction: column;
-  }
-
-  .left {
-    float: left;
-    max-width: none;
-    transition: all 0.25s;
-    margin: 0;
-
-    @media only screen and (min-width: $view-width-swap) { // big screen
-      max-width: 36rem;
-      margin: 0 1.8rem 0 0;
+    :global(.source) {
+      margin-bottom: 1.8rem;
     }
-  }
 
-  :global(.source) {
-    margin-bottom: 1.8rem;
-  }
-
-  .more-wrapper {
-    display: flex;
-    justify-content: center;
+    .more-wrapper {
+      display: flex;
+      justify-content: center;
+    }
   }
 </style>

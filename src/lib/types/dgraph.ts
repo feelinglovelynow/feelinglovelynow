@@ -11,7 +11,7 @@ export type Source = {
   quotes: Quote[]
   categories?: Category[]
   url: string
-  urlType: 'academia' | 'pubmed' | 'youtube' | 'pdf' | 'heartmath'
+  urlType: 'academia' | 'pubmed' | 'youtube' | 'pdf' | 'heartmath' | 'scribd' | 'soundcloud'
   publicationLocation: string
   publicationYear: number
   images?: Image[]

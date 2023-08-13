@@ -1,15 +1,15 @@
+import get from '$lib/kv/get'
 import search from '$lib/actions/search'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 import loopBackwards from '@sensethenlove/loop-backwards'
 import type { Source, SourceType, Author, Category, Quote } from '$lib/types/all'
-import { CLOUDFLARE_KV_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_NAMESPACE_ID } from '$env/static/private'
 
 
-export const load = (async ({ request }) => {
+export const load = (async ({ request, platform }) => {
   try {
     const url = getUrl(request)
-    const sources = await getDataFromKV()
+    const sources = await get('MAIN_CACHE', 'sources', platform)
 
     return sourcesToResponse(url, sources)
   } catch (e) {
@@ -30,20 +30,8 @@ function getUrl (request: Request): CurrentURL {
     type: getUrlParamType(url),
     author: url.searchParams.get('author'),
     category: url.searchParams.get('category'),
-    count: Number(url.searchParams.get('count')) || 3,
+    count: Number(url.searchParams.get('count')) || 6,
   }
-}
-
-
-async function getDataFromKV (): Promise<Source[] | undefined> {
-  const fetchResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ CLOUDFLARE_ACCOUNT_ID }/storage/kv/namespaces/${ CLOUDFLARE_KV_NAMESPACE_ID }/values/sources`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${ CLOUDFLARE_KV_API_TOKEN }`
-    }
-  })
-
-  return await fetchResponse.json()
 }
 
 

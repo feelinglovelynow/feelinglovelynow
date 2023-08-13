@@ -2,13 +2,6 @@
 
 .source {
   transition: all 0.9s;
-  &.location--home {
-    width: calc(100vw - 1.8rem);
-
-    @media only screen and (min-width: 60rem) { // big screen
-      width: 90rem;
-    }
-  }
   &.location--home.type--culture,
   &.location--home.type--product {
     .header {

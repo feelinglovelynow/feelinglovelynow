@@ -5,6 +5,7 @@
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
   import type { Source, SourceType, Author, Category } from '$lib/types/all'
 
+  export let css = ''
   export let source: Source
   export let location: string
   export let type: SourceType = undefined
@@ -13,7 +14,7 @@
 </script>
 
 
-<section class="source type--culture location--{ location }">
+<section class="source type--culture location--{ location } { css }">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }
@@ -29,7 +30,11 @@
   </div>
 
   { #if source?.url }
-    <YoutubeEmbed url={ source.url } />
+    { #if source?.urlType === 'youtube' }
+      <YoutubeEmbed url={ source.url } />
+    { :else if source?.urlType === 'soundcloud' }
+      { @html source.url }
+    { /if }
   { /if }
 
   { #if source?.categories?.length }
