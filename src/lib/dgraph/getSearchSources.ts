@@ -1,5 +1,5 @@
 import graphql from '$lib/dgraph/graphql'
-import type { Category, SearchResponse, Source } from '$lib/types/all'
+import type { Category, SearchResponse, Source } from '$lib'
 
 
 

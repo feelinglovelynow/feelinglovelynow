@@ -1,9 +1,8 @@
 <script lang="ts">
   import '$lib/components/nav/Nav.scss'
+  import IMG_LOGO from '$lib/img/IMG_LOGO.webp'
   import { page, navigating } from '$app/stores'
-  import getImageUrl from '$lib/file/getImageUrl'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
-  import { CF_LOGO } from '$lib/util/cloudflareImages'
   import SVG_CONTACT from '$lib/svg/nav/SVG_CONTACT.svg'
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
@@ -27,7 +26,7 @@
 <div class="nav">
   <div class="logo">
     <LoadingAnchor loadWidth="huge">
-      <img src={ getImageUrl(CF_LOGO) } alt="The logo for Feeling Lovely Now"/>
+      <img src={ IMG_LOGO } alt="The logo for Feeling Lovely Now"/>
     </LoadingAnchor>
   </div>
 

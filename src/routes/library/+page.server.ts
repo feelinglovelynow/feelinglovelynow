@@ -3,7 +3,7 @@ import search from '$lib/actions/search'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 import loopBackwards from '@sensethenlove/loop-backwards'
-import type { Source, SourceType, Author, Category, Quote } from '$lib/types/all'
+import type { Source, SourceType, Author, Category, Quote } from '$lib'
 
 
 export const load = (async ({ request, platform }) => {

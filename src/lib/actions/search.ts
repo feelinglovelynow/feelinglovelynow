@@ -1,5 +1,4 @@
 import schema from '$lib/zod/search'
-import graphql from '$lib/dgraph/graphql'
 import type { Action } from '@sveltejs/kit'
 import actionCatch from '$lib/catch/actionCatch'
 import validateFields from '$lib/form/validateFields'

@@ -1,4 +1,4 @@
-import type { Source } from '$lib/types/all'
+import type { Source } from '$lib'
 
 
 export type SearchResponse = {

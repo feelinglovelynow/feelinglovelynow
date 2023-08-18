@@ -1,8 +1,8 @@
 import get from '$lib/kv/get'
 import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
+import type { Category, Quote, Source } from '$lib'
 import loopBackwards from '@sensethenlove/loop-backwards'
-import type { Category, Quote, Source } from '$lib/types/all'
 
 
 export const GET = (async ({ request, platform }) => {

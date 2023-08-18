@@ -4,6 +4,11 @@
     "allowJs": true,
     "checkJs": true,
     "esModuleInterop": true,
+    // workaround for https://stackoverflow.com/a/76125931/1549471
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": true,
+    // end workaround
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import YoutubeEmbed from '$lib/components/YoutubeEmbed.svelte'
+  import type { Source, SourceType, Author, Category } from '$lib'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
-  import type { Source, SourceType, Author, Category } from '$lib/types/all'
 
   export let css = ''
   export let source: Source

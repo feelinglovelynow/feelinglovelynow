@@ -4,9 +4,9 @@
   import SVG_SCRIBD from '$lib/svg/logo/SVG_SCRIBD.svg'
   import SVG_PUBMED from '$lib/svg/logo/SVG_PUBMED.svg'
   import SVG_ACADEMIA from '$lib/svg/logo/SVG_ACADEMIA.svg'
+  import type { Source, Author, Category, SourceType } from '$lib'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
-  import type { Source, Author, Category, SourceType } from '$lib/types/all'
 
   export let css = ''
   export let source: Source

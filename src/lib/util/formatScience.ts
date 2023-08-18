@@ -1,4 +1,4 @@
-import type { Category, Source } from "$lib/types/all"
+import type { Category, Source } from '$lib'
 
 
 export default function formatScience (source?: Source): Source | undefined {

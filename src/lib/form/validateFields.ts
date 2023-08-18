@@ -1,4 +1,4 @@
-import type { FormFields } from '$lib/types/all'
+import type { FormFields } from '$lib'
 import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import { CLOUDFLARE_TURNSTILE_PRIVATE_KEY } from '$env/static/private'
 import { validate, CLOUDFLARE_TURNSTILE_PRIVATE_KEY_ALWAYS_PASSES } from '@sensethenlove/svelte-turnstile'

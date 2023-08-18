@@ -42,4 +42,5 @@ export type Category = {
 
 export type Image = {
   id: string
+  extension: 'png' | 'webp'
 }

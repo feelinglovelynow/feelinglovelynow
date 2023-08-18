@@ -1,17 +1,11 @@
 <script lang="ts">
-  import getImageUrl from '$lib/file/getImageUrl'
-  import { CF_CHRIS_GUITAR } from '$lib/util/cloudflareImages'
-
-
-  let picSrc: string
-
-  $: if (CF_CHRIS_GUITAR) picSrc = getImageUrl(CF_CHRIS_GUITAR)
+  import IMG_GUITAR from '$lib/img/IMG_GUITAR.webp'
 </script>
 
 
 <div class="profile-pic">
   <div class="img">
-    <img src={ picSrc } alt="Chris Carrington playing guitar" />
+    <img src={ IMG_GUITAR } alt="Chris Carrington playing guitar" />
   </div>
 </div>
 

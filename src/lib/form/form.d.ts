@@ -12,7 +12,7 @@ export type FormOnSubmitValidate = (fields: FormFields) => boolean
 export type FormInput = {
   name: string,
   label?: string,
-  type?: 'checkbox' | 'email' | 'textarea' | 'image' | 'text' | 'content-editable',
+  type?: 'checkbox' | 'email' | 'textarea' | 'text',
   value?: string | null,
   checkboxValue?: boolean,
   hidden?: boolean,
@@ -25,10 +25,3 @@ export type FormInput = {
 
 
 export type FormInputs = Array<FormInput | Array<FormInput>>
-
-export type ImageVariableFormItem = {
-  fileInput?: HTMLInputElement,
-  previewImages: string[],
-  serverImages?: string[],
-  onChange ?: () => void,
-}

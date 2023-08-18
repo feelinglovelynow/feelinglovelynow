@@ -1,6 +1,6 @@
 <script lang="ts">
   import  { page } from '$app/stores'
-  import type { SourceType } from '$lib/types/all'
+  import type { SourceType } from '$lib'
   import Title from '$lib/components/Title.svelte'
   import getLibraryHref from '$lib/util/getLibraryHref'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'

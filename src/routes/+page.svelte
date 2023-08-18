@@ -3,7 +3,7 @@
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import AboutUs from '$lib/components/AboutUs.svelte'
-  import { CF_OG_HOME } from '$lib/util/cloudflareImages'
+  import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.webp'
   import toastRouteError from '$lib/util/toastRouteError'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
   import Science from '$lib/components/source/Science.svelte'
@@ -17,7 +17,7 @@
 </script>
 
 
-<Head title="Home" ogImageId={ CF_OG_HOME } description="Welcome to Feeling Lovely Now!" />
+<Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" />
 <GuitarPic />
 <Title text="Aloha!" size="two" />
 <SocialSupport />

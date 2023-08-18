@@ -2,7 +2,7 @@
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
-  import { CF_OG_LINKS } from '$lib/util/cloudflareImages'
+  import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
@@ -10,9 +10,9 @@
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC
   // Date.UTC(year, monthIndex, day, hour, minute)
   const dates = { 
-    next: Date.UTC(2023, 7, 14, 23, 44),
-    nextNext: Date.UTC(2023, 7, 16, 23, 44),
-    nextNextNext: Date.UTC(2023, 7, 21, 23, 44),
+    next: Date.UTC(2023, 7, 21, 23, 44),
+    nextNext: Date.UTC(2023, 7, 23, 23, 44),
+    nextNextNext: Date.UTC(2023, 7, 28, 23, 44),
   }
 
   const remaining = {
@@ -71,7 +71,7 @@
 </script>
 
 
-<Head title="Links" ogImageId={ CF_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
+<Head title="Links" ogImageSrc={ IMG_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
 
 <GuitarPic />
 <Title text="Aloha!" size="two" />

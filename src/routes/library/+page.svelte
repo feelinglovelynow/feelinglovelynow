@@ -6,10 +6,10 @@
   import Title from '$lib/components/Title.svelte'
   import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
-  import { CF_OG_LIBRARY } from '$lib/util/cloudflareImages'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
+  import IMG_OG_LIBRARY from '$lib/img/og/IMG_OG_LIBRARY.webp'
   import TypeChips from '$lib/components/chips/TypeChips.svelte'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
@@ -67,7 +67,7 @@
 </script>
 
 
-<Head { title } ogImageId={ CF_OG_LIBRARY } description="Welcome to our library!" url="sources" />
+<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url="sources" />
 <Title text="Library" size="one" />
 <Title text={ title } size="two" />
 

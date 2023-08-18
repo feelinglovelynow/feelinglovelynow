@@ -1,5 +1,5 @@
+import type { Source } from '$lib'
 import graphql from '$lib/dgraph/graphql'
-import type { Source } from '$lib/types/all'
 
 
 export default async function getLibrarySources (): Promise<Source[] | undefined> {
@@ -18,6 +18,7 @@ export default async function getLibrarySources (): Promise<Source[] | undefined
           publicationLocation
           images {
             id
+            extension
           }
           quotes {
             text

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import type { Author } from '$lib/types/all'
+  import type { Author } from '$lib'
   import { afterNavigate } from '$app/navigation'
   import Title from '$lib/components/Title.svelte'
   import getLibraryHref from '$lib/util/getLibraryHref'

@@ -7,7 +7,7 @@
   import Culture from '$lib/components/source/Culture.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import { Modal, type ShowModal, type OnModalHide } from '@sensethenlove/svelte-modal'
-  import type { FormInputs, FormOnSuccess, FormOnSubmitValidate, SearchResponse } from '$lib/types/all'
+  import type { FormInputs, FormOnSuccess, FormOnSubmitValidate, SearchResponse } from '$lib'
 
 
   let showModal: ShowModal

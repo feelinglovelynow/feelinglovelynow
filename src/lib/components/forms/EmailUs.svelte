@@ -2,7 +2,7 @@
   import schema from '$lib/zod/emailUs'
   import Title from '$lib/components/Title.svelte'
   import Form from '$lib/components/forms/Form.svelte'
-  import type { FormInputs, FormToastOnSuccess } from '$lib/types/all'
+  import type { FormInputs, FormToastOnSuccess } from '$lib'
 
   const inputs: FormInputs = [
     [

@@ -1,5 +1,5 @@
+import type { FormFields } from '$lib'
 import graphql from '$lib/dgraph/graphql'
-import type { FormFields } from '$lib/types/all'
 
 
 export default async function addSiteComment (fields: FormFields) {

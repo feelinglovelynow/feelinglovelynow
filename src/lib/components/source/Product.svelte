@@ -1,9 +1,8 @@
 <script lang="ts">
-  import getImageUrl from '$lib/file/getImageUrl'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
-  import type { Source, Author, Category, SourceType } from '$lib/types/all'
+  import type { Source, Author, Category, SourceType, Image } from '$lib'
 
   export let css = ''
   export let source: Source
@@ -12,10 +11,12 @@
   export let author: Author | null | undefined = undefined
   export let category: Category | null | undefined = undefined
 
-  let images: string[] = []
+  let images: { default: string }[] = []
 
-  $: if (source?.images) {
-    images = source.images.map(({ id }) => getImageUrl(id))
+  $: if (source?.images?.length) {
+    Promise
+      .all(source.images.map(img => import(`../../img/source/${ source.id }/${ img.id }.${ img.extension }`)))
+      .then(importedImages => images = importedImages)
   }
 </script>
 
@@ -35,13 +36,15 @@
     <div class="description">{ source.description }</div>
   </div>
 
-  <div class="images">
-    { #each images as image }
-      <a href={ source.url } target="_blank" rel="noreferrer">
-        <img src={ image } alt="Product" />
-      </a>
-    { /each }
-  </div>
+  { #if images?.length }
+    <div class="images">
+      { #each images as image }
+        <a href={ source.url } target="_blank" rel="noreferrer">
+          <img src={ image.default } alt="Product" />
+        </a>
+      { /each }
+    </div>
+  { /if }
 
   
   { #if source?.categories?.length }
