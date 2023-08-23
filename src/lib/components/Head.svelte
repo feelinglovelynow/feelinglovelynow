@@ -4,13 +4,7 @@
   export let ogImageSrc: string = ''
   export let description: string = ''
 
-  let fullTitle: string
-
-  $: if (title) setFullTitle()
-
-  function setFullTitle () {
-    fullTitle = title + ' ⋅ Feeling Lovely Now'
-  }
+  $: fullTitle = title + ' ⋅ Feeling Lovely Now'
 </script>
 
 <svelte:head>
@@ -18,7 +12,9 @@
   <meta name="description" content={ description || fullTitle } />
   { #if ogImageSrc }
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.feelinglovelynow.com/{ url }" />
+    <meta property="og:title" content={ fullTitle } />
+    <meta property="og:description" content={ description || fullTitle } />
+    <meta property="og:url" content="https://feelinglovelynow.com/{ url }" />
     <meta property="og:image" content={ ogImageSrc } />
     <meta property="og:image:secure_url" content={ ogImageSrc } />
     <meta property="og:image:type" content="image/jpeg" />

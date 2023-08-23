@@ -11,7 +11,7 @@
 </script>
 
 
-<Head title={ data?.source?.title || '' } description={ data?.source?.title || '' } url={ `/source/${ data?.source?.id }` } />
+<Head title={ data?.source?.title || '' } description={ data?.source?.title || '' } url={ `/library/${ data?.source?.slug }` } />
 
 { #if data.source }
   { #if data.source.type === 'science' }

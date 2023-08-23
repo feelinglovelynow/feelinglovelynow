@@ -4,6 +4,6 @@
 </script>
 
 
-<Head title="Support" description="Thank you for supporting Feeling Lovely Now!" />
+<Head title="Support" url="support" description="Thank you for supporting Feeling Lovely Now!" />
 <Title text="Support" size="one" />
 <Title text="Coming soon!" />

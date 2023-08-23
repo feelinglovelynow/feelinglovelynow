@@ -67,7 +67,7 @@
 </script>
 
 
-<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url="sources" />
+<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url="library" />
 <Title text="Library" size="one" />
 <Title text={ title } size="two" />
 
