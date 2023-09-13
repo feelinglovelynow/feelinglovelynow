@@ -78,7 +78,7 @@
 </script>
 
 
-<section class={ css }>
+<section class="{ css } subtle-fade-in-from-above">
   <form novalidate method="POST" action="?/{ action }" use:enhance={ onSubmit }>
     { #if inputs?.length }
       { #each inputs as input }

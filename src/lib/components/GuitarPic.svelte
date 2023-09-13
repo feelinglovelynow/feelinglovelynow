@@ -3,7 +3,7 @@
 </script>
 
 
-<div class="profile-pic">
+<div class="profile-pic subtle-fade-in-from-above">
   <div class="img">
     <img src={ IMG_GUITAR } alt="Chris Carrington playing guitar" />
   </div>

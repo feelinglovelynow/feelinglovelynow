@@ -53,7 +53,7 @@
 { #if location === 'nav' }
   <Title text="Select an Author!" noBottom={ true } />
 { /if }
-<div class="chips location--{ location }">
+<div class="chips location--{ location } { location === 'nav' ? 'subtle-fade-in-from-above' : '' }">
   { #if location === 'nav' }
     <div class="form-item">
       <input bind:value={ query } type="text" placeholder="Search" />

@@ -5,6 +5,7 @@
   import Title from '$lib/components/Title.svelte'
   import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Button from '$lib/components/forms/Button.svelte'
+  import ImageAi from '$lib/components/forms/ImageAI.svelte'
 
   let isDgraphToKVLoading = false
 
@@ -28,6 +29,7 @@
     <Button css="draph-to-kv-button" onClick={ dgraphToKV } isLoading={ isDgraphToKVLoading } text="Dgraph to KV" />
     <div class="slug-label">Generate Slug</div>
     <Slug />
+    <ImageAi />
   </div>
 { /if }
 
@@ -44,6 +46,10 @@
 
     .slug-label {
       font-weight: 500;
+    }
+
+    :global(.stl--slug) {
+      margin-bottom: 1.5rem;
     }
 
     :global(.stl--slug div) {

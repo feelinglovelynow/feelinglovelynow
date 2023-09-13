@@ -6,7 +6,7 @@
 </script>
 
 
-<section class="title { noBottom ? 'no-bottom' : '' } { css }">
+<section class="title subtle-fade-in-from-above { noBottom ? 'no-bottom' : '' } { css }">
   <div class="papyrus { size }">
     { text }
     <slot />

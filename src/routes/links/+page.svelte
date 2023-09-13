@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
@@ -6,68 +7,98 @@
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
-  // https://savvytime.com/converter/utc-to-ca-los-angelesuy
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC
-  // Date.UTC(year, monthIndex, day, hour, minute)
-  const dates = { 
-    next: Date.UTC(2023, 7, 23, 23, 44),
-    nextNext: Date.UTC(2023, 7, 28, 23, 44),
-    nextNextNext: Date.UTC(2023, 7, 30, 23, 44),
+  type YogaClass = {
+    ms?: number,
+    label: string,
+    pretty?: string,
+    remaining?: string
   }
 
-  const remaining = {
-    next: getRemaining(dates.next),
-    nextNext: getRemaining(dates.nextNext),
-    nextNextNext: getRemaining(dates.nextNextNext),
-  }
-
-  const pretty = {
-    next: getPrettyDate(dates.next),
-    nextNext: getPrettyDate(dates.nextNext),
-    nextNextNext: getPrettyDate(dates.nextNextNext),
-  }
+  let yogaClasses: YogaClass[] = [
+    { label: 'Next Class' },
+    { label: 'Next Next Class' },
+    { label: 'Next Next Next Class' },
+  ]
 
 
-  function getRemaining (upcomingDate: number) {
-    let remaining = ''
-    const MINUTE_IN_MS = 60000
-    const CLASS_LENGTH_IN_MINUTES = 75
-    const difference = upcomingDate - +new Date()
+  const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC https://savvytime.com/converter/utc-to-ca-los-angelesuy
+    // September
+    Date.UTC(2023, 8, 11, 23, 44),
+    Date.UTC(2023, 8, 13, 23, 44),
+    Date.UTC(2023, 8, 18, 23, 44),
+    Date.UTC(2023, 8, 20, 23, 44),
+    Date.UTC(2023, 8, 25, 23, 44),
+    Date.UTC(2023, 8, 27, 23, 44),
 
-    if (difference > 0) {
+    // October
+    Date.UTC(2023, 9, 2, 23, 44),
+    Date.UTC(2023, 9, 4, 23, 44),
+    Date.UTC(2023, 9, 9, 23, 44),
+    Date.UTC(2023, 9, 11, 23, 44),
+    Date.UTC(2023, 9, 16, 23, 44),
+    Date.UTC(2023, 9, 18, 23, 44),
+    Date.UTC(2023, 9, 23, 23, 44),
+    Date.UTC(2023, 9, 25, 23, 44),
+    Date.UTC(2023, 9, 30, 23, 44),
+  ]
+
+  onMount(() => { // so we use the users timezone
+    initYogaClasses()
+    setInterval(updateRemaining, 1000)
+
+
+    function getPrettyDate (msDate: number) {
+      return new Date(msDate).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })
+    }
+
+
+    function initYogaClasses () {
+      let foundCount = 0
+
+      for (const date of calendar) {
+        const difference = date - +new Date() // greater then 0 if class is in the future
+
+        if (foundCount === 3) break
+        else if (difference > 0) {
+          yogaClasses[foundCount].ms = date
+          yogaClasses[foundCount].pretty = getPrettyDate(date)
+          yogaClasses[foundCount].remaining = getRemaining(date)
+          foundCount++
+        }
+      }
+    }
+
+
+    function updateRemaining () {
+      for (const yogaClass of yogaClasses) {
+        if (yogaClass.ms) yogaClass.remaining = getRemaining(yogaClass.ms)
+      }
+
+      yogaClasses = yogaClasses
+    }
+
+
+    function getRemaining (upcomingDate: number) {
+      let remaining = ''
+      const difference = upcomingDate - +new Date()
+
       const parts = new Map([ // https://www.digitalocean.com/community/tutorials/js-building-countdown-timer
-        ['days',    Math.floor(difference / (1000 * 60 * 60 * 24))],
-        ['hours',   Math.floor((difference / (1000 * 60 * 60)) % 24)],
-        ['minutes', Math.floor((difference / 1000 / 60) % 60)],
-        ['seconds', Math.floor((difference / 1000) % 60)],
+        ['day',    Math.floor(difference / (1000 * 60 * 60 * 24))],
+        ['hour',   Math.floor((difference / (1000 * 60 * 60)) % 24)],
+        ['minute', Math.floor((difference / 1000 / 60) % 60)],
+        ['second', Math.floor((difference / 1000) % 60)],
       ])
 
       for (const [ key, value ] of parts) {
         if (value) {
-          if (value === 1) remaining +=  `${ value } ${ key.substring(0, key.length - 1) } `
-          else remaining +=  `${ value } ${ key } `
+          if (value === 1) remaining +=  `1 ${ key }` // singular
+          else remaining +=  `${ value } ${ key }s` // plural
         }
       }
+
+      return remaining
     }
-    else if ((difference / MINUTE_IN_MS) > -CLASS_LENGTH_IN_MINUTES) remaining = 'Class happening now!'
-    else remaining = 'Class just ended!'
-
-    return remaining
-  }
-
-  function getPrettyDate (upcomingDate: number) {
-    return new Date(upcomingDate).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' })
-  }
-
-  setInterval(() => {
-    remaining.next = getRemaining(dates.next)
-    remaining.nextNext = getRemaining(dates.nextNext)
-    remaining.nextNextNext = getRemaining(dates.nextNextNext)
-
-    pretty.next = getPrettyDate(dates.next)
-    pretty.nextNext = getPrettyDate(dates.nextNext)
-    pretty.nextNextNext = getPrettyDate(dates.nextNextNext)
-  }, 1000)
+  })
 </script>
 
 
@@ -77,7 +108,7 @@
 <Title text="Aloha!" size="two" />
 <SocialSupport />
 
-<section class="title chris">
+<section class="title chris subtle-fade-in-from-above">
   <div class="papyrus one">Chris Carrington</div>
   <div class="description">
     <ul>
@@ -93,11 +124,11 @@
   </div>
 </section>
 
-<a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">
+<a href="https://teams.live.com/meet/9355564920768" class="link subtle-fade-in-from-above" target="_blank">
   <section class="title">🥰 Join Class Live</section>
 </a>
 
-<a href="https://soulconnectionscommunitycenter.com/" class="link" target="_blank">
+<a href="https://soulconnectionscommunitycenter.com/" class="link subtle-fade-in-from-above" target="_blank">
   <section class="title">
     <div>📍 Soul Connections Community Center</div>
     <div>329 N Mt Shasta Blvd, Mount Shasta</div>
@@ -105,27 +136,30 @@
   </section>
 </a>
 
-<a href="/contact" class="link">
+<a href="/contact" class="link subtle-fade-in-from-above">
   <section class="title">👋 Get in touch</section>
 </a>
 
-<section class="title remaining">
-  <div class="strong">Next Class</div>
-  <div>{ pretty.next }</div>
-  <div>{ remaining.next }</div>
-</section>
+{ #each yogaClasses as yogaClass (yogaClass.label) }
+  <section class="title remaining subtle-fade-in-from-above">
+    <div class="strong">{ yogaClass.label }</div>
+      <div>
+        { #if yogaClass.pretty }
+          { yogaClass.pretty }
+        { :else }
+          Loading...
+        { /if }
+      </div>
 
-<section class="title remaining">
-  <div class="strong">Next Next Class</div>
-  <div>{ pretty.nextNext }</div>
-  <div>{ remaining.nextNext }</div>
-</section>
-
-<section class="title remaining">
-  <div class="strong">Next Next Next Class</div>
-  <div>{ pretty.nextNextNext }</div>
-  <div>{ remaining.nextNextNext }</div>
-</section>
+      <div>
+        { #if yogaClass.remaining }
+          { yogaClass.remaining }
+        { :else }
+          Loading...
+        { /if }
+      </div>
+  </section>
+{ /each }
 
 
 <style lang="scss">
@@ -141,6 +175,11 @@
         font-weight: 500;
       }
     }
+
+    :global(svg) {
+      color: var(--gold-text-color);
+      height: 7.68rem;
+    }
   }
 
   .link {
@@ -154,4 +193,5 @@
       width: 81rem;
       max-width: 81vw;
     }
-  }</style>
+  }
+</style>

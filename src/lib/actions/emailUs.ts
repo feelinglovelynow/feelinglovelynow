@@ -3,6 +3,7 @@ import type { Action } from '@sveltejs/kit'
 import actionCatch from '$lib/catch/actionCatch'
 import validateFields from '$lib/form/validateFields'
 import addSiteComment from '$lib/dgraph/addSiteComment'
+// import newSiteComment from '$lib/mailchannels/newSiteComment'
 
 
 export default (async ({ request }) => {
@@ -10,6 +11,7 @@ export default (async ({ request }) => {
     const fields = Object.fromEntries((await request.formData()).entries()) 
     await validateFields(fields, schema)
     await addSiteComment(fields)
+    // console.log(await newSiteComment(fields))
   } catch (e) {
     return actionCatch(e)
   }

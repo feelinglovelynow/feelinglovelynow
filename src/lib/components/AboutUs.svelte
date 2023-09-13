@@ -3,7 +3,7 @@
 </script>
 
 
-<section class="us">
+<section class="us subtle-fade-in-from-above">
   <div class="item">
     <div class="emoji" style="font-size: 2.3rem">📚</div>
     <div>Welcome to our <LoadingAnchor href="/library" label="library" /> of lovely <LoadingAnchor href="/library?type=science" label="scientific evidence" />, <LoadingAnchor href="/library?type=product" label="products" /> & <LoadingAnchor href="/library?type=culture" label="culture" />, created by <LoadingAnchor href="/links" label="Chris Carrington" />!</div>
@@ -13,6 +13,7 @@
 
 <style lang="scss">
   .us {
+    font-size: 2.1rem;
 
     .item {
       display: flex;
@@ -21,8 +22,7 @@
       .emoji {
         width: 3rem;
         min-width: 3rem;
-        font-size: 2.1rem;
-        transform: translateY(-0.3rem);
+        margin-right: 0.18rem;
       }
     }
   }

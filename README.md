@@ -14,8 +14,9 @@
 - [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/platform/compatibility-dates/)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
 - [Cloudflare API Fundamentals](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
+- [Mailchannels](https://api.mailchannels.net/tx/v1/documentation)
 - [Dgraph](https://dgraph.io/docs)
-- [Dgraph Forum](https://discuss.dgraph.io/)
+- [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
@@ -39,6 +40,7 @@
 - [Faster Websites](https://www.cloudflare.com/resources/images/slt3lc6tev37/1PdxTNFdaTagVJ1zxxTKCX/5fcc6da3f0a170414a8b8f9c7cd405d5/Getting_Faster_-_Performance_whitepaper.pdf)
 - [Relative Time](https://www.js-howto.com/how-to-format-dates-with-intl-relativetimeformat/)
 - [5 Ways to Maximize the Security, Performance and Reliability of Your Online Business](https://info.cloudflare.com/rs/713-XSC-918/images/Secure_Fast_Reliable_eBook.pdf)
+- [Cloudflare + MailChannels + DKIM](https://mailchannels.zendesk.com/hc/en-us/articles/7122849237389)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -50,6 +52,7 @@
 - [DNS Checker](https://dnschecker.org)
 - [Emoji's](https://www.iemoji.com/)
 - [Open Graph Preview](https://www.opengraph.xyz)
+- [Dgraph Forum](https://discuss.dgraph.io/)
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)

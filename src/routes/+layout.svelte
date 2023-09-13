@@ -70,6 +70,6 @@
   <Nav />
 </main>
 <Background />
+<ThemeToggle /> <!-- ThemeToggle must be above Search or else ThemeToggle does an double animation on page load -->
 <Search />
-<ThemeToggle />
 <div id="stl--toast-wrapper"></div>

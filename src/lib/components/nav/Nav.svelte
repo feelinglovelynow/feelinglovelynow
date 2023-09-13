@@ -1,12 +1,12 @@
 <script lang="ts">
   import '$lib/components/nav/Nav.scss'
-  import IMG_LOGO from '$lib/img/IMG_LOGO.webp'
   import { page, navigating } from '$app/stores'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_CONTACT from '$lib/svg/nav/SVG_CONTACT.svg'
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import SVG_FLOWER_OF_LIFE from '$lib/svg/logo/SVG_FLOWER_OF_LIFE.svg'
 
   let activeRoute: string | null | undefined
   $: if ($navigating) setActiveRoute(true)
@@ -24,17 +24,17 @@
 
 
 <div class="nav">
-  <div class="logo">
+  <div class="logo subtle-fade-in-from-above">
     <LoadingAnchor loadWidth="huge">
-      <img src={ IMG_LOGO } alt="The logo for Feeling Lovely Now"/>
+      { @html SVG_FLOWER_OF_LIFE }
     </LoadingAnchor>
   </div>
 
-  <div class="name-wrapper">
+  <div class="name-wrapper subtle-fade-in-from-above">
     <button on:click={ () => { smoothToTop() } } class="name">Feeling Lovely Now</button>
   </div>
 
-  <nav>
+  <nav class="subtle-fade-in-from-above">
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
     <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
     <LoadingAnchor label="Contact" href="/contact" loadWidth="big" css="item { activeRoute === '/contact' ? 'active' : '' }">{ @html SVG_CONTACT }</LoadingAnchor>

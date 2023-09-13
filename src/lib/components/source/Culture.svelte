@@ -14,7 +14,7 @@
 </script>
 
 
-<section class="source type--culture location--{ location } { css }">
+<section class="source type--culture location--{ location } { css } subtle-fade-in-from-above">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }
@@ -26,7 +26,7 @@
         <AuthorChips { author } authors={ source.authors } />
       { /if }
     </div>
-    <div class="description">{ source.description }</div>
+    <div class="description">{ @html source.description }</div>
   </div>
 
   { #if source?.url }

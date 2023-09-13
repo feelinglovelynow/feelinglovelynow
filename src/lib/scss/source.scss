@@ -46,6 +46,12 @@
         line-height: 1.4;
         margin-right: 1.8rem;
       }
+
+      .description {
+        br {
+          margin-bottom: 0.45rem;
+        }
+      }
     }
   }
   &.type--science {

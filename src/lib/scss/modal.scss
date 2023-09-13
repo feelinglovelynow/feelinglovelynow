@@ -5,9 +5,22 @@
   color: var(--text-color);
   background-color: var(--bg-color);
 
+  @keyframes backdrop-fade-blur {
+    from {
+      backdrop-filter: blur(0.01rem);
+    }
+
+    to {
+      backdrop-filter: blur(0.72rem);
+    }
+  }
+
   &--container {
     z-index: $zindex-modal-container;
-    background-color: rgba(black, 0.693);
+    background-color: rgba(0, 0, 0, 0.54);
+    backdrop-filter: blur(0.72rem);
+    animation-name: backdrop-fade-blur;
+    animation-duration: 1.8s;
   }
 
   &__header {
