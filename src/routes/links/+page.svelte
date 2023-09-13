@@ -91,8 +91,8 @@
 
       for (const [ key, value ] of parts) {
         if (value) {
-          if (value === 1) remaining +=  `1 ${ key }` // singular
-          else remaining +=  `${ value } ${ key }s` // plural
+          if (value === 1) remaining +=  `1 ${ key } ` // singular
+          else remaining +=  `${ value } ${ key }s ` // plural
         }
       }
 
