@@ -96,7 +96,7 @@
         }
       }
 
-      return remaining
+      return remaining.slice(0, -1) // remove last space
     }
   })
 </script>
