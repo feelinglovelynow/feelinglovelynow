@@ -14,15 +14,15 @@ export const GET = (async () => {
           {
             to: [
               {
-                "email": "us@feelinglovelynow.com",
-                "name": "Test Recipient"
+                email: 'chris@feelinglovelynow.com',
+                name: 'Test Recipient'
               }
             ]
           }
         ],
         from: {
           name: 'Feeling Lovely Now',
-          email: 'chris@feelinglovelynow.com',
+          email: 'us@feelinglovelynow.com',
         },
         subject: 'Test',
         content: [{
