@@ -7,5 +7,5 @@
 </script>
 
 
-<Head title="Test Email" url="admin" />
+<Head title="Test Email" url="test" />
 <button type="button" on:click={ sendTestEmail }>Send Test Email</button>
