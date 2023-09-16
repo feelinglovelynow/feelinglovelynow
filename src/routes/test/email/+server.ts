@@ -6,20 +6,9 @@ export const GET = (async () => {
   try {
     const fetchResponse = await fetch('https://api.mailchannels.net/tx/v1/send', {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        personalizations: [
-          {
-            to: [
-              {
-                email: 'chris@feelinglovelynow.com',
-                name: 'Test Recipient'
-              }
-            ]
-          }
-        ],
+        personalizations: [ { to: [ { email: 'chris@feelinglovelynow.com' } ] } ],
         from: {
           name: 'Feeling Lovely Now',
           email: 'us@feelinglovelynow.com',

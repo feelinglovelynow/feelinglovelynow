@@ -14,7 +14,6 @@
 - [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/platform/compatibility-dates/)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
 - [Cloudflare API Fundamentals](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
-- [Mailchannels](https://api.mailchannels.net/tx/v1/documentation)
 - [Dgraph](https://dgraph.io/docs)
 - [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
 - [Zod](https://zod.dev/)
@@ -41,6 +40,7 @@
 - [Relative Time](https://www.js-howto.com/how-to-format-dates-with-intl-relativetimeformat/)
 - [5 Ways to Maximize the Security, Performance and Reliability of Your Online Business](https://info.cloudflare.com/rs/713-XSC-918/images/Secure_Fast_Reliable_eBook.pdf)
 - [Cloudflare + MailChannels + DKIM](https://mailchannels.zendesk.com/hc/en-us/articles/7122849237389)
+- [Sveltekit page transitions](https://joshcollinsworth.com/blog/sveltekit-page-transitions#the-final-code)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)

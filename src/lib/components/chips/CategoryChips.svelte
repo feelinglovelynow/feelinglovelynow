@@ -60,7 +60,7 @@
   <Title text="Select a Category!" noBottom={ true } />
 { /if }
 
-<div class="chips location--{ location } { location === 'nav' ? 'subtle-fade-in-from-above' : '' }">
+<div class="chips location--{ location }">
   { #if location === 'nav' }
     <div class="form-item">
       <input bind:value={ query } type="text" placeholder="Search" />

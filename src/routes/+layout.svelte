@@ -1,9 +1,12 @@
 <script lang="ts">
   import '$lib/scss/global.scss'
+  import { onMount } from 'svelte'
   import { updated } from '$app/stores'
   import { theme } from '$lib/util/store'
+  import { fly } from 'svelte/transition'
   import type { PageData } from './$types'
   import '@sensethenlove/toast/lib/index.css'
+  import Title from '$lib/components/Title.svelte'
   import Nav from '$lib/components/nav/Nav.svelte'
   import '@sensethenlove/global-style/lib/index.css'
   import Search from '$lib/components/nav/Search.svelte'
@@ -12,7 +15,12 @@
 
   export let data: PageData
 
+  let mounted: boolean
+  const pageTransitionIn = { y: -9, duration: 300, delay: 333 }
+  const pageTransitionOut = { y: 9, duration: 300 }
+
   theme.set(data.locals.theme)
+  onMount(() => mounted = true)
 </script>
 
 
@@ -64,12 +72,66 @@
   { /if }
 </svelte:head>
 
+{ #if mounted}
+  { #key data.pathname }
+  <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
+    <slot />
+  </main>
+  { /key }
+{ /if }
 
-<main data-sveltekit-reload={ $updated ? '' : 'off' }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
-  <slot />
-  <Nav />
+<main class="loading-wrapper { mounted ? 'loading-wrapper--out': 'loading-wrapper--in' }">
+  <Title text="Loading..." />
 </main>
+
+<Nav />
 <Background />
-<ThemeToggle /> <!-- ThemeToggle must be above Search or else ThemeToggle does an double animation on page load -->
+<ThemeToggle />
 <Search />
 <div id="stl--toast-wrapper"></div>
+
+
+<style lang="scss">
+  @keyframes loading-in {
+    from {
+      opacity: 0;
+      transform: translateY(-9px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes loading-out {
+    from {
+      opacity: 1;
+      z-index: 1;
+      transform: translateY(0);
+    }
+
+    to {
+      opacity: 0;
+      z-index: 0;
+      transform: translateY(9px);
+    }
+  }
+
+  .loading-wrapper {
+    position: fixed;
+
+    &--in {
+      animation-name: loading-in;
+      animation-duration: 0.3s;
+    }
+
+    &--out {
+      opacity: 0;
+      z-index: 0;
+      transform: translateY(9px);
+      animation-name: loading-out;
+      animation-duration: 0.6s;
+    }
+  }
+</style>

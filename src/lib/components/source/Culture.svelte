@@ -14,7 +14,7 @@
 </script>
 
 
-<section class="source type--culture location--{ location } { css } subtle-fade-in-from-above">
+<section class="source type--culture location--{ location } { css }">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }

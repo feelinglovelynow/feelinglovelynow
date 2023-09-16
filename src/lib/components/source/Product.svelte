@@ -21,7 +21,7 @@
 </script>
 
 
-<section class="source type--product location--{ location } { css } subtle-fade-in-from-above">
+<section class="source type--product location--{ location } { css }">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }

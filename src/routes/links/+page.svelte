@@ -6,6 +6,7 @@
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import AboutUs from '$lib/components/AboutUs.svelte';
 
   type YogaClass = {
     ms?: number,
@@ -23,8 +24,6 @@
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC https://savvytime.com/converter/utc-to-ca-los-angelesuy
     // September
-    Date.UTC(2023, 8, 11, 23, 44),
-    Date.UTC(2023, 8, 13, 23, 44),
     Date.UTC(2023, 8, 18, 23, 44),
     Date.UTC(2023, 8, 20, 23, 44),
     Date.UTC(2023, 8, 25, 23, 44),
@@ -107,41 +106,22 @@
 <GuitarPic />
 <Title text="Aloha!" size="two" />
 <SocialSupport />
+<AboutUs />
 
-<section class="title chris subtle-fade-in-from-above">
-  <div class="papyrus one">Chris Carrington</div>
-  <div class="description">
-    <ul>
-      <li>Chris ceated this site to be a <LoadingAnchor href="/library" label="library" /> of lovely <LoadingAnchor href="/library?type=science" label="scientific evidence" />, <LoadingAnchor href="/library?type=product" label="products" /> & <LoadingAnchor href="/library?type=culture" label="culture" /> for his Gentle Yoga & Sound Healing classes & all else who may love this information</li>
-      <li>Chris offers free, Gentle Yoga & Sound Healing classes, in <a href="https://soulconnectionscommunitycenter.com/" target="_blank">Mount Shasta</a> & <a href="https://teams.live.com/meet/9355564920768" target="_blank">live online</a></li>
-      <li>Class features stretches that are gentle, simple & effective. Each stretch is typically held for a couple minutes, to allow time for gravity to gently open us up</li>
-      <li>The stretch or neutral position that feels good to you is far more important then what Chris suggests, so in class you may feel free to find, allow & savor any movements that feel good</li>
-      <li>Class features many flows, which are opportunities to mix several stretches together @ any pace you love</li>
-      <li>During the majority of stretches crystal singing bowls, guitar and/or gongs are gently played, live</li>
-      <li>Class also features several opportunities to learn, practice & enjoy simple mindfulness meditation techniques that may be implemented outside of class, anytime</li>
-      <li>Free mats available, donations welcome, all welcome!</li>
-    </ul>
-  </div>
-</section>
-
-<a href="https://teams.live.com/meet/9355564920768" class="link subtle-fade-in-from-above" target="_blank">
-  <section class="title">🥰 Join Class Live</section>
+<a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">
+  <button class="brand large" type="button">🕉 Join Class Live</button>
 </a>
 
-<a href="https://soulconnectionscommunitycenter.com/" class="link subtle-fade-in-from-above" target="_blank">
-  <section class="title">
-    <div>📍 Soul Connections Community Center</div>
-    <div>329 N Mt Shasta Blvd, Mount Shasta</div>
-    <div>(530) 859-8831</div>
-  </section>
+<a href="https://soulconnectionscommunitycenter.com/" class="link" target="_blank">
+  <button class="brand large" type="button">📍 Soul Connections</button>
 </a>
 
-<a href="/contact" class="link subtle-fade-in-from-above">
-  <section class="title">👋 Get in touch</section>
+<a href="https://paypal.me/feelinglovelynow/9" class="link" target="_blank">
+  <button class="brand large" type="button">🥰 Would love to buy me lunch?!</button>
 </a>
 
 { #each yogaClasses as yogaClass (yogaClass.label) }
-  <section class="title remaining subtle-fade-in-from-above">
+  <section class="title remaining">
     <div class="strong">{ yogaClass.label }</div>
       <div>
         { #if yogaClass.pretty }
@@ -182,16 +162,11 @@
     }
   }
 
-  .link {
-    font-size: 2.1rem;
+  .brand {
+    margin-bottom: 1.8rem;
   }
 
-  .chris {
-
-    .description {
-      text-align: left;
-      width: 81rem;
-      max-width: 81vw;
-    }
+  .link {
+    font-size: 2.1rem;
   }
 </style>

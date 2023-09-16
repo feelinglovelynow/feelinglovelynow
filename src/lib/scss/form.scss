@@ -118,11 +118,15 @@ button.brand {
   font-weight: 500;
   border-radius: 0.4rem;
   transition: all 0.9s;
-  border: 0.1rem solid transparent;
   &.full-width {
     width: 100%;
     min-height: 3.4rem;
     font-size: 1.8rem;
+    padding: 1.2rem 1.6rem;
+  }
+  &.large {
+    min-height: 3.4rem;
+    font-size: 2.1rem;
     padding: 1.2rem 1.6rem;
   }
   &:disabled {
@@ -165,6 +169,7 @@ button.brand {
 
 .theme--light button.brand {
   color: white;
+  border: 0.01rem solid rgb(6, 182, 212);
   background-image: linear-gradient(to right, rgb(6, 182, 212), rgb(63, 131, 248));
   &:hover {
     background-image: linear-gradient(to left bottom, rgb(6, 182, 212), rgb(63, 131, 248));
@@ -176,6 +181,7 @@ button.brand {
 
 .theme--dark button.brand {
   color: rgb(17, 24, 39);
+  border: 0.01rem solid var(--gold-text-color);
   background-image: linear-gradient(to left, var(--gold-text-color), var(--anchor-color));
   &:hover {
     background-image: linear-gradient(to right, var(--gold-text-color), var(--anchor-color));

@@ -24,17 +24,17 @@
 
 
 <div class="nav">
-  <div class="logo subtle-fade-in-from-above">
+  <div class="logo">
     <LoadingAnchor loadWidth="huge">
       { @html SVG_FLOWER_OF_LIFE }
     </LoadingAnchor>
   </div>
 
-  <div class="name-wrapper subtle-fade-in-from-above">
+  <div class="name-wrapper">
     <button on:click={ () => { smoothToTop() } } class="name">Feeling Lovely Now</button>
   </div>
 
-  <nav class="subtle-fade-in-from-above">
+  <nav class="">
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
     <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
     <LoadingAnchor label="Contact" href="/contact" loadWidth="big" css="item { activeRoute === '/contact' ? 'active' : '' }">{ @html SVG_CONTACT }</LoadingAnchor>
