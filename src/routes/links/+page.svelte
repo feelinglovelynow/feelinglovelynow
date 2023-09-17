@@ -2,11 +2,10 @@
   import { onMount } from 'svelte'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import AboutUs from '$lib/components/AboutUs.svelte'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
-  import AboutUs from '$lib/components/AboutUs.svelte';
 
   type YogaClass = {
     ms?: number,
@@ -20,7 +19,6 @@
     { label: 'Next Next Class' },
     { label: 'Next Next Next Class' },
   ]
-
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC https://savvytime.com/converter/utc-to-ca-los-angelesuy
     // September
@@ -40,6 +38,7 @@
     Date.UTC(2023, 9, 25, 23, 44),
     Date.UTC(2023, 9, 30, 23, 44),
   ]
+
 
   onMount(() => { // so we use the users timezone
     initYogaClasses()
@@ -109,7 +108,7 @@
 <AboutUs />
 
 <a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">
-  <button class="brand large" type="button">🕉 Join Class Live</button>
+  <button class="brand large" type="button">💞 Join Class Live</button>
 </a>
 
 <a href="https://soulconnectionscommunitycenter.com/" class="link" target="_blank">
@@ -117,7 +116,7 @@
 </a>
 
 <a href="https://paypal.me/feelinglovelynow/9" class="link" target="_blank">
-  <button class="brand large" type="button">🥰 Would love to buy me lunch?!</button>
+  <button class="brand large" type="button">🥰 Wanna buy me lunch?!</button>
 </a>
 
 { #each yogaClasses as yogaClass (yogaClass.label) }

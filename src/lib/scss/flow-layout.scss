@@ -11,7 +11,7 @@
     transition: all 0.3s;
     margin: 0;
 
-    @media only screen and (min-width: 90rem) { // big screen
+    @media only screen and (min-width: 54rem) { // big screen
       max-width: 36rem;
       margin: 0 1.8rem 0 0;
     }

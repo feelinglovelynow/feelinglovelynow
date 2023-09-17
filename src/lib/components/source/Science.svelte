@@ -51,9 +51,9 @@
       <p>
         { #if source.publicationLocation }
           <a href={ source.url } target="_blank" rel="noreferrer">{ source.publicationLocation }{ #if source.publicationYear }, { source.publicationYear }{ /if }</a>
+          <span>⋅</span>
         { /if }
         { #if source.authors }
-          <span>⋅</span>
           { #each source.authors as a, i }
             <LoadingAnchor href={ `/library?author=${ a.slug }${ type ? '&type=' + type : '' }${ displayCategory?.slug ? '&category=' + displayCategory.slug : '' }` } { ssr } css="{ author?.id === a.id ? 'active': '' }" label="{ a.name || undefined }" />
             { #if i+1 !== source.authors.length }
