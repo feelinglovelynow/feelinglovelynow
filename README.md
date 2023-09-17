@@ -18,6 +18,7 @@
 - [Braintree Styling](https://developer.paypal.com/braintree/docs/guides/drop-in/customization/javascript/v3/)
 - [Braintree Testing Paypal](https://developer.paypal.com/braintree/docs/guides/paypal/testing-go-live/ruby#linked-paypal-testing)
 - [Braintree AVS & CVV](https://developer.paypal.com/braintree/articles/guides/fraud-tools/basic/avs-cvv-rules)
+- [Braintree Tokenization Key](https://developer.paypal.com/braintree/docs/guides/authorization/tokenization-key/javascript/v3)
 - [Dgraph](https://dgraph.io/docs)
 - [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
 - [Zod](https://zod.dev/)
@@ -45,6 +46,7 @@
 - [5 Ways to Maximize the Security, Performance and Reliability of Your Online Business](https://info.cloudflare.com/rs/713-XSC-918/images/Secure_Fast_Reliable_eBook.pdf)
 - [Cloudflare + MailChannels + DKIM](https://mailchannels.zendesk.com/hc/en-us/articles/7122849237389)
 - [Sveltekit page transitions](https://joshcollinsworth.com/blog/sveltekit-page-transitions#the-final-code)
+- [Braintree Demo](https://braintree.github.io/braintree-web-drop-in/)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)

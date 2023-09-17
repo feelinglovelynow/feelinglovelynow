@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 </script>
 
@@ -6,7 +7,14 @@
 <section class="us">
   <div class="item">
     <div class="emoji">📚</div>
-    <div>Welcome to our <LoadingAnchor href="/library" label="library" /> of lovely <LoadingAnchor href="/library?type=science" label="scientific evidence" />, <LoadingAnchor href="/library?type=product" label="products" /> & <LoadingAnchor href="/library?type=culture" label="culture" />, created by <LoadingAnchor href="/links" label="Chris Carrington" />!</div>
+    <div>
+      Welcome to our <LoadingAnchor href="/library" label="library" /> of lovely <LoadingAnchor href="/library?type=science" label="scientific evidence" />, <LoadingAnchor href="/library?type=product" label="products" /> & <LoadingAnchor href="/library?type=culture" label="culture" />, created by
+      {#if $page.route.id !== '/links' }
+        <LoadingAnchor href="/links" label="Chris Carrington" />!
+      { :else }
+        Chris Carrington!
+      { /if }
+    </div>
   </div>
   <div class="item">
     <div class="emoji">🌟</div>
