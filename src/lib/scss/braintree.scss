@@ -1,0 +1,66 @@
+@import '$lib/scss/variables';
+
+.braintree-placeholder,
+.braintree-heading {
+  display: none;
+}
+
+div[data-braintree-id="upper-container"] {
+  max-width: 57rem;
+  &:before {
+    background-color: transparent;
+  }
+
+  .braintree-form__field-error-icon {
+    display: none !important;
+  }
+
+  .braintree-form {
+    font-family: $font-family;
+    color: var(--text-color);
+  }
+
+  .braintree-sheet__content--form .braintree-form__field-group .braintree-form__field-error {
+    margin: 3px 0 6px 0;
+  }
+
+  div[data-braintree-id="sheet-error"] {
+    margin-top: -6px;
+    margin-bottom: 3rem;
+  }
+
+  .braintree-sheet {
+    border: none;
+    background-color: transparent;
+
+    &__text {
+      margin-left: 8px;
+      color: var(--text-color);
+    }
+
+    &__header {
+      border-bottom: none;
+    }
+  }
+
+  .braintree-form__field {
+    background-color: var(--input-bg-color);
+  }
+
+  .braintree-sheet__content--form .braintree-form__field-group .braintree-form__field .braintree-form__hosted-field {
+    padding: 0;
+    border-color: var(--input-border-color);
+  }
+
+  .braintree-sheet__content--form .braintree-form__field-group .braintree-form__label {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  div[data-braintree-id="visa-card-icon"] {
+    background-color: white;
+    padding: 0 3px;
+    border-radius: 2px;
+    height: 25px;
+  }
+}
