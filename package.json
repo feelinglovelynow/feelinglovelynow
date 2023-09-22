@@ -19,7 +19,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230814.0",
+    "@cloudflare/workers-types": "^4.20230914.0",
     "@poppanator/sveltekit-svg": "^2.1.2",
     "@sensethenlove/env-write": "^1.1.1",
     "@sensethenlove/get-form-entries": "^1.0.1",
@@ -33,18 +33,18 @@
     "@sensethenlove/svelte-turnstile": "^1.1.5",
     "@sensethenlove/toast": "^1.0.8",
     "@sveltejs/adapter-cloudflare-workers": "^1.1.4",
-    "@sveltejs/kit": "^1.22.6",
+    "@sveltejs/kit": "^1.25.0",
     "@types/braintree-web-drop-in": "^1.39.1",
-    "@types/node": "^18.17.5",
+    "@types/node": "^18.17.18",
     "braintree-web-drop-in": "^1.40.2",
     "buffer": "^6.0.3",
-    "sass": "^1.66.0",
+    "sass": "^1.68.0",
     "svelte": "^3.59.2",
-    "svelte-check": "^3.5.0",
+    "svelte-check": "^3.5.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "wrangler": "^3.5.1",
-    "zod": "^3.22.1"
+    "wrangler": "^3.9.0",
+    "zod": "^3.22.2"
   }
 }

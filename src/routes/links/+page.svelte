@@ -22,8 +22,6 @@
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC https://savvytime.com/converter/utc-to-ca-los-angelesuy
     // September
-    Date.UTC(2023, 8, 18, 23, 44),
-    Date.UTC(2023, 8, 20, 23, 44),
     Date.UTC(2023, 8, 25, 23, 44),
     Date.UTC(2023, 8, 27, 23, 44),
 
@@ -37,6 +35,17 @@
     Date.UTC(2023, 9, 23, 23, 44),
     Date.UTC(2023, 9, 25, 23, 44),
     Date.UTC(2023, 9, 30, 23, 44),
+
+    // November
+    Date.UTC(2023, 10, 1, 23, 44),
+    Date.UTC(2023, 10, 6, 23, 44),
+    Date.UTC(2023, 10, 8, 23, 44),
+    Date.UTC(2023, 10, 13, 23, 44),
+    Date.UTC(2023, 10, 15, 23, 44),
+    Date.UTC(2023, 10, 20, 23, 44),
+    Date.UTC(2023, 10, 22, 23, 44),
+    Date.UTC(2023, 10, 27, 23, 44),
+    Date.UTC(2023, 10, 29, 23, 44),
   ]
 
 
@@ -116,7 +125,7 @@
 </a>
 
 <a href="https://paypal.me/feelinglovelynow/9" class="link" target="_blank">
-  <button class="brand large" type="button">🥰 Wanna buy me lunch?!</button>
+  <button class="brand large" type="button">🥰 Wanna buy me an açaí?!</button>
 </a>
 
 { #each yogaClasses as yogaClass (yogaClass.label) }
