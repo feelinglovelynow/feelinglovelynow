@@ -53,15 +53,18 @@ importers:
       '@sveltejs/kit':
         specifier: ^1.25.0
         version: 1.25.0(svelte@3.59.2)(vite@4.4.9)
+      '@types/braintree-web':
+        specifier: ^3.96.5
+        version: 3.96.5
       '@types/braintree-web-drop-in':
         specifier: ^1.39.1
         version: 1.39.1
       '@types/node':
         specifier: ^18.17.18
         version: 18.17.18
-      braintree-web-drop-in:
-        specifier: ^1.40.2
-        version: 1.40.2
+      braintree-web:
+        specifier: ^3.97.2
+        version: 3.97.2
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -95,11 +98,7 @@ packages:
   /@braintree/asset-loader@0.4.4:
     resolution: {integrity: sha512-uVhXC5dydmngmNVuDiKgfXSlz4kv4x5ytIJodI8N5SY16mRh13m/UmbQ7yH+o8DQqp50qPZ45MUHIZkXKPg85w==}
     dependencies:
-      promise-polyfill: 8.3.0
-    dev: true
-
-  /@braintree/browser-detection@1.14.0:
-    resolution: {integrity: sha512-OsqU+28RhNvSw8Y5JEiUHUrAyn4OpYazFkjSJe8ZVZfkAaRXQc6hsV38MMEpIlkPMig+A68buk/diY+0O8/dMQ==}
+      promise-polyfill: 8.2.3
     dev: true
 
   /@braintree/browser-detection@1.17.1:
@@ -930,19 +929,8 @@ packages:
       fill-range: 7.0.1
     dev: true
 
-  /braintree-web-drop-in@1.40.2:
-    resolution: {integrity: sha512-m7sfLevcq/Q16ZGIFPNBbLNrnWEgtUZN939nyrpTd9My7O5v8A+BfqOQePEmBy+wkiWMC33i1Csk5peq69FWVw==}
-    dependencies:
-      '@braintree/asset-loader': 0.4.4
-      '@braintree/browser-detection': 1.14.0
-      '@braintree/event-emitter': 0.4.1
-      '@braintree/uuid': 0.1.0
-      '@braintree/wrap-promise': 2.1.0
-      braintree-web: 3.97.1
-    dev: true
-
-  /braintree-web@3.97.1:
-    resolution: {integrity: sha512-9f9yNoC+vS9RGrkAaE80BbyX4L1JE9j+ZzgT66MxiU6011J6Bs3E+iLtXodi2bpFTRlBlT0F4GIW5kHT7RC6bQ==}
+  /braintree-web@3.97.2:
+    resolution: {integrity: sha512-QLDK+iQ/7Fg2IRifL8oDAUuvohPseJM4ttEmdX6KOKFreRXDMRc1nOsf9t/YjlTZhn+7D3AH/K/6quVrL+1Smg==}
     dependencies:
       '@braintree/asset-loader': 0.4.4
       '@braintree/browser-detection': 1.17.1
@@ -1538,10 +1526,6 @@ packages:
 
   /promise-polyfill@8.2.3:
     resolution: {integrity: sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==}
-    dev: true
-
-  /promise-polyfill@8.3.0:
-    resolution: {integrity: sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==}
     dev: true
 
   /queue-microtask@1.2.3:

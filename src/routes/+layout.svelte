@@ -49,7 +49,7 @@
         --input-bg-color: rgb(55, 65, 81, 0.6);
         --input-border-color: rgb(75, 85, 99);
         --bottom-nav-bg: #111111;
-        --focus-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(63, 131, 248) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+        --focus-box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .81);
         --focus-error-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(240, 82, 82) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
       }
     </style>
@@ -65,7 +65,7 @@
         --input-bg-color: rgb(255, 255, 255, 0.6);
         --input-border-color: #ced3d6;
         --bottom-nav-bg: #fefefe;
-        --focus-box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        --focus-box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .21);
         --focus-error-box-shadow: 0 0 0 0.2rem rgba(254, 84, 75, 0.25);
       }
     </style>

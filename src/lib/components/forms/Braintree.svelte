@@ -1,83 +1,150 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import '$lib/scss/braintree.scss'
-  import dropin from 'braintree-web-drop-in'
+  import Title from '../Title.svelte'
+  import { theme } from '$lib/util/store'
   import showToast from '@sensethenlove/toast'
   import { PUBLIC_BRAINTREE_TOKENIZATION_KEY } from '$env/static/public'
+  import { client, hostedFields, type BraintreeError, type HostedFields, type HostedFieldsTokenizePayload } from 'braintree-web'
 
-  let isFormVisible: boolean
-  let dropinContainer: HTMLDivElement
-  let dropinSubmitButton: HTMLButtonElement
+  let form: HTMLFormElement
+  let submitButton: HTMLButtonElement
+  let highHostedFieldsInstance: HostedFields | undefined
 
-  $: if (dropinContainer) {
-    const style = getComputedStyle(document.body)
+  onMount(bootstrap)
+  theme.subscribe(onThemeUpdate)
 
-    dropin.create({
-      container: dropinContainer,
-      authorization: PUBLIC_BRAINTREE_TOKENIZATION_KEY,
-      card: {
-        overrides: {
-          styles: {
-            input: {
-              padding: '0 8px',
-              color: style.getPropertyValue('--text-color'),
-            },
-            ':focus': {
-              color: style.getPropertyValue('--text-color'),
-            },
-            '::placeholder': {
-              color: style.getPropertyValue('--text-color'),
-            },
-            ':-webkit-autofill': {
-              color: style.getPropertyValue('--black-text-color'),
-            },
-            '.invalid': {
-              color: style.getPropertyValue('--red-text-color'),
-              'box-shadow': style.getPropertyValue('--focus-error-box-shadow')
-            },
+
+  function onThemeUpdate (theme: string) {
+    if (theme && highHostedFieldsInstance) {
+      for (const field of [ 'number', 'cvv', 'expirationDate', 'postalCode' ]) {
+        highHostedFieldsInstance.addClass(field, theme === 'light' ? 'braintree__light-input' : 'braintree__dark-input')
+        highHostedFieldsInstance.removeClass(field, theme === 'light' ? 'braintree__dark-input' : 'braintree__light-input')
+      }
+    }
+  }
+
+
+  function bootstrap () {
+    client.create({ authorization: PUBLIC_BRAINTREE_TOKENIZATION_KEY }, onClientCreated)
+  }
+
+
+  function onClientCreated (error: BraintreeError | undefined, clientInstance: any) {
+    if (error) {
+      console.error(error)
+      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+    } else if (clientInstance) {
+      const style = getComputedStyle(document.body)
+
+      hostedFields.create({
+        client: clientInstance,
+        styles: {
+          'input': {
+            'height': '39px',
+            'padding': '8px',
+            'font-size': '15px',
+            'color': style.getPropertyValue('--text-color'),
+            'font-family': 'Inter, ui-sans-serif, system-ui',
+          },
+          '.braintree__dark-input': {
+            'color': '#eceaea',
+            'border-color': 'rgb(75, 85, 99)',
+            'background-color': 'rgb(55, 65, 81, 0.6)',
+          },
+          '.braintree__light-input': {
+            'color': '#273142',
+            'border-color': '#ced3d6',
+            'background-color': 'rgb(255, 255, 255, 0.6)',
+          },
+          ':-webkit-autofill': {
+            color: '#000',
+          },
+        },
+        fields: {
+          number: {
+            container: '#card-number',
+            placeholder: '4111 1111 1111 1111'
+          },
+          cvv: {
+            container: '#cvv',
+            placeholder: '123'
+          },
+          expirationDate: {
+            container: '#expiration-date',
+            placeholder: '09/2034'
+          },
+          postalCode: {
+            container: '#postal-code'
           }
         }
-      }
-    }, (error, dropinInstance) => {
-      if (error) showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
-      else if (dropinInstance) {
-        isFormVisible = true
+      }, onHostedFieldsCreated)
+    }
+  }
 
-        dropinSubmitButton.addEventListener('click', () => {
-          dropinInstance.requestPaymentMethod((err, payload) => {
-            if (err) showToast({ type: 'info', items: [ 'Error submitting payment' ] })
-            else console.log(payload)
-          })
-        })
-      }
-    })
+
+  function onHostedFieldsCreated (error: BraintreeError | undefined, hostedFieldsInstance: HostedFields | undefined) {
+    if (error) {
+      console.error(error)
+      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+    } else if (hostedFieldsInstance) {
+      submitButton.removeAttribute('disabled')
+      highHostedFieldsInstance = hostedFieldsInstance
+      hostedFieldsInstance.focus('number')
+
+      form.addEventListener('submit', (event: SubmitEvent) => {
+        event.preventDefault()
+        hostedFieldsInstance.tokenize(onHostedFieldsTokenized)
+      }, false)
+    }
+  }
+
+
+  function onHostedFieldsTokenized (error: BraintreeError | undefined, payload: HostedFieldsTokenizePayload | undefined) {
+    if (error) {
+      console.error(error)
+      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+    } else if (payload) {
+      fetch('/purchase', {
+        method: 'POST',
+        body: JSON.stringify({ nonce: payload.nonce }),
+        headers: { 'content-type': 'application/json' },
+      })
+    }
   }
 </script>
 
 
-<div class="braintree { isFormVisible ? 'visible' : '' }">
-  <div bind:this={ dropinContainer }></div>
-  <div class="btn-wrapper">
-    <button bind:this={ dropinSubmitButton } class="brand full-width">Purchase</button>
-  </div>
-</div>
+<Title noBottom={ true } text="Billing Information" />
+<section>
+  <form action="/" id="my-sample-form" method="post" bind:this={ form }>
+    <div class="braintree__form-item">
+      <label for="card-number" class="braintree__label">Card Number</label>
+      <div id="card-number" class="braintree__input"></div>
+    </div>
+
+    <div class="braintree__form-item">
+      <label for="cvv" class="braintree__label">CVV</label>
+      <div id="cvv" class="braintree__input"></div>
+    </div>
+
+    <div class="braintree__form-item">
+      <label for="expiration-date" class="braintree__label">Expiration Date</label>
+      <div id="expiration-date" class="braintree__input"></div>
+    </div>
+
+    <div class="braintree__form-item">
+      <label for="postal-code" class="braintree__label">Postal Code</label>
+      <div id="postal-code" class="braintree__input"></div>
+    </div>
+
+    <button type="submit" class="brand full-width" disabled bind:this={ submitButton }>Purchase</button>
+  </form>
+</section>
 
 
 <style lang="scss">
-  .braintree {
-    opacity: 0;
-    transform: translateY(-1.8rem);
-    transition: all 0.3s;
-    border-radius: 0.6rem;
-    background-color: var(--opacity-bg);
-
-    .btn-wrapper {
-      margin-top: -2rem;
-      padding: 0 1rem 1rem 1rem;
-    }
-  }
-
-  :global(.braintree.visible) {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+  .brand {
+    margin-top: 1.5rem;
   }
 </style>
