@@ -6,7 +6,7 @@
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
-  import SVG_FLOWER_OF_LIFE from '$lib/svg/logo/SVG_FLOWER_OF_LIFE.svg'
+  import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/SVG_FLOWER_OF_LIFE.svg'
 
   let activeRoute: string | null | undefined
   $: if ($navigating) setActiveRoute(true)

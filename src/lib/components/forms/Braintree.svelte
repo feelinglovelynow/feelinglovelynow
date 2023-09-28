@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import '$lib/scss/braintree.scss'
-  import Title from '../Title.svelte'
+  import Title from '$lib/components/Title.svelte'
   import { theme } from '$lib/util/store'
   import showToast from '@sensethenlove/toast'
   import { PUBLIC_BRAINTREE_TOKENIZATION_KEY } from '$env/static/public'
