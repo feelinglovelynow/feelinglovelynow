@@ -8,14 +8,7 @@
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/SVG_FLOWER_OF_LIFE.svelte'
 
-  let activeRoute: string | null | undefined
-  $: if ($navigating) setActiveRoute(true)
-
-  setActiveRoute()
-
-  function setActiveRoute (isNavigating?: boolean) {
-    activeRoute = (isNavigating) ? $navigating?.to?.route.id : $page.route.id
-  }
+  $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
 
   function smoothToTop () {
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
@@ -27,7 +20,7 @@
   <div class="logo">
     <LoadingAnchor loadWidth="huge">
       { #if activeRoute?.includes('/library') }
-        <SVG_FLOWER_OF_LIFE fruit={ true } merkaba={ true } />
+        <SVG_FLOWER_OF_LIFE merkaba={ true } />
       { :else }
         <SVG_FLOWER_OF_LIFE flower={ true } />
       { /if }
