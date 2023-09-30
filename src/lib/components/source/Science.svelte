@@ -6,6 +6,7 @@
   import SVG_ACADEMIA from '$lib/svg/logo/SVG_ACADEMIA.svg'
   import type { Source, Author, Category, SourceType } from '$lib'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import SVG_INTERNET_ARTICLE from '$lib/svg/SVG_INTERNET_ARTICLE.svg'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
 
   export let css = ''
@@ -40,6 +41,8 @@
         { @html SVG_PUBMED }
       { :else if source.urlType === 'scribd' }
         { @html SVG_SCRIBD }
+      { :else if source.urlType === 'internet' }
+        { @html SVG_INTERNET_ARTICLE }
       { /if }
     </a>
     <div class="flex">

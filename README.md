@@ -49,6 +49,7 @@
 - [Cloudflare + MailChannels + DKIM](https://mailchannels.zendesk.com/hc/en-us/articles/7122849237389)
 - [Sveltekit page transitions](https://joshcollinsworth.com/blog/sveltekit-page-transitions#the-final-code)
 - [Braintree Demo](https://braintree.github.io/braintree-web-drop-in/)
+- [SVG Viewbox](https://webdesign.tutsplus.com/svg-viewport-and-viewbox-for-beginners--cms-30844t)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -61,6 +62,10 @@
 - [Emoji's](https://www.iemoji.com/)
 - [Open Graph Preview](https://www.opengraph.xyz)
 - [Dgraph Forum](https://discuss.dgraph.io/)
+- [SVG to PNG](https://svgtopng.com/)
+- [SVG Formatter](https://htmlformatter.com/)
+- [AI Image Generator](https://playgroundai.com/create)
+- [AI Image Tweaker](https://www.befunky.com/)
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)
@@ -68,7 +73,6 @@
 - [Namecheap: $8.16/year for Domain Registration](https://www.namecheap.com/domains/)
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day & 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
-- [Cloudflare Images: $5/month for 100,000 images stored](https://www.cloudflare.com/products/cloudflare-images/)
 - [Proton Business: $19.98/month for 2 users w/ secure inboxes, calendars, & 1,000GB of cloud storage](https://proton.me/business/plans)
 
 #### Local install

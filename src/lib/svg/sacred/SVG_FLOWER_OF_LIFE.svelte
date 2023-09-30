@@ -1,10 +1,14 @@
 <script lang="ts">
-  const strokeWidth = 2.7
-  const height = 305
   const width = 272
-  const xConstant = 19
+  const height = 305
   const xPadding = 26
-  const color = 'rgb(234, 198, 3)'
+  const xConstant = 19
+
+  export let fruit = false
+  export let flower = false
+  export let merkaba = false
+  export let strokeWidth = 2.7
+  export let color = 'rgb(234, 198, 3)'
 
   $: radius = diameter / 2
   $: center = height / 2
@@ -18,16 +22,24 @@
     center - diameter,
   ]
 
+  $: hideIfFruitOptions = [
+    [ 1, 2, 3 ],
+    [ 0, 1, 2, 3, 4, 5 ],
+    [ 0, 1, 3, 5, 6 ],
+    [ 0, 1, 2, 3, 4, 5, 6, 7 ],
+    [ 1, 3, 5, 7 ]
+  ]
+
   $: columns = [
-    { count: 5,  yFirst: yFirstOptions[4],  x: radius + xConstant },
-    { count: 6,  yFirst: yFirstOptions[3],  x: radius + xConstant + xPadding },
-    { count: 7,  yFirst: yFirstOptions[2],  x: radius + xConstant + (xPadding * 2) },
-    { count: 8,  yFirst: yFirstOptions[1],  x: radius + xConstant + (xPadding * 3) },
-    { count: 9,  yFirst: yFirstOptions[0],  x: radius + xConstant + (xPadding * 4) },
-    { count: 8,  yFirst: yFirstOptions[1],  x: radius + xConstant + (xPadding * 5) },
-    { count: 7,  yFirst: yFirstOptions[2],  x: radius + xConstant + (xPadding * 6) },
-    { count: 6,  yFirst: yFirstOptions[3],  x: radius + xConstant + (xPadding * 7) },
-    { count: 5,  yFirst: yFirstOptions[4],  x: radius + xConstant + (xPadding * 8) },
+    { count: 5,  yFirst: yFirstOptions[4],  hideIfFruit: hideIfFruitOptions[0],  x: radius + xConstant },
+    { count: 6,  yFirst: yFirstOptions[3],  hideIfFruit: hideIfFruitOptions[1],  x: radius + xConstant + xPadding },
+    { count: 7,  yFirst: yFirstOptions[2],  hideIfFruit: hideIfFruitOptions[2],  x: radius + xConstant + (xPadding * 2) },
+    { count: 8,  yFirst: yFirstOptions[1],  hideIfFruit: hideIfFruitOptions[3],  x: radius + xConstant + (xPadding * 3) },
+    { count: 9,  yFirst: yFirstOptions[0],  hideIfFruit: hideIfFruitOptions[4],  x: radius + xConstant + (xPadding * 4) },
+    { count: 8,  yFirst: yFirstOptions[1],  hideIfFruit: hideIfFruitOptions[3],  x: radius + xConstant + (xPadding * 5) },
+    { count: 7,  yFirst: yFirstOptions[2],  hideIfFruit: hideIfFruitOptions[2],  x: radius + xConstant + (xPadding * 6) },
+    { count: 6,  yFirst: yFirstOptions[3],  hideIfFruit: hideIfFruitOptions[1],  x: radius + xConstant + (xPadding * 7) },
+    { count: 5,  yFirst: yFirstOptions[4],  hideIfFruit: hideIfFruitOptions[0],  x: radius + xConstant + (xPadding * 8) },
   ]
 
   function getY (index: number, yFirst: number) {
@@ -48,10 +60,78 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" class="logo__flower-of-life" viewBox="17 -1 { width } { height }" width={ width * 3 }  height={ height * 3 }>
   <g fill="none" stroke-width="{ strokeWidth }px" stroke={ color }>
+
+
     { #each columns as column }
       { #each { length: column.count } as _, index }
-        <circle r={ radius } cx={ column.x } cy={ getY(index, column.yFirst) }></circle>
+        { #if flower || (fruit && !column.hideIfFruit.includes(index)) }
+          <circle r={ radius } cx={ column.x } cy={ getY(index, column.yFirst) }></circle>
+        { /if }
       { /each }
      {/each }
+
+
+    { #if merkaba }
+      <!-- top center: starting point -->
+      <circle r="0.9" cx="153" cy="33.4" fill={ color }></circle> <!-- center -->
+      <line x1="153" y1="31.5" x2="153" y2="273.5"></line> <!-- top > bottom -->
+      <line x1="153" y1="32.5" x2="49" y2="92.5"></line> <!-- top > top left -->
+      <line x1="153" y1="32.5" x2="257" y2="92.5"></line> <!-- top > top right -->
+      <line x1="153" y1="32.5" x2="49" y2="212.5"></line> <!-- top > bottom left -->
+      <line x1="153" y1="32.5" x2="257" y2="212.5"></line> <!-- top > bottom right -->
+
+
+      <!-- top left: starting point -->
+      <circle r="0.9" cx="50" cy="93" fill={ color }></circle> <!-- center -->
+      <line x1="49" y1="92.5" x2="49" y2="212.5"></line> <!-- top left > bottom left -->
+      <line x1="49" y1="92.5" x2="153" y2="272.5"></line> <!-- top left > bottom -->
+      <line x1="49" y1="92.5" x2="257" y2="212.5"></line> <!-- top left > bottom right -->
+      <line x1="49" y1="92.5" x2="257" y2="92.5"></line> <!-- top left > top right -->
+
+
+      <!-- top right: starting point -->
+      <circle r="0.9" cx="256.2" cy="93" fill={ color }></circle> <!-- center -->
+      <line x1="257" y1="92" x2="257" y2="212.5"></line> <!-- top right > bottom right -->
+      <line x1="257" y1="92" x2="49" y2="212.5"></line> <!-- top right > bottom left -->
+      <line x1="257" y1="92" x2="153" y2="272.5"></line> <!-- top right > bottom -->
+
+
+      <!-- bottom left: starting point -->
+      <circle r="0.9" cx="50" cy="212" fill={ color }></circle> <!-- center -->
+      <line x1="49" y1="212.5" x2="153" y2="272.5"></line> <!-- bottom left > bottom -->
+      <line x1="49" y1="212.5" x2="257" y2="212.5"></line> <!-- bottom left > bottom right -->
+
+
+      <!-- bottom right: starting point -->
+      <circle r="0.9" cx="256.2" cy="212" fill={ color }></circle> <!-- center -->
+      <line x1="257" y1="212.5" x2="153" y2="272.5"></line> <!-- bottom right > bottom -->
+
+
+      <!-- bottom: starting point -->
+      <circle r="0.9" cx="153" cy="271.6" fill={ color }></circle> <!-- center -->
+
+
+      <!-- inner top center: starting point -->
+      <line x1="153" y1="92.5" x2="205" y2="122.5"></line> <!-- inner top > inner top right -->
+      <line x1="153" y1="92.5" x2="101" y2="122.5"></line> <!-- inner top > inner top left -->
+
+
+      <!-- inner top left: starting point -->
+      <line x1="101" y1="122.5" x2="101" y2="182.5"></line> <!-- inner top left > inner bottom left -->
+      <line x1="101" y1="122.5" x2="205" y2="122.5"></line> <!-- inner top left > inner top right -->
+
+
+      <!-- inner top right: starting point -->
+      <line x1="205" y1="122.5" x2="205" y2="182.5"></line> <!-- inner top right > inner bottom right -->
+
+
+      <!-- inner bottom left: starting point -->
+      <line x1="101" y1="182.5" x2="153" y2="212.5"></line> <!-- inner bottom left > inner bottom -->
+      <line x1="101" y1="182.5" x2="205" y2="182.5"></line> <!-- inner bottom left > inner bottom right -->
+
+
+      <!-- inner bottom right: starting point -->
+      <line x1="205" y1="182.5" x2="153" y2="212.5"></line> <!-- inner bottom right > inner bottom -->
+      { /if }
   </g>
 </svg>
