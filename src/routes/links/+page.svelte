@@ -125,7 +125,7 @@
 </a>
 
 <a href="https://paypal.me/feelinglovelynow/9" class="link" target="_blank">
-  <button class="brand large" type="button">🥰 Wanna buy me an açaí?!</button>
+  <button class="brand large" type="button">🥰 Buy me an açaí ($9 tip)?!</button>
 </a>
 
 { #each yogaClasses as yogaClass (yogaClass.label) }
