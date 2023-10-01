@@ -19,8 +19,10 @@
 <div class="nav">
   <div class="logo">
     <LoadingAnchor loadWidth="huge">
-      { #if activeRoute?.includes('/library') || activeRoute === '/links'  }
+      { #if activeRoute?.includes('/library')  }
         <SVG_FLOWER_OF_LIFE merkaba={ true } />
+      { :else if activeRoute === '/links'  }
+        <SVG_FLOWER_OF_LIFE metatronsCube={ true } />
       { :else if activeRoute === '/contact' }
         <SVG_FLOWER_OF_LIFE fruit={ true } />
       { :else }
