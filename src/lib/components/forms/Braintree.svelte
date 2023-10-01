@@ -11,8 +11,8 @@
   let submitButton: HTMLButtonElement
   let highHostedFieldsInstance: HostedFields | undefined
 
-  onMount(bootstrap)
   theme.subscribe(onThemeUpdate)
+  client.create({ authorization: PUBLIC_BRAINTREE_TOKENIZATION_KEY }, onClientCreated)
 
 
   function onThemeUpdate (theme: string) {
@@ -22,11 +22,6 @@
         highHostedFieldsInstance.removeClass(field, theme === 'light' ? 'braintree__dark-input' : 'braintree__light-input')
       }
     }
-  }
-
-
-  function bootstrap () {
-    client.create({ authorization: PUBLIC_BRAINTREE_TOKENIZATION_KEY }, onClientCreated)
   }
 
 

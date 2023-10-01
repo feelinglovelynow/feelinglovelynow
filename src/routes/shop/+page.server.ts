@@ -1,36 +1,66 @@
-// import braintree from 'braintree'
 import search from '$lib/actions/search'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
-import { BRAINTREE_MERCHANT_ID, BRAINTREE_PUBLIC_KEY, BRAINTEE_PRIVATE_KEY, PRINTFUL_API_TOKEN } from '$env/static/private'
+import { PRINTFUL_API_TOKEN } from '$env/static/private'
+
+
+type PrintfulError = {
+  reason: string,
+  message: string
+}
+
+
+type PrintfulProducts = {
+  code: number,
+  error?: PrintfulError,
+  result: string | {
+    id: number,
+    external_id: string,
+    name: string,
+    variants: number,
+    synced: number,
+    thumbnail_url: string,
+    is_ignored: boolean
+  }[],
+}
+
+
+type PageResponse = {
+  products: {
+    id: number,
+    name: string,
+    thumbnail: string
+  }[]
+}
 
 
 export const load = (async () => {
   try {
-    // const gateway = new braintree.BraintreeGateway({
-    //   environment: braintree.Environment.Sandbox,
-    //   merchantId: BRAINTREE_MERCHANT_ID,
-    //   publicKey: BRAINTREE_PUBLIC_KEY,
-    //   privateKey: BRAINTEE_PRIVATE_KEY
-    // })
+    const response: PageResponse = { products: [] }
 
-    // const responses = await Promise.all([
-    //   gateway.clientToken.generate({}),
-    //   fetch('https://api.printful.com/store/products', {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${ PRINTFUL_API_TOKEN }`,
-    //     }
-    //   })
-    // ])
+    const fetchResponse = await fetch('https://api.printful.com/store/products', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${ PRINTFUL_API_TOKEN }`,
+      }
+    })
 
-    // const response = {
-    //   braintree: responses[0].clientToken,
-    //   printful: await responses[1].json(),
-    // }
-    
-    // console.log(response)
-    // return response
+    const jsonResponse: PrintfulProducts = await fetchResponse.json()
+
+    if (Array.isArray(jsonResponse?.result) && jsonResponse?.result.length) {
+      for (const product of jsonResponse.result) {
+        if (product.id !== 322540300 && product.id !== 322537696) {
+          response.products.push({
+            id: product.id,
+            name: product.name,
+            thumbnail: product.thumbnail_url
+          })
+        }
+      }
+    }
+
+    console.log(response)
+    return response
   } catch (e) {
     return serverPageCatch(e)
   }
