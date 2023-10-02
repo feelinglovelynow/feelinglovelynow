@@ -2,7 +2,7 @@
   import '$lib/components/nav/Nav.scss'
   import { page, navigating } from '$app/stores'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
-  import SVG_CONTACT from '$lib/svg/nav/SVG_CONTACT.svg'
+  import SVG_STORE from '$lib/svg/nav/SVG_STORE.svg'
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
@@ -23,7 +23,7 @@
         <SVG_FLOWER_OF_LIFE merkaba={ true } />
       { :else if activeRoute === '/links'  }
         <SVG_FLOWER_OF_LIFE metatronsCube={ true } />
-      { :else if activeRoute === '/contact' }
+      { :else if activeRoute === '/store' }
         <SVG_FLOWER_OF_LIFE fruit={ true } />
       { :else }
         <SVG_FLOWER_OF_LIFE  flower={ true }  />
@@ -37,8 +37,8 @@
 
   <nav class="">
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
+    <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">{ @html SVG_STORE }</LoadingAnchor>
     <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
-    <LoadingAnchor label="Contact" href="/contact" loadWidth="big" css="item { activeRoute === '/contact' ? 'active' : '' }">{ @html SVG_CONTACT }</LoadingAnchor>
     <LoadingAnchor label="Links" href="/links" loadWidth="big" css="item { activeRoute === '/links' ? 'active' : '' }">{ @html SVG_SUPPORT }</LoadingAnchor>
   </nav>
 </div>

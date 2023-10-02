@@ -1,27 +1,20 @@
 <script lang="ts">
-  import { page } from '$app/stores'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 </script>
 
 
 <section class="us">
   <div class="item">
-    <div class="emoji">📚</div>
-    <div>
-      Welcome to our <LoadingAnchor href="/library" label="library" /> of lovely <LoadingAnchor href="/library?type=science" label="scientific evidence" />, <LoadingAnchor href="/library?type=product" label="products" /> & <LoadingAnchor href="/library?type=culture" label="culture" />, created by
-      {#if $page.route.id !== '/links' }
-        <LoadingAnchor href="/links" label="Chris Carrington" />!
-      { :else }
-        Chris Carrington!
-      { /if }
-    </div>
+    <div class="emoji">🌟</div>
+    <div>Welcome to Feeling Lovely Now!</div>
   </div>
   <div class="item">
-    <div class="emoji">🌟</div>
-    <div>Chris ceated this <LoadingAnchor href="/library" label="library" /> for his Gentle Yoga & Sound Healing classes & all else who may love this information!</div>
+    <div class="emoji">💎</div>
+    <div>This site features a <LoadingAnchor href="/store" label="store" /> filled with lovely products, a <LoadingAnchor href="/library" label="library" /> filled with lovely information, and a <LoadingAnchor href="/links" label="links" /> page to contact me (Chris Carrington), access any of my socials and/or <a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">join my Gentle Yoga and Sound Healing classes live!</a></div>
   </div>
+  
   <div class="item no-bottom">
-    <div class="emoji">☯️</div>
+    <div class="emoji">💜</div>
     <div>I hope you have a lovely day, Namaste!</div>
   </div>
 </section>
@@ -30,6 +23,7 @@
 <style lang="scss">
   .us {
     font-size: 2.1rem;
+    max-width: 63rem;
 
     .item {
       display: flex;

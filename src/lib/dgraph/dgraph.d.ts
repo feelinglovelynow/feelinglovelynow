@@ -42,5 +42,19 @@ export type Category = {
 
 export type Image = {
   id: string
+  src?: string
+  displayOrder: int
   extension: 'png' | 'webp'
+}
+
+export type Product = {
+  id: string
+  slug: string
+  printfulId?: string
+  name: string
+  description?: string
+  images: Image[]
+  displayOrder: int
+  showFlowerMetatronMerkaba: boolean
+  categories: Category[]
 }

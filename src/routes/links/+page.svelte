@@ -5,6 +5,7 @@
   import AboutUs from '$lib/components/AboutUs.svelte'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
+  import EmailUs from '$lib/components/forms/EmailUs.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
 
   type YogaClass = {
@@ -148,6 +149,8 @@
       </div>
   </section>
 { /each }
+
+<EmailUs />
 
 
 <style lang="scss">
