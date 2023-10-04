@@ -7,7 +7,7 @@
   export let fruit = false
   export let flower = false
   export let merkaba = false
-  export let strokeWidth = 2.7
+  export let strokeWidth = 3.6
   export let metatronsCube = false
   export let color = 'rgb(234, 198, 3)'
 

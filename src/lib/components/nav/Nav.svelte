@@ -6,7 +6,8 @@
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
-  import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/SVG_FLOWER_OF_LIFE.svelte'
+  import SVG_LOTUS_OF_LIFE from '$lib/svg/sacred/lotus/component.svelte'
+  import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
   $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
 
@@ -18,15 +19,16 @@
 
 <div class="nav">
   <div class="logo">
-    <LoadingAnchor loadWidth="huge">
+
+    <LoadingAnchor loadWidth="huge">      
       { #if activeRoute?.includes('/library')  }
-        <SVG_FLOWER_OF_LIFE merkaba={ true } />
-      { :else if activeRoute === '/links'  }
         <SVG_FLOWER_OF_LIFE metatronsCube={ true } />
+      { :else if activeRoute === '/links'  }
+        <SVG_LOTUS_OF_LIFE />
       { :else if activeRoute === '/store' }
-        <SVG_FLOWER_OF_LIFE fruit={ true } />
+        <SVG_FLOWER_OF_LIFE merkaba={ true } />
       { :else }
-        <SVG_FLOWER_OF_LIFE  flower={ true }  />
+        <SVG_FLOWER_OF_LIFE flower={ true }  />
       { /if }
     </LoadingAnchor>
   </div>
