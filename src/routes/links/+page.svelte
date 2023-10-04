@@ -21,13 +21,8 @@
     { label: 'Next Next Next Class' },
   ]
 
-  const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC https://savvytime.com/converter/utc-to-ca-los-angelesuy
-    // September
-    Date.UTC(2023, 8, 25, 23, 44),
-    Date.UTC(2023, 8, 27, 23, 44),
-
+  const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute)
     // October
-    Date.UTC(2023, 9, 2, 23, 44),
     Date.UTC(2023, 9, 4, 23, 44),
     Date.UTC(2023, 9, 9, 23, 44),
     Date.UTC(2023, 9, 11, 23, 44),
@@ -47,6 +42,16 @@
     Date.UTC(2023, 10, 22, 23, 44),
     Date.UTC(2023, 10, 27, 23, 44),
     Date.UTC(2023, 10, 29, 23, 44),
+
+    // December
+    Date.UTC(2023, 11, 4, 23, 44),
+    Date.UTC(2023, 11, 6, 23, 44),
+    Date.UTC(2023, 11, 11, 23, 44),
+    Date.UTC(2023, 11, 13, 23, 44),
+    Date.UTC(2023, 11, 18, 23, 44),
+    Date.UTC(2023, 11, 20, 23, 44),
+    Date.UTC(2023, 11, 25, 23, 44),
+    Date.UTC(2023, 11, 27, 23, 44),
   ]
 
 

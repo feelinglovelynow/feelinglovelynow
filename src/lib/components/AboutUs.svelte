@@ -10,12 +10,12 @@
   </div>
   <div class="item">
     <div class="emoji">💎</div>
-    <div>This site features a <LoadingAnchor href="/store" label="store" /> filled with lovely products, a <LoadingAnchor href="/library" label="library" /> filled with lovely information, and a <LoadingAnchor href="/links" label="links" /> page to contact me (Chris Carrington), access any of my socials and/or <a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">join my Gentle Yoga and Sound Healing classes live!</a></div>
+    <div>Please feel free to visit our <LoadingAnchor href="/store" label="store" /> filled with lovely products, our <LoadingAnchor href="/library" label="library" /> filled with lovely info, and our <LoadingAnchor href="/links" label="links" /> page filled with multiple ways to contact me (Chris Carrington)!</div>
   </div>
   
   <div class="item no-bottom">
-    <div class="emoji">💜</div>
-    <div>I hope you have a lovely day, Namaste!</div>
+    <div class="emoji">🕉</div>
+    <div>Bare Necessities, Hakuna Matata, Go the Distance!</div>
   </div>
 </section>
 
@@ -23,7 +23,7 @@
 <style lang="scss">
   .us {
     font-size: 2.1rem;
-    max-width: 63rem;
+    max-width: 60.4rem;
 
     .item {
       display: flex;
