@@ -50,6 +50,7 @@
   }
 </script>
 
+
 { #if location === 'nav' }
   <Title text="Select an Author!" noBottom={ true } />
 { /if }

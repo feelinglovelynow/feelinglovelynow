@@ -1,36 +1,66 @@
 <script lang="ts">
   import type { Product } from '$lib'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
+  export let origin: 'store'
   export let product: Product
+
+  $: image = product?.images?.length ? product.images[0] : null
 </script>
 
 
-<section class="product">
-  <div class="name">{ product.name }</div>
+<div class="wrapper { origin }">
+  <section class="product">
 
-  <div class="images">
-    { #each product.images as image }
-      <img src={ image.src } alt={ product.name }/>
-    {/each}
-  </div>
+    { #if image }
+      <div class="image">
+        <img src={ image.src } alt={ product.name }/>
+      </div>
+    { /if }
 
-  <div class="categories">
-    { #each product.categories as category }
-      { category.name }
-    {/each}
-  </div>
-</section>
+    <a class="name" href="/">{ product.name }</a>
+
+    <div class="chips">
+      { #each product.categories as category }
+        <LoadingAnchor ssr={ true } label={ category.name } href="/"  css="chip { false ? 'active' : '' }"/>
+      {/each}
+    </div>
+  </section>
+</div>
 
 
 <style lang="scss">
-  .product {
-    .images {
-      display: flex;
-      
-      img {
-        width: 100%;
-        max-height: 9rem;
-        max-width: 9rem;
+  .wrapper {
+    &.store {
+      width: 97vw;
+      max-width: 97vw;
+      margin: 0 auto 1.8rem auto;
+
+      @media only screen and (min-width: 561px) { // medium screen
+        width: 24rem;
+      }
+
+      @media only screen and (min-width: 921px) { // big screen
+        width: 45rem;
+      }
+
+      .product {
+        margin: 0 0.9rem;
+
+        .image {
+          text-align: center;
+
+          img {
+            width: auto;
+            max-height: 39rem;
+            max-width: 100%;
+          }
+        }
+
+        .name {
+          display: block;
+          text-align: center;
+        }
       }
     }
   }
