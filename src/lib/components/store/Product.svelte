@@ -2,7 +2,7 @@
   import type { Product } from '$lib'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
-  export let origin: 'store'
+  export let origin: 'store' | 'home'
   export let product: Product
 
   $: image = product?.images?.length ? product.images[0] : null
@@ -31,6 +31,7 @@
 
 <style lang="scss">
   .wrapper {
+    &.home,
     &.store {
       width: 97vw;
       max-width: 97vw;
