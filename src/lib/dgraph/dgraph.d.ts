@@ -55,7 +55,8 @@ export type Product = {
   name: string
   description?: string
   images: Image[]
-  displayOrder: int
+  homeDisplayOrder: int
+  storeDisplayOrder: int
   showFlowerMetatronMerkaba: boolean
   categories: Category[]
 }

@@ -82,7 +82,7 @@
     font-size: 1.5rem;
     font-family: $font-family;
     background-color: var(--input-bg-color);
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color 0.9s;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color $theme-swap-speed;
     &:focus {
       outline: 0;
       border-color: transparent;
@@ -117,7 +117,7 @@ button.brand {
   position: relative;
   font-weight: 500;
   border-radius: 0.4rem;
-  transition: all 0.9s;
+  transition: all $theme-swap-speed;
   &.full-width {
     width: 100%;
     min-height: 3.4rem;

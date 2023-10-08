@@ -10,7 +10,7 @@
 body {
   font-family: $font-family;
   background-color: var(--bg-color);
-  transition: background-color 0.9s;
+  transition: background-color $theme-swap-speed;
 }
 
 main {
@@ -47,7 +47,7 @@ main {
     padding: 1.8rem;
     background-color: var(--opacity-bg);
     margin-bottom: 1.8rem;
-    transition: all 0.9s;
+    transition: all $theme-swap-speed;
     &.title {
       display: inline-block;
       margin-left: auto;
@@ -115,6 +115,6 @@ strong {
 }
 
 .subtle-fade-in-from-above {
-  animation-duration: 0.9s;
+  animation-duration: $theme-swap-speed;
   animation-name: subtle-fade-in-from-above;
 }

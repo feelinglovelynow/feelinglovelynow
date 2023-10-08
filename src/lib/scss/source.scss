@@ -1,7 +1,7 @@
 @import '$lib/scss/variables.scss';
 
 .source {
-  transition: all 0.9s;
+  transition: all $theme-swap-speed;
   &.location--home.type--culture,
   &.location--home.type--product {
     .header {

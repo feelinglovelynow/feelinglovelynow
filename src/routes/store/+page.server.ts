@@ -36,8 +36,8 @@ export const load = (async ({ url, platform }) => {
     return {
       activeCategorySlug,
       activeProductSlug: urlProduct,
-      products: [...products.values()].sort((a, b) => Number(a.displayOrder > b.displayOrder) - Number(a.displayOrder < b.displayOrder)), // sort categories by name
       categories: [...categories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
+      products: [...products.values()].sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)), // sort products by storeDisplayOrder
     }
   } catch (e) {
     return serverPageCatch(e)

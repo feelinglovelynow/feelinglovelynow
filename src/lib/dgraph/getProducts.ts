@@ -6,11 +6,12 @@ export default async function getProducts (): Promise<Product[]> {
   const response = await graphql({
     query: `
       query MyQuery {
-        queryProduct(order: {asc: displayOrder}) {
+        queryProduct {
           id
           name
           price
-          displayOrder
+          homeDisplayOrder
+          storeDisplayOrder
           slug
           categories {
             name

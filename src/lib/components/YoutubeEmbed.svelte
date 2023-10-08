@@ -95,7 +95,7 @@
 
     :global(iframe) {
       width: 100%;
-      transition: all 0.9s;
+      transition: all $theme-swap-speed;
       aspect-ratio: 16 / 9;
     }
   }

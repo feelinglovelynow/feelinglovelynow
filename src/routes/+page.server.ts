@@ -50,29 +50,18 @@ function formatSources (sources: any) {
 }
 
 
-async function formatProducts (products: any): Promise<Product[]> {
+async function formatProducts (products: Product[]): Promise<Product[]> {
   if (!products?.length || !Array.isArray(products)) throw { _errors: [ 'No products found' ] }
   else {
     const featuredProducts: Product[] = []
-    const featuredProductIds = [
-      '0xfffd8d6ad3a1ade5', // How to Get High
-      '0xfffd8d6ad3a1add5', // 100% Organic Cotton ⋅ Gold Flower of Life Embroidery ⋅ Women's T-Shirt ⋅ White
-      '0xfffd8d6ad3a1d12f', // 100% Organic Cotton ⋅ Gold Lotus of Life Embroidery ⋅ Men's T-Shirt ⋅ Black
-    ]
 
     for (const product of products) {
-      if (featuredProductIds.includes(product.id)) {
+      if (Number.isInteger(product.homeDisplayOrder)) {
         product.images[0].src = (await import(`../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
         featuredProducts.push(product)
       }
-
-      if (featuredProducts.length === featuredProductIds.length) break
     }
 
-    return [
-      featuredProducts[1],
-      featuredProducts[0],
-      featuredProducts[2],
-    ]
+    return featuredProducts.sort((a, b) => Number(a.homeDisplayOrder > b.homeDisplayOrder) - Number(a.homeDisplayOrder < b.homeDisplayOrder)) // sort by storeDisplayOrder
   }
 }
