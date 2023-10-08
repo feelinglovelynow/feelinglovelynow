@@ -51,6 +51,7 @@ export type Product = {
   id: string
   slug: string
   printfulId?: string
+  price: number
   name: string
   description?: string
   images: Image[]

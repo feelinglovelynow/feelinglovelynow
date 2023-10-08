@@ -7,13 +7,16 @@
   import Button from '$lib/components/forms/Button.svelte'
   import ImageAi from '$lib/components/forms/ImageAI.svelte'
 
-  let isDgraphToKVLoading = false
+  let isDgraphToKvLoading = {
+    library: false,
+    products: false,
+  }
 
-  async function dgraphToKV () {
-    isDgraphToKVLoading = true
-    const fetchResponse = await fetch('/admin/dgraph-to-kv')
+  async function dgraphToKV (key: 'library' | 'products', url: string) {
+    isDgraphToKvLoading[key] = true
+    const fetchResponse = await fetch(url)
     const response = await fetchResponse.json()
-    isDgraphToKVLoading = false
+    isDgraphToKvLoading[key] = false
 
     if (response?._errors?.length) showToast({ type: 'info', items: response._errors })
     else showToast({ type: 'success', items: [ 'Success!' ] })
@@ -26,8 +29,19 @@
   <Title text="Welcome Admin!" />
 
   <div class="wrapper">
-    <Button css="draph-to-kv-button" onClick={ dgraphToKV } isLoading={ isDgraphToKVLoading } text="Dgraph to KV" />
-    <div class="slug-label">Generate Slug</div>
+    <Button
+      css="draph-kv-button"
+      text="Dgraph Library to KV"
+      isLoading={ isDgraphToKvLoading.library }
+      onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
+
+    <Button
+      css="draph-kv-button"
+      text="Dgraph Products to KV"
+      isLoading={ isDgraphToKvLoading.products }
+      onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
+
+    <Title noBottom={ true } text="Generate Slug" />
     <Slug />
     <ImageAi />
   </div>
@@ -40,12 +54,12 @@
     flex-direction: column;
     align-items: center;
 
-    :global(.draph-to-kv-button) {
+    :global(.draph-kv-button) {
       margin-bottom: 1.8rem;
     }
 
-    .slug-label {
-      font-weight: 500;
+    :global(.draph-kv-button .text) {
+      font-size: 1.71rem;
     }
 
     :global(.stl--slug) {
@@ -56,6 +70,9 @@
       max-width: 270px;
       word-wrap: break-word;
       margin-top: 0.9rem;
+      padding: 1.8rem;
+      border-radius: 1.8rem;
+      background-color: var(--opacity-bg);
     }
   }
 </style>

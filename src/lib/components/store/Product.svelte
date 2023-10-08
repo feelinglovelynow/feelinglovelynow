@@ -13,18 +13,18 @@
   <section class="product">
 
     { #if image }
-      <div class="image">
+      <a href={ `/store?product=${ product.slug }` } class="image">
         <img src={ image.src } alt={ product.name }/>
-      </div>
+      </a>
     { /if }
 
-    <a class="name" href="/">{ product.name }</a>
+    <LoadingAnchor css="name" href={ `/store?product=${ product.slug }` } label={ `$${ product.price } USD ⋅ ${ product.name }` } />
 
-    <div class="chips">
+    <!-- <div class="chips">
       { #each product.categories as category }
-        <LoadingAnchor ssr={ true } label={ category.name } href="/"  css="chip { false ? 'active' : '' }"/>
+        <LoadingAnchor href={ `/store?category=${ category.slug }`} label={ category.name }  css="chip { false ? 'active' : '' }"/>
       {/each}
-    </div>
+    </div> -->
   </section>
 </div>
 
@@ -48,6 +48,7 @@
         margin: 0 0.9rem;
 
         .image {
+          display: block;
           text-align: center;
 
           img {
@@ -57,7 +58,7 @@
           }
         }
 
-        .name {
+        :global(.name) {
           display: block;
           text-align: center;
         }
