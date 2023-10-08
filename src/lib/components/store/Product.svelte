@@ -37,11 +37,11 @@
       margin: 0 auto 1.8rem auto;
 
       @media only screen and (min-width: 561px) { // medium screen
-        width: 24rem;
+        width: 50%;
       }
 
       @media only screen and (min-width: 921px) { // big screen
-        width: 45rem;
+        width: 33%;
       }
 
       .product {
