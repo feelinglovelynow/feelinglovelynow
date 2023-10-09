@@ -36,21 +36,21 @@
 <div class="content">
   { #if data.culture }
     <Title noBottom={ true } >
-      <span class="pr-5">The most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
     <Culture source={ data.culture } location="home" />
   { /if }
 
   { #if data.science }
     <Title noBottom={ true }>
-      <span class="pr-5">The most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
     <Science source={ data.science } location="home" />
   { /if }
 
   { #if data.product }
     <Title noBottom={ true }>
-      <span class="pr-5">The most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
     <SourceProduct source={ data.product } location="home" />
   { /if }
@@ -61,6 +61,8 @@
   .products {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 1; // get it above the title w/ no bottom on hover
   }
 
   .content {

@@ -8,25 +8,27 @@
   $: image = product?.images?.length ? product.images[0] : null
 </script>
 
-
 <div class="wrapper { origin }">
   <section class="product">
+    <LoadingAnchor href={ `/store?product=${ product.slug }` } loadWidth="huge">
 
     { #if image }
-      <a href={ `/store?product=${ product.slug }` } class="image">
+      <div class="image">
         <img src={ image.src } alt={ product.name }/>
-      </a>
+      </div>
     { /if }
 
-    <LoadingAnchor css="name" href={ `/store?product=${ product.slug }` } label={ `$${ product.price } USD ⋅ ${ product.name }` } />
+    <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>
 
     <!-- <div class="chips">
       { #each product.categories as category }
         <LoadingAnchor href={ `/store?category=${ category.slug }`} label={ category.name }  css="chip { false ? 'active' : '' }"/>
       {/each}
     </div> -->
+    </LoadingAnchor>
   </section>
 </div>
+
 
 
 <style lang="scss">
@@ -45,8 +47,23 @@
         width: 33%;
       }
 
-      .product {
+      section {
+        padding: 0;
         margin: 0 0.9rem;
+        &:hover {
+          box-shadow: 0 0 0 .2rem rgba(0, 123, 255, 0.63);
+
+          img {
+            scale: 1.02;
+          }
+        }
+
+        :global(a) {
+          width: 100%;
+          height: 100%;
+          display: block;
+          padding: 1.8rem;
+        }
 
         .image {
           display: block;
@@ -56,12 +73,14 @@
             width: auto;
             max-height: 39rem;
             max-width: 100%;
+            transition: all 0.9s;
           }
         }
 
         :global(.name) {
           display: block;
           text-align: center;
+          font-weight: 500;
         }
       }
     }
