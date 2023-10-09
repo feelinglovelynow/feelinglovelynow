@@ -16,10 +16,10 @@
 
 { #if data.categories?.length }
   <section class="chips">
-    <LoadingAnchor label="All" href="/store" css="chip { !data.activeProductSlug && data.activeCategorySlug === '' ? 'active' : '' }"/>
+    <LoadingAnchor label="All" href="/store" css="chip { !data.urlProductSlug && data.urlCategorySlug === null ? 'active' : '' }"/>
 
     { #each data.categories as category }
-      <LoadingAnchor label={ category.name } css="chip { data.activeCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
+      <LoadingAnchor label={ category.name } css="chip { data.urlCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
     {/each}
   </section>
 { /if }
@@ -27,7 +27,7 @@
 { #if data.products?.length }
   <div class="products">
     { #each data.products as product }
-      { #if data.activeProductSlug }
+      { #if data.urlProductSlug }
         <FullProduct { product} />
       { :else }
         <BriefProduct { product } />

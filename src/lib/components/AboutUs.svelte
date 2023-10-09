@@ -10,7 +10,7 @@
   </div>
   <div class="item">
     <div class="emoji">💎</div>
-    <div>Please feel free to visit our <LoadingAnchor href="/store" label="store" /> filled with lovely products, our <LoadingAnchor href="/library" label="library" /> filled with lovely info, and our <LoadingAnchor href="/links" label="links" /> page filled with multiple ways to contact me (Chris Carrington)!</div>
+    <div>Please feel free to visit our <LoadingAnchor href="/store" label="store" /> (lovely products), our <LoadingAnchor href="/library" label="library" /> (lovely info) or our <LoadingAnchor href="/links" label="links page" /> (for my contact info)! My name is Chris Carrington btw!</div>
   </div>
   
   <div class="item no-bottom">
@@ -23,7 +23,7 @@
 <style lang="scss">
   .us {
     font-size: 2.1rem;
-    max-width: 60.4rem;
+    max-width: 53.4rem;
 
     .item {
       display: flex;

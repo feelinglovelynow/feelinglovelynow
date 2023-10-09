@@ -77,7 +77,7 @@
           <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
           <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
         { :else if showBookDescription }
-          <div>During the 1980s, Harvard's Dr Herbert Benson and his team, studied, measured and made a video of monks living in the Himalayan Mountains. The monks  repeatedly entered 40°F rooms, wrapped cold and wet blankets around their shoulders and dried the blankets; by raising their Body heat, with their Minds. The secret is out, mind and body are united. My intention with this book is to help you naturally and efficiently optimize the unity between mind and body and experience a state I call getting High!</div>
+          <div>During the 1980s, Harvard’s Dr Herbert Benson and his team, studied, measured and made a video of monks living in the Himalayan Mountains. The monks  repeatedly entered 40°F rooms, wrapped cold, wet blankets around their shoulders and dried the blankets; by raising their Body heat, with their Minds. The monks showed science that our thoughts can alter the functioning of our bodies. The secret is out, mind and body are united and this is only the beginning! My intention with this book is to help you naturally and efficiently optimize the unity between mind and body and experience a state I call getting High!</div>
           <p>High meaning, experiencing the highest level emotions that science has measured. Maybe you have experienced the lowest, shame and guilt; but this tiny book provides a natural and efficient map, for you to experience the highest levels measured; which in ascending order are, love, joy, peace and enlightenment! </p>
           <a target="_blank" href="https://news.harvard.edu/gazette/story/2002/04/meditation-changes-temperatures/">Source</a>
         { :else if showLotusDescription }
@@ -156,7 +156,6 @@
 
           @media only screen and (min-width: $image-swap-width) { // big screen
             justify-content: start;
-            transform: translateX(-1.2rem);
           }
         }
 

@@ -7,31 +7,26 @@ import serverPageCatch from '$lib/catch/serverPageCatch'
 
 export const load = (async ({ url, platform }) => {
   try {
-    let activeCategorySlug: string = ''
     const products: Map<string, Product> = new Map()
     const categories: Map<string, Category> = new Map()
-    const urlProduct = url.searchParams.get('product')
-    const urlCategory = url.searchParams.get('category')
+    const urlProductSlug = url.searchParams.get('product')
+    const urlCategorySlug = url.searchParams.get('category')
     const kvProducts = await get('MAIN_CACHE', 'products', platform)
 
 
     for (const product of kvProducts) {
-      if (!urlProduct || urlProduct === product.slug) product.images[0].src = (await import(`../../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
+      if (!urlProductSlug || urlProductSlug === product.slug) product.images[0].src = (await import(`../../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
 
       for (const category of product.categories) {
         categories.set(category.slug, category) // categories at the top of the page
-
-        if (!urlCategory || urlCategory === category.slug) { // if no specific category is requested in the url OR if one is and this product has this category => show product
-          if (!urlProduct || urlProduct === product.slug) products.set(product.id, product)
-          else if (urlCategory === category.slug) activeCategorySlug = category.slug
-        }
+        
+        if ((!urlCategorySlug || urlCategorySlug === category.slug) && (!urlProductSlug || urlProductSlug === product.slug)) products.set(product.id, product)
       }
     }
 
-
     return {
-      activeCategorySlug,
-      activeProductSlug: urlProduct,
+      urlProductSlug,
+      urlCategorySlug,
       categories: [...categories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
       products: [...products.values()].sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)), // sort products by storeDisplayOrder
     }

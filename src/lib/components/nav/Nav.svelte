@@ -28,7 +28,7 @@
       { :else if activeRoute === '/store' }
         <SVG_FLOWER_OF_LIFE merkaba={ true } />
       { :else }
-        <SVG_FLOWER_OF_LIFE flower={ true }  />
+        <SVG_FLOWER_OF_LIFE flower={ true } />
       { /if }
     </LoadingAnchor>
   </div>
