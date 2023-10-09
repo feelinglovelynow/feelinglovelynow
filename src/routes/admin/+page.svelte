@@ -42,7 +42,9 @@
       onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
 
     <Title noBottom={ true } text="Generate Slug" />
-    <Slug />
+    <section>
+      <Slug />
+    </section>
     <ImageAi />
   </div>
 { /if }

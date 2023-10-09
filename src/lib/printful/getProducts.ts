@@ -11,5 +11,5 @@ export default async function getProducts (): Promise<PrintfulProducts> {
   })
 
   const jsonResponse: PrintfulProducts = await fetchResponse.json()
-  return await jsonResponse
+  return jsonResponse
 }

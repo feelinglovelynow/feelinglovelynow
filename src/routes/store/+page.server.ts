@@ -16,19 +16,15 @@ export const load = (async ({ url, platform }) => {
 
 
     for (const product of kvProducts) {
-      if (!urlProduct || urlProduct === product.slug) {
-        product.images[0].src = (await import(`../../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
+      if (!urlProduct || urlProduct === product.slug) product.images[0].src = (await import(`../../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
 
-        for (const category of product.categories) {
-          categories.set(category.slug, category) // categories at the top of the page
+      for (const category of product.categories) {
+        categories.set(category.slug, category) // categories at the top of the page
 
-          if (!urlCategory || urlCategory === category.slug) { // if no specific category is requested in the url OR if one is and this product has this category => show product
-            products.set(product.id, product)
-            if (urlCategory === category.slug) activeCategorySlug = category.slug
-          }
+        if (!urlCategory || urlCategory === category.slug) { // if no specific category is requested in the url OR if one is and this product has this category => show product
+          if (!urlProduct || urlProduct === product.slug) products.set(product.id, product)
+          else if (urlCategory === category.slug) activeCategorySlug = category.slug
         }
-
-        if (urlProduct === product.slug) break
       }
     }
 

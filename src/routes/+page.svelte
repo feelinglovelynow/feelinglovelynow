@@ -8,9 +8,9 @@
   import GuitarPic from '$lib/components/GuitarPic.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
   import Science from '$lib/components/source/Science.svelte'
-  import StoreProduct from '$lib/components/store/Product.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import SourceProduct from '$lib/components/source/Product.svelte'
+  import BriefProduct from '$lib/components/store/BriefProduct.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
   export let data: PageData
@@ -24,11 +24,22 @@
 <SocialSupport />
 <AboutUs />
 
+{ #if data.categories?.length }
+  <Title text="Store Categories" noBottom={ true } />
+  <section class="chips">
+    <LoadingAnchor label="All" href="/store" css="chip"/>
+
+    { #each data.categories as category }
+      <LoadingAnchor label={ category.name } css="chip" href={ `/store?category=${ category.slug }` } />
+    {/each}
+  </section>
+{ /if }
+
 { #if data.products?.length }
-  <Title text="Featured Products" noBottom={ true } />
+  <Title text="Featured Store Items" noBottom={ true } />
   <div class="products">
     { #each data.products as product }
-      <StoreProduct { product } origin="home" />
+      <BriefProduct { product } />
     { /each }
   </div>
 { /if }

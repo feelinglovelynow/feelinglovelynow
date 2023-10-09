@@ -1,5 +1,5 @@
 import get from '$lib/kv/get'
-import type { Product } from '$lib'
+import type { Category, Product } from '$lib'
 import search from '$lib/actions/search'
 import formatScience from '$lib/util/formatScience'
 import type { Actions, PageServerLoad } from './$types'
@@ -15,7 +15,7 @@ export const load = (async ({ platform }) => {
 
     return {
       ...formatSources(values[0]),
-      products: await formatProducts(values[1])
+      ...(await formatProductsAndCategories(values[1]))
     }
   } catch (e) {
     return serverPageCatch(e)
@@ -50,18 +50,26 @@ function formatSources (sources: any) {
 }
 
 
-async function formatProducts (products: Product[]): Promise<Product[]> {
+async function formatProductsAndCategories (products: Product[]): Promise<{ products: Product[], categories: Category[] }> {
   if (!products?.length || !Array.isArray(products)) throw { _errors: [ 'No products found' ] }
   else {
     const featuredProducts: Product[] = []
+    const categories: Map<string, Category> = new Map()
 
     for (const product of products) {
       if (Number.isInteger(product.homeDisplayOrder)) {
         product.images[0].src = (await import(`../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
         featuredProducts.push(product)
       }
+
+      for (const category of product.categories) {
+        categories.set(category.slug, category) // categories at the top of the page
+      }
     }
 
-    return featuredProducts.sort((a, b) => Number(a.homeDisplayOrder > b.homeDisplayOrder) - Number(a.homeDisplayOrder < b.homeDisplayOrder)) // sort by storeDisplayOrder
+    return {
+      categories: [...categories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
+      products: featuredProducts.sort((a, b) => Number(a.homeDisplayOrder > b.homeDisplayOrder) - Number(a.homeDisplayOrder < b.homeDisplayOrder)) // sort by storeDisplayOrder
+    }
   }
 }
