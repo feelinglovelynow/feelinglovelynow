@@ -137,7 +137,7 @@
           text-align: center;
           font-weight: 500;
           font-size: 2.1rem;
-          margin-bottom: 0.9rem;
+          margin-bottom: 1.5rem;
 
           @media only screen and (min-width: $image-swap-width) { // big screen
             text-align: left;
@@ -146,7 +146,7 @@
 
         .chips {
           justify-content: center;
-          margin-bottom: 0.9rem;
+          margin-bottom: 1.5rem;
 
           .brand {
             width: 14.1rem;

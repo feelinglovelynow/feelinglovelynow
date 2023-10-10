@@ -9,6 +9,7 @@
   import SVG_LOTUS_OF_LIFE from '$lib/svg/sacred/lotus/component.svelte'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
+  let shoppingCartCount = 0
   $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
 
   function smoothToTop () {
@@ -19,7 +20,6 @@
 
 <div class="nav">
   <div class="logo">
-
     <LoadingAnchor loadWidth="huge">      
       { #if activeRoute?.includes('/library')  }
         <SVG_FLOWER_OF_LIFE metatronsCube={ true } />
@@ -39,7 +39,12 @@
 
   <nav class="">
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
-    <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">{ @html SVG_STORE }</LoadingAnchor>
+    <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">
+      { @html SVG_STORE }
+      { #if shoppingCartCount > 0 }
+        <div class="count">1</div>
+      { /if }
+    </LoadingAnchor>
     <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
     <LoadingAnchor label="Links" href="/links" loadWidth="big" css="item { activeRoute === '/links' ? 'active' : '' }">{ @html SVG_SUPPORT }</LoadingAnchor>
   </nav>

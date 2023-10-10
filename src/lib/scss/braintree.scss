@@ -1,8 +1,10 @@
 @import '$lib/scss/variables';
 
 .braintree {
+  margin: 1.8rem;
+
   &__input {
-    width: 45rem;
+    width: 100%;
     height: 3.9rem;
     max-width: 90vw;
     appearance: none;
@@ -27,6 +29,7 @@
   }
 
   &__form-item {
+    width: 100%;
     margin-bottom: 1.2rem;
   }
 

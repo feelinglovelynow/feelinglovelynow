@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import '$lib/scss/braintree.scss'
-  import Title from '$lib/components/Title.svelte'
   import { theme } from '$lib/util/store'
   import showToast from '@sensethenlove/toast'
   import { PUBLIC_BRAINTREE_TOKENIZATION_KEY } from '$env/static/public'
@@ -85,7 +84,7 @@
     } else if (hostedFieldsInstance) {
       submitButton.removeAttribute('disabled')
       highHostedFieldsInstance = hostedFieldsInstance
-      hostedFieldsInstance.focus('number')
+      // hostedFieldsInstance.focus('number')
 
       form.addEventListener('submit', (event: SubmitEvent) => {
         event.preventDefault()
@@ -110,8 +109,7 @@
 </script>
 
 
-<Title noBottom={ true } text="Billing Information" />
-<section>
+<div class="braintree">
   <form action="/" id="my-sample-form" method="post" bind:this={ form }>
     <div class="braintree__form-item">
       <label for="card-number" class="braintree__label">Card Number</label>
@@ -135,7 +133,7 @@
 
     <button type="submit" class="brand full-width" disabled bind:this={ submitButton }>Purchase</button>
   </form>
-</section>
+</div>
 
 
 <style lang="scss">

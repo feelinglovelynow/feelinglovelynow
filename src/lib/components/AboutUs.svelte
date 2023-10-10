@@ -22,6 +22,7 @@
 
 <style lang="scss">
   .us {
+    line-height: 1.41;
     font-size: 2.1rem;
     max-width: 53.4rem;
 
