@@ -190,15 +190,11 @@
           justify-content: center;
         }
 
-        .brand,
-        select {
-          margin: 0.3rem 0.72rem; 
-        }
-
         .brand {
-          width: 14.1rem;
+          width: 12rem;
           font-size: 1.8rem;
-          margin-bottom: 0.6rem;
+          white-space: nowrap;
+          margin: 0.6rem 0.72rem; 
 
           @media only screen and (min-width: $image-swap-width) { // big screen
             margin-bottom: 0.3rem;
