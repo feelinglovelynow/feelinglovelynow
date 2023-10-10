@@ -8,23 +8,23 @@
 
   $: image = product?.images?.length ? product.images[0] : null
   
-  let showBookDescription: boolean
-  let showLotusDescription: boolean
-  let showMerkabaDescription: boolean
-  let showFlowerMetatronDescription: boolean
+  let isBook: boolean
+  let isLotus: boolean
+  let isMerkaba: boolean
+  let isFlowerOrMetatron: boolean
 
   for (const category of product.categories) {
     if (category.slug === 'books') {
-      showBookDescription = true
+      isBook = true
       break
     } else if (category.slug === 'merkaba') {
-      showMerkabaDescription = true
+      isMerkaba = true
       break
     } else if (category.slug === 'lotus-of-life') {
-      showLotusDescription = true
+      isLotus = true
       break
     } else if (category.slug === 'metatrons-cube' || category.slug === 'flower-of-life') {
-      showFlowerMetatronDescription = true
+      isFlowerOrMetatron = true
       break
     }
   }
@@ -50,7 +50,7 @@
     <div class="purchase">
       <button class="brand">Add to Cart</button>
       <div class="selects">
-        <select name="quantity" value="">
+        <select name="quantity" value="" class="brand">
           <option value="" disabled>Quantity</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -62,18 +62,20 @@
           <option value="8">8</option>
           <option value="9">9</option>
         </select>
-        <select name="quantity" value="">
+        { #if !isBook }
+        <select name="quantity" value="" class="brand">
           <option value="" disabled>Size</option>
           <option value="small">Small</option>
           <option value="medium">Medium</option>
           <option value="large">Large</option>
           <option value="x-large">X-Large</option>
         </select>
+        { /if }
       </div>
     </div>
 
     <div class="description">
-      { #if showFlowerMetatronDescription }
+      { #if isFlowerOrMetatron }
         <div class="geometry">
           <SVG_FLOWER_OF_LIFE flower={ true }  />
           <SVG_FLOWER_OF_LIFE fruit={ true }  />
@@ -88,7 +90,7 @@
         <p>"The tetrahedron is considered fire, the cube is earth, the octahedron is air, the icosahedron is water and the dodecahedron is ether. (Ether, prana and tachyon energy are the same thing; they extend everywhere and are accessible at any point in space/time/dimension. This is the great secret of zero-point technology.) And the sphere is voidness. These six elements are the building blocks of the universe. They create the qualities of the universe."</p>
         <p>"There are all kinds of ways that atoms can join. The resulting molecules are always associated with the five Platonic solids… Even when you get into this complicated molecule and break it down, you see the shapes in it, and they always revert to one of the five Platonic solids it doesn't matter what the structure is. No matter what you call it - metal, crystal, anything else - will always come down to one of these original five shapes."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if showMerkabaDescription}
+      { :else if isMerkaba}
         <div class="geometry">
           <SVG_FLOWER_OF_LIFE flower={ true }  />
           <SVG_FLOWER_OF_LIFE fruit={ true }  />
@@ -100,17 +102,18 @@
         <p>"<strong>Connecting with the higher self is more important than learning to activate the Mer-Ka-Ba</strong>, because if you connect yourself to your Self, you will get absolutely clear information on how to proceed step by step through any reality and how to lead yourself back home into the full consciousness of God. When you connect with your higher self, the rest will happen automatically. You will still have to live your life, but everything you do will have great power and wisdom within your actions, thoughts and emotions."</p>
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if showBookDescription }
+      { :else if isBook }
         <div>During the 1980s, Harvard’s Dr Herbert Benson and his team, studied, measured and made a video of monks living in the Himalayan Mountains. The monks  repeatedly entered 40°F rooms, wrapped cold, wet blankets around their shoulders and dried the blankets; by raising their Body heat, with their Minds. The monks showed science that our thoughts can alter the functioning of our bodies. The secret is out, mind and body are united and this is only the beginning! My intention with this book is to help you naturally and efficiently optimize the unity between mind and body and experience a state I call getting High!</div>
         <p>High meaning, experiencing the highest level emotions that science has measured. Maybe you have experienced the lowest, shame and guilt; but this tiny book provides a natural and efficient map, for you to experience the highest levels measured; which in ascending order are, love, joy, peace and enlightenment! </p>
         <a target="_blank" href="https://news.harvard.edu/gazette/story/2002/04/meditation-changes-temperatures/">Source</a>
-      { :else if showLotusDescription }
+      { :else if isLotus }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is shaped like a <strong>torus</strong>.</div>
-        <p>The torus is the fundamental form of balanced energy flow found in sustainable systems at all scales.</p>
+        <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
+        <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center.</p>
         <p>Energy flows within our <strong>toroidal field</strong> in this direction:</p>
         <p>Out top of heart &gt; Out top of our head &gt; Around body &gt; To the Earth &gt; In base of spine &gt; In bottom of heart</p>
-        <p>The <strong>Lotus of Life</strong> is our torus field; circles flowing outward from the center.</p>
+        <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales.</p>
       { /if }
       <div class="clear"></div>
     </div>
@@ -121,18 +124,20 @@
 
 
 <style lang="scss">
+  @import '$lib/scss/variables.scss';
+
   $image-swap-width: 900px;
 
   section {
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 1.8rem auto;
     max-width: 144rem;
 
     .image {
       float: none;
       display: block;
       text-align: center;
-      margin-right: 1.2rem;
+      margin-right: 1.8rem;
 
       @media only screen and (min-width: $image-swap-width) { // big screen
         float: left;
@@ -197,21 +202,6 @@
 
           @media only screen and (min-width: $image-swap-width) { // big screen
             margin-bottom: 0.3rem;
-          }
-        }
-
-        select {
-          width: 9rem;
-          height: 3.6rem;
-          border-radius: 3px;
-          cursor: pointer;
-          color: var(--text-color);
-          background-color: var(--input-bg-color);
-          border: 1px solid var(--input-border-color);
-          &:focus {
-            outline: 0;
-            border-color: transparent;
-            box-shadow: var(--focus-box-shadow);
           }
         }
       }
