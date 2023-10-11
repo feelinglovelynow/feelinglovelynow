@@ -1,11 +1,14 @@
 // See https://kit.svelte.dev/docs/types#app
+
+import type { Theme } from '$lib'
+
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
 			userId?: any,
-			theme: string
+			theme: Theme
 		}
 		// interface PageData {}
 		interface Platform {

@@ -2,7 +2,7 @@ import type { LayoutServerLoad } from './$types'
 
 
 export const load = (({ url, locals }) => {
-  const { pathname } = url
+  const { href } = url
 
-  return { locals, pathname }
+  return { locals, href }
 }) satisfies LayoutServerLoad

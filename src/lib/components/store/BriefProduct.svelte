@@ -8,7 +8,7 @@
 </script>
 
 <div class="wrapper { origin }">
-  <section class="product">
+  <section>
     <LoadingAnchor href={ `/store?product=${ product.slug }` } loadWidth="huge">
 
     { #if image }
@@ -42,13 +42,17 @@
 
     section {
       padding: 0;
-      margin: 0 0.9rem;
+      margin: 0;
       &:hover {
         box-shadow: 0 0 0 .2rem rgba(0, 123, 255, 0.63);
 
         img {
           scale: 1.02;
         }
+      }
+
+      @media only screen and (min-width: 561px) { // medium screen
+        margin: 0 0.9rem;
       }
 
       :global(a) {

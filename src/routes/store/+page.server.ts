@@ -24,11 +24,14 @@ export const load = (async ({ url, platform }) => {
       }
     }
 
+    const arrayProducts = [...products.values()]
+    const arrayCategories = [...categories.values()]
+
     return {
       urlProductSlug,
       urlCategorySlug,
-      categories: [...categories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
-      products: [...products.values()].sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)), // sort products by storeDisplayOrder
+      categories: !arrayCategories.length ? [] : [...categories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
+      products: !arrayProducts.length ? [] : [...products.values()].sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)), // sort products by storeDisplayOrder
     }
   } catch (e) {
     return serverPageCatch(e)

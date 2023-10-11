@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Product } from '$lib'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import ProductCategories from './ProductCategories.svelte'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
   export let product: Product
@@ -35,12 +35,7 @@
   { #if image }
     <div class="image">
       <img src={ image.src } alt={ product.name }/>
-
-      <div class="chips">
-        { #each product.categories as category }
-          <LoadingAnchor href={ `/store?category=${ category.slug }`} label={ category.name }  css="chip { false ? 'active' : '' }"/>
-        {/each}
-      </div>
+      <ProductCategories categories={ product.categories } isAllShowing={ false }/>
     </div>
   { /if }
 
@@ -52,15 +47,9 @@
       <div class="selects">
         <select name="quantity" value="" class="brand">
           <option value="" disabled>Quantity</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
+          { #each { length: 27 } as _, index }
+            <option value={ index + 1 }>{ index + 1 }</option>
+          { /each }
         </select>
         { #if !isBook }
         <select name="quantity" value="" class="brand">
@@ -119,6 +108,7 @@
     </div>
     
   </div>
+
   <div class="clear"></div>
 </section>
 
@@ -130,17 +120,17 @@
 
   section {
     width: 100%;
-    margin: 0 auto 1.8rem auto;
+    margin: 0 auto 0.9rem auto;
     max-width: 144rem;
 
     .image {
       float: none;
       display: block;
       text-align: center;
-      margin-right: 1.8rem;
 
       @media only screen and (min-width: $image-swap-width) { // big screen
         float: left;
+        margin-right: 1.8rem;
       }
 
       img {
@@ -149,8 +139,9 @@
         transition: all 0.9s;
       }
 
-      .chips {
-        margin-bottom: 0.3rem;
+      :global(.chips) {
+        padding: 0.6rem;
+        margin-bottom: 0;
       }
     }
 

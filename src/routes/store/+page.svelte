@@ -5,7 +5,7 @@
   import Braintree from '$lib/components/forms/Braintree.svelte'
   import FullProduct from '$lib/components/store/FullProduct.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
   import { Modal, type ShowModal, type OnModalHide } from '@sensethenlove/svelte-modal'
 
   let showModal: ShowModal
@@ -19,8 +19,8 @@
   <Braintree />
 </Modal>
 <Head title="Store" url="store" description="Purchase products" />
-<Title text="Store" size="two" />
-<!-- <Title text="Release Date ⋅ 11/11/23" size="two" /> -->
+<!-- <Title text="Store" size="two" /> -->
+<Title text="Release Date ⋅ 11/11/23" size="two" />
 
 { #if shoppingCartCount > 0 }
   <div class="shoping-cart">
@@ -29,14 +29,8 @@
   </div>
 { /if }
 
-{ #if data.categories?.length }
-  <section class="chips">
-    <LoadingAnchor label="All" href="/store" css="chip { !data.urlProductSlug && data.urlCategorySlug === null ? 'active' : '' }"/>
-
-    { #each data.categories as category }
-      <LoadingAnchor label={ category.name } css="chip { data.urlCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
-    {/each}
-  </section>
+{ #if !data.urlProductSlug }
+  <ProductCategories categories={ data.categories } currentCategorySlug={ data.urlCategorySlug } />
 { /if }
 
 { #if data.products?.length }
@@ -49,6 +43,10 @@
       { /if }
     { /each }
   </div>
+{ /if }
+
+{ #if data.urlProductSlug }
+  <ProductCategories categories={ data.categories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
 { /if }
 
 

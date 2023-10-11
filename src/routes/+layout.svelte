@@ -73,7 +73,7 @@
 </svelte:head>
 
 { #if mounted}
-  { #key data.pathname }
+  { #key data.href }
   <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
     <slot />
   </main>
@@ -85,7 +85,7 @@
 </main>
 
 <Nav />
-<Background />
+<Background localsTheme={ data.locals.theme } />
 <ThemeToggle />
 <Search />
 <div id="stl--toast-wrapper"></div>

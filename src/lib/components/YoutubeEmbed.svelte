@@ -31,7 +31,7 @@
 { #if youtubeImageUrl }
   <button on:click={ () => { showIframe = true } } class="wrapper" aria-label="Play video">
     { #if !showIframe }
-      <img src={ youtubeImageUrl } alt="Youtube thumbnail" />
+      <img src={ youtubeImageUrl } alt="Youtube thumbnail" loading="lazy" />
       <button bind:this={ playButton } style="position:absolute; visibility:hidden;" aria-label="Play video">
         { @html SVG_YOUTUBE_EMBED }
       </button> 

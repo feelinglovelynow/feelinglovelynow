@@ -12,6 +12,7 @@
   import SourceProduct from '$lib/components/source/Product.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
 
   export let data: PageData
   toastRouteError(data)
@@ -24,17 +25,6 @@
 <SocialSupport />
 <AboutUs />
 
-{ #if data.categories?.length }
-  <Title text="Store Categories" noBottom={ true } />
-  <section class="chips">
-    <LoadingAnchor label="All" href="/store" css="chip"/>
-
-    { #each data.categories as category }
-      <LoadingAnchor label={ category.name } css="chip" href={ `/store?category=${ category.slug }` } />
-    {/each}
-  </section>
-{ /if }
-
 { #if data.products?.length }
   <Title text="Featured Store Items" noBottom={ true } />
   <div class="products">
@@ -43,6 +33,8 @@
     { /each }
   </div>
 { /if }
+
+<ProductCategories categories={ data.categories } title="Store Categories" />
 
 <div class="content">
   { #if data.culture }
