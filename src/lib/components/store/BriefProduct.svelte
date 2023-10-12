@@ -7,7 +7,7 @@
   $: image = product?.images?.length ? product.images[0] : null
 </script>
 
-<div class="wrapper { origin }">
+<div class="wrapper">
   <section>
     <LoadingAnchor href={ `/store?product=${ product.slug }` } loadWidth="huge">
 

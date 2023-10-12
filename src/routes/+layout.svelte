@@ -6,7 +6,6 @@
   import { fly } from 'svelte/transition'
   import type { PageData } from './$types'
   import '@sensethenlove/toast/lib/index.css'
-  import Title from '$lib/components/Title.svelte'
   import Nav from '$lib/components/nav/Nav.svelte'
   import '@sensethenlove/global-style/lib/index.css'
   import Search from '$lib/components/nav/Search.svelte'
@@ -72,17 +71,11 @@
   { /if }
 </svelte:head>
 
-{ #if mounted}
-  { #key data.href }
-  <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
-    <slot />
-  </main>
-  { /key }
-{ /if }
-
-<main class="loading-wrapper { mounted ? 'loading-wrapper--out': 'loading-wrapper--in' }">
-  <Title text="Loading..." />
+{ #key data.href }
+<main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
+  <slot />
 </main>
+{ /key }
 
 <Nav />
 <Background localsTheme={ data.locals.theme } />
@@ -115,23 +108,6 @@
       opacity: 0;
       z-index: 0;
       transform: translateY(9px);
-    }
-  }
-
-  .loading-wrapper {
-    position: fixed;
-
-    &--in {
-      animation-name: loading-in;
-      animation-duration: 0.3s;
-    }
-
-    &--out {
-      opacity: 0;
-      z-index: 0;
-      transform: translateY(9px);
-      animation-name: loading-out;
-      animation-duration: 0.6s;
     }
   }
 </style>
