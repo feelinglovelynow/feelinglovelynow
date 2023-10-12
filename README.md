@@ -21,6 +21,7 @@
 - [Braintree Testing Paypal](https://developer.paypal.com/braintree/docs/guides/paypal/testing-go-live/ruby#linked-paypal-testing)
 - [Braintree AVS & CVV](https://developer.paypal.com/braintree/articles/guides/fraud-tools/basic/avs-cvv-rules)
 - [Braintree Tokenization Key](https://developer.paypal.com/braintree/docs/guides/authorization/tokenization-key/javascript/v3)
+- [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
 - [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
 - [Zod](https://zod.dev/)
@@ -65,7 +66,8 @@
 - [SVG to PNG](https://svgtopng.com/)
 - [SVG Formatter](https://htmlformatter.com/)
 - [AI Image Generator](https://playgroundai.com/create)
-- [AI Image Tweaker](https://www.befunky.com/)
+- [AI Photo to Art](https://www.befunky.com/create/photo-to-art/)
+
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)

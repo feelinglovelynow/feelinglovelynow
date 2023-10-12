@@ -1,8 +1,19 @@
 <script lang="ts">
   const width = 272
   const height = 305
+  const diameter = 60
   const xPadding = 26
   const xConstant = 19
+
+  let viewBox: string = ''
+  let columns: Columns = []
+
+  type Columns = {
+    count: number
+    yFirst: number
+    x: number
+    visibleCircles?: number[]
+  }[]
 
   export let fruit = false
   export let flower = false
@@ -10,11 +21,10 @@
   export let strokeWidth = 3.6
   export let metatronsCube = false
   export let color = 'rgb(234, 198, 3)'
+  export let circleCount: undefined | number = undefined
 
   $: radius = diameter / 2
   $: center = height / 2
-  $: diameter = 60
-  $: viewBox = flower || fruit ? `17 -1 ${ width } ${ height }` : `58 30 192 245`
 
   $: yFirstOptions = [
     center - (diameter * 2),
@@ -24,25 +34,61 @@
     center - diameter,
   ]
 
-  $: hideIfFruitOptions = [
-    [ 1, 2, 3 ],
-    [ 0, 1, 2, 3, 4, 5 ],
-    [ 0, 1, 3, 5, 6 ],
-    [ 0, 1, 2, 3, 4, 5, 6, 7 ],
-    [ 1, 3, 5, 7 ]
-  ]
+  $: if (yFirstOptions) setColumns()
 
-  $: columns = [
-    { count: 5,  yFirst: yFirstOptions[4],  hideIfFruit: hideIfFruitOptions[0],  x: radius + xConstant },
-    { count: 6,  yFirst: yFirstOptions[3],  hideIfFruit: hideIfFruitOptions[1],  x: radius + xConstant + xPadding },
-    { count: 7,  yFirst: yFirstOptions[2],  hideIfFruit: hideIfFruitOptions[2],  x: radius + xConstant + (xPadding * 2) },
-    { count: 8,  yFirst: yFirstOptions[1],  hideIfFruit: hideIfFruitOptions[3],  x: radius + xConstant + (xPadding * 3) },
-    { count: 9,  yFirst: yFirstOptions[0],  hideIfFruit: hideIfFruitOptions[4],  x: radius + xConstant + (xPadding * 4) },
-    { count: 8,  yFirst: yFirstOptions[1],  hideIfFruit: hideIfFruitOptions[3],  x: radius + xConstant + (xPadding * 5) },
-    { count: 7,  yFirst: yFirstOptions[2],  hideIfFruit: hideIfFruitOptions[2],  x: radius + xConstant + (xPadding * 6) },
-    { count: 6,  yFirst: yFirstOptions[3],  hideIfFruit: hideIfFruitOptions[1],  x: radius + xConstant + (xPadding * 7) },
-    { count: 5,  yFirst: yFirstOptions[4],  hideIfFruit: hideIfFruitOptions[0],  x: radius + xConstant + (xPadding * 8) },
-  ]
+  if (flower || fruit) viewBox = `17 -1 ${ width } ${ height }`
+  else if (circleCount) viewBox = '114 87 78 131'
+  else viewBox = '58 30 192 245'
+
+  function setColumns () {
+    columns = [
+      { count: 5,  yFirst: yFirstOptions[4],  x: radius + xConstant },
+      { count: 6,  yFirst: yFirstOptions[3],  x: radius + xConstant + xPadding },
+      { count: 7,  yFirst: yFirstOptions[2],  x: radius + xConstant + (xPadding * 2) },
+      { count: 8,  yFirst: yFirstOptions[1],  x: radius + xConstant + (xPadding * 3) },
+      { count: 9,  yFirst: yFirstOptions[0],  x: radius + xConstant + (xPadding * 4) },
+      { count: 8,  yFirst: yFirstOptions[1],  x: radius + xConstant + (xPadding * 5) },
+      { count: 7,  yFirst: yFirstOptions[2],  x: radius + xConstant + (xPadding * 6) },
+      { count: 6,  yFirst: yFirstOptions[3],  x: radius + xConstant + (xPadding * 7) },
+      { count: 5,  yFirst: yFirstOptions[4],  x: radius + xConstant + (xPadding * 8) },
+    ]
+
+    if (fruit) {
+      columns[0].visibleCircles = columns[8].visibleCircles = [ 0, 4 ]
+      columns[1].visibleCircles = columns[7].visibleCircles = [ ]
+      columns[2].visibleCircles = columns[6].visibleCircles = [ 2, 4 ]
+      columns[3].visibleCircles = columns[5].visibleCircles = [ 8 ]
+      columns[4].visibleCircles = [ 0, 2, 4, 6, 8 ]
+    } else if (circleCount === 1) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[5].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[4].visibleCircles = [ 4 ]
+    } else if (circleCount === 2) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[4].visibleCircles = [ 4 ]
+      columns[5].visibleCircles = [ 3 ]
+    } else if (circleCount === 3) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[4].visibleCircles = [ 4 ]
+      columns[5].visibleCircles = [ 3, 4 ]
+    } else if (circleCount === 4) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[4].visibleCircles = [ 4, 5 ]
+      columns[5].visibleCircles = [ 3, 4 ]
+    } else if (circleCount === 4) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[3].visibleCircles = [ 4 ]
+      columns[4].visibleCircles = [ 4, 5 ]
+      columns[5].visibleCircles = [ 3, 4 ]
+    } else if (circleCount === 5) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[3].visibleCircles = columns[5].visibleCircles = [ 3, 4 ]
+      columns[4].visibleCircles = [ 4, 5 ]
+    } else if (circleCount === 6) {
+      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
+      columns[4].visibleCircles = [ 3, 4, 5 ]
+      columns[3].visibleCircles = columns[5].visibleCircles = [ 3, 4 ]
+    }
+  }
 
   function getY (index: number, yFirst: number) {
     switch (index) {
@@ -66,11 +112,11 @@
 
     { #each columns as column }
       { #each { length: column.count } as _, index }
-        { #if flower || (fruit && !column.hideIfFruit.includes(index)) }
+        { #if flower || (column.visibleCircles && column.visibleCircles.includes(index)) }
           <circle r={ radius } cx={ column.x } cy={ getY(index, column.yFirst) }></circle>
         { /if }
       { /each }
-     {/each }
+    {/each }
 
 
     { #if merkaba || metatronsCube }
