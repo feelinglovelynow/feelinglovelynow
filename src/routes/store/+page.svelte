@@ -2,6 +2,7 @@
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import Braintree from '$lib/components/forms/Braintree.svelte'
   import FullProduct from '$lib/components/store/FullProduct.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
@@ -18,7 +19,7 @@
 <Modal header="Shopping Cart" on:functions={ e => showModal = e.detail.showModal }>
   <Braintree />
 </Modal>
-<Head title="Store" url="store" description="Purchase products" />
+<Head title="Store" url="store" ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
 <!-- <Title text="Store" size="two" /> -->
 <Title text="Release Date ⋅ 11/11/23" size="two" />
 
