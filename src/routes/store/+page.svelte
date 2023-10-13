@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Cart } from '$lib'
-  import cart from '$lib/store/cart'
+  import { cart, set } from '$lib/store/cart'
   import { fade } from 'svelte/transition'
   import type { PageData } from './$types'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
@@ -55,19 +55,18 @@
     totalPrice.str = twoDecimalPlaces(totalPrice.num)
   }
 
-  function twoDecimalPlaces (num: number) {
-    return (Math.round(num * 100) / 100).toFixed(2)
-  }
-
   function updateCartQuantity (cartIndex: number, quantity: string) {
     const numQuantity = Number(quantity)
 
     if (numQuantity) $cart[cartIndex].quantity = numQuantity
     else $cart.splice(cartIndex, 1)
 
-    $cart = $cart
-
+    set($cart)
     if ($cart.length === 0) hideModal()
+  }
+
+  function twoDecimalPlaces (num: number) {
+    return (Math.round(num * 100) / 100).toFixed(2)
   }
 
   function bindModalFunctions (e: CustomEvent<any>) {
@@ -120,7 +119,7 @@
 </div>
 
 { #if $cart.length > 0 }
-  <div transition:fade={{ delay: 90, duration: 600 }} class="shoping-cart">
+  <div transition:fade={{ delay: 90, duration: 600 }} id="shoping-cart-button">
     <button on:click={ showModal } class="brand">{ @html SVG_CART }</button>
     <div class="count">{ $cart.length }</div>
   </div>
@@ -233,7 +232,7 @@
     width: 100%;
   }
 
-  .shoping-cart {
+  #shoping-cart-button {
     position: relative;
 
     .brand {

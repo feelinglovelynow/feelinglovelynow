@@ -1,11 +1,11 @@
 <script lang="ts">
-  import cart from '$lib/store/cart'
+  import { cart, set } from '$lib/store/cart'
   import showToast from '@sensethenlove/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import ProductCategories from './ProductCategories.svelte'
   import type { Product, CartItem, CartItemSizes } from '$lib'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor';
 
   export let product: Product
 
@@ -60,8 +60,19 @@
       if (!isBook) cartItem.size = size as CartItemSizes
 
       $cart.push(cartItem)
-      cart.set($cart)
-      showToast({ type: 'success', items: [`Added to cart! ${ product.name }!`] })
+      set($cart)
+      showToast({ type: 'success', items: [`Shopping cart updated! <span class="link view-cart-link">View cart!</span>`] })
+
+      setTimeout(() => { // allow some time for the cart and toast to appear
+        const links = document.querySelectorAll('.view-cart-link') as NodeListOf<Element> // link in the toast (there might be multiple toast showing)
+        const button = document.querySelector('#shoping-cart-button button') as HTMLButtonElement // button to launch the shopping cart
+
+        if (links.length && button) {
+          for (const link of links) {
+            link.addEventListener('click', () => button.click()) // on link click => the shopping cart button
+          }
+        }
+      }, 300)
     }
   }
 </script>
@@ -160,6 +171,8 @@
 
   $image-swap-width: 900px;
 
+  :global()
+
   section {
     width: 100%;
     margin: 0 auto 0.9rem auto;
@@ -256,8 +269,11 @@
         }
 
         ul {
-          transform: translateX(3rem);
-          padding-top: 0.9rem;
+          padding-top: 1.2rem;
+
+          @media only screen and (min-width: $image-swap-width) { // big screen
+            transform: translateX(3rem);
+          }
         }
 
         :global(svg) {

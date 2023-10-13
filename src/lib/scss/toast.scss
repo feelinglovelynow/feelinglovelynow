@@ -3,7 +3,9 @@
 #stl--toast-wrapper {
   z-index: $zindex-toast;
 
-  a {
+  a,
+  .link {
+    cursor: pointer;
     color: var(--gold-text-color);
     &:hover {
       text-decoration: underline;

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import cart from '$lib/store/cart'
   import '$lib/components/nav/Nav.scss'
+  import { cart } from '$lib/store/cart'
   import { page, navigating } from '$app/stores'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_STORE from '$lib/svg/nav/SVG_STORE.svg'
