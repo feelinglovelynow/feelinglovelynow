@@ -51,6 +51,7 @@
 - [Sveltekit page transitions](https://joshcollinsworth.com/blog/sveltekit-page-transitions#the-final-code)
 - [Braintree Demo](https://braintree.github.io/braintree-web-drop-in/)
 - [SVG Viewbox](https://webdesign.tutsplus.com/svg-viewport-and-viewbox-for-beginners--cms-30844t)
+- [Svelete Store + Local Storage](https://rodneylab.com/using-local-storage-sveltekit/)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
