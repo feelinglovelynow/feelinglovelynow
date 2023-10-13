@@ -3,14 +3,15 @@
   import cart from '$lib/store/cart'
   import { fade } from 'svelte/transition'
   import type { PageData } from './$types'
+  import SVG_CART from '$lib/svg/SVG_CART.svg'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import Braintree from '$lib/components/forms/Braintree.svelte'
   import FullProduct from '$lib/components/store/FullProduct.svelte'
-  import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
   import ProductCategories from '$lib/components/store/ProductCategories.svelte'
+  import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
 
   type Price = {
     str: string
@@ -69,12 +70,18 @@
     if ($cart.length === 0) hideModal()
   }
 
-
   function bindModalFunctions (e: CustomEvent<any>) {
     showModal = e.detail.showModal
     hideModal = e.detail.hideModal
   }
 </script>
+
+
+{ #if data.urlProductSlug }
+  <Head title={ data.products[0].name } url={ data.href } ogImageSrc={ data.products[0].images[0].src } description={ data.products[0].name } />
+{ :else }
+  <Head title="Store" url={ data.href } ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
+{ /if }
 
 <div class="cart">
   <Modal header="Shopping Cart" on:functions={ bindModalFunctions }>
@@ -111,16 +118,16 @@
     <Braintree />
   </Modal>
 </div>
-<Head title="Store" url="store" ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
-<!-- <Title text="Store" size="two" /> -->
-<Title text="Release Date ⋅ 11/11/23" size="two" />
 
 { #if $cart.length > 0 }
   <div transition:fade={{ delay: 90, duration: 600 }} class="shoping-cart">
-    <button on:click={ showModal } class="brand">Shoping Cart</button>
+    <button on:click={ showModal } class="brand">{ @html SVG_CART }</button>
     <div class="count">{ $cart.length }</div>
   </div>
 { /if }
+
+<!-- <Title text="Store" size="two" /> -->
+<Title text="Release Date ⋅ 11/11/23" size="two" />
 
 { #if !data.urlProductSlug }
   <ProductCategories categories={ data.categories } currentCategorySlug={ data.urlCategorySlug } />
@@ -144,10 +151,17 @@
 
 
 <style lang="scss">
+  :global(.stl--modal-is-visible .nav),
+  :global(.stl--modal-is-visible .theme-toggle),
+  :global(.stl--modal-is-visible .search__button) {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
   .cart {
 
     :global(.stl--modal) {
-      max-width: 84rem;
+      max-width: 85rem;
     }
 
     :global(.stl--modal__header) {
@@ -170,8 +184,8 @@
 
     .cart-item {
       display: flex;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.8rem;
       border-bottom: 1px solid var(--input-border-color);
 
       .img-wrapper {
@@ -210,7 +224,6 @@
           margin-bottom: 0.3rem;
         }
       }
-
     }
   }
 

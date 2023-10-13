@@ -39,8 +39,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(svelte@3.59.2)
       '@sensethenlove/svelte-modal':
-        specifier: ^1.0.2
-        version: 1.0.2(svelte@3.59.2)
+        specifier: ^1.0.3
+        version: 1.0.3(svelte@3.59.2)
       '@sensethenlove/svelte-turnstile':
         specifier: ^1.1.5
         version: 1.1.5(svelte@3.59.2)
@@ -714,8 +714,8 @@ packages:
       svelte: 3.59.2
     dev: true
 
-  /@sensethenlove/svelte-modal@1.0.2(svelte@3.59.2):
-    resolution: {integrity: sha512-84EksM7PyTUx5FTqadyDtzBJuw9qDSkjG7+mKWyHuGLndD+vgHMu7tfWsI4sTzciEV068KLrlzDWIs8Q66k/qA==}
+  /@sensethenlove/svelte-modal@1.0.3(svelte@3.59.2):
+    resolution: {integrity: sha512-duwHboTQH+bC29WDEiGsCPV22G7BfqTUvxe5VV4VTSYjdy+wmAoerH2cfYxv202kjELwK9CBKsqI70I46sYweA==}
     peerDependencies:
       svelte: ^3.54.0
     dependencies:

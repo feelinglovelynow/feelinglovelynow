@@ -5,6 +5,7 @@
   import ProductCategories from './ProductCategories.svelte'
   import type { Product, CartItem, CartItemSizes } from '$lib'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
+  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor';
 
   export let product: Product
 
@@ -45,7 +46,7 @@
     const errors = []
 
     if (isBook && !quantity) errors.push('Please select a quantity')
-    else if (!isBook && !size && !quantity) errors.push('Please select a size and quantity')
+    else if (!isBook && !size && !quantity) errors.push('Please select a quantity and size')
     else if (!isBook && !size) errors.push('Please select a size')
     else if (!isBook && !quantity) errors.push('Please select a quantity')
 
@@ -125,9 +126,17 @@
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
       { :else if isBook }
-        <div>During the 1980s, Harvard’s Dr Herbert Benson and his team, studied, measured and made a video of monks living in the Himalayan Mountains. The monks  repeatedly entered 40°F rooms, wrapped cold, wet blankets around their shoulders and dried the blankets; by raising their Body heat, with their Minds. The monks showed science that our thoughts can alter the functioning of our bodies. The secret is out, mind and body are united and this is only the beginning! My intention with this book is to help you naturally and efficiently optimize the unity between mind and body and experience a state I call getting High!</div>
-        <p>High meaning, experiencing the highest level emotions that science has measured. Maybe you have experienced the lowest, shame and guilt; but this tiny book provides a natural and efficient map, for you to experience the highest levels measured; which in ascending order are, love, joy, peace and enlightenment! </p>
-        <a target="_blank" href="https://news.harvard.edu/gazette/story/2002/04/meditation-changes-temperatures/">Source</a>
+        <div>I dream that this book, provides the <strong>scientific evidence</strong> for you, to naturally and efficiently:</div>
+        <ul>
+          <li>Decrease your stress, fatigue and anxiety</li>
+          <li>Improve your quality of life, mental health and immune system</li>
+          <li>Increase your mental acuity, emotional stability, and physiological efficiency</li>
+          <li>Enhance your cognition</li>
+          <li>Feel united with our entire Universe</li>
+          <li>And experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
+        </ul>
+        <p>If you would love, please feel free to contact me (Chris Carrington) <LoadingAnchor href="/links" label="here"/>! Hakuna Matata! 🙏</p>
+        <p>Edition: 11/11/23 · Written and Published in Mount Shasta California · Paper is 50% Recycled Paper and 50% Organic Hemp</p>
       { :else if isLotus }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is shaped like a <strong>torus</strong>.</div>
@@ -154,7 +163,7 @@
   section {
     width: 100%;
     margin: 0 auto 0.9rem auto;
-    max-width: 144rem;
+    max-width: 150rem;
 
     .image {
       float: none;
@@ -244,6 +253,11 @@
         p,
         div {
           float: none;
+        }
+
+        ul {
+          transform: translateX(3rem);
+          padding-top: 0.9rem;
         }
 
         :global(svg) {
