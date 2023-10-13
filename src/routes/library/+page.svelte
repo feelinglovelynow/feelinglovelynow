@@ -103,7 +103,7 @@
       <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
     </div>
   { /if }
-  <div class="clear-both"></div>
+  <div class="clear"></div>
 </div>
 
 

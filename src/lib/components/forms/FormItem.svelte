@@ -33,7 +33,7 @@
 <div class="form-item form-item--{ type } { css }">
   { #if type === 'textarea' }
     <label for={ id }>{ label }</label>
-    <textarea class={ itemErrors?.length ? 'error': '' } { value } on:input={ () => { clearErrors() } } { name } { id } />
+    <textarea class={ itemErrors?.length ? 'erro brand': 'brand' } { value } on:input={ () => { clearErrors() } } { name } { id } />
   { :else if type === 'checkbox' }
     <label style="max-width:{ maxWidth };" for={ id } class="checkbox { itemErrors?.length ? 'error': '' }" on:input={ () => { clearErrors() } }>
       <div class="checkbox-input-wrapper">
@@ -43,7 +43,7 @@
     </label>
   { :else }
     <label for={ id }>{ label }</label>
-    <input bind:this={ input } { value } { autocomplete } class={ itemErrors?.length ? 'error': '' } on:input={ () => { clearErrors() } } { name } { id } { type } />
+    <input bind:this={ input } { value } { autocomplete } class={ itemErrors?.length ? 'error brand': 'brand' } on:input={ () => { clearErrors() } } { name } { id } { type } />
   { /if }
   { #if itemErrors?.length }
     { #each itemErrors as error }

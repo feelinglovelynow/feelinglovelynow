@@ -1,4 +1,5 @@
 <script lang="ts">
+  import cart from '$lib/store/cart'
   import '$lib/components/nav/Nav.scss'
   import { page, navigating } from '$app/stores'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
@@ -9,7 +10,6 @@
   import SVG_LOTUS_OF_LIFE from '$lib/svg/sacred/lotus/component.svelte'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
-  let shoppingCartCount = 0
   $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
 
   function smoothToTop () {
@@ -41,8 +41,8 @@
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
     <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">
       { @html SVG_STORE }
-      { #if shoppingCartCount > 0 }
-        <div class="count">1</div>
+      { #if $cart.length > 0 }
+        <div class="count">{ $cart.length }</div>
       { /if }
     </LoadingAnchor>
     <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>

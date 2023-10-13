@@ -56,9 +56,7 @@
 { /if }
 <div class="chips location--{ location }">
   { #if location === 'nav' }
-    <div class="form-item">
-      <input bind:value={ query } type="text" placeholder="Search" />
-    </div>
+    <input class="brand" bind:value={ query } type="text" placeholder="Search" />
   { /if }
   { #if location === 'nav' && isAllVisible }
     <LoadingAnchor { ssr } label="All" href={ allHref }  css="chip { !author ? 'active' : '' }"/>

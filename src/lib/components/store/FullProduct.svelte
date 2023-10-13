@@ -1,17 +1,29 @@
 <script lang="ts">
-  import type { Product } from '$lib'
+  import cart from '$lib/store/cart'
+  import showToast from '@sensethenlove/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import ProductCategories from './ProductCategories.svelte'
+  import type { Product, CartItem, CartItemSizes } from '$lib'
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
   export let product: Product
 
   $: image = product?.images?.length ? product.images[0] : null
   
+  let size = ''
+  let quantity = ''
   let isBook: boolean
   let isLotus: boolean
   let isMerkaba: boolean
   let isFlowerOrMetatron: boolean
+
+  const sizes = [
+    { value: '', name: 'Size' },
+    { value: 'S', name: 'Small' },
+    { value: 'M', name: 'Medium' },
+    { value: 'L', name: 'Large' },
+    { value: 'XL', name: 'X-Large' },
+  ]
 
   for (const category of product.categories) {
     if (category.slug === 'books') {
@@ -26,6 +38,29 @@
     } else if (category.slug === 'metatrons-cube' || category.slug === 'flower-of-life') {
       isFlowerOrMetatron = true
       break
+    }
+  }
+
+  function addToCart () {
+    const errors = []
+
+    if (isBook && !quantity) errors.push('Please select a quantity')
+    else if (!isBook && !size && !quantity) errors.push('Please select a size and quantity')
+    else if (!isBook && !size) errors.push('Please select a size')
+    else if (!isBook && !quantity) errors.push('Please select a quantity')
+
+    if (errors.length) showToast({ type: 'info', items: errors })
+    else {
+      const cartItem: CartItem = {
+        productId: product.id,
+        quantity: Number(quantity)
+      }
+
+      if (!isBook) cartItem.size = size as CartItemSizes
+
+      $cart.push(cartItem)
+      cart.set($cart)
+      showToast({ type: 'success', items: [`Added to cart! ${ product.name }!`] })
     }
   }
 </script>
@@ -43,21 +78,19 @@
     <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>
 
     <div class="purchase">
-      <button class="brand">Add to Cart</button>
+      <button class="brand" on:click={ addToCart }>Add to Cart</button>
       <div class="selects">
-        <select name="quantity" value="" class="brand">
+        <select name="quantity" value="" class="brand" on:change={ x => { quantity = x.currentTarget.value } }>
           <option value="" disabled>Quantity</option>
           { #each { length: 27 } as _, index }
             <option value={ index + 1 }>{ index + 1 }</option>
           { /each }
         </select>
         { #if !isBook }
-        <select name="quantity" value="" class="brand">
-          <option value="" disabled>Size</option>
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-          <option value="x-large">X-Large</option>
+        <select name="size" value="" class="brand" on:change={ x => { size = x.currentTarget.value } }>
+          { #each sizes as { value, name } }
+            <option { value } disabled={ value === '' }>{ name }</option>
+          { /each }
         </select>
         { /if }
       </div>
@@ -152,11 +185,10 @@
         text-align: center;
         font-weight: 500;
         font-size: 2.1rem;
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.6rem;
 
         @media only screen and (min-width: $image-swap-width) { // big screen
           text-align: left;
-          margin-bottom: 1.5rem;
         }
       }
 
@@ -169,7 +201,6 @@
         margin-bottom: 0.9rem;
 
         @media only screen and (min-width: $image-swap-width) { // big screen
-          margin-bottom: 1.5rem;
           justify-content: start;
           flex-direction: row;
           transform: translateX(-1.4rem);
@@ -225,9 +256,5 @@
         }
       }
     }
-  }
-
-  .clear {
-    clear: both;
   }
 </style>

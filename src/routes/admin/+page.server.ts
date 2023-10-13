@@ -7,7 +7,7 @@ import serverPageCatch from '$lib/catch/serverPageCatch'
 
 export const load = (async () => {
   try {
-    // console.log(await getProducts())
+    // console.log(JSON.stringify(await getProducts()))
   } catch (e) {
     return serverPageCatch(e)
   }

@@ -118,3 +118,7 @@ strong {
   animation-duration: $theme-swap-speed;
   animation-name: subtle-fade-in-from-above;
 }
+
+.clear {
+  clear: both;
+}
