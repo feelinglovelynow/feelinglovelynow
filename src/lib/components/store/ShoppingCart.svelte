@@ -413,13 +413,17 @@
       margin-bottom: 0;
     }
 
+    :global(.stl--modal__body) {
+      padding: 1.2rem;
+    }
+
     .shipping-head {
-      margin: 0.9rem 0 0 0;
+      margin: 1.8rem 0 0.3em 0;
     }
 
     .shipping-billing {
-      padding-top: 1.5rem;
-      margin: 0.9rem 0 0.6rem 0;
+      padding-top: 1.8rem;
+      margin: 0.9rem 0 0.3em 0;
       border-top: 1px solid var(--input-border-color);
     }
 
