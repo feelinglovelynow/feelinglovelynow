@@ -9,3 +9,8 @@ export type CartItem = {
 
 export type Cart = CartItem[]
 export type CartItemSizes = 'S' | 'M' | 'L' | 'XL'
+
+export type Price = {
+  str: string
+  num: number
+}

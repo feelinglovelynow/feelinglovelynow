@@ -22,6 +22,16 @@
   }
 }
 
+.form-items {
+  display: flex;
+  justify-content: space-between;
+  &--2 {
+    .form-item {
+      width: 49%;
+    }
+  }
+}
+
 .full-width-form {
   width: 91vw;
   transition: all 0.18s;
@@ -33,7 +43,7 @@
 
 .form-item {
   width: 100%;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.8rem;
   &.hidden {
     display: none;
   }
@@ -142,6 +152,7 @@ button.brand {
 }
 
 select.brand {
+  font-size: 1.6rem;
   width: 9rem;
   height: 3.6rem;
   border-radius: 3px;
@@ -154,6 +165,10 @@ select.brand {
     outline: 0;
     border-color: transparent;
     box-shadow: var(--focus-box-shadow);
+  }
+  &.full-width {
+    width: 100%;
+    height: 3.9rem;
   }
 }
 
@@ -168,7 +183,7 @@ input.brand {
   border-radius: 3px;
   color: var(--text-color);
   border: 1px solid var(--input-border-color);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-family: $font-family;
   background-color: var(--input-bg-color);
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color $theme-swap-speed;
@@ -181,6 +196,10 @@ input.brand {
     border-color: transparent;
     box-shadow: var(--focus-error-box-shadow);
   }
+}
+
+textarea.brand {
+  height: auto;
 }
 
 .theme--light button.brand {

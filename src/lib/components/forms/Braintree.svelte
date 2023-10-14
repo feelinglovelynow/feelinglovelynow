@@ -1,13 +1,21 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import type { Price } from '$lib'
   import '$lib/scss/braintree.scss'
   import { theme } from '$lib/util/store'
   import showToast from '@sensethenlove/toast'
   import { PUBLIC_BRAINTREE_TOKENIZATION_KEY } from '$env/static/public'
   import { client, hostedFields, type BraintreeError, type HostedFields, type HostedFieldsTokenizePayload } from 'braintree-web'
+  import Button from './Button.svelte';
 
-  let form: HTMLFormElement
-  let submitButton: HTMLButtonElement
+  export let name: string
+  export let email: string
+  export let address: string
+  export let zip: string
+  export let country: string
+  export let totalPrice: Price
+
+  let save = () => {}
+  let isLoading: boolean = true
   let highHostedFieldsInstance: HostedFields | undefined
 
   theme.subscribe(onThemeUpdate)
@@ -27,7 +35,7 @@
   function onClientCreated (error: BraintreeError | undefined, clientInstance: any) {
     if (error) {
       console.error(error)
-      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+      showToast({ type: 'info', items: [ 'There was an error processing your payment' ] })
     } else if (clientInstance) {
       const style = getComputedStyle(document.body)
 
@@ -80,64 +88,82 @@
   function onHostedFieldsCreated (error: BraintreeError | undefined, hostedFieldsInstance: HostedFields | undefined) {
     if (error) {
       console.error(error)
-      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+      showToast({ type: 'info', items: [ 'There was an error processing your payment' ] })
     } else if (hostedFieldsInstance) {
-      submitButton.removeAttribute('disabled')
+      isLoading = false
       highHostedFieldsInstance = hostedFieldsInstance
-      // hostedFieldsInstance.focus('number')
 
-      form.addEventListener('submit', (event: SubmitEvent) => {
-        event.preventDefault()
+      save = () => {
         hostedFieldsInstance.tokenize(onHostedFieldsTokenized)
-      }, false)
+      }
     }
   }
 
 
-  function onHostedFieldsTokenized (error: BraintreeError | undefined, payload: HostedFieldsTokenizePayload | undefined) {
-    if (error) {
+  async function onHostedFieldsTokenized (error: BraintreeError | undefined, payload: HostedFieldsTokenizePayload | undefined) {
+    const errors = []
+
+    if (!name) errors.push('Please add Name')
+    if (!email) errors.push('Please add Email')
+    if (!address) errors.push('Please add Shipping: Address')
+    if (!zip) errors.push('Please add Shipping: Zip')
+    if (!country) errors.push('Please add Shipping: Country')
+
+    switch (error?.code) {
+      case 'HOSTED_FIELDS_FIELDS_INVALID':
+        if (error.details.invalidFieldKeys.includes('number')) errors.push('Please add a valid Billing: Card Number')
+        if (error.details.invalidFieldKeys.includes('expirationDate')) errors.push('Please add a valid Billing: Expiration Date')
+        if (error.details.invalidFieldKeys.includes('postalCode')) errors.push('Please add a valid Billing: Zip')
+        if (error.details.invalidFieldKeys.includes('cvv')) errors.push('Please add a valid Billing: CVV')
+        break
+      case 'HOSTED_FIELDS_FIELDS_EMPTY':
+        errors.push('Please add Billing: Card Number')
+        errors.push('Please add Billing: Expiration Date')
+        errors.push('Please add Billing: Zip')
+        errors.push('Please add Billing: CVV')
+        break
+    }
+
+    if (errors.length) {
       console.error(error)
-      showToast({ type: 'info', items: [ 'There was an error creating our payment submission' ] })
+      showToast({ type: 'info', items: errors })
     } else if (payload) {
-      fetch('/purchase', {
+      const fetchResponse = await fetch('/cart', {
         method: 'POST',
-        body: JSON.stringify({ nonce: payload.nonce }),
         headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ nonce: payload.nonce, name, email, address, zip, country, totalPrice }),
       })
+
+      const response = await fetchResponse.json()
+
+      if (response.errors?.length) showToast({ type: 'info', items: response.errors })
     }
   }
 </script>
 
 
 <div class="braintree">
-  <form action="/" id="my-sample-form" method="post" bind:this={ form }>
+  <div class="braintree__form-item">
+    <label for="card-number" class="braintree__label">Card Number</label>
+    <div id="card-number" class="braintree__input"></div>
+  </div>
+
+  <div class="braintree__form-item">
+    <label for="expiration-date" class="braintree__label">Expiration Date</label>
+    <div id="expiration-date" class="braintree__input"></div>
+  </div>
+
+  <div class="braintree__form-items">
     <div class="braintree__form-item">
-      <label for="card-number" class="braintree__label">Card Number</label>
-      <div id="card-number" class="braintree__input"></div>
+      <label for="postal-code" class="braintree__label">Zip</label>
+      <div id="postal-code" class="braintree__input"></div>
     </div>
 
     <div class="braintree__form-item">
       <label for="cvv" class="braintree__label">CVV</label>
       <div id="cvv" class="braintree__input"></div>
     </div>
+  </div>
 
-    <div class="braintree__form-item">
-      <label for="expiration-date" class="braintree__label">Expiration Date</label>
-      <div id="expiration-date" class="braintree__input"></div>
-    </div>
-
-    <div class="braintree__form-item">
-      <label for="postal-code" class="braintree__label">Postal Code</label>
-      <div id="postal-code" class="braintree__input"></div>
-    </div>
-
-    <button type="submit" class="brand full-width" disabled bind:this={ submitButton }>Purchase</button>
-  </form>
+  <Button text="Purchase" css="full-width" { isLoading } onClick={ save } />
 </div>
-
-
-<style lang="scss">
-  .brand {
-    margin-top: 1.5rem;
-  }
-</style>

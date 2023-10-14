@@ -8,7 +8,7 @@
     max-width: 90vw;
     appearance: none;
     line-height: 1.32;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     border-radius: 3px;
     margin-top: 0.6rem;
     color: var(--text-color);
@@ -29,7 +29,16 @@
 
   &__form-item {
     width: 100%;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.8rem;
+  }
+
+  &__form-items {
+    display: flex;
+    justify-content: space-between;
+
+    .braintree__form-item {
+      width: 49%;
+    }
   }
 
   &__dark-input {

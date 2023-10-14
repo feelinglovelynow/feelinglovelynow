@@ -2,6 +2,8 @@
 
 #stl--toast-wrapper {
   z-index: $zindex-toast;
+  width: 54rem !important;
+  margin-left: -27rem !important;
 
   a,
   .link {

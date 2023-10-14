@@ -38,6 +38,7 @@
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
+- [HTML Country Select Dropdown List](https://gist.github.com/danrovito/977bcb97c9c2dfd3398a)
 
 #### Articles
 - [NPM to PNPM](https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/)
@@ -52,6 +53,7 @@
 - [Braintree Demo](https://braintree.github.io/braintree-web-drop-in/)
 - [SVG Viewbox](https://webdesign.tutsplus.com/svg-viewport-and-viewbox-for-beginners--cms-30844t)
 - [Svelete Store + Local Storage](https://rodneylab.com/using-local-storage-sveltekit/)
+- [Payment and address form best practices](https://web.dev/articles/payment-and-address-form-best-practices#checklist)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
