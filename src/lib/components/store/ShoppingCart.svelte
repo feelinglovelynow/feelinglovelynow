@@ -424,7 +424,7 @@
     .shipping-billing {
       padding-top: 1.8rem;
       margin: 0.9rem 0 0.3em 0;
-      border-top: 1px solid var(--input-border-color);
+      border-top: 1px solid var(--border-color);
     }
 
     .total-price {
@@ -434,7 +434,7 @@
       line-height: 1.32;
       border-radius: 3px;
       color: var(--text-color);
-      border: 1px solid var(--input-border-color);
+      border: 1px solid var(--border-color);
       margin-bottom: 1.8rem;
       font-size: 1.8rem;
       text-align: center;
@@ -442,13 +442,13 @@
     }
 
     .cart-items {
-      border-bottom: 1px solid var(--input-border-color);
+      border-bottom: 1px solid var(--border-color);
 
       .cart-item {
         display: flex;
         margin-bottom: 1.8rem;
         padding-bottom: 1.8rem;
-        border-bottom: 1px solid var(--input-border-color-light);
+        border-bottom: 1px solid var(--border-color-light);
         &:last-child {
           margin-bottom: 0;
           border-bottom: none;
