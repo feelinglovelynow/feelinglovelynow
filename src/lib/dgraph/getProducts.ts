@@ -21,6 +21,9 @@ export default async function getProducts (): Promise<Product[]> {
             name
             slug
           }
+          similarProducts {
+            id
+          }
         }
       }
     `

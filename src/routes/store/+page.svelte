@@ -43,6 +43,16 @@
 { /if }
 
 { #if data.urlProductSlug }
+  { #if data.products[0]?.similarProducts.length }
+    <Title text="May also love" noBottom={ true }/>
+    <div class="products">
+      { #each data.products[0]?.similarProducts as p }
+        <BriefProduct product={ p } />
+      { /each }
+    </div>
+  { /if }
+
+  <Title text="Store Categories" noBottom={ true }/>
   <ProductCategories categories={ data.categories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
 { /if }
 

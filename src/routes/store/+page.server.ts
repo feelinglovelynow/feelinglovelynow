@@ -7,7 +7,7 @@ import serverPageCatch from '$lib/catch/serverPageCatch'
 
 export const load = (async ({ url, platform }) => {
   try {
-    const allProducts: Product[] = []
+    const mapAllProducts: Map<string, Product> = new Map()
     const activeProducts: Map<string, Product> = new Map()
     const categories: Map<string, Category> = new Map()
     const urlProductSlug = url.searchParams.get('product')
@@ -17,7 +17,7 @@ export const load = (async ({ url, platform }) => {
 
     for (const product of kvProducts) {
       product.primaryImage.src = (await import(`../../lib/img/store/${ product.primaryImage.id }.${ product.primaryImage.extension }`)).default
-      allProducts.push(product)
+      mapAllProducts.set(product.id, product)
 
       for (const category of product.categories) {
         categories.set(category.slug, category) // categories at the top of the page
@@ -28,6 +28,21 @@ export const load = (async ({ url, platform }) => {
 
     const arrayProducts = [...activeProducts.values()]
     const arrayCategories = [...categories.values()]
+    const allProducts = [...mapAllProducts.values()]
+
+    if (urlProductSlug && arrayProducts.length === 1) { // get data about similarProducts
+      for (const [ i, similarProduct ] of arrayProducts[0].similarProducts.entries()) { // loop the similarProducts (only gives the product id's)
+        const similarProductFromAll = mapAllProducts.get(similarProduct.id) // get all the data about this similar product 
+
+        if (similarProductFromAll) {
+          arrayProducts[0].similarProducts[i] = { // put all the data about this similar product and its image source into the similarProducts array
+            ...similarProduct,
+            ...similarProductFromAll,
+            src: (await import(`../../lib/img/store/${ similarProductFromAll.primaryImage.id }.${ similarProductFromAll.primaryImage.extension }`)).default
+          }
+        }
+      }
+    }
 
     return {
       allProducts,

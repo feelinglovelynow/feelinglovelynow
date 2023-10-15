@@ -60,6 +60,7 @@ export type Product = {
   showFlowerMetatronMerkaba: boolean
   categories: Category[]
   src?: string
+  similarProducts: Product[]
 }
 
 export type Transaction = {
