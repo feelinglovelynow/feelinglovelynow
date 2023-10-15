@@ -2,6 +2,7 @@
   import type { Price } from '$lib'
   import '$lib/scss/braintree.scss'
   import { theme } from '$lib/util/store'
+  import { cart, set } from '$lib/store/cart'
   import showToast from '@sensethenlove/toast'
   import { PUBLIC_BRAINTREE_TOKENIZATION_KEY } from '$env/static/public'
   import { client, hostedFields, type BraintreeError, type HostedFields, type HostedFieldsTokenizePayload } from 'braintree-web'
@@ -101,6 +102,34 @@
 
 
   async function onHostedFieldsTokenized (error: BraintreeError | undefined, payload: HostedFieldsTokenizePayload | undefined) {
+    const errors = validateForm(error)
+
+    if (errors.length) {
+      console.error(error)
+      showToast({ type: 'info', items: errors })
+    } else if (payload) {
+      isLoading = true
+
+      const fetchResponse = await fetch('/cart', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ nonce: payload.nonce, name, email, address, zip, country, totalPrice, cart: $cart }),
+      })
+
+      const response = await fetchResponse.json()
+
+      if (response._errors?.length) showToast({ type: 'info', items: response._errors })
+      else {
+        set([])
+        showToast({ type: 'success', items: [ 'Success! Thank you! Please check your email for order confirmation details!' ] })
+      }
+
+      isLoading = false
+    }
+  }
+
+
+  function validateForm (error: BraintreeError | undefined) {
     const errors = []
 
     if (!name) errors.push('Please add Name')
@@ -124,20 +153,7 @@
         break
     }
 
-    if (errors.length) {
-      console.error(error)
-      showToast({ type: 'info', items: errors })
-    } else if (payload) {
-      const fetchResponse = await fetch('/cart', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ nonce: payload.nonce, name, email, address, zip, country, totalPrice }),
-      })
-
-      const response = await fetchResponse.json()
-
-      if (response.errors?.length) showToast({ type: 'info', items: response.errors })
-    }
+    return errors
   }
 </script>
 

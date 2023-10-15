@@ -3,9 +3,10 @@
   import { cart, set } from '$lib/store/cart'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import type { Price, Cart, Product } from '$lib'
+  import expandSubTotal from '$lib/store/expandSubTotal'
+  import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Braintree from '$lib/components/forms/Braintree.svelte'
   import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
-  import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 
   export let allProducts: undefined | Product[] = undefined
 
@@ -17,36 +18,40 @@
   let hideModal: HideModal
   let cartItems: Cart = []
   let country: string = 'United States'
-  let taxes: Price = { str: '', num: 0 }
+  let salesTax: Price = { str: '', num: 0 }
   let subTotal: Price = { str: '', num: 0 }
+  let shipping: Price = { str: '', num: 0 }
   let totalPrice: Price = { str: '', num: 0 }
 
   $: if ($cart) loopCart()
 
   function loopCart () {
-    cartItems = []
-    subTotal.num = 0
+    if (!$cart.length && hideModal) hideModal()
+    else {
+      cartItems = []
+      subTotal.num = 0
 
-    for (const cartItem of $cart) {
-      const product = allProducts?.find(p => p.id === cartItem.productId)
+      for (const cartItem of $cart) {
+        const product = allProducts?.find(p => p.id === cartItem.productId)
 
-      if (product) {
-        cartItems.push({
-          product,
-          size: cartItem.size,
-          quantity: cartItem.quantity,
-        })
+        if (product) {
+          cartItems.push({
+            product,
+            id: cartItem.id,
+            size: cartItem.size,
+            quantity: cartItem.quantity,
+          })
 
-        subTotal.num += (cartItem.quantity * product.price)
+          subTotal.num += (cartItem.quantity * product.price)
+        }
       }
+
+      const response = expandSubTotal(subTotal)
+      subTotal = response.subTotal
+      salesTax = response.salesTax
+      shipping = response.shipping
+      totalPrice = response.totalPrice
     }
-
-    taxes.num = subTotal.num * 0.09
-    totalPrice.num = taxes.num + subTotal.num + 6
-
-    subTotal.str = twoDecimalPlaces(subTotal.num)
-    taxes.str = twoDecimalPlaces(taxes.num)
-    totalPrice.str = twoDecimalPlaces(totalPrice.num)
   }
 
   function updateCartQuantity (cartIndex: number, quantity: string) {
@@ -57,10 +62,6 @@
 
     set($cart)
     if ($cart.length === 0) hideModal()
-  }
-
-  function twoDecimalPlaces (num: number) {
-    return (Math.round(num * 100) / 100).toFixed(2)
   }
 
   function bindModalFunctions (e: CustomEvent<any>) {
@@ -79,14 +80,14 @@
 
 
 <div class="cart">
-  <Modal header="Shopping Cart" on:functions={ bindModalFunctions }>
+  <Modal header="Release Date ⋅ 11/11/23" on:functions={ bindModalFunctions }>
     <div class="total-price">
-      { `Sub Total $${ subTotal.str } ⋅ Shipping $6.00 ⋅ Sales Tax $${ taxes.str } ⋅` }
+      { `Sub Total $${ subTotal.str } ⋅ Shipping $${ shipping.str } ⋅ Sales Tax $${ salesTax.str } ⋅` }
       <strong>{ `Total Price $${ totalPrice.str } USD` }</strong>
     </div>
 
     <div class="cart-items">
-      { #each cartItems as c, cartIndex }
+      { #each cartItems as c, cartIndex (c.id) }
         { #if c.product }
           <div class="cart-item">
             <div class="img-wrapper">
@@ -388,6 +389,7 @@
     </div>
 
     <div class="papyrus two shipping-billing">Billing</div>
+    <!-- { #if true } -->
     { #if PUBLIC_ENVIRONMENT === 'local' }
       <Braintree { name } { email } { address } { zip } { country } { totalPrice } />
     { /if }
@@ -480,7 +482,7 @@
             margin-bottom: 0.3rem;
 
             select {
-              width: 4.5rem;
+              width: 5.4rem;
               height: 3rem;
               margin-left: 0.9rem;
             }

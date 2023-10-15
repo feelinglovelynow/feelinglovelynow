@@ -23,8 +23,8 @@
 
 
 <ShoppingCart allProducts={ data.allProducts } />
-<!-- <Title text="Store" size="two" /> -->
-<Title text="Release Date ⋅ 11/11/23" size="two" />
+<Title text="Store" size="two" />
+<!-- <Title text="Release Date ⋅ 11/11/23" size="two" /> -->
 
 { #if !data.urlProductSlug }
   <ProductCategories categories={ data.categories } currentCategorySlug={ data.urlCategorySlug } />

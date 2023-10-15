@@ -20,7 +20,7 @@ export function set (c: Cart) {
     const key = `${ cartItem.productId }${ cartItem.size ? ':::' + cartItem.size : '' }`
     const value = cartMap.get(key)
 
-    if (!value) cartMap.set(key, cartItem)
+    if (!value) cartMap.set(key, { ...cartItem, id: cartItem.id || crypto.randomUUID() })
     else {
       value.quantity += cartItem.quantity
       if (value.quantity > 27) value.quantity = 27 // max quantity is 27

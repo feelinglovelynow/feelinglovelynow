@@ -59,4 +59,24 @@ export type Product = {
   storeDisplayOrder: int
   showFlowerMetatronMerkaba: boolean
   categories: Category[]
+  src?: string
+}
+
+export type Transaction = {
+  id: string,
+  status: string
+}
+
+export type Order = {
+  id: string
+  nonce: string
+  name: string
+  email: string
+  address: string
+  zip: string
+  country: string
+  price: number
+  cart: Product[]
+  transaction: Transaction
+  createdAt: string
 }

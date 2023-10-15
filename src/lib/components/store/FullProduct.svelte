@@ -53,6 +53,7 @@
     if (errors.length) showToast({ type: 'info', items: errors })
     else {
       const cartItem: CartItem = {
+        id: crypto.randomUUID(),
         productId: product.id,
         quantity: Number(quantity)
       }
