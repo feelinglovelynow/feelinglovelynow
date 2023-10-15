@@ -8,12 +8,15 @@
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
   export let product: Product
-  
+
   let size = ''
   let quantity = ''
   let isBook: boolean
   let isLotus: boolean
   let isMerkaba: boolean
+  let isHeartLight: boolean
+  let isTorusLight: boolean
+  let isLoveJoyPeace: boolean
   let isFlowerOrMetatron: boolean
 
   const sizes = [
@@ -24,19 +27,28 @@
     { value: 'XL', name: 'X-Large' },
   ]
 
-  for (const category of product.categories) {
-    if (category.slug === 'books') {
-      isBook = true
-      break
-    } else if (category.slug === 'merkaba') {
-      isMerkaba = true
-      break
-    } else if (category.slug === 'lotus-of-life') {
-      isLotus = true
-      break
-    } else if (category.slug === 'metatrons-cube' || category.slug === 'flower-of-life') {
-      isFlowerOrMetatron = true
-      break
+  const heartLightIds = [ '0xfffd8d6ad3a2000a', '0xfffd8d6ad3a20006', '0xfffd8d6ad3a2000b', '0xfffd8d6ad3a20009' ]
+  const torusLightIds = [ '0xfffd8d6ad3a20013', '0xfffd8d6ad3a20007', '0xfffd8d6ad3a20019', '0xfffd8d6ad3a20008' ]
+  const loveJoyPeaceIds = [ '0xfffd8d6ad3a2000c', '0xfffd8d6ad3a20005', '0xfffd8d6ad3a2000d', '0xfffd8d6ad3a20004' ]
+
+  if (heartLightIds.includes(product.id)) isHeartLight = true
+  else if (torusLightIds.includes(product.id)) isTorusLight = true
+  else if (loveJoyPeaceIds.includes(product.id)) isLoveJoyPeace = true
+  else {
+    for (const category of product.categories) {
+      if (category.slug === 'books') {
+        isBook = true
+        break
+      } else if (category.slug === 'merkaba') {
+        isMerkaba = true
+        break
+      } else if (category.slug === 'lotus-of-life') {
+        isLotus = true
+        break
+      } else if (category.slug === 'metatrons-cube' || category.slug === 'flower-of-life') {
+        isFlowerOrMetatron = true
+        break
+      }
     }
   }
 
@@ -121,7 +133,7 @@
         <p>"The tetrahedron is considered fire, the cube is earth, the octahedron is air, the icosahedron is water and the dodecahedron is ether. (Ether, prana and tachyon energy are the same thing; they extend everywhere and are accessible at any point in space/time/dimension. This is the great secret of zero-point technology.) And the sphere is voidness. These six elements are the building blocks of the universe. They create the qualities of the universe."</p>
         <p>"There are all kinds of ways that atoms can join. The resulting molecules are always associated with the five Platonic solids… Even when you get into this complicated molecule and break it down, you see the shapes in it, and they always revert to one of the five Platonic solids it doesn't matter what the structure is. No matter what you call it - metal, crystal, anything else - will always come down to one of these original five shapes."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if isMerkaba}
+      { :else if isMerkaba }
         <div class="geometry">
           <SVG_FLOWER_OF_LIFE flower={ true }  />
           <SVG_FLOWER_OF_LIFE fruit={ true }  />
@@ -145,7 +157,7 @@
         </ul>
         <p>If you would love, please feel free to contact me (Chris Carrington) <LoadingAnchor href="/links" label="here"/>! Hakuna Matata! 🙏</p>
         <p>Edition: 11/11/23 · Written and Published in Mount Shasta California · Paper is 50% Recycled Paper and 50% Organic Hemp</p>
-      { :else if isLotus }
+      { :else if isLotus || isTorusLight }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is shaped like a <strong>torus</strong>.</div>
         <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
@@ -153,6 +165,21 @@
         <p>Energy flows within our <strong>toroidal field</strong> in this direction:</p>
         <p>Out top of heart &gt; Out top of our head &gt; Around body &gt; To the Earth &gt; In base of spine &gt; In bottom of heart</p>
         <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales.</p>
+      { :else if isHeartLight } <!-- Heart Light -->
+        <div>The etheric field has been measured, it unites all in our Universe and according to Albert Einstein, space without ether is unthinkable</div>
+        <p>Space is filled with ether, it flows through the atoms of our universe and to help us visualize the etheric field, think of ether as light</p>
+        <p>We are in an ocean of light, some is visible light, some is subtle uniting light; all in our Universe, abides in light</p>
+        <p>Heart awareness is placing awareness at heart and leads to increased physiological efficiency, emotional stability and mental acuity</p>
+      { :else if isLoveJoyPeace } <!-- Love Joy Peace -->
+        <div>Positive emotions:</div>
+        <ul>
+          <li>Enhance energy</li>
+          <li>Increase coherence</li>
+          <li>Increased body efficiency</li>
+          <li>Increased body effectiveness</li>
+          <li>Increase our empathy (sensitivity to receive information contained in the magnetic fields generated by others)</li>
+          <li>Lead us to radiate an electromagnetic field from our heart that contains a more coherent structure</li>
+        </ul>
       { /if }
       <div class="clear"></div>
     </div>
