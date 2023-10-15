@@ -1,12 +1,11 @@
 import get from '$lib/kv/get'
-import type { CartItem } from '$lib'
 import { json } from '@sveltejs/kit'
 import send from '$lib/mailchannels/send'
 import addOrder from '$lib/dgraph/addOrder'
-import type { CartRequest, Price } from '$lib'
 import type { RequestHandler } from './$types'
 import expandSubTotal from '$lib/store/expandSubTotal'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
+import type { CartRequest, Price, CartItem, Product } from '$lib'
 import { createTransaction } from '$lib/braintree/createTransaction'
 import { reverseTransaction } from '$lib/braintree/reverseTransaction'
 
@@ -69,7 +68,7 @@ async function mergeCartWithProducts (body: CartRequest, errors: string[], platf
   const subTotal: Price =  { str: '', num: 0 }
 
   if (!errors.length) {
-    const kvProducts = await get('MAIN_CACHE', 'products', platform)
+    const kvProducts = await get('MAIN_CACHE', 'products', platform) as Product[]
 
     for (const cartItem of body.cart) {
       for (const product of kvProducts) {
@@ -138,7 +137,7 @@ async function getOrdersEmailHTML (body: CartRequest) {
   let orderItemHtml = ''
 
   for (const cartItem of body.cart) {
-    if (cartItem.product) cartItem.product.src = (await import(`../../lib/img/store/${ cartItem.product?.images[0].id }.${ cartItem.product?.images[0].extension }`)).default
+    if (cartItem.product) cartItem.product.src = (await import(`../../lib/img/store/${ cartItem.product?.primaryImage.id }.${ cartItem.product?.primaryImage.extension }`)).default
     orderItemHtml += getOrderItemHtml(cartItem)
   }
 

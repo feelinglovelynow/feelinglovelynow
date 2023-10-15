@@ -54,7 +54,7 @@ export type Product = {
   price: number
   name: string
   description?: string
-  images: Image[]
+  primaryImage: Image
   homeDisplayOrder: int
   storeDisplayOrder: int
   showFlowerMetatronMerkaba: boolean

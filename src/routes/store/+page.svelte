@@ -6,8 +6,8 @@
   import toastRouteError from '$lib/util/toastRouteError'
   import FullProduct from '$lib/components/store/FullProduct.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
+  import ShoppingCart from '$lib/components/store/ShoppingCart.svelte'
   import ProductCategories from '$lib/components/store/ProductCategories.svelte'
-  import ShoppingCart from '$lib/components/store/ShoppingCart.svelte';
 
   export let data: PageData
 
@@ -16,7 +16,7 @@
 
 
 { #if data.urlProductSlug }
-  <Head title={ data.products[0].name } url={ data.href } ogImageSrc={ data.products[0].images[0].src } description={ data.products[0].name } />
+  <Head title={ data.products[0].name } url={ data.href } ogImageSrc={ data.products[0].primaryImage.src } description={ data.products[0].name } />
 { :else }
   <Head title="Store" url={ data.href } ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
 { /if }

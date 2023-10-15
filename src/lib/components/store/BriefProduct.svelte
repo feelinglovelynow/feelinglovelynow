@@ -3,19 +3,15 @@
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
   export let product: Product
-
-  $: image = product?.images?.length ? product.images[0] : null
 </script>
 
 <div class="wrapper">
   <section>
     <LoadingAnchor href={ `/store?product=${ product.slug }` } loadWidth="huge">
 
-    { #if image }
-      <div class="image">
-        <img src={ image.src } alt={ product.name }/>
-      </div>
-    { /if }
+    <div class="image">
+      <img src={ product.primaryImage.src } alt={ product.name }/>
+    </div>
 
     <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>
     </LoadingAnchor>

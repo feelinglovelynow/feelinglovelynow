@@ -91,7 +91,7 @@
         { #if c.product }
           <div class="cart-item">
             <div class="img-wrapper">
-              <img src={ c.product.images[0].src } alt={ c.product.name } />
+              <img src={ c.product.primaryImage.src } alt={ c.product.name } />
             </div>
             <div class="info">
               <div class="name">{ c.product.name }</div>

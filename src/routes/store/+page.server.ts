@@ -12,11 +12,11 @@ export const load = (async ({ url, platform }) => {
     const categories: Map<string, Category> = new Map()
     const urlProductSlug = url.searchParams.get('product')
     const urlCategorySlug = url.searchParams.get('category')
-    const kvProducts = await get('MAIN_CACHE', 'products', platform)
+    const kvProducts = await get('MAIN_CACHE', 'products', platform) as Product[]
 
 
     for (const product of kvProducts) {
-      product.images[0].src = (await import(`../../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
+      product.primaryImage.src = (await import(`../../lib/img/store/${ product.primaryImage.id }.${ product.primaryImage.extension }`)).default
       allProducts.push(product)
 
       for (const category of product.categories) {

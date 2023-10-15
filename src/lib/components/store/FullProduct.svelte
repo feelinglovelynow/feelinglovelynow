@@ -8,8 +8,6 @@
   import SVG_FLOWER_OF_LIFE from '$lib/svg/sacred/flower/component.svelte'
 
   export let product: Product
-
-  $: image = product?.images?.length ? product.images[0] : null
   
   let size = ''
   let quantity = ''
@@ -80,12 +78,10 @@
 
 
 <section>
-  { #if image }
-    <div class="image">
-      <img src={ image.src } alt={ product.name }/>
-      <ProductCategories categories={ product.categories } isAllShowing={ false }/>
-    </div>
-  { /if }
+  <div class="image">
+    <img src={ product.primaryImage.src } alt={ product.name }/>
+    <ProductCategories categories={ product.categories } isAllShowing={ false }/>
+  </div>
 
   <div class="info">
     <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>

@@ -13,14 +13,13 @@ export default async function getProducts (): Promise<Product[]> {
           homeDisplayOrder
           storeDisplayOrder
           slug
+          primaryImage {
+            id
+            extension
+          }
           categories {
             name
             slug
-          }
-          images(order: {asc: displayOrder}) {
-            id
-            displayOrder
-            extension
           }
         }
       }

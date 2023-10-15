@@ -58,7 +58,7 @@ async function formatProductsAndCategories (products: Product[]): Promise<{ prod
 
     for (const product of products) {
       if (Number.isInteger(product.homeDisplayOrder)) {
-        product.images[0].src = (await import(`../lib/img/store/${ product.images[0].id }.${ product.images[0].extension }`)).default
+        product.primaryImage.src = (await import(`../lib/img/store/${ product.primaryImage.id }.${ product.primaryImage.extension }`)).default
         featuredProducts.push(product)
       }
 
