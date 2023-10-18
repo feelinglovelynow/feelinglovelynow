@@ -15,17 +15,17 @@ export default {
     csp: {
       mode: 'auto',
       directives: {
-        'frame-src': [
-          'https://challenges.cloudflare.com',
-          'https://www.youtube-nocookie.com',
-          'https://w.soundcloud.com/player/',
-          'https://assets.braintreegateway.com',
-          'https://checkout.paypal.com',
-          'https://www.sandbox.paypal.com',
-        ],
+        'base-uri': [ 'self' ],
         'object-src': [ 'none' ],
         'script-src': [ 'strict-dynamic' ],
-        'base-uri': [ 'self' ],
+        'frame-src': [
+          'https://checkout.paypal.com',
+          'https://www.sandbox.paypal.com',
+          'https://w.soundcloud.com/player/',
+          'https://www.youtube-nocookie.com',
+          'https://challenges.cloudflare.com',
+          'https://assets.braintreegateway.com',
+        ],
       }
     }
   }
