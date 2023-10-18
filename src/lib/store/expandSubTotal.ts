@@ -1,22 +1,12 @@
-import type { Price } from '$lib'
-import { twoDecimalPlaces } from '$lib/store/twoDecimalPlaces'
+import Price from '$lib/store/Price'
+import { shippingCost, salesTaxPercentage } from '$lib/store/constants'
 
 
-export default function expandSubTotal (subTotal: Price) {
-  const salesTaxPercentage = 0.09
-
-  const shipping: Price = { str: '', num: 6 }
-  const salesTax: Price = { str: '', num: 0 }
-  const totalPrice: Price = { str: '', num: 0 }
-
-  shipping.str = twoDecimalPlaces(shipping.num)
-  subTotal.str = twoDecimalPlaces(subTotal.num)
-
-  salesTax.num = subTotal.num * salesTaxPercentage
-  salesTax.str = twoDecimalPlaces(salesTax.num)
-
-  totalPrice.num = salesTax.num + subTotal.num + shipping.num
-  totalPrice.str = twoDecimalPlaces(totalPrice.num)
+export default function expandSubTotal (subTotalNum: number) {
+  const subTotal = new Price(subTotalNum)
+  const shipping = new Price(shippingCost)
+  const salesTax = new Price((subTotal.num + shipping.num) * salesTaxPercentage)
+  const totalPrice = new Price(subTotal.num + shipping.num + salesTax.num)
 
   return { subTotal, salesTax, shipping, totalPrice }
 }

@@ -213,7 +213,7 @@
       }
 
       img {
-        width: 45rem;
+        width: 54rem;
         max-width: 100%;
         transition: all 0.9s;
       }

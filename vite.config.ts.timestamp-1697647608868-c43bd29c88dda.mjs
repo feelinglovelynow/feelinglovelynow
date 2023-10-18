@@ -1,0 +1,11 @@
+// vite.config.ts
+import { defineConfig } from "file:///Users/chriscarrington/feelinglovelynow/node_modules/.pnpm/vite@4.4.11_@types+node@18.18.5_sass@1.69.3/node_modules/vite/dist/node/index.js";
+import svg from "file:///Users/chriscarrington/feelinglovelynow/node_modules/.pnpm/@poppanator+sveltekit-svg@2.1.2_svelte@3.59.2_vite@4.4.11/node_modules/@poppanator/sveltekit-svg/dist/index.js";
+import { sveltekit } from "file:///Users/chriscarrington/feelinglovelynow/node_modules/.pnpm/@sveltejs+kit@1.25.2_svelte@3.59.2_vite@4.4.11/node_modules/@sveltejs/kit/src/exports/vite/index.js";
+var vite_config_default = defineConfig({
+  plugins: [sveltekit(), svg({ type: "src" })]
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvVXNlcnMvY2hyaXNjYXJyaW5ndG9uL2ZlZWxpbmdsb3ZlbHlub3dcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfZmlsZW5hbWUgPSBcIi9Vc2Vycy9jaHJpc2NhcnJpbmd0b24vZmVlbGluZ2xvdmVseW5vdy92aXRlLmNvbmZpZy50c1wiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9pbXBvcnRfbWV0YV91cmwgPSBcImZpbGU6Ly8vVXNlcnMvY2hyaXNjYXJyaW5ndG9uL2ZlZWxpbmdsb3ZlbHlub3cvdml0ZS5jb25maWcudHNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tICd2aXRlJ1xuaW1wb3J0IHN2ZyBmcm9tICdAcG9wcGFuYXRvci9zdmVsdGVraXQtc3ZnJ1xuaW1wb3J0IHsgc3ZlbHRla2l0IH0gZnJvbSAnQHN2ZWx0ZWpzL2tpdC92aXRlJ1xuXG5cbmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7XG5cdHBsdWdpbnM6IFtzdmVsdGVraXQoKSwgc3ZnKHsgdHlwZTogJ3NyYycgfSldXG59KVxuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUF1UyxTQUFTLG9CQUFvQjtBQUNwVSxPQUFPLFNBQVM7QUFDaEIsU0FBUyxpQkFBaUI7QUFHMUIsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDM0IsU0FBUyxDQUFDLFVBQVUsR0FBRyxJQUFJLEVBQUUsTUFBTSxNQUFNLENBQUMsQ0FBQztBQUM1QyxDQUFDOyIsCiAgIm5hbWVzIjogW10KfQo=

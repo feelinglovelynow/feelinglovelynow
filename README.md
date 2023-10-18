@@ -21,6 +21,8 @@
 - [Braintree Testing Paypal](https://developer.paypal.com/braintree/docs/guides/paypal/testing-go-live/ruby#linked-paypal-testing)
 - [Braintree AVS & CVV](https://developer.paypal.com/braintree/articles/guides/fraud-tools/basic/avs-cvv-rules)
 - [Braintree Tokenization Key](https://developer.paypal.com/braintree/docs/guides/authorization/tokenization-key/javascript/v3)
+- [Paypal Options](https://developer.paypal.com/sdk/js/reference/)
+- [Paypal API](https://developer.paypal.com/docs/api/orders/v2/#orders_create)
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
 - [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
@@ -54,6 +56,8 @@
 - [SVG Viewbox](https://webdesign.tutsplus.com/svg-viewport-and-viewbox-for-beginners--cms-30844t)
 - [Svelete Store + Local Storage](https://rodneylab.com/using-local-storage-sveltekit/)
 - [Payment and address form best practices](https://web.dev/articles/payment-and-address-form-best-practices#checklist)
+- [Get Paypal Credentials](https://developer.paypal.com/api/rest/#get-credentials)
+- [Customize Paypal Checkout Page](https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/admin/checkout-settings/)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)

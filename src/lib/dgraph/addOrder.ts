@@ -1,5 +1,6 @@
+import Price from '$lib/store/Price'
 import graphql from '$lib/dgraph/graphql'
-import type { CartRequest, Price, Transaction } from '$lib'
+import type { CartRequest, Transaction } from '$lib'
 
 
 export default async function addOrder (body: CartRequest, transaction: Transaction, totalPrice: Price) {

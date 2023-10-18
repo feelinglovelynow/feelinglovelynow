@@ -35,10 +35,11 @@ export const load = (async ({ url, platform }) => {
         const similarProductFromAll = mapAllProducts.get(similarProduct.id) // get all the data about this similar product 
 
         if (similarProductFromAll) {
-          arrayProducts[0].similarProducts[i] = { // put all the data about this similar product and its image source into the similarProducts array
+          similarProductFromAll.primaryImage.src = (await import(`../../lib/img/store/${ similarProductFromAll.primaryImage.id }.${ similarProductFromAll.primaryImage.extension }`)).default
+
+          arrayProducts[0].similarProducts[i] = { // sync all data w/ similar product data
             ...similarProduct,
-            ...similarProductFromAll,
-            src: (await import(`../../lib/img/store/${ similarProductFromAll.primaryImage.id }.${ similarProductFromAll.primaryImage.extension }`)).default
+            ...similarProductFromAll
           }
         }
       }

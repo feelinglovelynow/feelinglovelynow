@@ -59,7 +59,6 @@ export type Product = {
   storeDisplayOrder: int
   showFlowerMetatronMerkaba: boolean
   categories: Category[]
-  src?: string
   similarProducts: Product[]
 }
 

@@ -11,6 +11,9 @@ importers:
       '@cloudflare/workers-types':
         specifier: ^4.20231010.0
         version: 4.20231010.0
+      '@paypal/paypal-js':
+        specifier: ^7.0.3
+        version: 7.0.3
       '@poppanator/sveltekit-svg':
         specifier: ^2.1.2
         version: 2.1.2(svelte@3.59.2)(vite@4.4.11)
@@ -53,18 +56,9 @@ importers:
       '@sveltejs/kit':
         specifier: ^1.25.2
         version: 1.25.2(svelte@3.59.2)(vite@4.4.11)
-      '@types/braintree-web':
-        specifier: ^3.96.7
-        version: 3.96.7
-      '@types/braintree-web-drop-in':
-        specifier: ^1.39.1
-        version: 1.39.1
       '@types/node':
         specifier: ^18.18.5
         version: 18.18.5
-      braintree-web:
-        specifier: ^3.97.2
-        version: 3.97.2
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -94,40 +88,6 @@ importers:
         version: 3.22.4
 
 packages:
-
-  /@braintree/asset-loader@0.4.4:
-    resolution: {integrity: sha512-uVhXC5dydmngmNVuDiKgfXSlz4kv4x5ytIJodI8N5SY16mRh13m/UmbQ7yH+o8DQqp50qPZ45MUHIZkXKPg85w==}
-    dependencies:
-      promise-polyfill: 8.2.3
-    dev: true
-
-  /@braintree/browser-detection@1.17.1:
-    resolution: {integrity: sha512-Mk7jauyp9pD14BTRS7otoy9dqIJGb3Oy0XtxKM/adGD9i9MAuCjH5uRZMyW2iVmJQTaA/PLlWdG7eSDyMWMc8Q==}
-    dev: true
-
-  /@braintree/event-emitter@0.4.1:
-    resolution: {integrity: sha512-X41357O3OXUDlnwMvS1m0GQEn3zB3s3flOBeg2J5OBvLvdJEIAVpPkblABPtsPrlciDSvfv1aSG5ixHPgFH0Zg==}
-    dev: true
-
-  /@braintree/extended-promise@0.4.1:
-    resolution: {integrity: sha512-00n7m4z+swWHoFQLHLvrIBIEoxnGUBsl3ogvX79ITpcn8CHczDwtxYy5+RhMoAraRdfN3oB+8QIpN3KOxs2Q7w==}
-    dev: true
-
-  /@braintree/iframer@1.1.0:
-    resolution: {integrity: sha512-tVpr7U6u6bqeQlHreEjYMNtnHX62vLnNWziY2kQLqkWhvusPuY5DfuGEIPpWqsd+V/a1slyTQaxK6HWTlH6A/Q==}
-    dev: true
-
-  /@braintree/sanitize-url@6.0.4:
-    resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
-    dev: true
-
-  /@braintree/uuid@0.1.0:
-    resolution: {integrity: sha512-YvZJdlNcK5EnR+7M8AjgEAf4Qx696+FOSYlPfy5ePn80vODtVAUU0FxHnzKZC0og1VbDNQDDiwhthR65D4Na0g==}
-    dev: true
-
-  /@braintree/wrap-promise@2.1.0:
-    resolution: {integrity: sha512-UIrJB+AfKU0CCfbMoWrsGpd2D/hBpY/SGgFI6WRHPOwhaZ3g9rz1weiJ6eb6L9KgVyunT7s2tckcPkbHw+NzeA==}
-    dev: true
 
   /@cloudflare/kv-asset-handler@0.2.0:
     resolution: {integrity: sha512-MVbXLbTcAotOPUj0pAMhVtJ+3/kFkwJqc5qNOleOZTv6QkZZABDMS21dSrSlVswEHwrpWC03e4fWytjqKvuE2A==}
@@ -658,6 +618,12 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@paypal/paypal-js@7.0.3:
+    resolution: {integrity: sha512-Mpq0TGKzypi02Iw4p11eq5+dxVKcuJ+98UDrxLRbqZcr8pBRFPX+jqPFkVq6hzs3sHxwIuMPFCxnrckxxLSznw==}
+    dependencies:
+      promise-polyfill: 8.3.0
+    dev: true
+
   /@polka/url@1.0.0-next.23:
     resolution: {integrity: sha512-C16M+IYz0rgRhWZdCmK+h58JMv8vijAA61gmz2rspCSwKwzBebpdcsiUmwrtJRdphuY30i6BSLEOP8ppbNLyLg==}
     dev: true
@@ -830,40 +796,12 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
 
-  /@types/applepayjs@14.0.1:
-    resolution: {integrity: sha512-vTNSV5PsuhE4KGJsNVF1z2NnZLWiRzGGDhgSbE/0TKhzXmPQu9wmuEAwZBGQAG3nnhxKggfTUdnIKU7Ha1UlGQ==}
-    dev: true
-
-  /@types/braintree-web-drop-in@1.39.1:
-    resolution: {integrity: sha512-gvFOvQhtRb3nmsKzPBd32oEdqQq6DeCdlm4xLRqe8QpGblIKaEi4MIaU/pCNTxaVyYlIFMiUAO2H2xFyvejtgQ==}
-    dependencies:
-      '@types/applepayjs': 14.0.1
-      '@types/braintree-web': 3.96.7
-      '@types/googlepay': 0.7.2
-      '@types/paypal-checkout-components': 4.0.6
-    dev: true
-
-  /@types/braintree-web@3.96.7:
-    resolution: {integrity: sha512-QIC4BIntGV4Izl7O0i7EIj1wYgskDjpu+bgG+m31YHHnlG6wNaHjXRVoTTAyeFk/uSAx5OmwZyy62w7O1f1Cog==}
-    dependencies:
-      '@types/googlepay': 0.7.2
-      '@types/paypal-checkout-components': 4.0.6
-    dev: true
-
   /@types/cookie@0.5.2:
     resolution: {integrity: sha512-DBpRoJGKJZn7RY92dPrgoMew8xCWc2P71beqsjyhEI/Ds9mOyVmBwtekyfhpwFIVt1WrxTonFifiOZ62V8CnNA==}
     dev: true
 
-  /@types/googlepay@0.7.2:
-    resolution: {integrity: sha512-ZYFviDehf53an2ezqiEwQ3dL3TcQM7OeBhKwzX9NYt61y6BqVc/74a/f8cJ3dsEVlAlcctC4NfeB+Z8JxbiYKw==}
-    dev: true
-
   /@types/node@18.18.5:
     resolution: {integrity: sha512-4slmbtwV59ZxitY4ixUZdy1uRLf9eSIvBWPQxNjhHYWEtn0FryfKpyS2cvADYXTayWdKEIsJengncrVvkI4I6A==}
-    dev: true
-
-  /@types/paypal-checkout-components@4.0.6:
-    resolution: {integrity: sha512-CCdy08kllrgckzwCX+TG8VHkw/g+zUXLa9Apy0nxgMCkDPxaTGxJ55N3p0PSyBW3C/FSzAYbbZWfE+o0QOFI4A==}
     dev: true
 
   /@types/pug@2.0.7:
@@ -934,25 +872,6 @@ packages:
       fill-range: 7.0.1
     dev: true
 
-  /braintree-web@3.97.2:
-    resolution: {integrity: sha512-QLDK+iQ/7Fg2IRifL8oDAUuvohPseJM4ttEmdX6KOKFreRXDMRc1nOsf9t/YjlTZhn+7D3AH/K/6quVrL+1Smg==}
-    dependencies:
-      '@braintree/asset-loader': 0.4.4
-      '@braintree/browser-detection': 1.17.1
-      '@braintree/event-emitter': 0.4.1
-      '@braintree/extended-promise': 0.4.1
-      '@braintree/iframer': 1.1.0
-      '@braintree/sanitize-url': 6.0.4
-      '@braintree/uuid': 0.1.0
-      '@braintree/wrap-promise': 2.1.0
-      card-validator: 8.1.1
-      credit-card-type: 9.1.0
-      framebus: 5.2.1
-      inject-stylesheet: 5.0.0
-      promise-polyfill: 8.2.3
-      restricted-input: 3.0.5
-    dev: true
-
   /buffer-crc32@0.2.13:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
     dev: true
@@ -980,12 +899,6 @@ packages:
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /card-validator@8.1.1:
-    resolution: {integrity: sha512-cN4FsKwoTfTFnqPwVc7TQLSsH/QMDB3n/gWm0XelcApz4sKipnOQ6k33sa3bWsNnnIpgs7eXOF+mUV2UQAX2Sw==}
-    dependencies:
-      credit-card-type: 9.1.0
     dev: true
 
   /chokidar@3.5.3:
@@ -1019,10 +932,6 @@ packages:
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
-    dev: true
-
-  /credit-card-type@9.1.0:
-    resolution: {integrity: sha512-CpNFuLxiPFxuZqhSKml3M+t0K/484pMAnfYWH14JoD7OZMnmC0Lmo+P7JX9SobqFpRoo7ifA18kOHdxJywYPEA==}
     dev: true
 
   /css-select@4.3.0:
@@ -1227,12 +1136,6 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
-  /framebus@5.2.1:
-    resolution: {integrity: sha512-K6pw+M2wNBuOhEoFrmMbf1O+fm7PnNDIfA9y0KpAyQzXRIJ420szGgJ/dI2Ikz0XG+5VfspLqA72M6bXhuyKIQ==}
-    dependencies:
-      '@braintree/uuid': 0.1.0
-    dev: true
-
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
@@ -1311,10 +1214,6 @@ packages:
 
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
-    dev: true
-
-  /inject-stylesheet@5.0.0:
-    resolution: {integrity: sha512-GzncrJP8E/pavMQzoO93CXoYCfTttwVm2cX2TyXJdgtVE0cCvWSFCn1/uMsM6ZkEg7LUsOcKuamcLiGWlv2p9A==}
     dev: true
 
   /is-binary-path@2.1.0:
@@ -1522,8 +1421,8 @@ packages:
     resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
     dev: true
 
-  /promise-polyfill@8.2.3:
-    resolution: {integrity: sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==}
+  /promise-polyfill@8.3.0:
+    resolution: {integrity: sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==}
     dev: true
 
   /queue-microtask@1.2.3:
@@ -1540,12 +1439,6 @@ packages:
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
-    dev: true
-
-  /restricted-input@3.0.5:
-    resolution: {integrity: sha512-lUuXZ3wUnHURRarj5/0C8vomWIfWJO+p7T6RYwB46v7Oyuyr3yyupU+i7SjqUv4S6RAeAAZt1C/QCLJ9xhQBow==}
-    dependencies:
-      '@braintree/browser-detection': 1.17.1
     dev: true
 
   /reusify@1.0.4:

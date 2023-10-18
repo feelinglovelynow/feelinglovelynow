@@ -7,13 +7,12 @@
 
 <div class="wrapper">
   <section>
-    <LoadingAnchor href={ `/store?product=${ product.slug }` } loadWidth="huge">
+    <LoadingAnchor css="anchor" href={ `/store?product=${ product.slug }` } loadWidth="huge">
+      <div class="image">
+        <img src={ product.primaryImage.src } alt={ product.name } loading="lazy"/>
+      </div>
 
-    <div class="image">
-      <img src={ product.primaryImage.src } alt={ product.name }/>
-    </div>
-
-    <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>
+      <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>
     </LoadingAnchor>
   </section>
 </div>
@@ -51,22 +50,28 @@
         margin: 0 0.9rem;
       }
 
-      :global(a) {
+      :global(.anchor) {
         width: 100%;
         height: 100%;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding: 1.8rem;
       }
 
       .image {
+        aspect-ratio: 1/1;
+        width: auto;
+        max-height: 39rem;
+        min-width: 20rem;
+        max-width: 100%;
+        min-height: 22rem;
         display: block;
         text-align: center;
 
         img {
           width: auto;
-          max-height: 39rem;
-          min-width: 20rem;
-          max-width: 100%;
+          max-height: 100%;
           transition: all 0.9s;
         }
       }

@@ -6,16 +6,11 @@ export type CartItem = {
   quantity: number
   size?: CartItemSizes
   product?: Product
-  price?: number
+  subTotal?: Price
 }
 
 export type Cart = CartItem[]
 export type CartItemSizes = 'S' | 'M' | 'L' | 'XL'
-
-export type Price = {
-  str: string
-  num: number
-}
 
 export type CartRequest = {
   name: string
@@ -26,6 +21,15 @@ export type CartRequest = {
   nonce: string
   totalPrice: Price
   cart: Cart
+}
+
+export type CreateOrderRequest = {
+  cart: Cart
+  totalPrice: Price
+}
+
+export type CaptureOrderRequest = {
+  orderId: string
 }
 
 export type ReversalTransaction = {

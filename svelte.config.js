@@ -20,6 +20,8 @@ export default {
           'https://www.youtube-nocookie.com',
           'https://w.soundcloud.com/player/',
           'https://assets.braintreegateway.com',
+          'https://checkout.paypal.com',
+          'https://www.sandbox.paypal.com',
         ],
         'object-src': [ 'none' ],
         'script-src': [ 'strict-dynamic' ],
