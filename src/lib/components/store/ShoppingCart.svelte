@@ -52,7 +52,7 @@
 { #if $cart.length > 0 }
   <div transition:fade={{ delay: 90, duration: 600 }} id="shoping-cart-button">
     <button on:click={ showModal } class="brand">{ @html SVG_CART }</button>
-    <div class="count">{ $cart.length }</div>
+    <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
   </div>
 { /if }
 
@@ -231,6 +231,7 @@
       top: -1.62rem;
       right: -1.42rem;
       color: #fff;
+      border: 0.1rem solid var(--red-text-color);
       background-color: var(--red-text-color);
       display: inline-block;
       border-radius: 50%;

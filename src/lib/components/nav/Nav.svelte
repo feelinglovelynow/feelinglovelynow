@@ -22,11 +22,11 @@
   <div class="logo">
     <LoadingAnchor loadWidth="huge">      
       { #if activeRoute?.includes('/library')  }
-        <SVG_FLOWER_OF_LIFE metatronsCube={ true } fruit={ true } />
+        <SVG_FLOWER_OF_LIFE merkaba={ true } />
       { :else if activeRoute === '/links'  }
         <SVG_LOTUS_OF_LIFE />
       { :else if activeRoute === '/store' }
-        <SVG_FLOWER_OF_LIFE merkaba={ true } />
+        <SVG_FLOWER_OF_LIFE metatronsCube={ true } fruit={ true } />
       { :else }
         <SVG_FLOWER_OF_LIFE flower={ true } />
       { /if }
