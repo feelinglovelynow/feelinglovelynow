@@ -62,21 +62,38 @@ export type Product = {
   similarProducts: Product[]
 }
 
-export type Transaction = {
-  id: string,
-  status: string
-}
-
 export type Order = {
   id: string
-  nonce: string
   name: string
   email: string
   address: string
   zip: string
   country: string
-  price: number
-  cart: Product[]
-  transaction: Transaction
+  totalPrice: number
+  cart: CartItem[]
   createdAt: string
+  status: OrderStatus
+  transaction: Transaction
+  paypalFee: number
 }
+
+export type CartItem = {
+  id: string
+  productId?: string
+  quantity: number
+  size?: CartItemSizes
+  product?: Product
+  subTotal?: Price
+}
+
+export enum OrderStatus {
+  COMPLETED,
+  DECLINED,
+  PARTIALLY_REFUNDED,
+  PENDING,
+  REFUNDED,
+  FAILED,
+}
+
+export type Cart = CartItem[]
+export type CartItemSizes = 'S' | 'M' | 'L' | 'XL'

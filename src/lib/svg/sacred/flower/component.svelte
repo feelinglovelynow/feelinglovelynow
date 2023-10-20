@@ -36,9 +36,9 @@
 
   $: if (yFirstOptions) setColumns()
 
-  if (flower || fruit) viewBox = `17 -1 ${ width } ${ height }`
+  if (flower || fruit) viewBox = `17 -1 ${ width } ${ height + 2 }`
   else if (circleCount) viewBox = '114 87 78 131'
-  else viewBox = '58 30 192 245'
+  else viewBox = '58 30 192 247'
 
   function setColumns () {
     columns = [

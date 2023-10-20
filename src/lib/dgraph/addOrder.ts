@@ -1,12 +1,11 @@
-import Price from '$lib/store/Price'
 import graphql from '$lib/dgraph/graphql'
-import type { CartRequest, Transaction } from '$lib'
+import type { AddOrderCart } from '$lib'
 
 
-export default async function addOrder (body: CartRequest, transaction: Transaction, totalPrice: Price) {
+export default async function addOrder (id: string, email: string, name: string, addressLine1: string, addressLine2: string, city: string, state: string, zip: string, country: string, totalPrice: number, cart: AddOrderCart[], status: string, paypalFee: number) {
   return graphql({
     query: `
-      mutation MyMutation($input: [AddOrderInput!] = {}) {
+      mutation MyMutation($input: [AddOrderInput!]! = {id: ""}) {
         addOrder(input: $input) {
           order {
             id
@@ -20,21 +19,16 @@ export default async function addOrder (body: CartRequest, transaction: Transact
     `,
     variables: {
       input: {
-        transaction,
-        nonce: body.nonce,
-        name: body.name,
-        email: body.email,
-        address: body.address,
-        zip: body.zip,
-        country: body.country,
-        price: totalPrice.num,
+        id,
+        email,
+        name,
+        address: `${ addressLine1 }${ addressLine2 ? ' ' + addressLine2 : ''} ${ city }, ${ state }, ${ zip }`,
+        country,
+        totalPrice,
+        cart,
         createdAt: (new Date()).toISOString(),
-        cart: body.cart.map(cartItem => ({
-          id: cartItem.id,
-          size: cartItem.size,
-          quantity: cartItem.quantity,
-          Product: cartItem.product,
-        }))
+        status,
+        paypalFee
       }
     }
   })

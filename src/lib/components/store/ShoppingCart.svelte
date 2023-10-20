@@ -32,7 +32,7 @@
       totalPrice = response.totalPrice
       cartItems = response.cartItems
 
-      // paypalCheckout.create(divPaypalCheckout, $cart, totalPrice, hideModal)
+      paypalCheckout.create(divPaypalCheckout, $cart, totalPrice, hideModal)
     }
   }
 
@@ -129,7 +129,8 @@
       border-radius: 0.3rem;
       margin-bottom: 1.8rem;
       padding: 0.9rem 0.9rem 0 0.9rem;
-      min-height: 18.2rem;
+      min-height: 9rem;
+      transition: all 0.9s;
 
       :global(.paypal-checkout__loading) {
         position: absolute;

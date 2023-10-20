@@ -1,16 +1,22 @@
-import { json } from '@sveltejs/kit'
-import { PAYPAL_SANDBOX_ACCESS, PAYPAL_SANDBOX_API_URL } from '$env/static/private'
+import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
+import { PAYPAL_SANDBOX_API_URL, PAYPAL_SANDBOX_SECRET } from '$env/static/private'
 
 
-export default async function createPaypalOrder (url: string, body: any = undefined) {
+const apiUrl = PUBLIC_ENVIRONMENT === 'local' ? PAYPAL_SANDBOX_API_URL : PAYPAL_SANDBOX_API_URL
+const clientId = PUBLIC_ENVIRONMENT === 'local' ? PUBLIC_PAYPAL_SANDBOX_CLIENT_ID : PUBLIC_PAYPAL_SANDBOX_CLIENT_ID
+const clientSecret = PUBLIC_ENVIRONMENT === 'local' ? PAYPAL_SANDBOX_SECRET : PAYPAL_SANDBOX_SECRET
+
+
+export async function apiPaypal (url: string, body: any = undefined) {
   const fetchUrl = `${ PAYPAL_SANDBOX_API_URL }/${ url }`
+  const accessToken = await apiPaypalAccessToken()
 
   const init: RequestInit = {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${ PAYPAL_SANDBOX_ACCESS }`
+      Authorization: `Bearer ${ accessToken }`
     }
   }
 
@@ -25,5 +31,30 @@ export default async function createPaypalOrder (url: string, body: any = undefi
   } else if (fetcResponse.status !== 200 && fetcResponse.status !== 201 && response.message) {
     console.log('paypal error', fetcResponse.status, response, url, body)
     throw { _errors: [ response.message ] }
-  } else return json(response, { status: fetcResponse.status })
+  } else {
+    return {
+      response,
+      status: fetcResponse.status
+    }
+  }
+}
+
+
+export async function apiPaypalAccessToken (): Promise<string> {
+  const fetchUrl = `${ apiUrl }/v1/oauth2/token`
+  const auth = btoa(`${ clientId }:${ clientSecret }`)
+
+  const init: RequestInit = {
+    method: 'POST',
+    body: 'grant_type=client_credentials',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${ auth }`
+    }
+  }
+
+  const fetcResponse = await fetch(fetchUrl, init)
+  const { access_token } = await fetcResponse.json()
+
+  return access_token
 }

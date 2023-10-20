@@ -8,11 +8,14 @@ export default async function graphql ({ query, variables }: { query: string, va
     body: JSON.stringify({ query, variables })
   })
 
-  const jsonResponse = await fetchResponse.json()
+  const rJSON = await fetchResponse.json()
   const response: { _errors: string[], data: any } = { _errors: [], data: {} }
 
-  if (jsonResponse.errors?.length) response._errors = jsonResponse.errors.map((e: any) => { return e.message })
-  else response.data = jsonResponse.data
+  if (!rJSON.errors?.length) response.data = rJSON.data
+  else {
+    console.log('graphql error:', query, JSON.stringify(variables), rJSON)
+    response._errors = rJSON.errors.map((e: any) => { return e.message })
+  }
 
   return response
 }

@@ -70,8 +70,7 @@
         text-align: center;
 
         img {
-          width: auto;
-          max-height: 100%;
+          height: 100%;
           transition: all 0.9s;
         }
       }

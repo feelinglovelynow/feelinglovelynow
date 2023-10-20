@@ -35,7 +35,7 @@ export default class Braintree {
 
  
   #loadScript () {
-    loadScript({ clientId: PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, currency: 'USD', intent: 'capture', disableFunding: 'paylater' })
+    loadScript({ clientId: PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, currency: 'USD', intent: 'capture' })
       .then(x => {
         if (x) this.#onScriptLoaded(x)
         else this.#onError('Paypal script did not load')
@@ -89,21 +89,24 @@ export default class Braintree {
 
 
   async #onApprove (data: OnApproveData) {
+    const self = this
+
     const fetchResponse = await fetch('/paypal/capture-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        cart: self.cart,
         orderId: data.orderID,
+        totalPrice: self.totalPrice,
       })
     })
 
     const response = await fetchResponse.json()
 
     if (response._errors?.length) showToast({ type: 'info', items: response._errors })
-    else if (response.status !== 'COMPLETED') showToast({ type: 'info', items: [ 'Paypal purchase error occured, please contact us' ] })
-    else if (this.hideModal) {
+    else {
       set([])
-      this.hideModal()
+      if (this.hideModal) this.hideModal()
       showToast({ type: 'success', items: [ 'Thank you for your successful purchase!' ] })
     }
   }
