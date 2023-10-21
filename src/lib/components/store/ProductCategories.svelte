@@ -5,8 +5,9 @@
 
 
   export let title: string = ''
-  export let isAllShowing: boolean = true
   export let categories: Category[] = []
+  export let isAllShowing: boolean = true
+  export let doActiveSelection: boolean = true
   export let currentProductSlug: string | null = null
   export let currentCategorySlug: string | null = null
 </script>
@@ -19,11 +20,11 @@
 
   <section class="chips">
     { #if isAllShowing }
-      <LoadingAnchor label="All" href="/store" css="chip { !currentProductSlug && currentCategorySlug === null ? 'active' : '' }"/>
+      <LoadingAnchor label="All" href="/store" css="chip { doActiveSelection && !currentProductSlug && currentCategorySlug === null ? 'active' : '' }"/>
     { /if }
 
     { #each categories as category }
-      <LoadingAnchor label={ category.name } css="chip { currentCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
+      <LoadingAnchor label={ category.name } css="chip { doActiveSelection && currentCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
     {/each}
   </section>
 { /if }

@@ -90,9 +90,11 @@
 
 
 <section>
-  <div class="image">
-    <img src={ product.primaryImage.src } alt={ product.name }/>
-    <ProductCategories categories={ product.categories } isAllShowing={ false }/>
+  <div class="image-categories">
+    <div class="image">
+      <img src={ product.primaryImage.src } alt={ product.name }/>
+    </div>
+    <ProductCategories categories={ product.categories } isAllShowing={ false } doActiveSelection={ false }/>
   </div>
 
   <div class="info">
@@ -171,7 +173,7 @@
         <p>We are in an ocean of light, some is visible light, some is subtle uniting light; all in our Universe, abides in light</p>
         <p>Heart awareness is placing awareness at heart and leads to increased physiological efficiency, emotional stability and mental acuity</p>
       { :else if isLoveJoyPeace } <!-- Love Joy Peace -->
-        <div>Positive emotions:</div>
+        <div>According to science, positive emotions:</div>
         <ul>
           <li>Enhance energy</li>
           <li>Increase coherence</li>
@@ -202,20 +204,41 @@
     margin: 0 auto 0.9rem auto;
     max-width: 150rem;
 
-    .image {
+    .image-categories {
       float: none;
       display: block;
       text-align: center;
+      width: 100%;
 
       @media only screen and (min-width: $image-swap-width) { // big screen
         float: left;
         margin-right: 1.8rem;
+        width: 54rem;
+        transition: all 0.9s;
       }
 
-      img {
-        width: 54rem;
-        max-width: 100%;
-        transition: all 0.9s;
+      .image {
+        aspect-ratio: 1/1;
+        width: 100%;
+        max-height: none;
+
+        @media only screen and (min-width: $image-swap-width) { // big screen
+          aspect-ratio: auto;
+          width: 100%;
+          min-height: 54rem;
+          transition: all 0.9s;
+          display: flex; // for some reason the container size works on load better with this
+        }
+
+        img {
+          width: auto;
+          height: 100%;
+
+          @media only screen and (min-width: $image-swap-width) { // big screen
+            width: 100%;
+            height: fit-content;
+          }
+        }
       }
 
       :global(.chips) {
@@ -297,6 +320,7 @@
 
           @media only screen and (min-width: $image-swap-width) { // big screen
             transform: translateX(3rem);
+            padding-right: 3rem;
           }
         }
 

@@ -34,7 +34,7 @@
   </div>
 { /if }
 
-<ProductCategories categories={ data.categories } title="Store Categories" />
+<ProductCategories categories={ data.categories } doActiveSelection={ false } title="Store Categories" />
 
 <div class="content">
   { #if data.culture }
