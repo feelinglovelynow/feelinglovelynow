@@ -129,7 +129,7 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
           <table style="margin-bottom: 18px; width: 100%; border-bottom: 1px solid rgba(206, 211, 214, 0.6); padding-bottom: 12px;">
             <tr>
               <td>
-                <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🌎 Shipping Address</div>
+                <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Shipping Address</div>
                 <div style="color: #273142; line-height: 1.45;">
                   <div>${ name }</div>
                   <div>${ addressLine1 } ${ addressLine2 || '' }</div>
@@ -159,9 +159,9 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
             </tr>
           </table>
 
-          <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙌 Purchased Products</div>
+          <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Purchased Products</div>
           ${ orderItemsHtml }
-          <div style="width: 100%; text-align: right;">- Hakuna Matata</div>
+          <div style="color: #273142; width: 100%; text-align: right;">- Hakuna Matata</div>
         </div>
       </div>
     `

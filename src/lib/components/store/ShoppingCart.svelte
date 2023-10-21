@@ -92,7 +92,7 @@
       { /each }
     </div>
     <div class="papyrus two options-head">How would you love to pay?</div>
-    <div id="paypal-checkout" style="display: none;" bind:this={ divPaypalCheckout }></div>
+    <div id="paypal-checkout" bind:this={ divPaypalCheckout }></div>
   </Modal>
 </div>
 
@@ -238,6 +238,7 @@
       width: 3.2rem;
       height: 3.2rem;
       display: flex;
+      font-size: 1.8rem;
       align-items: center;
       justify-content: center;
     }
