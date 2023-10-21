@@ -1,9 +1,8 @@
 <script lang="ts">
-  const width = 272
-  const height = 305
-  const diameter = 60
-  const xPadding = 26
-  const xConstant = 19
+  const dimensions = 609
+  const diameter = 120
+  const xPadding = 52
+  const xConstant = 38
 
   let viewBox: string = ''
   let columns: Columns = []
@@ -18,13 +17,13 @@
   export let fruit = false
   export let flower = false
   export let merkaba = false
-  export let strokeWidth = 3.6
+  export let strokeWidth = 6.9
   export let metatronsCube = false
   export let color = 'rgb(234, 198, 3)'
   export let circleCount: undefined | number = undefined
 
   $: radius = diameter / 2
-  $: center = height / 2
+  $: center = dimensions / 2
 
   $: yFirstOptions = [
     center - (diameter * 2),
@@ -36,9 +35,8 @@
 
   $: if (yFirstOptions) setColumns()
 
-  if (flower || fruit) viewBox = `17 -1 ${ width } ${ height + 2 }`
-  else if (circleCount) viewBox = '114 87 78 131'
-  else viewBox = '58 30 192 247'
+  if (circleCount) viewBox = '114 87 78 131'
+  else viewBox = `0 0 ${ dimensions } ${ dimensions }`
 
   function setColumns () {
     columns = [
@@ -106,7 +104,7 @@
 </script>
 
 
-<svg xmlns="http://www.w3.org/2000/svg" class="logo__flower-of-life" { viewBox } width={ width * 3 }  height={ height * 3 }>
+<svg xmlns="http://www.w3.org/2000/svg" class="logo__flower-of-life" { viewBox }>
   <g fill="none" stroke-width="{ strokeWidth }px" stroke={ color }>
 
 
@@ -121,88 +119,88 @@
 
     { #if merkaba || metatronsCube }
       <!-- top center: starting point -->
-      <circle r="0.9" cx="153" cy="33.4" fill={ color }></circle> <!-- center circle -->
-      <line x1="153" y1="31.5" x2="153" y2="273.5"></line> <!-- top > bottom -->
-      <line x1="153" y1="32.5" x2="49" y2="212.5"></line> <!-- top > bottom left -->
-      <line x1="153" y1="32.5" x2="257" y2="212.5"></line> <!-- top > bottom right -->
+      <circle r="2" cx="306" cy="66.7" fill={ color }></circle> <!-- center circle -->
+      <line x1="306" y1="63.5" x2="306" y2="544.5"></line> <!-- top > bottom -->
+      <line x1="306" y1="64.5" x2="98" y2="424.5"></line> <!-- top > bottom left -->
+      <line x1="306" y1="64.5" x2="514" y2="424.5"></line> <!-- top > bottom right -->
       { #if metatronsCube }
-        <line x1="153" y1="32.5" x2="49" y2="92.5"></line> <!-- top > top left -->
-        <line x1="153" y1="32.5" x2="257" y2="92.5"></line> <!-- top > top right -->
+        <line x1="306" y1="64.5" x2="98" y2="184.5"></line> <!-- top > top left -->
+        <line x1="306" y1="64.5" x2="514" y2="184.5"></line> <!-- top > top right -->
       { /if }
 
 
       <!-- top left: starting point -->
-      <circle r="0.9" cx="50" cy="93" fill={ color }></circle> <!-- center circle -->
-      <line x1="49" y1="92.5" x2="153" y2="272.5"></line> <!-- top left > bottom -->
-      <line x1="49" y1="92.5" x2="257" y2="212.5"></line> <!-- top left > bottom right -->
-      <line x1="49" y1="92.5" x2="257" y2="92.5"></line> <!-- top left > top right -->
+      <circle r="2" cx="100" cy="185.4" fill={ color }></circle> <!-- center circle -->
+      <line x1="98" y1="184.5" x2="306" y2="544.5"></line> <!-- top left > bottom -->
+      <line x1="98" y1="184.5" x2="514" y2="424.5"></line> <!-- top left > bottom right -->
+      <line x1="98" y1="184.5" x2="514" y2="184.5"></line> <!-- top left > top right -->
       { #if metatronsCube }
-        <line x1="49" y1="92.5" x2="49" y2="212.5"></line> <!-- top left > bottom left -->
+        <line x1="98" y1="184.5" x2="98" y2="424.5"></line> <!-- top left > bottom left -->
       { /if }
 
 
       <!-- top right: starting point -->
-      <circle r="0.9" cx="256.2" cy="93" fill={ color }></circle> <!-- center circle -->
-      <line x1="257" y1="92" x2="49" y2="212.5"></line> <!-- top right > bottom left -->
-      <line x1="257" y1="92" x2="153" y2="272.5"></line> <!-- top right > bottom -->
+      <circle r="2" cx="512" cy="185.5" fill={ color }></circle> <!-- center circle -->
+      <line x1="514" y1="184.5" x2="98" y2="424.5"></line> <!-- top right > bottom left -->
+      <line x1="514" y1="184.5" x2="306" y2="544.5"></line> <!-- top right > bottom -->
       { #if metatronsCube }
-        <line x1="257" y1="92" x2="257" y2="212.5"></line> <!-- top right > bottom right -->
+        <line x1="514" y1="184.5" x2="514" y2="424.5"></line> <!-- top right > bottom right -->
       { /if }
 
 
       <!-- bottom left: starting point -->
-      <circle r="0.9" cx="50" cy="212" fill={ color }></circle> <!-- center circle -->
-      <line x1="49" y1="212.5" x2="257" y2="212.5"></line> <!-- bottom left > bottom right -->
+      <circle r="2" cx="100" cy="423.5" fill={ color }></circle> <!-- center circle -->
+      <line x1="98" y1="424.5" x2="514" y2="424.5"></line> <!-- bottom left > bottom right -->
       { #if metatronsCube }
-        <line x1="49" y1="212.5" x2="153" y2="272.5"></line> <!-- bottom left > bottom -->
+        <line x1="98" y1="424.5" x2="306" y2="544.5"></line> <!-- bottom left > bottom -->
       { /if }
 
 
       <!-- bottom right: starting point -->
-      <circle r="0.9" cx="256.2" cy="212" fill={ color }></circle> <!-- center circle -->
+      <circle r="2" cx="512" cy="423.5" fill={ color }></circle> <!-- center circle -->
       { #if metatronsCube }
-        <line x1="256.2" y1="212.5" x2="153" y2="272.5"></line> <!-- bottom left > bottom -->
+        <line x1="514" y1="424.5" x2="306" y2="544.5"></line> <!-- bottom right > bottom -->
       { /if }
 
 
       <!-- bottom: starting point -->
-      <circle r="0.9" cx="153" cy="271.6" fill={ color }></circle> <!-- center circle -->
+      <circle r="2" cx="306" cy="542.3" fill={ color }></circle> <!-- center circle -->
 
 
       <!-- inner top center: starting point -->
-      <line x1="153" y1="92.5" x2="205" y2="182.5"></line> <!-- inner top > inner bottom right -->
-      <line x1="153" y1="92.5" x2="101" y2="182.5"></line> <!-- inner top > inner bottom left -->
+      <line x1="306" y1="184.5" x2="410" y2="364.5"></line> <!-- inner top > inner bottom right -->
+      <line x1="306" y1="184.5" x2="202" y2="364.5"></line> <!-- inner top > inner bottom left -->
       { #if metatronsCube }
-        <line x1="153" y1="92.5" x2="101" y2="122.5"></line> <!-- inner top > inner top left -->
-        <line x1="153" y1="92.5" x2="205" y2="122.5"></line> <!-- inner top > inner top right -->
+        <line x1="306" y1="184.5" x2="202" y2="244.5"></line> <!-- inner top > inner top left -->
+        <line x1="306" y1="184.5" x2="410" y2="244.5"></line> <!-- inner top > inner top right -->
       { /if }
 
 
       <!-- inner top left: starting point -->
-      <line x1="101" y1="122.5" x2="205" y2="122.5"></line> <!-- inner top left > inner top right -->
-      <line x1="101" y1="122.5" x2="153" y2="212.5"></line> <!-- inner top left > inner bottom -->
+      <line x1="202" y1="244.5" x2="410" y2="244.5"></line> <!-- inner top left > inner top right -->
+      <line x1="202" y1="244.5" x2="306" y2="424.5"></line> <!-- inner top left > inner bottom -->
       { #if metatronsCube }
-        <line x1="101" y1="122.5" x2="101" y2="182.5"></line> <!-- inner top left > inner bottom left -->
+        <line x1="202" y1="244.5" x2="202" y2="364.5"></line> <!-- inner top left > inner bottom left -->
       { /if }
 
 
       <!-- inner top right: starting point -->
-      <line x1="205" y1="122.5" x2="153" y2="212.5"></line> <!-- inner top right > inner bottom -->
+      <line x1="410" y1="244.5" x2="306" y2="424.5"></line> <!-- inner top right > inner bottom -->
       { #if metatronsCube }
-        <line x1="205" y1="122.5" x2="205" y2="182.5"></line> <!-- inner top right > inner bottom right -->
+        <line x1="410" y1="244.5" x2="410" y2="364.5"></line> <!-- inner top right > inner bottom right -->
       { /if }
 
 
       <!-- inner bottom left: starting point -->
-      <line x1="101" y1="182.5" x2="205" y2="182.5"></line> <!-- inner bottom left > inner bottom right -->
+      <line x1="202" y1="364.5" x2="410" y2="364.5"></line> <!-- inner bottom left > inner bottom right -->
       { #if metatronsCube }
-        <line x1="101" y1="182.5" x2="153" y2="212.5"></line> <!-- inner bottom left > inner bottom -->
+        <line x1="202" y1="364.5" x2="306" y2="424.5"></line> <!-- inner bottom left > inner bottom -->
       { /if }
 
 
       <!-- inner bottom right: starting point -->
       { #if metatronsCube }
-        <line x1="205" y1="182.5" x2="153" y2="212.5"></line> <!-- inner bottom right > inner bottom -->
+        <line x1="410" y1="364.5" x2="306" y2="424.5"></line> <!-- inner bottom right > inner bottom -->
       { /if }
     { /if }
   </g>
