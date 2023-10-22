@@ -8,10 +8,11 @@
 
   .logo { // tiny screen
     position: fixed;
-    z-index: $zindex-logo;
+    z-index: $zindex-nav;
     top: 0.9rem;
     left: 1rem;
-    transition: all $theme-swap-speed;
+    transition: $move-nav-transition;
+    opacity: 0.99;
 
     @media only screen and (min-width: $nav-smallest-alignment) { // medium screen
       left: 1rem;

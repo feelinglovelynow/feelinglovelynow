@@ -16,13 +16,17 @@ export default class Braintree {
   #loadingClass = 'paypal-checkout__loading'
 
 
+  /* When an order items quantity is updated the cartItems and totalPrice change and this create function is
+   * called again to send paypal the new cartItems and totalPrice. this.#showOnlyLoadingIcon() ensures that 
+   * if this.create() is called for a 2nd time, the previous checkout is cleared b4 we create another one
+   */
   create (wrapper: HTMLDivElement, cart: Cart, totalPrice: Price, hideModal: HideModal) {
     this.cart = cart
     this.wrapper = wrapper
     this.hideModal = hideModal
     this.totalPrice = totalPrice
 
-    if (this.cart && this.wrapper && this.totalPrice) {
+    if (this.cart && this.wrapper && this.totalPrice && this.cart.length) { // IF there are no cart items the modal is about to close
       this.#showOnlyLoadingIcon()
       this.#loadScript()
     }
@@ -88,7 +92,7 @@ export default class Braintree {
   }
 
 
-  async #onApprove (data: OnApproveData) {
+  async #onApprove (data: OnApproveData) { // on paypal widget completion success
     const self = this
 
     const fetchResponse = await fetch('/paypal/capture-order', {

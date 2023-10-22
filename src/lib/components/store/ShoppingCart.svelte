@@ -98,12 +98,7 @@
 
 
 <style lang="scss">
-  :global(.stl--modal-is-visible .nav),
-  :global(.stl--modal-is-visible .theme-toggle),
-  :global(.stl--modal-is-visible .search__button) {
-    position: relative !important;
-    z-index: 1 !important;
-  }
+  @import '$lib/scss/variables.scss';
 
   .cart {
 
@@ -235,6 +230,9 @@
       background-color: var(--red-text-color);
       display: inline-block;
       border-radius: 50%;
+      padding: 0;
+      min-width: 3.2rem;
+      min-height: 3.2rem;
       width: 3.2rem;
       height: 3.2rem;
       display: flex;

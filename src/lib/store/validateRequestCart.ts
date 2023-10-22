@@ -1,7 +1,7 @@
 import get from '$lib/kv/get'
 import Price from '$lib/store/Price'
-import type { Cart, Product } from '$lib'
 import expandSubTotal from '$lib/store/expandSubTotal'
+import type { Cart, ExpandedSubTotal, Product } from '$lib'
 
 
 export async function validateRequestCart (cart: Cart, requestTotalPrice: Price, platform: Readonly<App.Platform> | undefined) {
@@ -55,7 +55,7 @@ async function mergeCartWithProducts (_errors: string[], cart: Cart, platform: R
 }
 
 
-function _expandSubTotal (_errors: string[], requestSubTotal: Price, requestTotalPrice: Price) {
+function _expandSubTotal (_errors: string[], requestSubTotal: Price, requestTotalPrice: Price): null | ExpandedSubTotal {
   if (_errors.length) return null
   else {
     const expandedSubTotal = expandSubTotal(requestSubTotal.num)

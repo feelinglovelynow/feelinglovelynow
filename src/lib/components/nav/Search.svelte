@@ -55,11 +55,11 @@
 </script>
 
 
-<button class="search__button top brand" on:click={ showModal } title="Click to search">
+<button class="search__button top brand hide-on-modal-visible" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 
-<button class="search__button bottom brand" on:click={ showModal } title="Click to search">
+<button class="search__button bottom brand hide-on-modal-visible" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 
@@ -117,7 +117,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: $zindex-search-button;
+      z-index: $zindex-nav;
       transition: opacity $theme-search-speed, transform $theme-search-speed;
       &.top {
         top: $theme-search-top;

@@ -71,7 +71,6 @@
       border: none;
       cursor: pointer;
       background-color: transparent;
-      z-index: $zindex-youtube-embed-button;
       color: rgb(238, 238, 238);
       &:global(.visible) {
         visibility: visible !important;

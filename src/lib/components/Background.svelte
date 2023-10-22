@@ -70,9 +70,13 @@
     flex-direction: row;
     width: 100%;
     position: fixed; // so it's not scrollable
+    z-index: $zindex-background-images;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     .img-wrapper {
-      z-index: $zindex-background-images;
       margin: 0;
       width: 50%;
       aspect-ratio: 1 / 1; // height equal to width so images load in in their done loading location

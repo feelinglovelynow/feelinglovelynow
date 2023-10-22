@@ -5,8 +5,13 @@ export default class Price {
   num: number
   str: string
 
-  constructor (num: number = 0) {
-    this.num = num || 0
+  constructor (value?: string | number) {
+    let num = 0
+
+    if (typeof value === 'string') num = Number(value) || 0
+    if (typeof value === 'number') num = value || 0
+
+    this.num = num
     this.str = twoDecimalPlaces(num)
   }
 

@@ -1,16 +1,15 @@
 import { json } from '@sveltejs/kit'
-import type Price from '$lib/store/Price'
+import Price from '$lib/store/Price'
 import send from '$lib/mailchannels/send'
 import addOrder from '$lib/dgraph/addOrder'
 import type { RequestHandler } from './$types'
 import { apiPaypal } from '$lib/store/apiPaypal'
-import IMG_LOTUS from '$lib/svg/sacred/lotus/image.png'
-import IMG_FLOWER from '$lib/svg/sacred/flower/image.png'
+import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
-import IMG_METATRON from '$lib/svg/sacred/fruit_metatron/image.png'
+import IMG_FLOWER_CIRCLE from '$lib/sacred/IMG_FLOWER_CIRCLE.png'
+import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
-import type { CaptureOrderRequest, Cart, CartItem, AddOrderCart } from '$lib'
-import { twoDecimalPlaces } from '$lib/store/twoDecimalPlaces'
+import type { CaptureOrderRequest, ExpandedSubTotal, CartItem, AddOrderCart, PrettyPaypal } from '$lib'
 
 
 export const POST = (async ({ request, platform }) => {
@@ -31,8 +30,8 @@ export const POST = (async ({ request, platform }) => {
           const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
 
           await Promise.all([ // add the order to our database and send emails to us and the customer
-            dgraphAddOrder(body.orderId, body.cart, pretty.email, pretty.name, pretty.addressLine1, pretty.addressLine2, pretty.city, pretty.state, pretty.zip, pretty.country, body.totalPrice.num, pretty.status, pretty.paypalFee),
-            sendEmails(body.orderId, body.cart, body.totalPrice, pretty.email, pretty.name, pretty.addressLine1, pretty.addressLine2, pretty.city, pretty.state, pretty.country, pretty.zip, pretty.paypalFee, response.expandedSubTotal.subTotal, response.expandedSubTotal.shipping, response.expandedSubTotal.salesTax),
+            dgraphAddOrder(body, pretty),
+            sendEmails(body, pretty, response.expandedSubTotal)
           ])
 
           return json({ success: true })
@@ -51,59 +50,59 @@ async function captureOrder (_errors: string[], orderId: string) {
 }
 
 
-function getPrettyPaypalResponse (response: any) {  
+function getPrettyPaypalResponse (response: any): PrettyPaypal {  
   return {
-    email: response.payment_source.paypal.email_address || '',
-    name: response.purchase_units[0].shipping.name.full_name || '',
-    addressLine1: response.purchase_units[0].shipping.address.address_line_1 || '',
-    addressLine2: response.purchase_units[0].shipping.address.address_line_2 || '',
-    city: response.purchase_units[0].shipping.address.admin_area_2 || '',
-    state: response.purchase_units[0].shipping.address.admin_area_1 || '',
-    zip: response.purchase_units[0].shipping.address.postal_code || '',
-    country: response.purchase_units[0].shipping.address.country_code || '',
-    totalPrice: Number(response.purchase_units[0].payments.captures[0].amount.value) || 0,
-    status: response.status || '',
-    paypalFee: Number(response.purchase_units[0].payments.captures[0].seller_receivable_breakdown.paypal_fee.value) || 0,
+    status: response?.status || '',
+    email: response?.payment_source?.paypal.email_address || '',
+    name: response?.purchase_units?.[0].shipping?.name?.full_name || '',
+    addressLine1: response?.purchase_units?.[0].shipping?.address?.address_line_1 || '',
+    addressLine2: response?.purchase_units?.[0].shipping?.address.address_line_2 || '',
+    city: response?.purchase_units?.[0].shipping?.address?.admin_area_2 || '',
+    state: response?.purchase_units?.[0].shipping?.address?.admin_area_1 || '',
+    zip: response?.purchase_units?.[0].shipping?.address?.postal_code || '',
+    country: response?.purchase_units?.[0].shipping?.address?.country_code || '',
+    totalPrice: new Price(response?.purchase_units?.[0].payments?.captures?.[0].amount?.value),
+    paypalFee: new Price(response?.purchase_units?.[0].payments?.captures?.[0].seller_receivable_breakdown?.paypal_fee.value),
   }
 }
 
 
-async function dgraphAddOrder (orderId: string, cart: Cart, email: string, name: string, addressLine1: string, addressLine2: string, city: string, state: string, zip: string, country: string, totalPrice: number, status: string, paypalFee: number) {
-  const addOrderCart: AddOrderCart[] = []
+function dgraphAddOrder (body: CaptureOrderRequest, pretty: PrettyPaypal) {
+  const addOrderCart: AddOrderCart = []
 
-  for (const cartItem of cart) {
+  for (const cartItem of body.cart) {
     if (cartItem.product) {
       addOrderCart.push({
         id: cartItem.id,
-        size: cartItem.size ? cartItem.size : undefined,
         quantity: cartItem.quantity,
+        size: cartItem.size ? cartItem.size : undefined,
         Product: { id: cartItem.product.id },
       })
     }
   }
 
-  await addOrder(orderId, email, name, addressLine1, addressLine2, city, state, zip, country, totalPrice, addOrderCart, status, paypalFee)
+  return addOrder(body.orderId, addOrderCart, pretty)
 }
 
 
-async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email: string, name: string, addressLine1: string, addressLine2: string, city: string, state: string, country: string, zip: string, paypalFee: number, subTotal: Price, shipping: Price, salesTax: Price) {
+async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expandedSubTotal: ExpandedSubTotal) {
   let orderItemsHtml = ''
 
-  for (const orderItem of cart) {
+  for (const orderItem of body.cart) {
     orderItemsHtml += await getOrderItemHtml(orderItem)
   }
 
   const header = {
     customer: `
-      <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Thanks ${ name }!</div>
-      <div style="color: #273142; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! The day we ship your items, is the day we will email you the shipping tracking information!</div>
+      <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Thanks ${ pretty.name }!</div>
+      <div style="color: #273142; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! We will email you order status information and shipping tracking information soon!</div>
     `,
     us: `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Purchase Details</div>
       <div style="margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
-        <div style="color: #273142;">Paypal Fee: $${ twoDecimalPlaces(paypalFee) }</div>
-        <div style="color: #273142;">Name: ${ name }</div>
-        <div style="color: #273142;">Email: ${ email }</div>
+        <div style="color: #273142;">Paypal Fee: $${ pretty.paypalFee.str }</div>
+        <div style="color: #273142;">Name: ${ pretty.name }</div>
+        <div style="color: #273142;">Email: ${ pretty.email }</div>
       </div>
     `
   }
@@ -120,10 +119,10 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Order ID</div>
-                <div style="color: #273142; line-height: 1.45;">${ orderId }</div>
+                <div style="color: #273142; line-height: 1.45;">${ body.orderId }</div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
-                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FLOWER }" />
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FLOWER_CIRCLE }" />
               </td>
             <tr>
           </table>
@@ -133,13 +132,13 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Shipping Address</div>
                 <div style="color: #273142; line-height: 1.45;">
-                  <div>${ name }</div>
-                  <div>${ addressLine1 } ${ addressLine2 || '' }</div>
-                  <div>${ city }, ${ state }, ${ country } ${ zip }</div>
+                  <div>${ pretty.name }</div>
+                  <div>${ pretty.addressLine1 } ${ pretty.addressLine2 || '' }</div>
+                  <div>${ pretty.city }, ${ pretty.state }, ${ pretty.country } ${ pretty.zip }</div>
                 </div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
-                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_METATRON }" />
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
               </td>
             </tr>
           </table>
@@ -149,14 +148,14 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Pricing Details</div>
                 <div style="color: #273142; line-height: 1.45;">
-                  <div>Sub Total: $${ subTotal.str }</div>
-                  <div>Shipping: $${ shipping.str }</div>
-                  <div>Sales Tax: $${ salesTax.str }</div>
-                  <div style="font-weight: 500;">Total: $${ totalPrice.str } USD</div>
+                  <div>Sub Total: $${ expandedSubTotal.subTotal.str }</div>
+                  <div>Shipping: $${ expandedSubTotal.shipping.str }</div>
+                  <div>Sales Tax: $${ expandedSubTotal.salesTax.str }</div>
+                  <div style="font-weight: 500;">Total: $${ expandedSubTotal.totalPrice.str } USD</div>
                 </div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
-                <img style="width: 100%; max-width: 114px;" src="https://feelinglovelynow.com${ IMG_LOTUS }" />
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_LOTUS }" />
               </td>
             </tr>
           </table>
@@ -171,12 +170,12 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
 
 
   const options = {
-    customer: { subject: `🙏 Thanks ${ name } for shopping with Feeling Lovely Now!`, to: email, content: getContent('customer') },
-    us: { subject: `🙌 $${ totalPrice.str } store puchase by ${ name }`, to: 'us@feelinglovelynow.com', content: getContent('us') }
+    customer: { subject: `🙏 Thanks ${ pretty.name } for shopping with Feeling Lovely Now!`, to: pretty.email, content: getContent('customer') },
+    us: { subject: `🙌 $${ expandedSubTotal.totalPrice.str } store puchase by ${ pretty.name }`, to: 'us@feelinglovelynow.com', content: getContent('us') }
   }
 
-  if (email.includes('example.com')) await send(options.us) // paypal in sandbox mode has the customer email as example.com and there is no need to send this user an email
-  else await Promise.all([ send(options.us), send(options.customer) ]) // send us and the cutomer an email
+  if (pretty.email.includes('example.com')) return send(options.us) // paypal in sandbox mode has the customer email as example.com and there is no need to send this user an email
+  else return Promise.all([ send(options.us), send(options.customer) ]) // send us and the cutomer an email
 }
 
 

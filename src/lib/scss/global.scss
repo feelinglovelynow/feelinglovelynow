@@ -24,8 +24,8 @@ main {
   right: 0.9rem;
   margin-left: 0;
   padding-top: 3rem;
-  color: var(--text-color);
   padding-bottom: 12rem;
+  color: var(--text-color);
   transition: all 0.3s;
 
   @media only screen and (min-width: $move-nav-window-width) { // big screen
@@ -48,6 +48,7 @@ main {
     background-color: var(--opacity-bg);
     margin-bottom: 1.8rem;
     transition: all $theme-swap-speed;
+    position: relative;
     &.title {
       display: inline-block;
       margin-left: auto;

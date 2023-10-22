@@ -40,3 +40,7 @@
     }
   }
 }
+
+.stl--modal-is-visible .hide-on-modal-visible {
+  z-index: $zindex-nav-when-modal-is-visible !important;
+}

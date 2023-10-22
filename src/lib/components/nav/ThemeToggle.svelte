@@ -21,7 +21,7 @@
 </script>
 
 
-<button class="theme-toggle top brand" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle top brand hide-on-modal-visible" on:click={ setTheme } aria-hidden="true">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
@@ -29,7 +29,7 @@
   { /if }
 </button>
 
-<button class="theme-toggle bottom brand" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle bottom brand hide-on-modal-visible" on:click={ setTheme } aria-hidden="true">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
@@ -51,7 +51,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: $zindex-theme-toggle;
+    z-index: $zindex-nav;
     transition: opacity $theme-search-speed, transform $theme-search-speed;
     &.top {
       top: $theme-search-top;

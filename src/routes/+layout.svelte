@@ -15,6 +15,7 @@
   export let data: PageData
 
   let mounted: boolean
+
   const pageTransitionIn = { y: -9, duration: 300, delay: 333 }
   const pageTransitionOut = { y: 9, duration: 300 }
 
@@ -74,42 +75,13 @@
 </svelte:head>
 
 { #key data.href }
-<main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
-  <slot />
-</main>
+  <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
+    <slot />
+  </main>
 { /key }
 
-<Nav />
 <Background localsTheme={ data.locals.theme } />
+<Nav />
 <ThemeToggle />
 <Search />
 <div id="stl--toast-wrapper"></div>
-
-
-<style lang="scss">
-  @keyframes loading-in {
-    from {
-      opacity: 0;
-      transform: translateY(-9px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes loading-out {
-    from {
-      opacity: 1;
-      z-index: 1;
-      transform: translateY(0);
-    }
-
-    to {
-      opacity: 0;
-      z-index: 0;
-      transform: translateY(9px);
-    }
-  }
-</style>

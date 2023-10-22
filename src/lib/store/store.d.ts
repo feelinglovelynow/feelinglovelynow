@@ -28,4 +28,18 @@ export type AddOrderCart = {
   Product: {
     id: string
   }
+}[]
+
+export type PrettyPaypal = {
+  email: string
+  name: string
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
+  zip: string
+  country: string
+  status: string
+  totalPrice: Price
+  paypalFee: Price
 }
