@@ -28,7 +28,7 @@
       { :else if activeRoute === '/store' }
         <SVG_FLOWER_OF_LIFE metatronsCube={ true } fruit={ true } />
       { :else }
-        <SVG_FLOWER_OF_LIFE flower={ true } />
+        <SVG_FLOWER_OF_LIFE flower={ true } flowerSurroundingCircle={ true } />
       { /if }
     </LoadingAnchor>
   </div>

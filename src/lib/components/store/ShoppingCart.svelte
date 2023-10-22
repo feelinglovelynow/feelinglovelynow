@@ -92,7 +92,7 @@
       { /each }
     </div>
     <div class="papyrus two options-head">How would you love to pay?</div>
-    <div id="paypal-checkout" bind:this={ divPaypalCheckout }></div>
+    <div id="paypal-checkout" style="display: none;" bind:this={ divPaypalCheckout }></div>
   </Modal>
 </div>
 

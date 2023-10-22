@@ -2,9 +2,8 @@
   const dimensions = 609
   const diameter = 120
   const xPadding = 52
-  const xConstant = 38
+  const xConstant = 37
 
-  let viewBox: string = ''
   let columns: Columns = []
 
   type Columns = {
@@ -17,13 +16,16 @@
   export let fruit = false
   export let flower = false
   export let merkaba = false
-  export let strokeWidth = 6.9
+  export let genesis = false
+  export let strokeWidth = 5.4
   export let metatronsCube = false
   export let color = 'rgb(234, 198, 3)'
-  export let circleCount: undefined | number = undefined
+  export let flowerSurroundingCircle = false
+  export let genesisSurroundingCircle = false
 
   $: radius = diameter / 2
   $: center = dimensions / 2
+  $: viewBox = genesis ? '177 177 260 260' : `0 0 ${ dimensions } ${ dimensions }`
 
   $: yFirstOptions = [
     center - (diameter * 2),
@@ -34,9 +36,6 @@
   ]
 
   $: if (yFirstOptions) setColumns()
-
-  if (circleCount) viewBox = '114 87 78 131'
-  else viewBox = `0 0 ${ dimensions } ${ dimensions }`
 
   function setColumns () {
     columns = [
@@ -57,31 +56,7 @@
       columns[2].visibleCircles = columns[6].visibleCircles = [ 2, 4 ]
       columns[3].visibleCircles = columns[5].visibleCircles = [ 8 ]
       columns[4].visibleCircles = [ 0, 2, 4, 6, 8 ]
-    } else if (circleCount === 1) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[5].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[4].visibleCircles = [ 4 ]
-    } else if (circleCount === 2) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[4].visibleCircles = [ 4 ]
-      columns[5].visibleCircles = [ 3 ]
-    } else if (circleCount === 3) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[4].visibleCircles = [ 4 ]
-      columns[5].visibleCircles = [ 3, 4 ]
-    } else if (circleCount === 4) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[3].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[4].visibleCircles = [ 4, 5 ]
-      columns[5].visibleCircles = [ 3, 4 ]
-    } else if (circleCount === 4) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[3].visibleCircles = [ 4 ]
-      columns[4].visibleCircles = [ 4, 5 ]
-      columns[5].visibleCircles = [ 3, 4 ]
-    } else if (circleCount === 5) {
-      columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
-      columns[3].visibleCircles = columns[5].visibleCircles = [ 3, 4 ]
-      columns[4].visibleCircles = [ 4, 5 ]
-    } else if (circleCount === 6) {
+    } else if (genesis) {
       columns[0].visibleCircles = columns[1].visibleCircles = columns[2].visibleCircles = columns[6].visibleCircles = columns[7].visibleCircles = columns[8].visibleCircles = [ ]
       columns[4].visibleCircles = [ 3, 4, 5 ]
       columns[3].visibleCircles = columns[5].visibleCircles = [ 3, 4 ]
@@ -104,7 +79,7 @@
 </script>
 
 
-<svg xmlns="http://www.w3.org/2000/svg" class="logo__flower-of-life" { viewBox }>
+<svg xmlns="http://www.w3.org/2000/svg" class="logo__flower-of-life" { viewBox } height={ dimensions } width={ dimensions }>
   <g fill="none" stroke-width="{ strokeWidth }px" stroke={ color }>
 
 
@@ -115,6 +90,16 @@
         { /if }
       { /each }
     {/each }
+
+
+    { #if flowerSurroundingCircle }
+      <circle r="300" cx={ center } cy={ center }></circle> <!-- surrounding circle -->
+    { /if }
+
+
+    { #if genesisSurroundingCircle }
+      <circle r="120" cx={ center } cy={ center }></circle> <!-- surrounding circle -->
+    { /if }
 
 
     { #if merkaba || metatronsCube }

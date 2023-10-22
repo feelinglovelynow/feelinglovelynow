@@ -10,6 +10,7 @@ import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_METATRON from '$lib/svg/sacred/fruit_metatron/image.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CaptureOrderRequest, Cart, CartItem, AddOrderCart } from '$lib'
+import { twoDecimalPlaces } from '$lib/store/twoDecimalPlaces'
 
 
 export const POST = (async ({ request, platform }) => {
@@ -31,7 +32,7 @@ export const POST = (async ({ request, platform }) => {
 
           await Promise.all([ // add the order to our database and send emails to us and the customer
             dgraphAddOrder(body.orderId, body.cart, pretty.email, pretty.name, pretty.addressLine1, pretty.addressLine2, pretty.city, pretty.state, pretty.zip, pretty.country, body.totalPrice.num, pretty.status, pretty.paypalFee),
-            sendEmails(body.orderId, body.cart, body.totalPrice, pretty.email, pretty.name, pretty.addressLine1, pretty.addressLine2, pretty.city, pretty.state, pretty.country, pretty.zip, response.expandedSubTotal.subTotal, response.expandedSubTotal.shipping, response.expandedSubTotal.salesTax),
+            sendEmails(body.orderId, body.cart, body.totalPrice, pretty.email, pretty.name, pretty.addressLine1, pretty.addressLine2, pretty.city, pretty.state, pretty.country, pretty.zip, pretty.paypalFee, response.expandedSubTotal.subTotal, response.expandedSubTotal.shipping, response.expandedSubTotal.salesTax),
           ])
 
           return json({ success: true })
@@ -85,7 +86,7 @@ async function dgraphAddOrder (orderId: string, cart: Cart, email: string, name:
 }
 
 
-async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email: string, name: string, addressLine1: string, addressLine2: string, city: string, state: string, country: string, zip: string, subTotal: Price, shipping: Price, salesTax: Price) {
+async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email: string, name: string, addressLine1: string, addressLine2: string, city: string, state: string, country: string, zip: string, paypalFee: number, subTotal: Price, shipping: Price, salesTax: Price) {
   let orderItemsHtml = ''
 
   for (const orderItem of cart) {
@@ -98,8 +99,9 @@ async function sendEmails (orderId: string, cart: Cart, totalPrice: Price, email
       <div style="color: #273142; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! The day we ship your items, is the day we will email you the shipping tracking information!</div>
     `,
     us: `
-      <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Customer Details</div>
+      <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Purchase Details</div>
       <div style="margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
+        <div style="color: #273142;">Paypal Fee: $${ twoDecimalPlaces(paypalFee) }</div>
         <div style="color: #273142;">Name: ${ name }</div>
         <div style="color: #273142;">Email: ${ email }</div>
       </div>
