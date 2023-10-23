@@ -128,8 +128,8 @@ strong {
   position: relative;
 }
 
-.box-shadow {
-  -webkit-box-shadow: var(--box-shadow);
-  -moz-box-shadow: var(--box-shadow);
-  box-shadow: var(--box-shadow);
+.glow {
+  -webkit-box-shadow: var(--glow);
+  -moz-box-shadow: var(--glow);
+  box-shadow: var(--glow);
 }

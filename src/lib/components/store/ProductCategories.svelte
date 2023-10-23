@@ -18,7 +18,7 @@
     <Title text={ title } noBottom={ true } />
   { /if }
 
-  <section class="chips box-shadow">
+  <section class="chips glow">
     { #if isAllShowing }
       <LoadingAnchor label="All" href="/store" css="chip { doActiveSelection && !currentProductSlug && currentCategorySlug === null ? 'active' : '' }"/>
     { /if }

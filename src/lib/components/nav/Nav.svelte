@@ -34,10 +34,10 @@
   </div>
 
   <div class="name-wrapper hide-on-modal-visible">
-    <button on:click={ () => { smoothToTop() } } class="name box-shadow">Feeling Lovely Now</button>
+    <button on:click={ () => { smoothToTop() } } class="name glow">Feeling Lovely Now</button>
   </div>
 
-  <nav class="hide-on-modal-visible box-shadow">
+  <nav class="hide-on-modal-visible glow">
     <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
     <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">
       { @html SVG_STORE }

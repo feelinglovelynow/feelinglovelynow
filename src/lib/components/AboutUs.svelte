@@ -3,7 +3,7 @@
 </script>
 
 
-<section class="us box-shadow">
+<section class="us glow">
   <div class="item">
     <div class="emoji">🌟</div>
     <div>Welcome to Feeling Lovely Now!</div>

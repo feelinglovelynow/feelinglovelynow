@@ -18,4 +18,4 @@
 
 
 <Title text="Will email ya back!" noBottom={ true } />
-<Form { inputs } { schema } { toastOnSuccess } action="emailUs" />
+<Form { inputs } { schema } { toastOnSuccess } css="glow" action="emailUs" />

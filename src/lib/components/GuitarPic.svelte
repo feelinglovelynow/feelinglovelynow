@@ -4,7 +4,7 @@
 
 
 <div class="profile-pic">
-  <div class="img box-shadow">
+  <div class="img glow">
     <img src={ IMG_GUITAR } alt="Chris Carrington playing guitar" />
   </div>
 </div>

@@ -21,7 +21,7 @@
 </script>
 
 
-<section class="source type--product location--{ location } { css } box-shadow">
+<section class="source type--product location--{ location } { css } glow">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }

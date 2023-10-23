@@ -32,7 +32,7 @@
 </script>
 
 
-<section class="source type--science location--{ location } { css } box-shadow">
+<section class="source type--science location--{ location } { css } glow">
   <div class="head">
     <a class="publisher" href={ source.url } target="_blank" rel="noreferrer" aria-hidden="true">
       { #if source.urlType === 'academia' }
