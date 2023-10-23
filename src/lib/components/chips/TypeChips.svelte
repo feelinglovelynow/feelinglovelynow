@@ -21,7 +21,7 @@
 </script>
 
 <Title text="Select a Type!" noBottom={ true } />
-<div class="chips location--nav">
+<div class="chips location--nav box-shadow">
   <LoadingAnchor ssr={ true } label="All" href={ allHref } css="chip { !type ? 'active' : '' }"/>
   <LoadingAnchor ssr={ true } label="Culture" href={ cultureHref } css="chip { type === 'culture' ? 'active' : '' }"/>
   <LoadingAnchor ssr={ true } label="Science" href={ scienceHref } css="chip { type === 'science' ? 'active' : '' }"/>

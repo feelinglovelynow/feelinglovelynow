@@ -6,7 +6,7 @@
 </script>
 
 <div class="wrapper">
-  <section>
+  <section class="box-shadow">
     <LoadingAnchor css="anchor" href={ `/store?product=${ product.slug }` } loadWidth="huge">
       <div class="image">
         <img src={ product.primaryImage.src } alt={ product.name } loading="lazy"/>

@@ -119,20 +119,20 @@
 <SocialSupport />
 <AboutUs />
 
-<a href="https://teams.live.com/meet/9355564920768" class="link" target="_blank">
+<a href="https://teams.live.com/meet/9355564920768" class="link box-shadow" target="_blank">
   <button class="brand large" type="button">💞 Join Class Live</button>
 </a>
 
-<a href="https://soulconnectionscommunitycenter.com/" class="link" target="_blank">
+<a href="https://soulconnectionscommunitycenter.com/" class="link box-shadow" target="_blank">
   <button class="brand large" type="button">📍 Soul Connections</button>
 </a>
 
-<a href="https://paypal.me/feelinglovelynow/9" class="link" target="_blank">
+<a href="https://paypal.me/feelinglovelynow/9" class="link box-shadow" target="_blank">
   <button class="brand large" type="button">🥰 Buy me an açaí ($9 tip)!</button>
 </a>
 
 { #each yogaClasses as yogaClass (yogaClass.label) }
-  <section class="title remaining">
+  <section class="title remaining box-shadow">
     <div class="strong">{ yogaClass.label }</div>
       <div>
         { #if yogaClass.pretty }

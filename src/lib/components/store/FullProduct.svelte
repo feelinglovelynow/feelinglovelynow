@@ -89,7 +89,7 @@
 </script>
 
 
-<section>
+<section class="box-shadow">
   <div class="image-categories">
     <div class="image">
       <img src={ product.primaryImage.src } alt={ product.name }/>

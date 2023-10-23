@@ -6,7 +6,7 @@
 </script>
 
 
-<section class="title { noBottom ? 'no-bottom' : '' } { css }">
+<section class="title { noBottom ? 'no-bottom' : 'box-shadow' } { css }">
   <div class="papyrus { size }">
     { text }
     <slot />

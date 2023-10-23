@@ -54,7 +54,7 @@
 { #if location === 'nav' }
   <Title text="Select an Author!" noBottom={ true } />
 { /if }
-<div class="chips location--{ location }">
+<div class="chips location--{ location } { location === 'nav' ? 'box-shadow' : '' }">
   { #if location === 'nav' }
     <input class="brand" bind:value={ query } type="text" placeholder="Search" />
   { /if }

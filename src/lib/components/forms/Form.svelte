@@ -78,7 +78,7 @@
 </script>
 
 
-<section class="{ css }">
+<section class="{ css } box-shadow">
   <form novalidate method="POST" action="?/{ action }" use:enhance={ onSubmit }>
     { #if inputs?.length }
       { #each inputs as input }
