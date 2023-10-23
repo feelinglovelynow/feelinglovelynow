@@ -2,7 +2,6 @@ import type { Cart } from '$lib'
 import Price from '$lib/store/Price'
 import { set } from '$lib/store/cart'
 import showToast from '@sensethenlove/toast'
-import SVG_LOADING from '$lib/svg/SVG_LOADING.svg'
 import type { HideModal } from '@sensethenlove/svelte-modal'
 import { PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
 import { loadScript, type PayPalNamespace, type OnApproveData } from '@paypal/paypal-js'
@@ -12,29 +11,41 @@ export default class Braintree {
   cart?: Cart
   totalPrice?: Price
   hideModal?: HideModal
-  wrapper?: HTMLDivElement
-  #loadingClass = 'paypal-checkout__loading'
+  divWrapper?: HTMLDivElement
+  divLoading?: HTMLDivElement
 
 
-  /* When an order items quantity is updated the cartItems and totalPrice change and this create function is
-   * called again to send paypal the new cartItems and totalPrice. this.#showOnlyLoadingIcon() ensures that 
+  /* When an order items quantity is updated the cartItems and totalPrice change and this create function
+   * is called again to send paypal the new cartItems and totalPrice. this.#clearWrapper() ensures that 
    * if this.create() is called for a 2nd time, the previous checkout is cleared b4 we create another one
    */
-  create (wrapper: HTMLDivElement, cart: Cart, totalPrice: Price, hideModal: HideModal) {
+  create (divWrapper: HTMLDivElement, divLoading: HTMLDivElement, cart: Cart, totalPrice: Price, hideModal: HideModal) {
     this.cart = cart
-    this.wrapper = wrapper
+    this.divWrapper = divWrapper
+    this.divLoading = divLoading
     this.hideModal = hideModal
     this.totalPrice = totalPrice
 
-    if (this.cart && this.wrapper && this.totalPrice && this.cart.length) { // IF there are no cart items the modal is about to close
-      this.#showOnlyLoadingIcon()
+    if (this.cart && this.divWrapper && this.totalPrice && this.cart.length) { // IF there are no cart items the modal is about to close
+      this.#clearWrapper()
+      this.#showLoadingIcon('middle')
       this.#loadScript()
     }
   }
 
 
-  #showOnlyLoadingIcon () {
-    if (this.wrapper) this.wrapper.innerHTML = `<span class="${ this.#loadingClass }">${ SVG_LOADING }</span>`
+  #clearWrapper () {
+    if (this.divWrapper) this.divWrapper.innerHTML = ''
+  }
+
+
+  #showLoadingIcon (where: 'middle' | 'bottom') {
+    if (this.divLoading) this.divLoading.classList.add('visible-' + where)
+  }
+
+
+  #hideLoadingIcon () {
+    if (this.divLoading) this.divLoading.classList.remove('visible-middle', 'visible-bottom')
   }
 
  
@@ -49,14 +60,15 @@ export default class Braintree {
 
 
   #onScriptLoaded (paypal: PayPalNamespace) {
-    if (paypal && paypal.Buttons && this.wrapper) {
+    if (paypal && paypal.Buttons && this.divWrapper) {
       paypal
         .Buttons({
           style: { disableMaxWidth: true },
           createOrder: () => this.#createOrder(),
           onApprove: (data) => this.#onApprove(data),
         })
-        .render(this.wrapper)
+        .render(this.divWrapper)
+        .then(() => this.#hideLoadingIcon())
         .catch(this.#onError)
 
       this.#hideLoadingIcon()
@@ -73,6 +85,8 @@ export default class Braintree {
   async #createOrder () { // on paypal checkout click
     const self = this
 
+    this.#showLoadingIcon('bottom')
+
     const fetchResponse = await fetch('/paypal/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -84,16 +98,18 @@ export default class Braintree {
 
     const response = await fetchResponse.json()
 
-    if (response.id) return response.id
-    else if (response._errors?.length) {
-      showToast({ type: 'info', items: response._errors })
-      return null
-    }
+    if (response._errors?.length) showToast({ type: 'info', items: response._errors })
+
+    this.#hideLoadingIcon()
+
+    return response?.id
   }
 
 
   async #onApprove (data: OnApproveData) { // on paypal widget completion success
     const self = this
+
+    this.#showLoadingIcon('bottom')
 
     const fetchResponse = await fetch('/paypal/capture-order', {
       method: 'POST',
@@ -113,11 +129,7 @@ export default class Braintree {
       if (this.hideModal) this.hideModal()
       showToast({ type: 'success', items: [ 'Thank you for your successful purchase!' ] })
     }
-  }
 
-
-  #hideLoadingIcon () {
-    const loading = this.wrapper?.querySelector(`.${ this.#loadingClass }`) as HTMLSpanElement
-    if (loading) loading.style.display = 'none'
+    this.#hideLoadingIcon()
   }
 }

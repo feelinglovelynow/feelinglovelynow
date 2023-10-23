@@ -8,6 +8,7 @@
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
+  import PaypalLoader from '$lib/components/store/PaypalLoader.svelte'
   import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
 
   export let allProducts: undefined | Product[] = undefined
@@ -19,6 +20,7 @@
   let subTotal = new Price()
   let shipping = new Price()
   let totalPrice = new Price()
+  let divPaypalLoading: HTMLDivElement
   let divPaypalCheckout: HTMLDivElement
   const paypalCheckout = new PaypalCheckout()
 
@@ -32,7 +34,7 @@
       totalPrice = response.totalPrice
       cartItems = response.cartItems
 
-      paypalCheckout.create(divPaypalCheckout, $cart, totalPrice, hideModal)
+      paypalCheckout.create(divPaypalCheckout, divPaypalLoading, $cart, totalPrice, hideModal)
     }
   }
 
@@ -91,8 +93,14 @@
         { /if }
       { /each }
     </div>
+
     <div class="papyrus two options-head">How would you love to pay?</div>
-    <div id="paypal-checkout" style="display: none;" bind:this={ divPaypalCheckout }></div>
+    <div class="relative">
+      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout" style="display: block;"></div>
+      <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
+        <PaypalLoader />
+      </div>
+    </div>
   </Modal>
 </div>
 
@@ -118,7 +126,26 @@
       margin: 1.8rem 0 0.3em 0;
     }
 
-    #paypal-checkout {
+    &__paypal-loading {
+      display: none;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+
+    :global(.cart__paypal-loading.visible-bottom) {
+      display: block;
+      transform: translate(-10.26rem, 0.43rem);
+    }
+
+    :global(.cart__paypal-loading.visible-middle) {
+      display: block;
+      transform: translate(-2.25rem, -2.25rem);
+    }
+
+    &__paypal-checkout {
       position: relative;
       background-color: white;
       border-radius: 0.3rem;
@@ -127,18 +154,8 @@
       min-height: 9rem;
       transition: all 0.9s;
 
-      :global(.paypal-checkout__loading) {
-        position: absolute;
-        color: var(--black-text-color);
-        left: 50%;
-        top: 50%;
-        width: 4.5rem;
-        height: 4.5rem;
-        transform: translate(-2.25rem, -2.25rem);
-
-        :global(svg) {
-          color: #009cde;
-        }
+      :global(.paypal-buttons) {
+        transition: all 0.9s;
       }
     }
 

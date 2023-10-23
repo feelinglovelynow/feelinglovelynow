@@ -30,7 +30,7 @@
     "@sensethenlove/loop-backwards": "^1.0.9",
     "@sensethenlove/slug": "^1.0.2",
     "@sensethenlove/svelte-loading-anchor": "^1.0.2",
-    "@sensethenlove/svelte-modal": "^1.0.3",
+    "@sensethenlove/svelte-modal": "^1.0.6",
     "@sensethenlove/svelte-turnstile": "^1.1.5",
     "@sensethenlove/toast": "^1.0.8",
     "@sveltejs/adapter-cloudflare-workers": "^1.1.4",

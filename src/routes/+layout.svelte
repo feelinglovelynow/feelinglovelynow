@@ -1,6 +1,5 @@
 <script lang="ts">
   import '$lib/scss/global.scss'
-  import { onMount } from 'svelte'
   import { updated } from '$app/stores'
   import { theme } from '$lib/util/store'
   import { fly } from 'svelte/transition'
@@ -14,13 +13,10 @@
 
   export let data: PageData
 
-  let mounted: boolean
-
   const pageTransitionIn = { y: -9, duration: 300, delay: 333 }
   const pageTransitionOut = { y: 9, duration: 300 }
 
   theme.set(data.locals.theme)
-  onMount(() => mounted = true)
 </script>
 
 

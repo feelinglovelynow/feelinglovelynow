@@ -68,6 +68,7 @@
         min-height: 22rem;
         display: block;
         text-align: center;
+        margin-bottom: 0.6rem;
 
         img {
           height: 100%;
