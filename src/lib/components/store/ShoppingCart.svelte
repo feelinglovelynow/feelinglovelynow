@@ -96,7 +96,7 @@
 
     <div class="papyrus two options-head">How would you love to pay?</div>
     <div class="relative">
-      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout" style="display: block;"></div>
+      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout" style="display: none;"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
         <PaypalLoader />
       </div>
@@ -130,18 +130,19 @@
       display: none;
       position: absolute;
       left: 50%;
-      bottom: 0;
       width: 4.5rem;
       height: 4.5rem;
     }
 
     :global(.cart__paypal-loading.visible-bottom) {
       display: block;
+      bottom: 0;
       transform: translate(-10.26rem, 0.43rem);
     }
 
     :global(.cart__paypal-loading.visible-middle) {
       display: block;
+      top: 50%;
       transform: translate(-2.25rem, -2.25rem);
     }
 
