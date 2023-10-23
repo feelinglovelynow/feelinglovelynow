@@ -19,7 +19,7 @@
 </script>
 
 
-<Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" />
+<Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" url={ data.href } />
 <GuitarPic />
 <Title text="Aloha!" size="two" />
 <SocialSupport />

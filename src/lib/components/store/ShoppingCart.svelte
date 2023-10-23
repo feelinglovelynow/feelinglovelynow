@@ -94,7 +94,7 @@
       { /each }
     </div>
 
-    <div class="papyrus two options-head">How would you love to pay?</div>
+    <div class="papyrus two options-head">Preferred purchase method?</div>
     <div class="relative">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout" style="display: none;"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">

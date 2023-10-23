@@ -72,7 +72,7 @@
   { /if }
 </svelte:head>
 
-{ #key data.href }
+{ #key data.key }
   <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
     <slot />
   </main>

@@ -1,9 +1,0 @@
-<script lang="ts">
-  import Head from '$lib/components/Head.svelte'
-  import Title from '$lib/components/Title.svelte'
-</script>
-
-
-<Head title="Support" url="support" description="Thank you for supporting Feeling Lovely Now!" />
-<Title text="Support" size="one" />
-<Title text="Coming soon!" />

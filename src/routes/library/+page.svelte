@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Source } from '$lib'
   import { page } from '$app/stores'
   import { goto } from '$app/navigation'
   import type { PageData } from './$types'
@@ -23,9 +24,10 @@
   let isShowMoreButtonLoading: boolean
   let showMoreSourcesButton: HTMLDivElement
   let title: string = 'Welcome to our Library!'
+  let visibleSources: Source[] = [ ...(data.sources || []) ] // IF I put data.sourcs into the each block on some page renders it clears data.sources for some reason @ infinite scroll
 
-  $: if (data.sources?.length) { // Are the number of results showing the 6 initial or 6 additional via infinite scroll / ELSE no more results available
-    isShowMoreButtonVisible = Number.isInteger(Number(data.sources?.length) / 6)
+  $: if (visibleSources?.length) { // Are the number of results showing the 6 initial or 6 additional via infinite scroll / ELSE no more results available
+    isShowMoreButtonVisible = Number.isInteger(Number(visibleSources?.length) / 6)
   }
 
   $: if (showMoreSourcesButton) { // add observer to infinite scroll button
@@ -40,34 +42,32 @@
     if (titleParts.length) title = titleParts.join(' ⋅ ')
   }
 
-  async function showMoreSources (entries: IntersectionObserverEntry[]) { // show 6 more sources AND update the url
-    if (entries[0].isIntersecting && data.sources) {
-      const visibleCount = data.sources.length + 6
-      const url = new URL($page.url)
-      url.searchParams.set('count', String(visibleCount))
-      goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
+  async function showMoreSources () { // show 6 more sources AND update the url
+    const visibleCount = visibleSources.length + 6
+    const url = new URL($page.url)
+    url.searchParams.set('count', String(visibleCount))
+    goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
 
-      const urlStart = `?start=${ data.sources.length }`
-      const urlEnd = `&end=${ data.sources.length + 6 }`
-      const urlType = data.type ? '&type=' + data.type : ''
-      const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
-      const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
+    const urlStart = `?start=${ visibleSources.length }`
+    const urlEnd = `&end=${ visibleSources.length + 6 }`
+    const urlType = data.type ? '&type=' + data.type : ''
+    const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
+    const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
 
-      isShowMoreButtonLoading = true
+    isShowMoreButtonLoading = true
 
-      const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
-      const response = await fetchResponse.json()
+    const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
+    const response = await fetchResponse.json()
 
-      if (response?.sources?.length) data.sources = data.sources.concat(response.sources)
-      else isShowMoreButtonVisible = false
+    if (response?.sources?.length) visibleSources = visibleSources.concat(response.sources)
+    else isShowMoreButtonVisible = false
 
-      isShowMoreButtonLoading = false
-    }
+    isShowMoreButtonLoading = false
   }
 </script>
 
 
-<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url="library" />
+<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url={ data.href } />
 <Title text="Library" size="one" />
 <Title text={ title } size="two" />
 
@@ -82,8 +82,8 @@
     { /if }
   </div>
 
-  { #if data.sources?.length }
-    { #each data.sources as source }
+  { #if visibleSources?.length }
+    { #each visibleSources as source (source.id) }
       { #if source.type === 'science' }
         <Science { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
       { :else if source.type === 'culture' }
