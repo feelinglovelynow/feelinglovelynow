@@ -42,27 +42,29 @@
     if (titleParts.length) title = titleParts.join(' ⋅ ')
   }
 
-  async function showMoreSources () { // show 6 more sources AND update the url
-    const visibleCount = visibleSources.length + 6
-    const url = new URL($page.url)
-    url.searchParams.set('count', String(visibleCount))
-    goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
+  async function showMoreSources (entries: IntersectionObserverEntry[]) { // show 6 more sources AND update the url
+    if (entries[0].isIntersecting) {
+      const visibleCount = visibleSources.length + 6
+      const url = new URL($page.url)
+      url.searchParams.set('count', String(visibleCount))
+      goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
 
-    const urlStart = `?start=${ visibleSources.length }`
-    const urlEnd = `&end=${ visibleSources.length + 6 }`
-    const urlType = data.type ? '&type=' + data.type : ''
-    const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
-    const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
+      const urlStart = `?start=${ visibleSources.length }`
+      const urlEnd = `&end=${ visibleSources.length + 6 }`
+      const urlType = data.type ? '&type=' + data.type : ''
+      const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
+      const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
 
-    isShowMoreButtonLoading = true
+      isShowMoreButtonLoading = true
 
-    const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
-    const response = await fetchResponse.json()
+      const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
+      const response = await fetchResponse.json()
 
-    if (response?.sources?.length) visibleSources = visibleSources.concat(response.sources)
-    else isShowMoreButtonVisible = false
+      if (response?.sources?.length) visibleSources = visibleSources.concat(response.sources)
+      else isShowMoreButtonVisible = false
 
-    isShowMoreButtonLoading = false
+      isShowMoreButtonLoading = false
+    }
   }
 </script>
 
