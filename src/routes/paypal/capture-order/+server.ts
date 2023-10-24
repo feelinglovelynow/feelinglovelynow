@@ -5,8 +5,9 @@ import addOrder from '$lib/dgraph/addOrder'
 import type { RequestHandler } from './$types'
 import { apiPaypal } from '$lib/store/apiPaypal'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
+import IMG_MERKABA from '$lib/sacred/IMG_MERKABA.png'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
-import IMG_FLOWER_CIRCLE from '$lib/sacred/IMG_FLOWER_CIRCLE.png'
+import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CaptureOrderRequest, ExpandedSubTotal, CartItem, AddOrderCart, PrettyPaypal } from '$lib'
@@ -113,6 +114,10 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
       <div style="padding: 18px 18px 27px 18px; font-size: 16px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;">
         <div style="max-width: 444px; width: 100%; margin: 0 auto;">
 
+          <div style="height: 90px; width: 100%; text-align: center;">
+            <img src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
+          </div>
+
           ${ header[key] }
 
           <table style="margin-bottom: 15px; padding-bottom: 12px; width: 100%; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
@@ -122,7 +127,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
                 <div style="color: #273142; line-height: 1.45;">${ body.orderId }</div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
-                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FLOWER_CIRCLE }" />
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
               </td>
             <tr>
           </table>
@@ -138,7 +143,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
                 </div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
-                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_MERKABA }" />
               </td>
             </tr>
           </table>
