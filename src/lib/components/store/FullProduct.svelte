@@ -94,7 +94,7 @@
     <div class="image">
       <img src={ product.primaryImage.src } alt={ product.name }/>
     </div>
-    <ProductCategories categories={ product.categories } isAllShowing={ false } doActiveSelection={ false }/>
+    <ProductCategories categories={ product.categories } isAllShowing={ false } doActiveSelection={ false } location="full-product"/>
   </div>
 
   <div class="info">
@@ -148,17 +148,18 @@
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
       { :else if isBook }
-        <div>I dream that this book, provides the <strong>scientific evidence</strong> for you, to naturally and efficiently:</div>
+        <div>Erratic emotions led me down an ugly path. First I attempted several common solutions but they directed me to side effects, like less motor function, less will and sleep paralysis. Recently, gracefully and thankfully I've been guided to  simple, natural and efficient solutions that are detailed in this tiny book. I dream this book, provides the <strong>scientific evidence and implementation guidance</strong>, for you to:</div>
         <ul>
-          <li>Decrease your stress, fatigue and anxiety</li>
+          <li>Experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
+          <li>Increase your emotional stability, mental acuity and physiological efficiency</li>
           <li>Improve your quality of life, mental health and immune system</li>
-          <li>Increase your mental acuity, emotional stability, and physiological efficiency</li>
-          <li>Enhance your cognition</li>
+          <li>Increase your empathy (aware of magnetic field information)</li>
           <li>Feel united with our entire Universe</li>
-          <li>And experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
+          <li>And enhance your cognition!</li>
         </ul>
-        <p>If you would love, please feel free to contact me (Chris Carrington) <LoadingAnchor href="/links" label="here"/>! Hakuna Matata! 🙏</p>
-        <p>Edition: 11/11/23 · Written and Published in Mount Shasta California · Paper is 50% Recycled Paper and 50% Organic Hemp</p>
+        <p>If you would love, please feel free to <LoadingAnchor href="/links" label="contact me"/> (Chris Carrington)! Hakuna Matata! 🙏</p>
+        <p>Edition: 11/11/23 · Written and Published in Mount Shasta California</p>
+        <p>Paper is 50% Recycled Paper and 50% Organic Hemp</p>
       { :else if isLotus || isTorusLight }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is shaped like a <strong>torus</strong>.</div>

@@ -10,6 +10,7 @@
   export let doActiveSelection: boolean = true
   export let currentProductSlug: string | null = null
   export let currentCategorySlug: string | null = null
+  export let location: 'page' | 'full-product' = 'page'
 </script>
 
 
@@ -18,7 +19,7 @@
     <Title text={ title } noBottom={ true } />
   { /if }
 
-  <section class="chips glow">
+  <section class="chips { location === 'page' ? 'glow' : '' }">
     { #if isAllShowing }
       <LoadingAnchor label="All" href="/store" css="chip { doActiveSelection && !currentProductSlug && currentCategorySlug === null ? 'active' : '' }"/>
     { /if }

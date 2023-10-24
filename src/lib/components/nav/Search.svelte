@@ -55,11 +55,11 @@
 </script>
 
 
-<button class="search__button top brand hide-on-modal-visible glow" on:click={ showModal } title="Click to search">
+<button class="search__button top brand hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 
-<button class="search__button bottom brand hide-on-modal-visible glow" on:click={ showModal } title="Click to search">
+<button class="search__button bottom brand hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 

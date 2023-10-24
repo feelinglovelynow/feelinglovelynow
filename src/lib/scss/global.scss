@@ -133,3 +133,9 @@ strong {
   -moz-box-shadow: var(--glow);
   box-shadow: var(--glow);
 }
+
+.light-glow {
+  -webkit-box-shadow: var(--light-glow);
+  -moz-box-shadow: var(--light-glow);
+  box-shadow: var(--light-glow);
+}
