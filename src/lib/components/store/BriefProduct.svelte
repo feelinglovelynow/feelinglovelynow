@@ -38,8 +38,9 @@
     section {
       padding: 0;
       margin: 0;
+      box-shadow: var(--glow);
       &:hover {
-        box-shadow: 0 0 0 .2rem rgba(0, 123, 255, 0.63);
+        box-shadow: var(--glow), 0 0 0 .2rem rgba(0, 123, 255, 0.63);
 
         img {
           scale: 1.02;
