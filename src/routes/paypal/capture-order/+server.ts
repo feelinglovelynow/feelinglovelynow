@@ -96,7 +96,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
   const header = {
     customer: `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Thanks ${ pretty.name }!</div>
-      <div style="color: #273142; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! We will email you order status information and shipping tracking information soon!</div>
+      <div style="color: #273142; text-align: justify; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! We will email you order status information and shipping tracking information soon!</div>
     `,
     us: `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Purchase Details</div>
@@ -115,7 +115,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
         <div style="max-width: 444px; width: 100%; margin: 0 auto;">
 
           <div style="height: 90px; width: 100%; text-align: center;">
-            <img src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
+            <img style="width: 280px; padding-right: 9px;" src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
           </div>
 
           ${ header[key] }
@@ -168,6 +168,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
           <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Purchased Products</div>
           ${ orderItemsHtml }
           <div style="color: #273142; width: 100%; text-align: right;">- Hakuna Matata</div>
+          <div style="display: none;">${ crypto.randomUUID() }</div>
         </div>
       </div>
     `
