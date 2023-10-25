@@ -136,10 +136,10 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Shipping Address</div>
-                <div style="color: #273142; line-height: 1.45;">
-                  <div>${ pretty.name }</div>
-                  <div>${ pretty.addressLine1 } ${ pretty.addressLine2 || '' }</div>
-                  <div>${ pretty.city }, ${ pretty.state }, ${ pretty.country } ${ pretty.zip }</div>
+                <div style="line-height: 1.45;">
+                  <div style="color: #273142;">${ pretty.name }</div>
+                  <div style="color: #273142;">${ pretty.addressLine1 } ${ pretty.addressLine2 || '' }</div>
+                  <div style="color: #273142;">${ pretty.city }, ${ pretty.state }, ${ pretty.country } ${ pretty.zip }</div>
                 </div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
@@ -152,11 +152,11 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Pricing Details</div>
-                <div style="color: #273142; line-height: 1.45;">
-                  <div>Sub Total: $${ expandedSubTotal.subTotal.str }</div>
-                  <div>Shipping: $${ expandedSubTotal.shipping.str }</div>
-                  <div>Sales Tax: $${ expandedSubTotal.salesTax.str }</div>
-                  <div style="font-weight: 500;">Total: $${ expandedSubTotal.totalPrice.str } USD</div>
+                <div style="line-height: 1.45;">
+                  <div style="color: #273142;">Sub Total: $${ expandedSubTotal.subTotal.str }</div>
+                  <div style="color: #273142;">Shipping: $${ expandedSubTotal.shipping.str }</div>
+                  <div style="color: #273142;">Sales Tax: $${ expandedSubTotal.salesTax.str }</div>
+                  <div style="color: #273142; font-weight: 500;">Total: $${ expandedSubTotal.totalPrice.str } USD</div>
                 </div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
