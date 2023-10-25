@@ -95,8 +95,8 @@
     </div>
 
     <div class="papyrus two options-head">Preferred purchase method?</div>
-    <div class="relative">
-      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout" style="display: none;"></div>
+    <div class="relative" style="display: none;">
+      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
         <PaypalLoader />
       </div>

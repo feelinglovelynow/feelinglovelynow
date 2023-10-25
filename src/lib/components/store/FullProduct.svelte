@@ -148,7 +148,7 @@
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
       { :else if isBook }
-        <div>Erratic emotions led me down an ugly path. First I attempted several common solutions but they directed me to side effects, like less motor function, less will and sleep paralysis. Recently, gracefully and thankfully I've been guided to  simple, natural and efficient solutions that are detailed in this tiny book. I dream this book, provides the <strong>scientific evidence and implementation guidance</strong>, for you to:</div>
+        <div>Missed opportunities, was the theme of my life, thanks to erratic emotions. Common solutions like booze, mary jane or x, led me to experience less motor function, less will and sleep paralysis. Recently, gracefully and thankfully I’ve been guided to  simple, natural and efficient solutions, that are detailed in this tiny book. I dream this book, provides the <strong>scientific evidence</strong> and <strong>implementation guidance</strong>, for you to:</div>
         <ul>
           <li>Experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
           <li>Increase your emotional stability, mental acuity and physiological efficiency</li>
@@ -157,16 +157,16 @@
           <li>Feel united with our entire Universe</li>
           <li>And enhance your cognition!</li>
         </ul>
-        <p>If you would love, please feel free to <LoadingAnchor href="/links" label="contact me"/> (Chris Carrington)! Hakuna Matata! 🙏</p>
-        <p>Edition: 11/11/23 · Written and Published in Mount Shasta California</p>
-        <p>Paper is 50% Recycled Paper and 50% Organic Hemp</p>
+        <div class="light-bottom">If you would love, please feel free to <LoadingAnchor href="/links" label="contact me"/> (Chris Carrington)!</div>
+        <div class="light-bottom">Edition: 11/11/23 · Written and Published in Mount Shasta California</div>
+        <div class="light-bottom">Paper is 50% Recycled Paper and 50% Organic Hemp</div>
+        <div>Hakuna Matata! 🙏</div>
       { :else if isLotus || isTorusLight }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
-        <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is shaped like a <strong>torus</strong>.</div>
+        <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is the shape of a <strong>torus</strong>.</div>
         <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
         <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center.</p>
-        <p>Energy flows within our <strong>toroidal field</strong> in this direction:</p>
-        <p>Out top of heart &gt; Out top of our head &gt; Around body &gt; To the Earth &gt; In base of spine &gt; In bottom of heart</p>
+        <p>Energy in your torus field circles out top of heart, out top of head, around body, in base of spine and in base of heart</p>
         <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales.</p>
       { :else if isHeartLight } <!-- Heart Light -->
         <div>The etheric field has been measured, it unites all in our Universe and according to Albert Einstein, space without ether is unthinkable</div>
@@ -296,6 +296,10 @@
 
       .description {
         width: 100%;
+
+        .light-bottom {
+          margin-bottom: 0.36rem;
+        }
 
         .geometry {
           float: left;
