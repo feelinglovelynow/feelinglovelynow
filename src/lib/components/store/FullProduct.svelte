@@ -4,7 +4,7 @@
   import Flower from '$lib/sacred/Flower.svelte'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import ProductCategories from './ProductCategories.svelte'
-  import type { Product, CartItem, CartItemSizes } from '$lib'
+  import type { Product, OrderItem, OrderItemSizes } from '$lib'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
 
   export let product: Product
@@ -62,13 +62,13 @@
 
     if (errors.length) showToast({ type: 'info', items: errors })
     else {
-      const cartItem: CartItem = {
+      const cartItem: OrderItem = {
         id: crypto.randomUUID(),
         productId: product.id,
         quantity: Number(quantity)
       }
 
-      if (!isBook) cartItem.size = size as CartItemSizes
+      if (!isBook) cartItem.size = size as OrderItemSizes
 
       $cart.push(cartItem)
       set($cart)

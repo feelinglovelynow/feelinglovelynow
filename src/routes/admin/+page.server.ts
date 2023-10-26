@@ -1,5 +1,5 @@
 import search from '$lib/actions/search'
-import imageAI from '$lib/actions/imageAI'
+import queryOrder from '$lib/dgraph/queryOrder'
 // import getProducts from '$lib/printful/getProducts'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
@@ -8,6 +8,7 @@ import serverPageCatch from '$lib/catch/serverPageCatch'
 export const load = (async () => {
   try {
     // console.log(JSON.stringify(await getProducts()))
+    return { orders: await queryOrder() }
   } catch (e) {
     return serverPageCatch(e)
   }
@@ -16,5 +17,4 @@ export const load = (async () => {
 
 export const actions = {
   search,
-  imageAI,
 } satisfies Actions

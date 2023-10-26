@@ -70,7 +70,10 @@ export type Order = {
   id: string
   name: string
   email: string
-  address: string
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
   zip: string
   country: string
   totalPrice: number
@@ -100,5 +103,4 @@ export enum OrderStatus {
   FAILED,
 }
 
-export type Cart = OrderItem[]
 export type OrderItemSizes = 'S' | 'M' | 'L' | 'XL'

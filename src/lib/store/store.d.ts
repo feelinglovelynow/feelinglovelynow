@@ -2,6 +2,9 @@ import type { Price } from '$lib/store/Price'
 import type { Cart } from '$lib/dgraph/dgraph.d'
 
 
+export type Cart = OrderItem[]
+
+
 export type CreateOrderRequest = {
   cart: Cart
   totalPrice: Price
