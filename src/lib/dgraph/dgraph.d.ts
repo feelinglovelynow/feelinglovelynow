@@ -62,6 +62,10 @@ export type Product = {
   similarProducts: Product[]
 }
 
+export type AddOrderProduct = {
+  id: string
+}
+
 export type Order = {
   id: string
   name: string
@@ -70,20 +74,21 @@ export type Order = {
   zip: string
   country: string
   totalPrice: number
-  cart: CartItem[]
+  orderItems: OrderItem[]
   createdAt: string
   status: OrderStatus
   transaction: Transaction
   paypalFee: number
 }
 
-export type CartItem = {
+export type OrderItem = {
   id: string
   productId?: string
   quantity: number
-  size?: CartItemSizes
+  size?: OrderItemSizes
   product?: Product
   subTotal?: Price
+  order?: Order
 }
 
 export enum OrderStatus {
@@ -95,5 +100,5 @@ export enum OrderStatus {
   FAILED,
 }
 
-export type Cart = CartItem[]
-export type CartItemSizes = 'S' | 'M' | 'L' | 'XL'
+export type Cart = OrderItem[]
+export type OrderItemSizes = 'S' | 'M' | 'L' | 'XL'

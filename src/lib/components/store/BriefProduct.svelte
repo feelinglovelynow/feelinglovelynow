@@ -40,7 +40,7 @@
       margin: 0;
       box-shadow: var(--glow);
       &:hover {
-        box-shadow: var(--glow), 0 0 0 .2rem rgba(0, 123, 255, 0.63);
+        box-shadow: var(--glow), 0 0 0 .2rem rgba(234, 198, 3, 0.63);
 
         img {
           scale: 1.02;

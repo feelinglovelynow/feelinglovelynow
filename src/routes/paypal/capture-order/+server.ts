@@ -10,7 +10,7 @@ import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
-import type { CaptureOrderRequest, ExpandedSubTotal, CartItem, AddOrderCart, PrettyPaypal } from '$lib'
+import type { CaptureOrderRequest, ExpandedSubTotal, OrderItem, AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
 
 
 export const POST = (async ({ request, platform }) => {
@@ -24,7 +24,7 @@ export const POST = (async ({ request, platform }) => {
       if (response._errors.length) return json({ errors: response._errors }, { status: 400 })
       else if (!response.expandedSubTotal) return json({ _errors: [ 'An unknown error occured' ] }, { status: 400 }) // allow us to be in the else below knowing we have a response (even though if we don't errors above we'll run, but ts doesen't know that so...)
       else {
-        const rPaypal = await captureOrder(response._errors, body.orderId) // send paypal the order id and process the payment for this order id
+        const rPaypal = await captureOrder(response._errors, body.orderId) // send paypal the orderId and process the payment for this orderId
 
         if (response._errors.length) return json({ errors: response._errors }, { status: 400 })
         else {
@@ -69,20 +69,20 @@ function getPrettyPaypalResponse (response: any): PrettyPaypal {
 
 
 function dgraphAddOrder (body: CaptureOrderRequest, pretty: PrettyPaypal) {
-  const addOrderCart: AddOrderCart = []
+  const orderItems: AddOrderRequestOrderItems = []
 
   for (const cartItem of body.cart) {
     if (cartItem.product) {
-      addOrderCart.push({
+      orderItems.push({
         id: cartItem.id,
         quantity: cartItem.quantity,
         size: cartItem.size ? cartItem.size : undefined,
-        Product: { id: cartItem.product.id },
+        product: { id: cartItem.product.id },
       })
     }
   }
 
-  return addOrder(body.orderId, addOrderCart, pretty)
+  return addOrder(body.orderId, orderItems, pretty)
 }
 
 
@@ -185,17 +185,17 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
 }
 
 
-async function getOrderItemHtml (cartItem: CartItem) {
+async function getOrderItemHtml (orderItem: OrderItem) {
   return `
     <table style="width: 100%; margin-bottom: 15px;">
       <tr>
         <td style="width: 126px; height: 126px; text-align: center; vertical-align: top;">
-          <img style="height: 100%; max-height: 126px;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ cartItem.product?.primaryImage.id }.${ cartItem.product?.primaryImage.extension }`)).default }" alt="${ cartItem.product?.name }">
+          <img style="height: 100%; max-height: 126px;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
         </td>
       <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
-        <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ cartItem.product?.name }</div>
-        <div style="color: #273142; margin-bottom: 3px;">Quantity: ${ cartItem.quantity }</div>
-        ${ cartItem.size ? '<div style="color: #273142;">Size: ' + cartItem.size + '</div>' : '' }
+        <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>
+        <div style="color: #273142; margin-bottom: 3px;">Quantity: ${ orderItem.quantity }</div>
+        ${ orderItem.size ? '<div style="color: #273142;">Size: ' + orderItem.size + '</div>' : '' }
       </td>
       </tr>
     </table>

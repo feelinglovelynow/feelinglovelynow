@@ -48,7 +48,7 @@
         --border-color-light: rgb(75, 85, 99, 0.3);
         --bottom-nav-bg: #111111;
         --glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.27);
-        --focus-box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .81);
+        --focus-box-shadow: 0 0 0 .2rem rgba(234, 198, 3, 0.63);
         --focus-error-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(240, 82, 82) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
       }
     </style>

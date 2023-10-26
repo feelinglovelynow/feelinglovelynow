@@ -21,13 +21,11 @@ export type ExpandedSubTotal = {
   totalPrice: Price
 }
 
-export type AddOrderCart = {
+export type AddOrderRequestOrderItems = {
   id: string
-  size?: string
   quantity: number
-  Product: {
-    id: string
-  }
+  size?: OrderItemSizes
+  product: AddOrderProduct
 }[]
 
 export type PrettyPaypal = {

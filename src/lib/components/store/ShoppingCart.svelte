@@ -1,7 +1,6 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
   import { cart } from '$lib/store/cart'
-  import { fade } from 'svelte/transition'
   import type { Cart, Product } from '$lib'
   import loopCart from '$lib/store/loopCart'
   import showToast from '@sensethenlove/toast'
@@ -22,6 +21,7 @@
   let totalPrice = new Price()
   let divPaypalLoading: HTMLDivElement
   let divPaypalCheckout: HTMLDivElement
+
   const paypalCheckout = new PaypalCheckout()
 
   $: if ($cart && divPaypalCheckout) {
@@ -51,12 +51,11 @@
 </script>
 
 
-{ #if $cart.length > 0 }
-  <div transition:fade={{ delay: 90, duration: 600 }} id="shoping-cart-button">
-    <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
-    <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
-  </div>
-{ /if }
+
+<div class="{ $cart.length > 0 ? 'visible' : '' }" id="shoping-cart-button">
+  <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
+  <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
+</div>
 
 
 <div class="cart">
@@ -152,7 +151,7 @@
       border-radius: 0.3rem;
       margin-bottom: 1.8rem;
       padding: 0.9rem 0.9rem 0 0.9rem;
-      min-height: 9rem;
+      min-height: 25.4rem;
       transition: all 0.9s;
 
       :global(.paypal-buttons) {
@@ -232,6 +231,13 @@
 
   #shoping-cart-button {
     position: relative;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.9s;
+    &.visible {
+      opacity: 1;
+      max-height: 8.1rem;
+    }
 
     .brand {
       font-size: 1.98rem;

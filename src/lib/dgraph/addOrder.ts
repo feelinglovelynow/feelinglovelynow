@@ -1,8 +1,8 @@
 import graphql from '$lib/dgraph/graphql'
-import type { AddOrderCart, PrettyPaypal } from '$lib'
+import type { AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
 
 
-export default async function addOrder (id: string, cart: AddOrderCart, pretty: PrettyPaypal) {
+export default async function addOrder (id: string, orderItems: AddOrderRequestOrderItems, pretty: PrettyPaypal) {
   return graphql({
     query: `
       mutation MyMutation($input: [AddOrderInput!]! = {id: ""}) {
@@ -10,7 +10,7 @@ export default async function addOrder (id: string, cart: AddOrderCart, pretty: 
           order {
             id
             createdAt
-            cart {
+            orderItems {
               id
             }
           }
@@ -20,11 +20,15 @@ export default async function addOrder (id: string, cart: AddOrderCart, pretty: 
     variables: {
       input: {
         id,
-        cart,
+        orderItems,
         status: pretty.status,
         email: pretty.email,
         name: pretty.name,
-        address: `${ pretty.addressLine1 }${ pretty.addressLine2 ? ' ' + pretty.addressLine2 : ''} ${ pretty.city }, ${ pretty.state }, ${ pretty.zip }`,
+        addressLine1: pretty.addressLine1,
+        addressLine2: pretty.addressLine2,
+        city: pretty.city,
+        state: pretty.state,
+        zip: pretty.zip,
         country: pretty.country,
         paypalFee: pretty.paypalFee.num,
         totalPrice: pretty.totalPrice.num,
