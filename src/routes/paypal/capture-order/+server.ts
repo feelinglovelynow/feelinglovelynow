@@ -51,7 +51,7 @@ async function captureOrder (_errors: string[], orderId: string) {
 }
 
 
-function getPrettyPaypalResponse (response: any): PrettyPaypal {  
+function getPrettyPaypalResponse (response: any): PrettyPaypal {
   return {
     status: response?.status || '',
     email: response?.payment_source?.paypal.email_address || '',

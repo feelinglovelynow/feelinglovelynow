@@ -82,6 +82,7 @@ export type Order = {
   status: OrderStatus
   transaction: Transaction
   paypalFee: number
+  isOpen?: boolean
 }
 
 export type OrderItem = {

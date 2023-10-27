@@ -6,7 +6,7 @@ export default async function queryOrder (): Promise<Order[]> {
   const response = await graphql({
     query: `
       query MyQuery {
-        queryOrder {
+        queryOrder(order: {desc: createdAt}) {
           id
           createdAt
           name
@@ -15,6 +15,7 @@ export default async function queryOrder (): Promise<Order[]> {
           addressLine2
           zip
           state
+          city
           country 
           totalPrice
           orderItems {
@@ -24,6 +25,11 @@ export default async function queryOrder (): Promise<Order[]> {
             product {
               id
               slug
+              name
+              primaryImage {
+                id
+                extension
+              }
             }
           }
         }

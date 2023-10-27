@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { PageData } from './$types'
-  import { browser } from '$app/environment'
   import { Slug } from '@sensethenlove/slug'
   import showToast from '@sensethenlove/toast'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Button from '$lib/components/forms/Button.svelte'
+  import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
 
   export let data: PageData
 
@@ -46,37 +46,67 @@
     </div>
 
     <!-- Orders -->
-    { #if browser && data.orders?.length }
+    { #if data.orders?.length }
+      <div class="flex-center">
+        <Title noBottom={ true } text="Orders" />
+      </div>
       <section class="orders">
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>Order ID</th>
-              <th>Created At</th>
-              <th>Total Price</th>
-              <th>Name</th>
               <th>Email</th>
-              <th>Address Line 1</th>
-              <th>Address Line 2</th>
-              <th>City</th>
-              <th>Zip</th>
-              <th>Country</th>
+              <th>Created At</th>
+              <th class="right">Total Price</th>
             </tr>
           </thead>
           <tbody>
             { #each data.orders as order (order.id) }
-              <tr>
+              <tr class="top-row">
+                <td>
+                  <div class="toggle-wrapper">
+                    <button on:click={ () => order.isOpen = !order.isOpen} class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
+                  </div>
+                </td>
                 <td>{ order.id }</td>
-                <td>{ new Date(order.createdAt).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' }) }</td>
-                <td>${ order.totalPrice }</td>
-                <td>{ order.name }</td>
                 <td>{ order.email }</td>
-                <td>{ order.addressLine1 }</td>
-                <td>{ order.addressLine2 }</td>
-                <td>{ order.city }</td>
-                <td>{ order.zip }</td>
-                <td>{ order.country }</td>
+                <td>{ new Date(order.createdAt).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
+                <td class="right">${ order.totalPrice }</td>
               </tr>
+              { #if order.isOpen }
+                <tr class="bottom-row">
+                  <td></td>
+                  <td colspan="5">
+                    <div class="orders-shipping">
+                      <div class="inner-orders">
+                        <div class="papyrus">Order Items</div>
+                        { #each order.orderItems as orderItem }
+                          <div class="order">
+                            <div class="img">
+                              <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
+                            </div>
+                            <div class="info">
+                              <div class="product-name">{ orderItem.product?.name }</div>
+                              <div class="order-id">{ orderItem.id }</div>
+                              <div>Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
+                            </div>
+                          </div>
+                        { /each }
+                      </div>
+                      <div class="shipping">
+                        <div class="papyrus">Shipping</div>
+                        <div>{ order.name }</div>
+                        <div>{ order.addressLine1 }</div>
+                        { #if order.addressLine2 }
+                          <div>{ order.addressLine2 }</div>
+                        { /if }
+                        <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              { /if }
             { /each }
           </tbody>
         </table>
@@ -110,8 +140,94 @@
 
       th,
       td {
+        padding: 0.45rem;
+      }
+
+      th {
         white-space: nowrap;
-        padding: 0 0.6rem 0.6rem 0.6rem;
+      }
+
+      tbody {
+        tr:last-child {
+          td {
+            padding-bottom: 0;
+          }
+        }
+
+        .right {
+          text-align: right;
+        }
+
+        .top-row {
+          td {
+            white-space: nowrap;
+            vertical-align: middle;
+            border-top: 1px solid var(--border-color);
+          }
+        }
+
+        .orders-shipping {
+          display: flex;
+          justify-content: space-between;
+
+          .shipping {
+            text-align: right;
+          }
+
+          .inner-orders {
+            .order {
+              display: flex;
+              padding-bottom: 0.6rem;
+              margin-bottom: 0.6rem;
+              border-bottom: 1px solid var(--border-color-light);
+              &:last-child {
+                border: none;
+              }
+
+              .img {
+                width: 9rem;
+                margin-right: 0.9rem;
+
+                img {
+                  width: 100%;
+                }
+              }
+
+              
+
+              .order-id,
+              .product-name {
+                margin-bottom: 0.3rem;
+              }
+
+              .product-name {
+                max-width: 45rem;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+      }
+
+      .toggle-wrapper {
+        display: flex;
+        align-items: center;
+        height: 4.2rem;
+      }
+
+      .toggle {
+        padding: 0;
+        height: 3.2rem;
+        width: 3.2rem;
+        &.is-open {
+          :global(svg) {
+            transform: rotate(450deg);
+          }
+        }
+
+        :global(svg) {
+          transition: all 0.54s;
+        }
       }
     }
 
