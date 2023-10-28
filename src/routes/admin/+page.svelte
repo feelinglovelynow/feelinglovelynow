@@ -70,6 +70,27 @@
           <Title noBottom={ true } text="Orders" />
         </div>
         <section>
+          <form class="search-form">
+            <div class="form-item">
+              <label for="">Search by Order ID</label>
+              <input type="text" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">Search by Email</label>
+              <input type="text" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">Start Date</label>
+              <input type="date" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">End Date</label>
+              <input type="date" class="brand">
+            </div>
+
+            <Button css="brand" type="button" text="Search" />
+          </form>
+
           <table>
             <thead>
               <tr>
@@ -124,7 +145,7 @@
                             { /if }
                             <div>{ order.city } { order.state } { order.zip } { order.country }</div>
                           </div>
-                        
+
                           <div class="forms">
                             <div class="papyrus">Set Shipping Tracking</div>
                             { #each order.orderItems as orderItem }
@@ -212,6 +233,23 @@
         overflow: auto;
         text-align: left;
 
+        .search-form {
+          display: flex;
+          align-items: end;
+          justify-content: space-between;
+          margin-bottom: 1.5rem;
+          min-width: 100%;
+
+          .form-item {
+            margin: 0 0.9rem 0 0;
+
+            label {
+              white-space: nowrap;
+            }
+          }
+        }
+
+
         th,
         td {
           padding: 0.45rem;
@@ -247,6 +285,7 @@
                     padding: 0;
                     height: 3.2rem;
                     width: 3.2rem;
+                    border-radius: 50%;
                     &.is-open {
                       :global(svg) {
                         transform: rotate(450deg);
@@ -324,6 +363,7 @@
                   }
 
                   .info {
+                    font-size: 1.5rem;
 
                     .info-item {
                       margin-bottom: 0.3rem;
