@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { PageData } from './$types'
+  import type { Product, Source } from '$lib'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import formatScience from '$lib/util/formatScience'
   import AboutUs from '$lib/components/AboutUs.svelte'
   import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.webp'
   import toastRouteError from '$lib/util/toastRouteError'
@@ -16,46 +18,75 @@
 
   export let data: PageData
   toastRouteError(data)
+
+  let products: Product[] = []
+  let culture: Source | undefined = undefined
+  let product: Source | undefined = undefined
+  let science: Source | undefined = undefined
+
+
+  $: if (data.products) {
+    products = []
+
+    for (const product of data.products) {
+      if (Number.isInteger(product.homeDisplayOrder)) products.push(product)
+    }
+
+    products = products.sort((a, b) => Number(a.homeDisplayOrder > b.homeDisplayOrder) - Number(a.homeDisplayOrder < b.homeDisplayOrder)) // sort by homeDisplayOrder
+  }
+
+
+  $: if (data.sources) {
+    for (const source of data.sources) {
+      if (!science && source.type === 'science') science = source
+      else if (!culture && source.type === 'culture') culture = source
+      else if (!product && source.type === 'product') product = source
+
+      if (science && culture && product) break
+    }
+
+    science = formatScience(science)
+  }
 </script>
 
 
-<Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" url={ data.href } />
+<Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" />
 <GuitarPic />
 <Title text="Aloha!" size="two" />
 <SocialSupport />
 <AboutUs />
 
-{ #if data.products?.length }
+{ #if products?.length }
   <Title text="Featured Store Items" noBottom={ true } />
   <div class="products">
-    { #each data.products as product }
+    { #each products as product }
       <BriefProduct { product } />
     { /each }
   </div>
 { /if }
 
-<ProductCategories categories={ data.categories } doActiveSelection={ false } title="Store Categories" />
+<ProductCategories categories={ data.productCategories } doActiveSelection={ false } title="Store Categories" />
 
 <div class="content">
-  { #if data.culture }
+  { #if culture }
     <Title noBottom={ true } >
       <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
-    <Culture source={ data.culture } location="home" />
+    <Culture source={ culture } location="home" />
   { /if }
 
-  { #if data.science }
+  { #if science }
     <Title noBottom={ true }>
       <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
-    <Science source={ data.science } location="home" />
+    <Science source={ science } location="home" />
   { /if }
 
-  { #if data.product }
+  { #if product }
     <Title noBottom={ true }>
       <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
     </Title>
-    <SourceProduct source={ data.product } location="home" />
+    <SourceProduct source={ product } location="home" />
   { /if }
 </div>
 

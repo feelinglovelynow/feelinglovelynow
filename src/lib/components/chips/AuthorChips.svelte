@@ -10,7 +10,6 @@
   export let authors: Author[]
   export let author: Author | null | undefined = undefined
 
-  let ssr: boolean
   let query: string
   let allHref: string
   let filterdAuthors: Author[]
@@ -45,7 +44,6 @@
   }
 
   $: if ($page.url) {
-    ssr = $page.route.id === '/library'
     allHref = getLibraryHref($page.url, [ [ 'author', '' ], [ 'count', '' ] ])
   }
 </script>
@@ -59,9 +57,9 @@
     <input class="brand" bind:value={ query } type="text" placeholder="Search" />
   { /if }
   { #if location === 'nav' && isAllVisible }
-    <LoadingAnchor { ssr } label="All" href={ allHref }  css="chip { !author ? 'active' : '' }"/>
+    <LoadingAnchor label="All" href={ allHref }  css="chip { !author ? 'active' : '' }"/>
   { /if }
   { #each filterdAuthors as a }
-    <LoadingAnchor { ssr } label={ a.name } href={ a.href }  css="chip { author?.slug === a.slug ? 'active' : '' }"/>
+    <LoadingAnchor label={ a.name } href={ a.href }  css="chip { author?.slug === a.slug ? 'active' : '' }"/>
   { /each }
 </div>

@@ -28,11 +28,11 @@
 
 
 { #if PUBLIC_ENVIRONMENT === 'local' }
-  <Head title="Admin" url="admin" />
+  <Head title="Admin" />
   <Title text="Welcome Admin!" />
 
   <div class="wrapper">
-    <!-- Cache Buttons -->
+    <!-- Cache -->
     <div class="cache flex-center">
       <Title noBottom={ true } text="Cache" />
       <section>
@@ -118,7 +118,7 @@
       </div>
     { /if }
 
-    <!-- Generate Slug -->
+    <!-- Slug -->
     <div class="slug flex-center">
       <Title noBottom={ true } text="Slug" />
       <section>
@@ -194,6 +194,7 @@
             td {
               white-space: nowrap;
               vertical-align: middle;
+              transition: all $theme-swap-speed;
               border-top: 1px solid var(--border-color);
 
               .toggle-wrapper {
@@ -231,6 +232,7 @@
               display: flex;
               padding-bottom: 0.6rem;
               margin-bottom: 0.6rem;
+              transition: all $theme-swap-speed;
               border-bottom: 1px solid var(--border-color-light);
               &:last-child {
                 border: none;

@@ -1,112 +1,240 @@
 <script lang="ts">
-  import type { Source } from '$lib'
+  import { onMount } from 'svelte'
   import { page } from '$app/stores'
-  import { goto } from '$app/navigation'
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import { goto, onNavigate } from '$app/navigation'
   import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
+  import loopBackwards from '@sensethenlove/loop-backwards'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
   import IMG_OG_LIBRARY from '$lib/img/og/IMG_OG_LIBRARY.webp'
   import TypeChips from '$lib/components/chips/TypeChips.svelte'
+  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
   import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
+  import type { Source, Author, Category, Quote, SourceType } from '$lib'
 
   export let data: PageData
   toastRouteError(data)
 
-  const titleParts: string[] = []
+  let isPageLoading = true
+  let authors: Author[] = []
+  let preParseSourceCount = 0
+  let postParseSourceCount = 0
+  let categories: Category[] = []
+  let visibleSources: Source[] = []
   let isShowMoreButtonVisible: boolean
   let isShowMoreButtonLoading: boolean
   let showMoreSourcesButton: HTMLDivElement
   let title: string = 'Welcome to our Library!'
-  let visibleSources: Source[] = [ ...(data.sources || []) ] // IF I put data.sourcs into the each block on some page renders it clears data.sources for some reason @ infinite scroll
+  let currentCount: number | undefined = undefined
+  let currentAuthor: Author | undefined = undefined
+  let currentType: SourceType | undefined = undefined
+  let currentCategory: Category | undefined = undefined
 
-  $: if (visibleSources?.length) { // Are the number of results showing the 6 initial or 6 additional via infinite scroll / ELSE no more results available
-    isShowMoreButtonVisible = Number.isInteger(Number(visibleSources?.length) / 6)
-  }
+  const titleParts: string[] = []
 
   $: if (showMoreSourcesButton) { // add observer to infinite scroll button
     (new IntersectionObserver(showMoreSources, { rootMargin: '270px' })).observe(showMoreSourcesButton)
   }
 
-  $: if (data.type || data.category || data.author) { // bind title
+  function setIsShowMoreButtonVisible () {
+    postParseSourceCount = visibleSources?.length
+    isShowMoreButtonVisible = preParseSourceCount !== postParseSourceCount
+    preParseSourceCount = postParseSourceCount
+  }
+
+  onMount(() => {
+    parseSources(null)
+  })
+
+  onNavigate(navigation => {
+    if (navigation.to?.route.id === '/library') parseSources(null)
+  })
+
+  function reset () {
+    currentType = undefined
+    currentCount = undefined
+    currentAuthor = undefined
+    currentCategory = undefined
+    title = 'Welcome to our Library!'
+    visibleSources = JSON.parse(JSON.stringify(data.sources)) as Source[]
+  }
+
+  function parseSources (visibleCount: null | number) {
+    reset()
+    const mapAuthors: Map<string, Author> = new Map() // use map so duplicates are removed
+    const mapCategories: Map<string, Category> = new Map() // use map so duplicates are removed
+    const searchParams = new URLSearchParams(document.location.search) // $page is not reliable for the current $page searchParams sometimes
+    const url = {
+      type: getUrlParamType(searchParams),
+      author: searchParams.get('author'),
+      category: searchParams.get('category'),
+      count: visibleCount || Number(searchParams.get('count')) || 6,
+    }
+
+    loopBackwards(visibleSources, (source, spliceSource) => {
+      let sourceIsValid = true
+      let urlAuthorWroteSource = false
+
+      if (source?.authors) {
+        for (const author of source.authors) {
+          mapAuthors.set(author.slug, author) // place each author in map
+
+          if (url.author && author.slug === url.author) { // if an author param is requested in the URL AND the author in the loop matches the urlAuthorSlug
+            currentAuthor = author
+            urlAuthorWroteSource = true
+          }
+        }
+      }
+
+      if (source.type === 'science') {
+        if (source.quotes) {
+          let sourceCategories: Map<string, Category> = new Map() // use map so duplicates are removed
+
+          loopBackwards(source.quotes, (quote, spliceQuote) => {          
+            let quoteHasUrlCategory = false
+
+            if (quote.categories) {
+              for (const category of quote.categories) {
+                mapCategories.set(category.slug, category) // place each category in map of all categories
+
+                if (!url.category) addCategoriesToSourceCategories(quote, sourceCategories) // if no category is requested in the url => place categories from quote into source categories
+                else if (category.slug === url.category) { // if a category param is requested in the URL AND the category in the loop matches the urlCategorySlug
+                  currentCategory = category // save this full variable representing the url slug as an object filled w/ properties
+                  quoteHasUrlCategory = true // tip flag indicating quote from url found
+                  addCategoriesToSourceCategories(quote, sourceCategories) // place categories from quote into source categories
+                }
+              }
+            }
+
+            if (url.category && !quoteHasUrlCategory) spliceQuote() // if a category param is requested in the URL AND this quote does not in the requested category => remove quote from source
+            else source.categories = [...sourceCategories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)) // source is valid => set source categories AND sort them by name
+          })
+        }
+      } else { // culture || product
+        let sourceHasUrlCategory = false
+
+        if (source.categories) {
+          for (const category of source.categories) {
+            mapCategories.set(category.slug, category) // place each category in map of all categories
+
+            if (category.slug === url.category) { // category in source matches category in URL
+              sourceHasUrlCategory = true // tip flag
+              currentCategory = category // save this full variable representing the url slug as an object filled w/ properties
+            }
+          }
+
+          if (url.category && !sourceHasUrlCategory) sourceIsValid = false // if a category param is requested in the URL AND category in url is not in this source => tip remove source flag
+          else source.categories.sort((a: Category, b: Category) => Number(a.name > b.name) - Number(a.name < b.name)) // sort categories by name
+        } else if (url.category) { // if a category param is requested in the URL AND source has no categories => tip remove source flag
+          sourceIsValid = false
+        }
+      }
+
+      if (!sourceIsValid) spliceSource() // if splice source requested => remove source
+      else if (url.type && url.type !== source.type) spliceSource() // if source type is requested in the URL AND this source is not in that type => remove source
+      else if (url.author && !urlAuthorWroteSource) spliceSource() // if an author param is requested in the URL AND this source was not written by this author => remove source
+      else if (source.type === 'science' && !source.quotes?.length) spliceSource() // if science source has no quotes => remove source
+      else if (source.type === 'science') source.quotes?.sort((a: Quote, b: Quote) => a.displayOrder - b.displayOrder) // sorce is valid AND it is a science source => sort quotes by displayOrder      
+    })
+
+    currentType = url.type
+    currentCount = url.count
+    visibleSources = visibleSources.slice(0, currentCount)
+    authors = [...mapAuthors.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)) // sort authors by name
+    categories = [...mapCategories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)) // sort categories by name
+
+    bindTitle()
+    setIsShowMoreButtonVisible()
+    isPageLoading = false
+  }
+
+  function bindTitle () { // bind title
     titleParts.length = 0
-    if (data.type) titleParts.push(data.type.charAt(0).toUpperCase() + data.type.slice(1))
-    if (data.category) titleParts.push(data.category.name)
-    if (data.author) titleParts.push(data.author.name)
+    if (currentType) titleParts.push(currentType.charAt(0).toUpperCase() + currentType.slice(1))
+    if (currentCategory) titleParts.push(currentCategory.name)
+    if (currentAuthor) titleParts.push(currentAuthor.name)
     if (titleParts.length) title = titleParts.join(' ⋅ ')
   }
 
-  async function showMoreSources (entries: IntersectionObserverEntry[]) { // show 6 more sources AND update the url
+  function getUrlParamType (searchParams: URLSearchParams): SourceType {
+    const type = searchParams.get('type')
+    return (type === 'science' || type === 'product' || type === 'culture') ? type : undefined
+  }
+
+  function addCategoriesToSourceCategories (quote: Quote, sourceCategories: Map<string, Category>) {
+    if (quote.categories) {
+      for (const category of quote.categories) {
+        sourceCategories.set(category.slug, category)
+      }
+    }
+  }
+
+  function showMoreSources (entries: IntersectionObserverEntry[]) { // update the url w/ 6 more sources => onNavigate will trigger
     if (entries[0].isIntersecting) {
-      const visibleCount = visibleSources.length + 6
-      const url = new URL($page.url)
-      url.searchParams.set('count', String(visibleCount))
-      goto(url, { replaceState: true, noScroll: true, keepFocus: true, invalidateAll: false })
-
-      const urlStart = `?start=${ visibleSources.length }`
-      const urlEnd = `&end=${ visibleSources.length + 6 }`
-      const urlType = data.type ? '&type=' + data.type : ''
-      const urlAuthor = data.author?.slug ? '&author=' + data.author?.slug : ''
-      const urlCategory = data.category?.slug ? '&category=' + data.category?.slug : ''
-
-      isShowMoreButtonLoading = true
-
-      const fetchResponse = await fetch(`/library/sources${ urlStart }${ urlEnd }${ urlType }${ urlAuthor }${ urlCategory }`)
-      const response = await fetchResponse.json()
-
-      if (response?.sources?.length) visibleSources = visibleSources.concat(response.sources)
-      else isShowMoreButtonVisible = false
-
-      isShowMoreButtonLoading = false
+      if (visibleSources.length % 6 !== 0) isShowMoreButtonVisible = false
+      else {
+        const visibleCount = visibleSources.length + 6
+        const url = new URL($page.url)
+        url.searchParams.set('count', String(visibleCount))
+        goto(url, { noScroll: true, keepFocus: true, invalidateAll: false, replaceState: true })
+      }
     }
   }
 </script>
 
 
-<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" url={ data.href } />
-<Title text="Library" size="one" />
-<Title text={ title } size="two" />
+<Head { title } ogImageSrc={ IMG_OG_LIBRARY } description="Welcome to our library!" />
 
-<div class="content">
-  <div class="flow-layout__left">
-    <TypeChips type={ data.type } />
-    { #if data.categories }
-      <CategoryChips type={ data.type } category={ data.category } categories={ data.categories } location="nav" />
-    { /if }
-    { #if data.authors }
-      <AuthorChips author={ data.author } authors={ data.authors } location="nav" />
-    { /if }
-  </div>
 
-  { #if visibleSources?.length }
-    { #each visibleSources as source (source.id) }
-      { #if source.type === 'science' }
-        <Science { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
-      { :else if source.type === 'culture' }
-        <Culture { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
-      { :else if source.type === 'product' }
-        <Product { source } type={ data.type } category={ data.category } author={ data.author } css="flow-layout__right-item" location="library" />
+{ #if isPageLoading }
+  <SimpleLoader />
+{ :else }
+  <Title text="Library" size="one" />
+  <Title text={ title } size="two" />
+
+
+  <div class="content">
+    <div class="flow-layout__left">
+      <TypeChips type={ currentType } />
+      { #if categories }
+        <CategoryChips type={ currentType } category={ currentCategory } { categories } location="nav" />
       { /if }
-    { /each }
-  { :else }
-    <Title css="flow-layout__right-item">
-      <span>No library items found. Would you love to <LoadingAnchor ssr={ true } href="/library" label="view all" loadWidth="big" />?!</span>
-    </Title>
-  { /if }
-
-  { #if isShowMoreButtonVisible }
-    <div bind:this={ showMoreSourcesButton } class="more-wrapper flow-layout__right-item">
-      <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
+      { #if authors }
+        <AuthorChips author={ currentAuthor } { authors } location="nav" />
+      { /if }
     </div>
-  { /if }
-  <div class="clear"></div>
-</div>
+
+    { #if visibleSources?.length }
+      { #each visibleSources as source (source.id) }
+        { #if source.type === 'science' }
+          <Science { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+        { :else if source.type === 'culture' }
+          <Culture { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+        { :else if source.type === 'product' }
+          <Product { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+        { /if }
+      { /each }
+    { :else }
+      <Title css="flow-layout__right-item">
+        <span>No library items found. Would you love to <LoadingAnchor href="/library" label="view all" loadWidth="big" />?!</span>
+      </Title>
+    { /if }
+
+    { #if isShowMoreButtonVisible }
+      <div bind:this={ showMoreSourcesButton } class="more-wrapper flow-layout__right-item">
+        <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
+      </div>
+    { /if }
+    <div class="clear"></div>
+  </div>
+{ /if }
 
 
 <style lang="scss">

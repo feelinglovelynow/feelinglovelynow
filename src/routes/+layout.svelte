@@ -2,7 +2,6 @@
   import '$lib/scss/global.scss'
   import { updated } from '$app/stores'
   import { theme } from '$lib/util/store'
-  import { fly } from 'svelte/transition'
   import type { PageData } from './$types'
   import '@sensethenlove/toast/lib/index.css'
   import Nav from '$lib/components/nav/Nav.svelte'
@@ -12,9 +11,6 @@
   import ThemeToggle from '$lib/components/nav/ThemeToggle.svelte'
 
   export let data: PageData
-
-  const pageTransitionIn = { y: -9, duration: 300, delay: 333 }
-  const pageTransitionOut = { y: 9, duration: 300 }
 
   theme.set(data.locals.theme)
 </script>
@@ -73,11 +69,9 @@
   { /if }
 </svelte:head>
 
-{ #key data.key }
-  <main data-sveltekit-reload={ $updated ? '' : 'off' } in:fly={ pageTransitionIn } out:fly={ pageTransitionOut }> <!-- if app has been updated (svelte.config.js), set links w/in this wrapper to do a full page reload (no client side routing) (so latest app is displayed post reload) -->
-    <slot />
-  </main>
-{ /key }
+<main data-sveltekit-reload={ $updated ? '' : 'off' }> 
+  <slot />
+</main>
 
 <Background localsTheme={ data.locals.theme } />
 <Nav />

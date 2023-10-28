@@ -7,7 +7,7 @@
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
-  import PaypalLoader from '$lib/components/store/PaypalLoader.svelte'
+  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
 
   export let allProducts: undefined | Product[] = undefined
@@ -97,7 +97,7 @@
     <div class="relative" style="display: none;">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
-        <PaypalLoader />
+        <SimpleLoader style="paypal" />
       </div>
     </div>
   </Modal>

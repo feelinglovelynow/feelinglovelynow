@@ -113,7 +113,7 @@
 </script>
 
 
-<Head title="Links" url={ data.href } ogImageSrc={ IMG_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
+<Head title="Links" ogImageSrc={ IMG_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
 
 <GuitarPic />
 <Title text="Aloha!" size="two" />

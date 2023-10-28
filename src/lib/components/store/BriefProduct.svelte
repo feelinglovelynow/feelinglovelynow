@@ -9,7 +9,9 @@
   <section class="glow">
     <LoadingAnchor css="anchor" href={ `/store?product=${ product.slug }` } loadWidth="huge">
       <div class="image">
-        <img src={ product.primaryImage.src } alt={ product.name } loading="lazy"/>
+        { #if product.primaryImage?.src }
+          <img src={ product.primaryImage.src } alt={ product.name } loading="lazy"/>
+        { /if }
       </div>
 
       <div class="name">{ `$${ product.price } USD ⋅ ${ product.name }` }</div>

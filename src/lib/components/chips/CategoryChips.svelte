@@ -11,7 +11,6 @@
   export let type: SourceType = undefined
   export let category: Category | null | undefined = undefined
 
-  let ssr: boolean
   let query: string
   let allHref: string
   let cultureHref: string
@@ -41,7 +40,7 @@
 
   $: if (filterdCategories) {
     if (filterdCategories.length && !filterdCategories[0].href) {
-      for (const category of categories) {
+      for (const category of filterdCategories) {
         category.lowName = category.name.toLowerCase()
         category.href = getLibraryHref($page.url, [ [ 'category', category.slug ], [ 'count', '' ] ])
       }
@@ -49,7 +48,6 @@
   }
 
   $: if ($page.url) {
-    ssr = $page.route.id === '/library'
     allHref = getLibraryHref($page.url, [ [ 'category', '' ], [ 'count', '' ] ])
     if (location === 'culture') cultureHref = getLibraryHref($page.url, [ [ 'type', 'culture' ], [ 'count', '' ] ])
     if (location === 'science') scienceHref = getLibraryHref($page.url, [ [ 'type', 'science' ], [ 'count', '' ] ])
@@ -65,15 +63,15 @@
     <input class="brand" bind:value={ query } type="text" placeholder="Search" />
   { /if }
   { #if location === 'product' }
-    <LoadingAnchor { ssr } href={ productHref } label="Product" css="chip { type === 'product' ? 'active' : '' }" />
+    <LoadingAnchor href={ productHref } label="Product" css="chip { type === 'product' ? 'active' : '' }" />
   { :else if location === 'culture' }
-    <LoadingAnchor { ssr } href={ cultureHref } label="Culture" css="chip { type === 'culture' ? 'active' : '' }" />
+    <LoadingAnchor href={ cultureHref } label="Culture" css="chip { type === 'culture' ? 'active' : '' }" />
   { :else if location === 'science' }
-    <LoadingAnchor { ssr } href={ scienceHref } label="Science" css="chip { type === 'science' ? 'active' : '' }" />
+    <LoadingAnchor href={ scienceHref } label="Science" css="chip { type === 'science' ? 'active' : '' }" />
   { :else if location === 'nav' && isAllVisible }
-    <LoadingAnchor { ssr } href={ allHref } label="All" css="chip { !category ? 'active' : '' }" />
+    <LoadingAnchor href={ allHref } label="All" css="chip { !category ? 'active' : '' }" />
   { /if }
   { #each filterdCategories as c }
-    <LoadingAnchor { ssr } label={ c.name } href={ c.href } css="chip { c.slug === category?.slug ? 'active' : '' }"/>
+    <LoadingAnchor label={ c.name } href={ c.href } css="chip { c.slug === category?.slug ? 'active' : '' }"/>
   { /each }
 </div>

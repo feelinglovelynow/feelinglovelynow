@@ -1,6 +1,9 @@
 <script lang="ts">
+  import type { Source } from '$lib'
+  import { page } from '$app/stores'
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
+  import formatScience from '$lib/util/formatScience'
   import toastRouteError from '$lib/util/toastRouteError'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
@@ -8,17 +11,28 @@
 
   export let data: PageData
   toastRouteError(data)
+
+  let source: Source | undefined
+
+  $: if ($page.params.slug) {
+    for (const s of data.sources) {
+      if (s.slug === $page.params.slug) {
+        source = formatScience(s)
+        break
+      }
+    }
+  }
 </script>
 
 
-<Head title={ data?.source?.title || '' } description={ data?.source?.title || '' } url={ data.href } />
+<Head title={ source?.title || '' } description={ source?.title || '' } />
 
-{ #if data.source }
-  { #if data.source.type === 'science' }
-    <Science source={ data.source } location="source-page" />
-  { :else if data.source.type === 'culture' }
-    <Culture source={ data.source } location="source-page" />
-  { :else if data.source.type === 'product' }
-    <Product source={ data.source } location="source-page" />
+{ #if source }
+  { #if source.type === 'science' }
+    <Science { source } location="source-page" />
+  { :else if source?.type === 'culture' }
+    <Culture { source } location="source-page" />
+  { :else if source?.type === 'product' }
+    <Product { source } location="source-page" />
   { /if }
 { /if }
