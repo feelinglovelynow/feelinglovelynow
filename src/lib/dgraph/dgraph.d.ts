@@ -43,7 +43,7 @@ export type Category = {
 export type Image = {
   id: string
   src?: string
-  displayOrder: int
+  displayOrder?: int
   extension: 'png' | 'webp'
 }
 

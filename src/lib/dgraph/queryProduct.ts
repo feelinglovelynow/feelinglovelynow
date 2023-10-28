@@ -23,6 +23,13 @@ export default async function getProducts (): Promise<Product[]> {
           }
           similarProducts {
             id
+            name
+            slug
+            price
+            primaryImage {
+              id
+              extension
+            }
           }
         }
       }

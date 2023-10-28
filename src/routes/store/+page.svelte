@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { PageData } from './$types'
-  import type { Product, Category } from '$lib'
+  import type { Product } from '$lib'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
-  import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import toastRouteError from '$lib/util/toastRouteError'
+  import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import FullProduct from '$lib/components/store/FullProduct.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
@@ -18,48 +18,39 @@
   let isPageLoading = true
   let products: Product[] = []
   let allProducts: Product[] = []
-  let categories: Category[] = []
 
 
-  $: if (data.products) setData()
+  $: if (data.products) parseProducts()
 
 
-  async function setData () {
+  async function parseProducts () {
     const mapAllProducts: Map<string, Product> = new Map()
     const activeProducts: Map<string, Product> = new Map()
-    const mapCategories: Map<string, Category> = new Map()
 
     for (const product of data.products) {
       mapAllProducts.set(product.id, product)
 
-      for (const category of product.categories) {
-        mapCategories.set(category.slug, category) // categories at the top of the page
-        
-        if ((!data.urlCategorySlug || data.urlCategorySlug === category.slug) && (!data.urlProductSlug || data.urlProductSlug === product.slug)) activeProducts.set(product.id, product)
-      }
-    }
-
-    products = [...activeProducts.values()]
-    categories = [...mapCategories.values()]
-    allProducts = [...mapAllProducts.values()]
-
-    if (data.urlProductSlug && products.length === 1) { // get data about similarProducts
-      for (const [ i, similarProduct ] of products[0].similarProducts.entries()) { // loop the similarProducts (only gives the product id's)
-        const similarProductFromAll = mapAllProducts.get(similarProduct.id) // get all the data about this similar product 
-
-        if (similarProductFromAll) {
-          similarProductFromAll.primaryImage.src = (await import(`../../lib/img/store/${ similarProductFromAll.primaryImage.id }.${ similarProductFromAll.primaryImage.extension }`)).default
-
-          products[0].similarProducts[i] = { // sync all data w/ similar product data
-            ...similarProduct,
-            ...similarProductFromAll
-          }
+      for (const category of product.categories) {        
+        if ((!data.urlCategorySlug || data.urlCategorySlug === category.slug) && (!data.urlProductSlug || data.urlProductSlug === product.slug)) {
+          activeProducts.set(product.id, product)
         }
       }
     }
 
-    categories = !categories.length ? [] : categories.sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)), // sort categories by name
-    products = !products.length ? [] : products.sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)) // sort products by storeDisplayOrder
+    products = [...activeProducts.values()]
+    allProducts = [...mapAllProducts.values()]
+
+    if (data.urlProductSlug && products.length === 1) { // get data about similarProducts
+      const primaryImages = await Promise.all(products[0].similarProducts.map((product: any) => {
+        return import(`../../lib/img/store/${ product.primaryImage.id }.webp`)
+      }))
+
+      for (let i = 0; i < products[0].similarProducts.length; i++) {
+        products[0].similarProducts[i].primaryImage.src = primaryImages[i].default
+      }
+    }
+
+    if (products.length > 1) products = products.sort((a, b) => Number(a.storeDisplayOrder > b.storeDisplayOrder) - Number(a.storeDisplayOrder < b.storeDisplayOrder)) // sort products by storeDisplayOrder
     isPageLoading = false
   }
 </script>
@@ -79,7 +70,7 @@
   <Title text="Store" size="one" />
 
   { #if !data.urlProductSlug }
-    <ProductCategories { categories } currentCategorySlug={ data.urlCategorySlug } />
+    <ProductCategories categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } />
   { /if }
 
   { #if products?.length }
@@ -104,7 +95,7 @@
       </div>
     { /if }
 
-    <ProductCategories title="Store Categories" { categories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
+    <ProductCategories title="Store Categories" categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
   { /if }
 { /if }
 
