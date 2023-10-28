@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import AboutUs from '$lib/components/AboutUs.svelte'
@@ -8,8 +7,6 @@
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import EmailUs from '$lib/components/forms/EmailUs.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
-
-  export let data: PageData
 
   type YogaClass = {
     ms?: number,
