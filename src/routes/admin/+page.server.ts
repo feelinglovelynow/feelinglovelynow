@@ -10,15 +10,7 @@ export const load = (async () => {
   try {
     if (PUBLIC_ENVIRONMENT === 'local') {
       // console.log(JSON.stringify(await getProducts()))
-      const orders = await queryOrder()
-
-      for (const order of orders) {
-        for (const orderItem of order.orderItems) {
-          if (orderItem.product) orderItem.product.primaryImage.src = (await import(`../../lib/img/store/${ orderItem.product.primaryImage.id }.${ orderItem.product.primaryImage.extension }`)).default
-        }
-      }
-
-      return { orders }
+      return { orders: await queryOrder() }
     }
   } catch (e) {
     return serverPageCatch(e)

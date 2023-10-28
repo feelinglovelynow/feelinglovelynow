@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Product } from '$lib'
   import type { PageData } from './$types'
   import { Slug } from '@sensethenlove/slug'
   import showToast from '@sensethenlove/toast'
@@ -13,6 +14,20 @@
   let isDgraphToKvLoading = {
     library: false,
     products: false,
+  }
+
+  $: if (data.orders && data.products) {
+    const mapProducts = new Map<string, Product>()
+
+    for (const product of data.products) {
+      mapProducts.set(product.id, product)
+    }
+
+    for (const order of data.orders) {
+      for (const orderItem of order.orderItems) {
+        if (orderItem.product) orderItem.product.primaryImage.src = mapProducts.get(orderItem.product.id)?.primaryImage.src
+      }
+    }
   }
 
   async function dgraphToKV (key: 'library' | 'products', url: string) {
@@ -82,7 +97,7 @@
                   <tr class="bottom-row">
                     <td></td>
                     <td colspan="5">
-                      <div class="orders-shipping">
+                      <div class="orders-shipping-forms">
                         <div>
                           <div class="papyrus">Order Items</div>
                           { #each order.orderItems as orderItem }
@@ -91,21 +106,47 @@
                                 <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
                               </div>
                               <div class="info">
-                                <div class="product-name">{ orderItem.product?.name }</div>
-                                <div class="order-id">{ orderItem.id }</div>
-                                <div>Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
+                                <div class="info-item">{ orderItem.product?.name }</div>
+                                <div class="info-item">ID: { orderItem.id }</div>
+                                <div class="info-item">Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
+                                <div>Shipping Details: Not Shipped Yet</div>
                               </div>
                             </div>
                           { /each }
                         </div>
-                        <div class="shipping">
-                          <div class="papyrus">Shipping</div>
-                          <div>{ order.name }</div>
-                          <div>{ order.addressLine1 }</div>
-                          { #if order.addressLine2 }
-                            <div>{ order.addressLine2 }</div>
-                          { /if }
-                          <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                        <div class="shipping-forms">
+                          <div class="shipping">
+                            <div class="papyrus">Shipping Address</div>
+                            <div>{ order.name }</div>
+                            <div>{ order.addressLine1 }</div>
+                            { #if order.addressLine2 }
+                              <div>{ order.addressLine2 }</div>
+                            { /if }
+                            <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                          </div>
+                        
+                          <div class="forms">
+                            <div class="papyrus">Set Shipping Tracking</div>
+                            { #each order.orderItems as orderItem }
+                              <label class="switch-wrapper">
+                                <div class="switch">
+                                  <input type="checkbox">
+                                  <span class="slider"></span>
+                                </div>
+                                <div class="text">{ orderItem.id }</div>
+                              </label>
+                            { /each }
+                            <div class="input-button">
+                              <input type="text" class="brand tracking-number" placeholder="Tracking Number">
+                              <select class="brand shipping-company">
+                                <option value="" disabled>Company Shipping Products</option>
+                                <option value="USPS">USPS</option>
+                                <option value="UPS">UPS</option>
+                                <option value="DHL">DHL</option>
+                              </select>
+                              <Button text="Save" type="button" css="brand" />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -184,77 +225,117 @@
         }
 
         tbody {
-          tr:last-child {
-            td {
-              padding-bottom: 0;
+          tr {
+            &:last-child {
+              td {
+                padding-bottom: 0;
+              }
             }
-          }
+            &.top-row {
+              td {
+                white-space: nowrap;
+                vertical-align: middle;
+                transition: all $theme-swap-speed;
+                border-top: 1px solid var(--border-color);
 
-          .top-row {
-            td {
-              white-space: nowrap;
-              vertical-align: middle;
-              transition: all $theme-swap-speed;
-              border-top: 1px solid var(--border-color);
+                .toggle-wrapper {
+                  display: flex;
+                  align-items: center;
+                  height: 4.2rem;
 
-              .toggle-wrapper {
-                display: flex;
-                align-items: center;
-                height: 4.2rem;
+                  .toggle {
+                    padding: 0;
+                    height: 3.2rem;
+                    width: 3.2rem;
+                    &.is-open {
+                      :global(svg) {
+                        transform: rotate(450deg);
+                      }
+                    }
 
-                .toggle {
-                  padding: 0;
-                  height: 3.2rem;
-                  width: 3.2rem;
-                  &.is-open {
                     :global(svg) {
-                      transform: rotate(450deg);
+                      transition: all 0.54s;
+                    }
+                  }
+                }
+              }
+            }
+            &.bottom-row {
+              padding-bottom: 1.5rem;
+
+              .orders-shipping-forms {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.9rem 0 1.5rem 0;
+
+                .shipping-forms {
+                  text-align: right;
+                  padding-left: 4.5rem;
+
+                  .shipping {
+                    padding-bottom: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    border-bottom: 1px solid var(--border-color-light);
+                  }
+
+                  .forms {
+                    .switch-wrapper {
+
+                      .text {
+                        white-space: nowrap;
+                      }
+                    }
+
+                    .input-button {
+                      input,
+                      select {
+                        display: inline-block;
+                        margin-right: 0.9rem;
+                      }
+
+                      .tracking-number {
+                        width: 24rem;
+                      }
+
+                      .shipping-company {
+                        width: 9rem;
+                      }
+                    }
+                  }
+                }
+
+                .order {
+                  display: flex;
+                  padding-bottom: 0.6rem;
+                  margin-bottom: 0.6rem;
+                  transition: all $theme-swap-speed;
+                  border-bottom: 1px solid var(--border-color-light);
+                  &:last-child {
+                    border: none;
+                  }
+
+                  .img {
+                    width: 9rem;
+                    margin-right: 0.9rem;
+
+                    img {
+                      width: 100%;
                     }
                   }
 
-                  :global(svg) {
-                    transition: all 0.54s;
+                  .info {
+
+                    .info-item {
+                      margin-bottom: 0.3rem;
+                      &:first-child { // product name
+                        max-width: 45rem;
+                        font-weight: 500;
+                        white-space: nowrap;
+                        overflow: auto;
+                      }
+                    }
                   }
                 }
-              }
-            }
-          }
-
-          .orders-shipping {
-            display: flex;
-            justify-content: space-between;
-
-            .shipping {
-              text-align: right;
-            }
-
-            .order {
-              display: flex;
-              padding-bottom: 0.6rem;
-              margin-bottom: 0.6rem;
-              transition: all $theme-swap-speed;
-              border-bottom: 1px solid var(--border-color-light);
-              &:last-child {
-                border: none;
-              }
-
-              .img {
-                width: 9rem;
-                margin-right: 0.9rem;
-
-                img {
-                  width: 100%;
-                }
-              }
-
-              .order-id,
-              .product-name {
-                margin-bottom: 0.3rem;
-              }
-
-              .product-name {
-                max-width: 45rem;
-                font-weight: 500;
               }
             }
           }
