@@ -44,3 +44,10 @@ export type PrettyPaypal = {
   totalPrice: Price
   paypalFee: Price
 }
+
+type SearchOrdersRequest = {
+  orderId?: string
+  email?: string
+  startDate?: string
+  endDate?: string
+}

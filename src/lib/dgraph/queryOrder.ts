@@ -1,12 +1,18 @@
-import type { Order } from '$lib'
 import graphql from '$lib/dgraph/graphql'
+import type { Order, SearchOrdersRequest } from '$lib'
 
 
-export default async function queryOrder (): Promise<Order[]> {
+export default async function queryOrder (search: SearchOrdersRequest = {}): Promise<Order[]> {
+  let params = 'order: {desc: createdAt}'
+
+  if (search.orderId) params += `, filter: {id: {eq: "${ search.orderId }"}}`
+  else if (search.email) params += `, filter: {email: {eq: "${ search.email }"}}`
+  else if (search.startDate && search.endDate) params += `filter: {createdAt: {between: {min: "${ (new Date(search.startDate)).toISOString() }", max: "${ (new Date(search.endDate)).toISOString() }"}}}`
+
   const response = await graphql({
     query: `
       query MyQuery {
-        queryOrder(order: {desc: createdAt}) {
+        queryOrder(${ params }) {
           id
           createdAt
           name

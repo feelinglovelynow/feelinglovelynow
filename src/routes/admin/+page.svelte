@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Product } from '$lib'
+  import Price from '$lib/store/Price'
   import type { PageData } from './$types'
   import { Slug } from '@sensethenlove/slug'
   import showToast from '@sensethenlove/toast'
@@ -11,7 +12,8 @@
 
   export let data: PageData
 
-  let isDgraphToKvLoading = {
+  const isLoading = {
+    search: false,
     library: false,
     products: false,
   }
@@ -31,13 +33,24 @@
   }
 
   async function dgraphToKV (key: 'library' | 'products', url: string) {
-    isDgraphToKvLoading[key] = true
+    isLoading[key] = true
     const fetchResponse = await fetch(url)
     const response = await fetchResponse.json()
-    isDgraphToKvLoading[key] = false
+    isLoading[key] = false
 
     if (response?._errors?.length) showToast({ type: 'info', items: response._errors })
     else showToast({ type: 'success', items: [ 'Success!' ] })
+  }
+
+  async function searchOrders () {
+    isLoading.search = true
+    const fetchResponse = await fetch('/admin/search-orders', {
+      method: 'POST',
+      body: JSON.stringify(data.search),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    data.orders = await fetchResponse.json()
+    isLoading.search = false
   }
 </script>
 
@@ -53,44 +66,46 @@
       <section>
         <Button
           text="Dgraph Library to KV"
-          isLoading={ isDgraphToKvLoading.library }
+          isLoading={ isLoading.library }
           onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
 
         <Button
           text="Dgraph Products to KV"
-          isLoading={ isDgraphToKvLoading.products }
+          isLoading={ isLoading.products }
           onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
       </section>
     </div>
 
     <!-- Orders -->
-    { #if data.orders?.length }
-      <div class="orders-table">
-        <div class="flex-center">
-          <Title noBottom={ true } text="Orders" />
-        </div>
-        <section>
+    <div class="orders-table">
+      <div class="flex-center">
+        <Title noBottom={ true } text="Orders" />
+      </div>
+      <section>
+        { #if data.search }
           <form class="search-form">
             <div class="form-item">
-              <label for="">Search by Order ID</label>
-              <input type="text" class="brand">
+              <label for="">Order ID</label>
+              <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
             </div>
             <div class="form-item">
-              <label for="">Search by Email</label>
-              <input type="text" class="brand">
+              <label for="">Email</label>
+              <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
             </div>
             <div class="form-item">
-              <label for="">Start Date</label>
-              <input type="date" class="brand">
+              <label for="">Start</label>
+              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
             </div>
             <div class="form-item">
-              <label for="">End Date</label>
-              <input type="date" class="brand">
+              <label for="">End</label>
+              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
             </div>
 
-            <Button css="brand" type="button" text="Search" />
+            <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
           </form>
+        { /if }
 
+        { #if data.orders?.length }
           <table>
             <thead>
               <tr>
@@ -111,8 +126,8 @@
                   </td>
                   <td>{ order.id }</td>
                   <td>{ order.email }</td>
-                  <td>{ new Date(order.createdAt).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
-                  <td class="right">${ order.totalPrice }</td>
+                  <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
+                  <td class="right">${ (new Price(order.totalPrice)).str }</td>
                 </tr>
                 { #if order.isOpen }
                   <tr class="bottom-row">
@@ -176,9 +191,10 @@
               { /each }
             </tbody>
           </table>
-        </section>
-      </div>
-    { /if }
+        { /if }
+      </section>
+    </div>
+
 
     <!-- Slug -->
     <div class="slug flex-center">
@@ -229,6 +245,10 @@
     }
 
     .orders-table {
+      table {
+        width: 100%;
+      }
+
       section {
         overflow: auto;
         text-align: left;
@@ -245,6 +265,10 @@
 
             label {
               white-space: nowrap;
+            }
+
+            input {
+              width: 24rem;
             }
           }
         }

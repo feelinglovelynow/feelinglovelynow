@@ -161,6 +161,13 @@ select.brand {
   background-color: var(--input-bg-color);
   border: 0.12rem solid var(--border-color);
   transition: all $theme-swap-speed;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position-x: 96%;
+  background-position-y: 50%;
+
   &:focus {
     outline: 0;
     border-color: transparent;
@@ -196,33 +203,52 @@ input.brand {
     border-color: transparent;
     box-shadow: var(--focus-error-box-shadow);
   }
+  &:disabled {
+    opacity: 0.6;
+  }
 }
 
 textarea.brand {
   height: auto;
 }
 
-.theme--light button.brand {
-  color: white;
-  border: 0.01rem solid rgb(6, 182, 212);
-  background-image: linear-gradient(to right, rgb(6, 182, 212), rgb(63, 131, 248));
-  &:hover {
-    background-image: linear-gradient(to left bottom, rgb(6, 182, 212), rgb(63, 131, 248));
+.theme--light {
+  button.brand {
+    color: white;
+    border: 0.01rem solid rgb(6, 182, 212);
+    background-image: linear-gradient(to right, rgb(6, 182, 212), rgb(63, 131, 248));
+
+    &:hover {
+      background-image: linear-gradient(to left bottom, rgb(6, 182, 212), rgb(63, 131, 248));
+    }
+
+    &:focus {
+      box-shadow: var(--focus-box-shadow);
+    }
   }
-  &:focus {
-    box-shadow: var(--focus-box-shadow);
+
+  select.brand {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 512 512'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='m112 184l144 144l144-144' /></svg>");
   }
 }
 
-.theme--dark button.brand {
-  color: rgb(17, 24, 39);
-  border: 0.01rem solid var(--gold-text-color);
-  background-image: linear-gradient(to left, var(--gold-text-color), var(--anchor-color));
-  &:hover {
-    background-image: linear-gradient(to right, var(--gold-text-color), var(--anchor-color));
+.theme--dark {
+  button.brand {
+    color: rgb(17, 24, 39);
+    border: 0.01rem solid var(--gold-text-color);
+    background-image: linear-gradient(to left, var(--gold-text-color), var(--anchor-color));
+
+    &:hover {
+      background-image: linear-gradient(to right, var(--gold-text-color), var(--anchor-color));
+    }
+
+    &:focus {
+      box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(3, 102, 114) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    }
   }
-  &:focus {
-    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(3, 102, 114) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+
+  select.brand {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 512 512'><path fill='none' stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='m112 184l144 144l144-144' /></svg>");
   }
 }
 
