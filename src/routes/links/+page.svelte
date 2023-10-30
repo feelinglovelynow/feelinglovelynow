@@ -162,9 +162,6 @@
       &:last-child {
         margin-bottom: 0;
       }
-      &.strong {
-        font-weight: 500;
-      }
     }
 
     :global(svg) {

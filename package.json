@@ -22,7 +22,7 @@
     "@cloudflare/workers-types": "^4.20231025.0",
     "@feelinglovelynow/env-write": "^1.0.0",
     "@feelinglovelynow/get-form-entries": "^1.0.0",
-    "@feelinglovelynow/global-style": "^1.0.0",
+    "@feelinglovelynow/global-style": "^1.0.1",
     "@feelinglovelynow/loop-backwards": "^1.0.0",
     "@feelinglovelynow/slug": "^1.0.0",
     "@feelinglovelynow/svelte-loading-anchor": "^1.0.0",

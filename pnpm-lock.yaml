@@ -18,8 +18,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(svelte@4.2.2)
       '@feelinglovelynow/global-style':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       '@feelinglovelynow/loop-backwards':
         specifier: ^1.0.0
         version: 1.0.0(svelte@4.2.2)
@@ -588,8 +588,8 @@ packages:
       svelte: 4.2.2
     dev: true
 
-  /@feelinglovelynow/global-style@1.0.0:
-    resolution: {integrity: sha512-vGh21Ba7r6BmSgP9IFghHw4m2dCsyOBc6++gzcHQ7ikJy5l1sz6Nx63MmFoUQmNhNl91AX64aJKueLLI36WfMg==}
+  /@feelinglovelynow/global-style@1.0.1:
+    resolution: {integrity: sha512-a5i0jl7Vrn4uf6FU6PCgUtr4csBiCVb9XjG4hsaoFhs2fXeIakKSZH7RUaeWgFcesZh+FHYn1rcXD6cdy+uFQQ==}
     dev: true
 
   /@feelinglovelynow/loop-backwards@1.0.0(svelte@4.2.2):
