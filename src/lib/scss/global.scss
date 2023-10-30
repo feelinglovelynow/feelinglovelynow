@@ -89,10 +89,6 @@ a {
   }
 }
 
-strong {
-  font-weight: 600;
-}
-
 .papyrus {
   line-height: 1.8;
   font-weight: 600;
@@ -117,15 +113,7 @@ strong {
 
 .subtle-fade-in-from-above {
   animation-duration: $theme-swap-speed;
-  animation-name: subtle-fade-in-from-above;
-}
-
-.clear {
-  clear: both;
-}
-
-.relative {
-  position: relative;
+  animation-name: fln__subtle-fade-in-from-above;
 }
 
 .glow {

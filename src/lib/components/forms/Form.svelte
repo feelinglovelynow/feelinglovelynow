@@ -1,12 +1,12 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import showToast from '@sensethenlove/toast'
+  import showToast from '@feelinglovelynow/toast'
   import type { SubmitFunction } from '@sveltejs/kit'
   import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Button from '$lib/components/forms/Button.svelte'
   import FormItem from '$lib/components/forms/FormItem.svelte'
-  import { getFormEntries } from '@sensethenlove/get-form-entries'
-  import { Turnstile, PUBLIC_KEY_ALWAYS_PASSES } from '@sensethenlove/svelte-turnstile'
+  import { getFormEntries } from '@feelinglovelynow/get-form-entries'
+  import { Turnstile, PUBLIC_KEY_ALWAYS_PASSES } from '@feelinglovelynow/svelte-turnstile'
   import type { FormInputs, FormOnError, FormOnSuccess, FormToastOnSuccess, FormOnSubmitValidate } from '$lib'
 
   export let schema: any
@@ -25,9 +25,9 @@
   let isLoading = false
   const PUBLIC_KEY = '0x4AAAAAAACd5Awen-i8HImo'
 
-  const onSubmit = (({ data, cancel }) => {
+  const onSubmit = (({ formData, cancel }) => {
     let doCancel = false
-    const fields = getFormEntries(data)
+    const fields = getFormEntries(formData)
     const validationResponse = schema.safeParse(fields)
 
     if (!validationResponse.success) {

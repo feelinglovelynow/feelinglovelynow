@@ -131,7 +131,7 @@
 
 { #each yogaClasses as yogaClass (yogaClass.label) }
   <section class="title remaining glow">
-    <div class="strong">{ yogaClass.label }</div>
+    <div class="fln__strong">{ yogaClass.label }</div>
       <div>
         { #if yogaClass.pretty }
           { yogaClass.pretty }

@@ -1,22 +1,26 @@
 <script lang="ts">
-  import { theme } from '$lib/util/store'
+  import { theme } from '$lib/theme/theme'
+  import { browser } from '$app/environment'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_MOON from '$lib/svg/nav/SVG_MOON.svg'
 
+  $: layout = browser ? document.getElementById('fln__layout') : null
 
   function setTheme () {
     const desiredTheme = ($theme === 'light') ? 'dark' : 'light'
 
-    if (desiredTheme === 'light') {
-      document.body.classList.add('theme--light')
-      document.body.classList.remove('theme--dark')
-    } else {
-      document.body.classList.add('theme--dark')
-      document.body.classList.remove('theme--light')
+    if (layout) {
+    theme.set(desiredTheme)
+      if (desiredTheme === 'light') {
+        layout.classList.add('theme--light')
+        layout.classList.remove('theme--dark')
+      } else {
+        layout.classList.add('theme--dark')
+        layout.classList.remove('theme--light')
+      }
+    fetch(`/set-theme?to=${ desiredTheme }`)
     }
 
-    theme.set(desiredTheme)
-    fetch(`/set-theme?to=${ desiredTheme }`)
   }
 </script>
 

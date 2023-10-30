@@ -21,7 +21,7 @@
       top: 1.8rem;
     }
 
-    .loading-anchor__loading-icon {
+    .fln__loading-anchor__loading-icon {
       color: var(--gold-text-color);
       transform: translateY(-0.6rem);
     }
@@ -128,7 +128,7 @@
         padding: 0;
       }
 
-      svg:not(.loading-anchor__loading-icon) { // tiny / medium screen
+      svg:not(.fln__loading-anchor__loading-icon) { // tiny / medium screen
         width: auto;
         max-height: 2.1rem;
         margin-bottom: 0.75rem;
@@ -140,7 +140,7 @@
         }
       }
 
-      .loading-anchor__loading-icon { // tiny / medium screen
+      .fln__loading-anchor__loading-icon { // tiny / medium screen
         transform: translateY(-0.3rem);
 
         @media only screen and (min-width: $move-nav-window-width) { // big screen

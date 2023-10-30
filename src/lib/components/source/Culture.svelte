@@ -2,7 +2,7 @@
   import YoutubeEmbed from '$lib/components/YoutubeEmbed.svelte'
   import type { Source, SourceType, Author, Category } from '$lib'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
 
   export let css = ''

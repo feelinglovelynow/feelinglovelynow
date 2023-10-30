@@ -8,7 +8,7 @@
   import SVG_STORE from '$lib/svg/nav/SVG_STORE.svg'
   import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
 

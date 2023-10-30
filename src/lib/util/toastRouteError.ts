@@ -1,6 +1,6 @@
 import { onMount } from 'svelte'
 import { goto } from '$app/navigation'
-import showToast from '@sensethenlove/toast'
+import showToast from '@feelinglovelynow/toast'
 
 
 export default (data: any, url?: string) => {

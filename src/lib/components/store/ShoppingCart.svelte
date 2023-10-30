@@ -3,12 +3,12 @@
   import { cart } from '$lib/store/cart'
   import type { Cart, Product } from '$lib'
   import loopCart from '$lib/store/loopCart'
-  import showToast from '@sensethenlove/toast'
+  import showToast from '@feelinglovelynow/toast'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
   import SimpleLoader from '$lib/components/SimpleLoader.svelte'
-  import { Modal, type ShowModal, type HideModal } from '@sensethenlove/svelte-modal'
+  import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'
 
   export let allProducts: undefined | Product[] = undefined
 
@@ -94,7 +94,7 @@
     </div>
 
     <div class="papyrus two options-head">Preferred purchase method?</div>
-    <div class="relative" style="display: none;">
+    <div class="fln__relative" style="display: none;">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
         <SimpleLoader style="paypal" />
@@ -109,15 +109,15 @@
 
   .cart {
 
-    :global(.stl--modal) {
+    :global(.fln__modal) {
       max-width: 75rem;
     }
 
-    :global(.stl--modal__header) {
+    :global(.fln__modal__header) {
       margin-bottom: 0;
     }
 
-    :global(.stl--modal__body) {
+    :global(.fln__modal__body) {
       padding: 1.2rem;
     }
 

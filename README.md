@@ -183,3 +183,42 @@ This is helpful when type definitions are stale (showing incorrect errors)
 Command + Shift + P
 Developer: Reload Window
 ```
+
+## How to create a Svelte NPM Package
+1. Bash `pnpm create svelte@latest example && cd $_`
+1. Select `Library project`
+1. Select `Typescript`
+1. Bash `pnpm up`
+1. Rename `$lib/index.js` to `$lib/index.ts` to get rid of the error `Cannot write file 'index.js' because it would overwrite input file`
+1. Bash `pnpm dev` to remove the typescript error `Cannot find base config file "./.svelte-kit/tsconfig.json"`
+1. Remove `"moduleResolution": "NodeNext"` from `tsconfig.json` to get rid of error `Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'`
+1. IF ts files access node libraries => Bash `pnpm add @types/node -D` and add to `ts.config.json`, `"compilerOptions": { "types": ["node"] }`
+1. Add `LICENSE` to root folder
+1. Add componenet to `$lib` folder
+1. IF using sass in any components => Bash `pnpm add sass -D`
+1. Export component in `$lib/index.ts` - Example: `export { default as Example } from '$lib/Example.svelte'`
+1. Bash `pnpm build` to create the `dist` folder
+1. In another app link to this package locally `"example": "link:../../example"`
+1. Publish package to npm
+```bash
+pnpm whoami
+pnpm login
+pnpm publish --access public .
+```
+
+## Example `tsconfig.json`
+```json
+{
+  "extends": "./.svelte-kit/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true
+  }
+}
+```

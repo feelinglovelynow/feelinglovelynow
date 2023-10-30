@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 </script>
 
 
@@ -12,7 +12,7 @@
     <div class="emoji">💎</div>
     <div>Please feel free to visit our <LoadingAnchor href="/store" label="store" /> (lovely products), our <LoadingAnchor href="/library" label="library" /> (lovely info) or our <LoadingAnchor href="/links" label="links page" /> (for my contact info)! My name is Chris Carrington btw!</div>
   </div>
-  
+
   <div class="item no-bottom">
     <div class="emoji">🕉</div>
     <div>Bare Necessities, Hakuna Matata, Go the Distance!</div>

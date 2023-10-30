@@ -1,8 +1,8 @@
 import type { Cart } from '$lib'
 import Price from '$lib/store/Price'
 import { set } from '$lib/store/cart'
-import showToast from '@sensethenlove/toast'
-import type { HideModal } from '@sensethenlove/svelte-modal'
+import showToast from '@feelinglovelynow/toast'
+import type { HideModal } from '@feelinglovelynow/svelte-modal'
 import { PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
 import { loadScript, type PayPalNamespace, type OnApproveData } from '@paypal/paypal-js'
 

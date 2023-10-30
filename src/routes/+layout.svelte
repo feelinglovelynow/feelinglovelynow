@@ -1,18 +1,18 @@
 <script lang="ts">
   import '$lib/scss/global.scss'
   import { updated } from '$app/stores'
-  import { theme } from '$lib/util/store'
+  import '@feelinglovelynow/global-style'
+  import { theme } from '$lib/theme/theme'
   import type { PageData } from './$types'
-  import '@sensethenlove/toast/lib/index.css'
+  import '@feelinglovelynow/toast/index.css'
   import Nav from '$lib/components/nav/Nav.svelte'
-  import '@sensethenlove/global-style/lib/index.css'
   import Search from '$lib/components/nav/Search.svelte'
   import Background from '$lib/components/Background.svelte'
   import ThemeToggle from '$lib/components/nav/ThemeToggle.svelte'
 
   export let data: PageData
 
-  theme.set(data.locals.theme)
+  theme.set(data.theme)
 </script>
 
 
@@ -69,12 +69,14 @@
   { /if }
 </svelte:head>
 
-<main data-sveltekit-reload={ $updated ? '' : 'off' }> 
-  <slot />
-</main>
+<div id="fln__layout" class="theme--{ $theme }">
+  <main data-sveltekit-reload={ $updated ? '' : 'off' }> 
+    <slot />
+  </main>
 
-<Background localsTheme={ data.locals.theme } />
-<Nav />
-<ThemeToggle />
-<Search />
-<div id="stl--toast-wrapper"></div>
+  <Background localsTheme={ data.theme } />
+  <Nav />
+  <ThemeToggle />
+  <Search />
+</div>
+<div id="fln__toast-wrapper"></div>

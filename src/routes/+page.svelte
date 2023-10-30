@@ -13,7 +13,7 @@
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import SourceProduct from '$lib/components/source/Product.svelte'
   import BriefProduct from '$lib/components/store/BriefProduct.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import ProductCategories from '$lib/components/store/ProductCategories.svelte'
 
   export let data: PageData

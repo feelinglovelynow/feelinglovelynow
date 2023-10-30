@@ -4,7 +4,7 @@
   import { afterNavigate } from '$app/navigation'
   import Title from '$lib/components/Title.svelte'
   import getLibraryHref from '$lib/util/getLibraryHref'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let location = ''
   export let authors: Author[]

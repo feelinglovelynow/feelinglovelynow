@@ -33,7 +33,7 @@
 <div class="form-item form-item--{ type } { css }">
   { #if type === 'textarea' }
     <label for={ id }>{ label }</label>
-    <textarea class={ itemErrors?.length ? 'erro brand': 'brand' } { value } on:input={ () => { clearErrors() } } { name } { id } />
+    <textarea class={ itemErrors?.length ? 'error brand': 'brand' } { value } on:input={ () => { clearErrors() } } { name } { id } />
   { :else if type === 'checkbox' }
     <label style="max-width:{ maxWidth };" for={ id } class="checkbox { itemErrors?.length ? 'error': '' }" on:input={ () => { clearErrors() } }>
       <div class="checkbox-input-wrapper">

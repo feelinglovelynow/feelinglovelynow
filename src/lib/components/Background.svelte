@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Theme } from '$lib'
-  import { fly } from 'svelte/transition'
-  import { theme } from '$lib/util/store'
+  import { theme } from '$lib/theme/theme'
   import IMG_DARK_1 from '$lib/img/bg/dark/IMG_DARK_1.webp'
   import IMG_DARK_2 from '$lib/img/bg/dark/IMG_DARK_2.webp'
   import IMG_DARK_3 from '$lib/img/bg/dark/IMG_DARK_3.webp'
@@ -19,8 +18,6 @@
 
   let isInititalSubscribe = true
   $: visibleImages = images[localsTheme]
-  const bgTransitionIn = { y: -9, duration: 450, delay: 0 }
-  const bgTransitionOut = { y: 9, duration: 450 }
 
   const images = {
     light: [
@@ -52,13 +49,11 @@
 </script>
 
 
-{ #key visibleImages }
-  <div in:fly={ bgTransitionIn } out:fly={ bgTransitionOut } class="background" aria-hidden="true">
-    { #each visibleImages as image (image.key) }
-      <div class="img-wrapper"><img src={ image.src } alt={ image.alt } loading="lazy" /></div>
-    { /each }
-  </div>
-{ /key }
+<div class="background" aria-hidden="true">
+  { #each visibleImages as image (image.key) }
+    <div class="img-wrapper"><img src={ image.src } alt={ image.alt } loading="lazy" /></div>
+  { /each }
+</div>
   
 
 <style lang="scss">
@@ -76,10 +71,24 @@
     right: 0;
     bottom: 0;
 
+    @keyframes bg__fade-in {
+      0% {
+        opacity: 0.45;
+        transform: translateY(-0.9rem);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .img-wrapper {
       margin: 0;
       width: 50%;
       aspect-ratio: 1 / 1; // height equal to width so images load in in their done loading location
+      animation-name: bg__fade-in;
+      animation-duration: 0.9s;
 
       img {
         height: 100%;

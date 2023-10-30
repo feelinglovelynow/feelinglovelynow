@@ -1,28 +1,13 @@
 @import '$lib/scss/variables.scss';
 
-.stl--modal {
+.fln__modal-backdrop {
+  z-index: $zindex-modal-container;
+}
+
+.fln__modal {
   z-index: $zindex-modal;
   color: var(--text-color);
   background-color: var(--bg-color);
-
-  @keyframes backdrop-fade-blur {
-    from {
-      backdrop-filter: blur(0.01rem);
-    }
-
-    to {
-      backdrop-filter: blur(0.72rem);
-    }
-  }
-
-  &--container {
-    z-index: $zindex-modal-container;
-    background-color: rgba(0, 0, 0, 0.54);
-    backdrop-filter: blur(0.72rem);
-    animation-name: backdrop-fade-blur;
-    animation-duration: 1.8s;
-    padding: 2.7rem 0.9rem !important;
-  }
 
   &__header {
     &__text {
@@ -41,6 +26,6 @@
   }
 }
 
-.stl--modal-is-visible .hide-on-modal-visible {
+.fln__modal-is-visible .hide-on-modal-visible {
   z-index: $zindex-nav-when-modal-is-visible !important;
 }

@@ -1,2 +1,2 @@
 #!/bin/bash
-node node_modules/@sensethenlove/env-write/lib/index.js PUBLIC_ENVIRONMENT=$env PUBLIC_HOST=$host
+node node_modules/@feelinglovelynow/env-write/dist/index.js PUBLIC_ENVIRONMENT=$env PUBLIC_HOST=$host

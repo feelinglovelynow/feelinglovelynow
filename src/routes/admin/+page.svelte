@@ -2,8 +2,8 @@
   import type { Product } from '$lib'
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
-  import { Slug } from '@sensethenlove/slug'
-  import showToast from '@sensethenlove/toast'
+  import { Slug } from '@feelinglovelynow/slug'
+  import showToast from '@feelinglovelynow/toast'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import { PUBLIC_ENVIRONMENT } from '$env/static/public'
@@ -144,8 +144,7 @@
                               <div class="info">
                                 <div class="info-item">{ orderItem.product?.name }</div>
                                 <div class="info-item">ID: { orderItem.id }</div>
-                                <div class="info-item">Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
-                                <div>Shipping Details: Not Shipped Yet</div>
+                                <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
                               </div>
                             </div>
                           { /each }
@@ -369,8 +368,8 @@
 
                 .order {
                   display: flex;
-                  padding-bottom: 0.6rem;
-                  margin-bottom: 0.6rem;
+                  padding-bottom: 1.62rem;
+                  margin-bottom: 1.62rem;
                   transition: all $theme-swap-speed;
                   border-bottom: 1px solid var(--border-color-light);
                   &:last-child {
@@ -387,15 +386,13 @@
                   }
 
                   .info {
-                    font-size: 1.5rem;
+                    font-size: 1.62rem;
 
                     .info-item {
                       margin-bottom: 0.3rem;
                       &:first-child { // product name
                         max-width: 45rem;
                         font-weight: 500;
-                        white-space: nowrap;
-                        overflow: auto;
                       }
                     }
                   }
@@ -409,18 +406,18 @@
 
     .slug {
 
-      :global(.stl--slug) {
+      :global(.fln__slug) {
         margin-bottom: 1.5rem;
       }
 
-      :global(.stl--slug div) {
+      :global(.fln__slug div) {
         max-width: 270px;
         word-wrap: break-word;
         margin-top: 2.1rem;
         border-radius: 1.8rem;
       }
 
-      :global(.stl--slug textarea) {
+      :global(.fln__slug textarea) {
         transition: all $theme-swap-speed;
         appearance: none;
         background-color: var(--input-bg-color);
@@ -431,7 +428,7 @@
         font-size: 1.6rem;
       }
 
-      :global(.stl--slug textarea:focus) {
+      :global(.fln__slug textarea:focus) {
         outline: 0;
         border-color: transparent;
         box-shadow: var(--focus-box-shadow);

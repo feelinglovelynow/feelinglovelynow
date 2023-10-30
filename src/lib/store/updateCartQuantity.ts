@@ -1,7 +1,7 @@
 import type { Cart } from '$lib'
 import { set } from '$lib/store/cart'
-import showToast from '@sensethenlove/toast'
-import type { HideModal } from '@sensethenlove/svelte-modal'
+import showToast from '@feelinglovelynow/toast'
+import type { HideModal } from '@feelinglovelynow/svelte-modal'
 
 
 export default function updateCartQuantity ($cart: Cart, hideModal: HideModal, cartIndex: number, quantity: string) {

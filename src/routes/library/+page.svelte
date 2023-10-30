@@ -7,17 +7,17 @@
   import { goto, onNavigate } from '$app/navigation'
   import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
-  import loopBackwards from '@sensethenlove/loop-backwards'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
+  import loopBackwards from '@feelinglovelynow/loop-backwards'
   import IMG_OG_LIBRARY from '$lib/img/og/IMG_OG_LIBRARY.webp'
   import TypeChips from '$lib/components/chips/TypeChips.svelte'
   import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
   import type { Source, Author, Category, Quote, SourceType } from '$lib'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let data: PageData
   toastRouteError(data)
@@ -232,7 +232,7 @@
         <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
       </div>
     { /if }
-    <div class="clear"></div>
+    <div class="fln__clear"></div>
   </div>
 { /if }
 

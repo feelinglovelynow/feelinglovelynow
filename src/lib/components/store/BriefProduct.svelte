@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Product } from '$lib'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let product: Product
 </script>

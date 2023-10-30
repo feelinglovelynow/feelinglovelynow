@@ -1,11 +1,11 @@
 <script lang="ts">
   import { cart, set } from '$lib/store/cart'
-  import showToast from '@sensethenlove/toast'
+  import showToast from '@feelinglovelynow/toast'
   import Flower from '$lib/sacred/Flower.svelte'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import ProductCategories from './ProductCategories.svelte'
   import type { Product, OrderItem, OrderItemSizes } from '$lib'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let product: Product
 
@@ -184,12 +184,12 @@
           <li>Lead us to radiate an electromagnetic field from our heart that contains a more coherent structure</li>
         </ul>
       { /if }
-      <div class="clear"></div>
+      <div class="fln__clear"></div>
     </div>
     
   </div>
 
-  <div class="clear"></div>
+  <div class="fln__clear"></div>
 </section>
 
 

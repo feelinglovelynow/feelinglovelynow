@@ -1,6 +1,6 @@
 <script lang="ts">
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
-  import { LoadingAnchor } from '@sensethenlove/svelte-loading-anchor'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
   import type { Source, Author, Category, SourceType, Image } from '$lib'
 

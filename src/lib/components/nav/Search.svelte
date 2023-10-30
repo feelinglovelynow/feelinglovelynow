@@ -1,12 +1,12 @@
 <script lang="ts">
   import schema from '$lib/zod/search'
-  import showToast from '@sensethenlove/toast'
+  import showToast from '@feelinglovelynow/toast'
   import Form from '$lib/components/forms/Form.svelte'
   import SVG_SEARCH from '$lib/svg/nav/SVG_SEARCH.svg'
   import Science from '$lib/components/source/Science.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
   import Product from '$lib/components/source/Product.svelte'
-  import { Modal, type ShowModal, type OnModalHide } from '@sensethenlove/svelte-modal'
+  import { Modal, type ShowModal, type OnModalHide } from '@feelinglovelynow/svelte-modal'
   import type { FormInputs, FormOnSuccess, FormOnSubmitValidate, SearchResponse } from '$lib'
 
 
