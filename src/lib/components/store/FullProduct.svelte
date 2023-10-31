@@ -3,21 +3,16 @@
   import showToast from '@feelinglovelynow/toast'
   import Flower from '$lib/sacred/Flower.svelte'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
-  import ProductCategories from './ProductCategories.svelte'
   import type { Product, OrderItem, OrderItemSizes } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
+  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
 
   export let product: Product
 
   let size = ''
   let quantity = ''
-  let isBook: boolean
-  let isLotus: boolean
-  let isMerkaba: boolean
-  let isHeartLight: boolean
-  let isTorusLight: boolean
-  let isLoveJoyPeace: boolean
-  let isFlowerOrMetatron: boolean
+
+  $: isBook = Boolean(product.description === 'HOW_TO_GET_HIGH')
 
   const sizes = [
     { value: '', name: 'Size' },
@@ -26,31 +21,6 @@
     { value: 'L', name: 'Large' },
     { value: 'XL', name: 'X-Large' },
   ]
-
-  const heartLightIds = [ '0xfffd8d6ad3a2000a', '0xfffd8d6ad3a20006', '0xfffd8d6ad3a2000b', '0xfffd8d6ad3a20009' ]
-  const torusLightIds = [ '0xfffd8d6ad3a20013', '0xfffd8d6ad3a20007', '0xfffd8d6ad3a20019', '0xfffd8d6ad3a20008' ]
-  const loveJoyPeaceIds = [ '0xfffd8d6ad3a2000c', '0xfffd8d6ad3a20005', '0xfffd8d6ad3a2000d', '0xfffd8d6ad3a20004' ]
-
-  if (heartLightIds.includes(product.id)) isHeartLight = true
-  else if (torusLightIds.includes(product.id)) isTorusLight = true
-  else if (loveJoyPeaceIds.includes(product.id)) isLoveJoyPeace = true
-  else {
-    for (const category of product.categories) {
-      if (category.slug === 'books') {
-        isBook = true
-        break
-      } else if (category.slug === 'merkaba') {
-        isMerkaba = true
-        break
-      } else if (category.slug === 'lotus-of-life') {
-        isLotus = true
-        break
-      } else if (category.slug === 'metatrons-cube' || category.slug === 'flower-of-life') {
-        isFlowerOrMetatron = true
-        break
-      }
-    }
-  }
 
   function addToCart () {
     const errors = []
@@ -120,7 +90,7 @@
     </div>
 
     <div class="description">
-      { #if isFlowerOrMetatron }
+      { #if product.description === 'FLOWER_OF_LIFE' || product.description === 'METATRONS_CUBE' }
         <div class="geometry">
           <Flower flower={ true }  />
           <Flower fruit={ true }  />
@@ -135,7 +105,7 @@
         <p>"The tetrahedron is considered fire, the cube is earth, the octahedron is air, the icosahedron is water and the dodecahedron is ether. (Ether, prana and tachyon energy are the same thing; they extend everywhere and are accessible at any point in space/time/dimension. This is the great secret of zero-point technology.) And the sphere is voidness. These six elements are the building blocks of the universe. They create the qualities of the universe."</p>
         <p>"There are all kinds of ways that atoms can join. The resulting molecules are always associated with the five Platonic solids… Even when you get into this complicated molecule and break it down, you see the shapes in it, and they always revert to one of the five Platonic solids it doesn't matter what the structure is. No matter what you call it - metal, crystal, anything else - will always come down to one of these original five shapes."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if isMerkaba }
+      { :else if product.description === 'MERKABA' }
         <div class="geometry">
           <Flower flower={ true }  />
           <Flower fruit={ true }  />
@@ -147,13 +117,13 @@
         <p>"<strong>Connecting with the higher self is more important than learning to activate the Mer-Ka-Ba</strong>, because if you connect yourself to your Self, you will get absolutely clear information on how to proceed step by step through any reality and how to lead yourself back home into the full consciousness of God. When you connect with your higher self, the rest will happen automatically. You will still have to live your life, but everything you do will have great power and wisdom within your actions, thoughts and emotions."</p>
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if isBook }
+      { :else if product.description === 'HOW_TO_GET_HIGH' }
         <div>Missed opportunities, was the theme of my life, thanks to erratic emotions. Common solutions like booze, mary jane or x, led me to experience less motor function, less will and sleep paralysis. Recently, gracefully and thankfully I’ve been guided to  simple, natural and efficient solutions, that are detailed in this tiny book. I dream this book, provides the <strong>scientific evidence</strong> and <strong>implementation guidance</strong>, for you to:</div>
         <ul>
           <li>Experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
           <li>Increase your emotional stability, mental acuity and physiological efficiency</li>
           <li>Improve your quality of life, mental health and immune system</li>
-          <li>Increase your empathy (aware of magnetic field information)</li>
+          <li>Increase your empathy (magnetic field information awareness)</li>
           <li>Feel united with our entire Universe</li>
           <li>And enhance your cognition!</li>
         </ul>
@@ -161,28 +131,37 @@
         <div class="light-bottom">Edition: 11/11/23 · Written and Published in Mount Shasta California</div>
         <div class="light-bottom">Paper is 50% Recycled Paper and 50% Organic Hemp</div>
         <div>Hakuna Matata! 🙏</div>
-      { :else if isLotus || isTorusLight }
+      { :else if product.description === 'LOTUS' || product.description === 'TORUS' }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is the shape of a <strong>torus</strong>.</div>
         <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
-        <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center.</p>
+        { #if product.description === 'LOTUS' }
+          <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center.</p>
+        { /if }
         <p>Energy in your torus field circles out top of heart, out top of head, around body, in base of spine and in base of heart</p>
         <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales.</p>
-      { :else if isHeartLight } <!-- Heart Light -->
+      { :else if product.description === 'HEART_LIGHT' }
         <div>The etheric field has been measured, it unites all in our Universe and according to Albert Einstein, space without ether is unthinkable</div>
         <p>Space is filled with ether, it flows through the atoms of our universe and to help us visualize the etheric field, think of ether as light</p>
         <p>We are in an ocean of light, some is visible light, some is subtle uniting light; all in our Universe, abides in light</p>
+        <p>Once upon a time, body had one organ and that organ was your heart. At four weeks all four heart chambers are created and all else manifests outward from there. Your most fundamental organ, is your heart.</p>
         <p>Heart awareness is placing awareness at heart and leads to increased physiological efficiency, emotional stability and mental acuity</p>
-      { :else if isLoveJoyPeace } <!-- Love Joy Peace -->
-        <div>According to science, positive emotions:</div>
+      { :else if product.description === 'EMOTIONS' }
+        <div>Feelings influence our bodies order, harmony and stability. According to science, positive emotions:</div>
         <ul>
           <li>Enhance energy</li>
           <li>Increase coherence</li>
           <li>Increased body efficiency</li>
           <li>Increased body effectiveness</li>
-          <li>Increase our empathy (sensitivity to receive information contained in the magnetic fields generated by others)</li>
+          <li>Increase our empathy (magnetic field information awareness)</li>
           <li>Lead us to radiate an electromagnetic field from our heart that contains a more coherent structure</li>
         </ul>
+      { :else if product.description === 'UNITY' }
+        <div>The etheric field has been measured, it unites all in our Universe and according to Albert Einstein, space without ether is unthinkable</div>
+        <p>Space is filled with ether, it flows through the atoms of our universe and we may think of the etheric field as light</p>
+        <p>We are in an ocean of light, some is visible light, some is subtle uniting light; all in our Universe, abides in light</p>
+        <p>The space, that unites us all, is filled with light. The space, that surrounds your body, is filled with light. The space, that surrounds your atoms, is filled with light.</p>
+        <p>Master Yoda told Luke Skywalker, "My ally is the Force, and a powerful ally it is... Its energy surrounds us and binds us. Luminous beings are we... Feel the Force flow around you"</p>
       { /if }
       <div class="fln__clear"></div>
     </div>

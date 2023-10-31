@@ -53,7 +53,7 @@ export type Product = {
   printfulId?: string
   price: number
   name: string
-  description?: string
+  description: 'HEART_LIGHT' | 'TORUS' | 'LOTUS' | 'EMOTIONS' | 'HOW_TO_GET_HIGH' | 'MERKABA' | 'FLOWER_OF_LIFE' | 'METATRONS_CUBE' | 'UNITY'
   primaryImage: Image
   featuredDisplayOrder: int
   storeDisplayOrder: int

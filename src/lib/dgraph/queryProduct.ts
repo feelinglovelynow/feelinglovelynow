@@ -13,6 +13,7 @@ export default async function getProducts (): Promise<Product[]> {
           featuredDisplayOrder
           storeDisplayOrder
           slug
+          description
           primaryImage {
             id
             extension
