@@ -12,29 +12,18 @@
   import Science from '$lib/components/source/Science.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
   import SourceProduct from '$lib/components/source/Product.svelte'
-  import BriefProduct from '$lib/components/store/BriefProduct.svelte'
+  import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
-  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
+  import FeaturedProducts from '$lib/components/store/FeaturedProducts.svelte'
 
   export let data: PageData
   toastRouteError(data)
 
-  let products: Product[] = []
   let culture: Source | undefined = undefined
   let product: Source | undefined = undefined
   let science: Source | undefined = undefined
 
-
-  $: if (data.products) {
-    products = []
-
-    for (const product of data.products) {
-      if (Number.isInteger(product.homeDisplayOrder)) products.push(product)
-    }
-
-    products = products.sort((a, b) => Number(a.homeDisplayOrder > b.homeDisplayOrder) - Number(a.homeDisplayOrder < b.homeDisplayOrder)) // sort by homeDisplayOrder
-  }
-
+  $: products = sortFeaturedProducts(data.products)
 
   $: if (data.sources) {
     for (const source of data.sources) {
@@ -58,18 +47,9 @@
   <SocialSupport />
   <AboutUs />
 
-  { #if products?.length }
-    <Title text="Featured Store Items" noBottom={ true } />
-    <div class="products">
-      { #each products as product }
-        <BriefProduct { product } />
-      { /each }
-    </div>
-  { /if }
+  <FeaturedProducts { products } productCategories={ data.productCategories }  />
 
-  <ProductCategories categories={ data.productCategories } doActiveSelection={ false } title="Store Categories" />
-
-  <div class="content">
+  <div class="sources">
     { #if culture }
       <Title noBottom={ true } >
         <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
@@ -95,14 +75,7 @@
 
 
 <style lang="scss">
-  .products {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1; // get it above the title w/ no bottom on hover
-  }
-
-  .content {
+  .sources {
     display: flex;
     flex-direction: column;
     align-items: center;

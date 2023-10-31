@@ -1,13 +1,22 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import AboutUs from '$lib/components/AboutUs.svelte'
+  import toastRouteError from '$lib/util/toastRouteError'
   import GuitarPic from '$lib/components/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import EmailUs from '$lib/components/forms/EmailUs.svelte'
+  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
-  import SimpleLoader from '$lib/components/SimpleLoader.svelte';
+  import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
+  import FeaturedProducts from '$lib/components/store/FeaturedProducts.svelte'
+
+  export let data: PageData
+  toastRouteError(data)
+
+  $: products = sortFeaturedProducts(data.products)
 
   type YogaClass = {
     ms?: number,
@@ -23,11 +32,6 @@
   ]
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute)
-    // October
-    Date.UTC(2023, 9, 23, 23, 44),
-    Date.UTC(2023, 9, 25, 23, 44),
-    Date.UTC(2023, 9, 30, 23, 44),
-
     // November
     Date.UTC(2023, 10, 1, 23, 44),
     Date.UTC(2023, 10, 6, 23, 44),
@@ -48,6 +52,18 @@
     Date.UTC(2023, 11, 20, 23, 44),
     Date.UTC(2023, 11, 25, 23, 44),
     Date.UTC(2023, 11, 27, 23, 44),
+
+    // January
+    Date.UTC(2023, 0, 1, 23, 44),
+    Date.UTC(2023, 0, 3, 23, 44),
+    Date.UTC(2023, 0, 8, 23, 44),
+    Date.UTC(2023, 0, 10, 23, 44),
+    Date.UTC(2023, 0, 15, 23, 44),
+    Date.UTC(2023, 0, 17, 23, 44),
+    Date.UTC(2023, 0, 22, 23, 44),
+    Date.UTC(2023, 0, 24, 23, 44),
+    Date.UTC(2023, 0, 29, 23, 44),
+    Date.UTC(2023, 0, 31, 23, 44),
   ]
 
 
@@ -134,23 +150,24 @@
   { #each yogaClasses as yogaClass (yogaClass.label) }
     <section class="title remaining glow">
       <div class="fln__strong">{ yogaClass.label }</div>
-        <div>
-          { #if yogaClass.pretty }
-            { yogaClass.pretty }
-          { /if }
-        </div>
+      <div>
+        { #if yogaClass.pretty }
+          { yogaClass.pretty }
+        { /if }
+      </div>
 
-        <div>
-          { #if yogaClass.remaining }
-            { yogaClass.remaining }
-          { :else }
-            <SimpleLoader />
-          { /if }
-        </div>
+      <div>
+        { #if yogaClass.remaining }
+          { yogaClass.remaining }
+        { :else }
+          <SimpleLoader />
+        { /if }
+      </div>
     </section>
   { /each }
 
   <EmailUs />
+  <FeaturedProducts { products } productCategories={ data.productCategories }  />
 </main>
 
 

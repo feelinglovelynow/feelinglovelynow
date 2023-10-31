@@ -10,7 +10,7 @@ export default async function getProducts (): Promise<Product[]> {
           id
           name
           price
-          homeDisplayOrder
+          featuredDisplayOrder
           storeDisplayOrder
           slug
           primaryImage {
