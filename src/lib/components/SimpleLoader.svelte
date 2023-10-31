@@ -3,26 +3,26 @@
 </script>
 
 
-<div class="wrapper { style }"> <!-- https://codepen.io/peiche/pen/XJXOxe -->
-  <div class="wheel"></div>
+<div class="simple-loader { style }"> <!-- https://codepen.io/peiche/pen/XJXOxe -->
+  <div class="simple-loader__wheel"></div>
 </div>
 
 
 <style lang="scss">
-  .wrapper {
+  .simple-loader {
     position: relative;
     &.brand {
-      .wheel {
+      .simple-loader__wheel {
         border-color: var(--gold-text-color) rgba(0,0,0,0) rgba(0,0,0,0);
       }
     }
     &.paypal {
-      .wheel {
+      .simple-loader__wheel {
         border-color: lighten(#0070e0, 15%) #ccc #ccc;
       }
     }
 
-    .wheel {
+    &__wheel {
       height: 30px;
       width: 30px;
       border-width: 0.3rem;

@@ -25,7 +25,7 @@
 </script>
 
 
-<button class="theme-toggle top brand hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle top brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
@@ -33,7 +33,7 @@
   { /if }
 </button>
 
-<button class="theme-toggle bottom brand hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle bottom brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
@@ -59,7 +59,7 @@
     transition: opacity $theme-search-speed, transform $theme-search-speed;
     &.top {
       top: $theme-search-top;
-      right: 23rem;
+      right: 22.8rem;
       opacity: 1;
       transform: translateY(0);
 
@@ -71,7 +71,7 @@
     }
     &.bottom {
       bottom: $theme-search-bottom;
-      right: $theme-search-bottom-side;
+      right: 0.98rem;
       opacity: 1;
       transform: translateY(0);
 

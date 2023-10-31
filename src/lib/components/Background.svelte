@@ -73,8 +73,8 @@
 
     @keyframes bg__fade-in {
       0% {
-        opacity: 0.45;
-        transform: translateY(-0.9rem);
+        opacity: 0;
+        transform: translateY(-0.6rem);
       }
 
       100% {

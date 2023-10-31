@@ -76,7 +76,7 @@
 
       setTimeout(() => { // allow some time for the cart and toast to appear
         const links = document.querySelectorAll('.view-cart-link') as NodeListOf<Element> // link in the toast (there might be multiple toast showing)
-        const button = document.querySelector('#shoping-cart-button button') as HTMLButtonElement // button to launch the shopping cart
+        const button = document.querySelector('#shopping-cart-button button') as HTMLButtonElement // button to launch the shopping cart
 
         if (links.length && button) {
           for (const link of links) {

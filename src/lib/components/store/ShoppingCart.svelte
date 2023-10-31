@@ -52,7 +52,7 @@
 
 
 
-<div class="{ $cart.length > 0 ? 'visible' : '' }" id="shoping-cart-button">
+<div class="{ $cart.length > 0 ? 'visible' : '' }" id="shopping-cart-button">
   <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
   <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
 </div>
@@ -229,7 +229,7 @@
     }
   }
 
-  #shoping-cart-button {
+  #shopping-cart-button {
     position: relative;
     max-height: 0;
     opacity: 0;
@@ -241,8 +241,14 @@
 
     .brand {
       font-size: 1.98rem;
-      padding: 0.9rem 1.2rem;
+      padding: 0;
       margin-bottom: 1.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 5.4rem;
+      height: 5.4rem;
     }
 
     .count {

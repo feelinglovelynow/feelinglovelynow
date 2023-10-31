@@ -56,48 +56,50 @@
 </script>
 
 
-{ #if data.urlProductSlug && products?.length }
-  <Head title={ products[0].name } ogImageSrc={ products[0].primaryImage.src } description={ products[0].name } />
-{ :else }
-  <Head title="Store" ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
-{ /if }
-
-
-{ #if isPageLoading }
- <SimpleLoader />
-{ :else }
-  <ShoppingCart allProducts={ allProducts } />
-  <Title text="Store" size="one" />
-
-  { #if !data.urlProductSlug }
-    <ProductCategories categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } />
+<main>
+  { #if data.urlProductSlug && products?.length }
+    <Head title={ products[0].name } ogImageSrc={ products[0].primaryImage.src } description={ products[0].name } />
+  { :else }
+    <Head title="Store" ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
   { /if }
 
-  { #if products?.length }
-    <div class="products">
-      { #each products as product (product.id) }
-        { #if data.urlProductSlug }
-          <FullProduct { product} />
-        { :else }
-          <BriefProduct { product } />
-        { /if }
-      { /each }
-    </div>
-  { /if }
 
-  { #if data.urlProductSlug }
-    { #if products[0]?.similarProducts.length }
-      <Title text="May also love" noBottom={ true }/>
+  { #if isPageLoading }
+  <SimpleLoader />
+  { :else }
+    <ShoppingCart allProducts={ allProducts } />
+    <Title text="Store" size="one" />
+
+    { #if !data.urlProductSlug }
+      <ProductCategories categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } />
+    { /if }
+
+    { #if products?.length }
       <div class="products">
-        { #each products[0]?.similarProducts as p }
-          <BriefProduct product={ p } />
+        { #each products as product (product.id) }
+          { #if data.urlProductSlug }
+            <FullProduct { product} />
+          { :else }
+            <BriefProduct { product } />
+          { /if }
         { /each }
       </div>
     { /if }
 
-    <ProductCategories title="Store Categories" categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
+    { #if data.urlProductSlug }
+      { #if products[0]?.similarProducts.length }
+        <Title text="May also love" noBottom={ true }/>
+        <div class="products">
+          { #each products[0]?.similarProducts as p }
+            <BriefProduct product={ p } />
+          { /each }
+        </div>
+      { /if }
+
+      <ProductCategories title="Store Categories" categories={ data.productCategories } currentCategorySlug={ data.urlCategorySlug } currentProductSlug={ data.urlProductSlug } />
+    { /if }
   { /if }
-{ /if }
+</main>
 
 
 <style lang="scss">

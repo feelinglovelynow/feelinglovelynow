@@ -28,11 +28,13 @@
 <Head title={ source?.title || '' } description={ source?.title || '' } />
 
 { #if source }
-  { #if source.type === 'science' }
-    <Science { source } location="source-page" />
-  { :else if source?.type === 'culture' }
-    <Culture { source } location="source-page" />
-  { :else if source?.type === 'product' }
-    <Product { source } location="source-page" />
-  { /if }
+  <main>
+    { #if source.type === 'science' }
+      <Science { source } location="source-page" />
+    { :else if source?.type === 'culture' }
+      <Culture { source } location="source-page" />
+    { :else if source?.type === 'product' }
+      <Product { source } location="source-page" />
+    { /if }
+  </main>
 { /if }

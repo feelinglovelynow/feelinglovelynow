@@ -55,11 +55,11 @@
 </script>
 
 
-<button class="search__button top brand hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
+<button class="search__button top brand nav__mini-button hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 
-<button class="search__button bottom brand hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
+<button class="search__button bottom brand nav__mini-button hide-on-modal-visible light-glow" on:click={ showModal } title="Click to search">
   { @html SVG_SEARCH }
 </button>
 
@@ -133,7 +133,7 @@
       }
       &.bottom {
         bottom: $theme-search-bottom;
-        left: $theme-search-bottom-side;
+        left: 1.3rem;
         opacity: 1;
         transform: translateY(0);
 

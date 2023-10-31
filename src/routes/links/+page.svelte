@@ -7,6 +7,7 @@
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import EmailUs from '$lib/components/forms/EmailUs.svelte'
   import SocialSupport from '$lib/components/SocialSupport.svelte'
+  import SimpleLoader from '$lib/components/SimpleLoader.svelte';
 
   type YogaClass = {
     ms?: number,
@@ -112,45 +113,46 @@
 
 <Head title="Links" ogImageSrc={ IMG_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
 
-<GuitarPic />
-<Title text="Aloha!" size="two" />
-<SocialSupport />
-<AboutUs />
+<main>
+  <GuitarPic />
+  <Title text="Aloha!" size="two" />
+  <SocialSupport />
+  <AboutUs />
 
-<a href="https://teams.live.com/meet/9355564920768" class="link glow" target="_blank">
-  <button class="brand large" type="button">💞 Join Class Live</button>
-</a>
+  <a href="https://teams.live.com/meet/9355564920768" class="link glow" target="_blank">
+    <button class="brand large" type="button">💞 Join Class Live</button>
+  </a>
 
-<a href="https://soulconnectionscommunitycenter.com/" class="link glow" target="_blank">
-  <button class="brand large" type="button">📍 Soul Connections</button>
-</a>
+  <a href="https://soulconnectionscommunitycenter.com/" class="link glow" target="_blank">
+    <button class="brand large" type="button">📍 Soul Connections</button>
+  </a>
 
-<a href="https://paypal.me/feelinglovelynow/9" class="link glow" target="_blank">
-  <button class="brand large" type="button">🥰 Buy me an açaí ($9 tip)!</button>
-</a>
+  <a href="https://paypal.me/feelinglovelynow/9" class="link glow" target="_blank">
+    <button class="brand large" type="button">🥰 Buy me an açaí ($9 tip)!</button>
+  </a>
 
-{ #each yogaClasses as yogaClass (yogaClass.label) }
-  <section class="title remaining glow">
-    <div class="fln__strong">{ yogaClass.label }</div>
-      <div>
-        { #if yogaClass.pretty }
-          { yogaClass.pretty }
-        { :else }
-          Loading...
-        { /if }
-      </div>
+  { #each yogaClasses as yogaClass (yogaClass.label) }
+    <section class="title remaining glow">
+      <div class="fln__strong">{ yogaClass.label }</div>
+        <div>
+          { #if yogaClass.pretty }
+            { yogaClass.pretty }
+          { /if }
+        </div>
 
-      <div>
-        { #if yogaClass.remaining }
-          { yogaClass.remaining }
-        { :else }
-          Loading...
-        { /if }
-      </div>
-  </section>
-{ /each }
+        <div>
+          { #if yogaClass.remaining }
+            { yogaClass.remaining }
+          { :else }
+            <SimpleLoader />
+          { /if }
+        </div>
+    </section>
+  { /each }
 
-<EmailUs />
+  <EmailUs />
+</main>
+
 
 
 <style lang="scss">
@@ -161,6 +163,11 @@
       margin-bottom: 0.6rem;
       &:last-child {
         margin-bottom: 0;
+      }
+
+      :global(.simple-loader) {
+        display: flex;
+        justify-content: center;
       }
     }
 

@@ -69,14 +69,12 @@
   { /if }
 </svelte:head>
 
-<div id="fln__layout" class="theme--{ $theme }">
-  <main data-sveltekit-reload={ $updated ? '' : 'off' }> 
-    <slot />
-  </main>
+<div id="fln__layout" class="theme--{ $theme }" data-sveltekit-reload={ $updated ? '' : 'off' }>
+  <slot />
 
   <Background localsTheme={ data.theme } />
   <Nav />
   <ThemeToggle />
   <Search />
+  <div id="fln__toast-wrapper"></div>
 </div>
-<div id="fln__toast-wrapper"></div>

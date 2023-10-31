@@ -51,44 +51,47 @@
 
 
 <Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" />
-<GuitarPic />
-<Title text="Aloha!" size="two" />
-<SocialSupport />
-<AboutUs />
 
-{ #if products?.length }
-  <Title text="Featured Store Items" noBottom={ true } />
-  <div class="products">
-    { #each products as product }
-      <BriefProduct { product } />
-    { /each }
+<main>
+  <GuitarPic />
+  <Title text="Aloha!" size="two" />
+  <SocialSupport />
+  <AboutUs />
+
+  { #if products?.length }
+    <Title text="Featured Store Items" noBottom={ true } />
+    <div class="products">
+      { #each products as product }
+        <BriefProduct { product } />
+      { /each }
+    </div>
+  { /if }
+
+  <ProductCategories categories={ data.productCategories } doActiveSelection={ false } title="Store Categories" />
+
+  <div class="content">
+    { #if culture }
+      <Title noBottom={ true } >
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      </Title>
+      <Culture source={ culture } location="home" />
+    { /if }
+
+    { #if science }
+      <Title noBottom={ true }>
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      </Title>
+      <Science source={ science } location="home" />
+    { /if }
+
+    { #if product }
+      <Title noBottom={ true }>
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+      </Title>
+      <SourceProduct source={ product } location="home" />
+    { /if }
   </div>
-{ /if }
-
-<ProductCategories categories={ data.productCategories } doActiveSelection={ false } title="Store Categories" />
-
-<div class="content">
-  { #if culture }
-    <Title noBottom={ true } >
-      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
-    </Title>
-    <Culture source={ culture } location="home" />
-  { /if }
-
-  { #if science }
-    <Title noBottom={ true }>
-      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
-    </Title>
-    <Science source={ science } location="home" />
-  { /if }
-
-  { #if product }
-    <Title noBottom={ true }>
-      <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
-    </Title>
-    <SourceProduct source={ product } location="home" />
-  { /if }
-</div>
+</main>
 
 
 <style lang="scss">

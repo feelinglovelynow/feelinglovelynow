@@ -194,46 +194,50 @@
 
 
 { #if isPageLoading }
-  <SimpleLoader />
+  <main>
+    <SimpleLoader />
+  </main>
 { :else }
-  <Title text="Library" size="one" />
-  <Title text={ title } size="two" />
+  <main>
+    <Title text="Library" size="one" />
+    <Title text={ title } size="two" />
 
 
-  <div class="content">
-    <div class="flow-layout__left">
-      <TypeChips type={ currentType } />
-      { #if categories }
-        <CategoryChips type={ currentType } category={ currentCategory } { categories } location="nav" />
-      { /if }
-      { #if authors }
-        <AuthorChips author={ currentAuthor } { authors } location="nav" />
-      { /if }
-    </div>
-
-    { #if visibleSources?.length }
-      { #each visibleSources as source (source.id) }
-        { #if source.type === 'science' }
-          <Science { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
-        { :else if source.type === 'culture' }
-          <Culture { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
-        { :else if source.type === 'product' }
-          <Product { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+    <div class="content">
+      <div class="flow-layout__left">
+        <TypeChips type={ currentType } />
+        { #if categories }
+          <CategoryChips type={ currentType } category={ currentCategory } { categories } location="nav" />
         { /if }
-      { /each }
-    { :else }
-      <Title css="flow-layout__right-item">
-        <span>No library items found. Would you love to <LoadingAnchor href="/library" label="view all" loadWidth="big" />?!</span>
-      </Title>
-    { /if }
-
-    { #if isShowMoreButtonVisible }
-      <div bind:this={ showMoreSourcesButton } class="more-wrapper flow-layout__right-item">
-        <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
+        { #if authors }
+          <AuthorChips author={ currentAuthor } { authors } location="nav" />
+        { /if }
       </div>
-    { /if }
-    <div class="fln__clear"></div>
-  </div>
+
+      { #if visibleSources?.length }
+        { #each visibleSources as source (source.id) }
+          { #if source.type === 'science' }
+            <Science { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+          { :else if source.type === 'culture' }
+            <Culture { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+          { :else if source.type === 'product' }
+            <Product { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
+          { /if }
+        { /each }
+      { :else }
+        <Title css="flow-layout__right-item">
+          <span>No library items found. Would you love to <LoadingAnchor href="/library" label="view all" loadWidth="big" />?!</span>
+        </Title>
+      { /if }
+
+      { #if isShowMoreButtonVisible }
+        <div bind:this={ showMoreSourcesButton } class="more-wrapper flow-layout__right-item">
+          <Button text="Show more sources" isLoading={ isShowMoreButtonLoading } />
+        </div>
+      { /if }
+      <div class="fln__clear"></div>
+    </div>
+  </main>
 { /if }
 
 

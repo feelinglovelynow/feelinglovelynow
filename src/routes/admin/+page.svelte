@@ -57,152 +57,155 @@
 
 { #if PUBLIC_ENVIRONMENT === 'local' }
   <Head title="Admin" />
-  <Title text="Welcome Admin!" />
 
-  <div class="wrapper">
-    <!-- Cache -->
-    <div class="cache flex-center">
-      <Title noBottom={ true } text="Cache" />
-      <section>
-        <Button
-          text="Dgraph Library to KV"
-          isLoading={ isLoading.library }
-          onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
+  <main>
+    <Title text="Welcome Admin!" />
 
-        <Button
-          text="Dgraph Products to KV"
-          isLoading={ isLoading.products }
-          onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
-      </section>
-    </div>
+    <div class="wrapper">
+      <!-- Cache -->
+      <div class="cache flex-center">
+        <Title noBottom={ true } text="Cache" />
+        <section>
+          <Button
+            text="Dgraph Library to KV"
+            isLoading={ isLoading.library }
+            onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
 
-    <!-- Orders -->
-    <div class="orders-table">
-      <div class="flex-center">
-        <Title noBottom={ true } text="Orders" />
+          <Button
+            text="Dgraph Products to KV"
+            isLoading={ isLoading.products }
+            onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
+        </section>
       </div>
-      <section>
-        { #if data.search }
-          <form class="search-form">
-            <div class="form-item">
-              <label for="">Order ID</label>
-              <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
-            </div>
-            <div class="form-item">
-              <label for="">Email</label>
-              <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
-            </div>
-            <div class="form-item">
-              <label for="">Start</label>
-              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
-            </div>
-            <div class="form-item">
-              <label for="">End</label>
-              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
-            </div>
 
-            <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
-          </form>
-        { /if }
+      <!-- Orders -->
+      <div class="orders-table">
+        <div class="flex-center">
+          <Title noBottom={ true } text="Orders" />
+        </div>
+        <section>
+          { #if data.search }
+            <form class="search-form">
+              <div class="form-item">
+                <label for="">Order ID</label>
+                <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
+              </div>
+              <div class="form-item">
+                <label for="">Email</label>
+                <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
+              </div>
+              <div class="form-item">
+                <label for="">Start</label>
+                <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+              </div>
+              <div class="form-item">
+                <label for="">End</label>
+                <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+              </div>
 
-        { #if data.orders?.length }
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Order ID</th>
-                <th>Email</th>
-                <th>Created At</th>
-                <th class="right">Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              { #each data.orders as order (order.id) }
-                <tr class="top-row">
-                  <td>
-                    <div class="toggle-wrapper">
-                      <button on:click={ () => order.isOpen = !order.isOpen} class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
-                    </div>
-                  </td>
-                  <td>{ order.id }</td>
-                  <td>{ order.email }</td>
-                  <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
-                  <td class="right">${ (new Price(order.totalPrice)).str }</td>
+              <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
+            </form>
+          { /if }
+
+          { #if data.orders?.length }
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Order ID</th>
+                  <th>Email</th>
+                  <th>Created At</th>
+                  <th class="right">Total Price</th>
                 </tr>
-                { #if order.isOpen }
-                  <tr class="bottom-row">
-                    <td></td>
-                    <td colspan="5">
-                      <div class="orders-shipping-forms">
-                        <div>
-                          <div class="papyrus">Order Items</div>
-                          { #each order.orderItems as orderItem }
-                            <div class="order">
-                              <div class="img">
-                                <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
-                              </div>
-                              <div class="info">
-                                <div class="info-item">{ orderItem.product?.name }</div>
-                                <div class="info-item">ID: { orderItem.id }</div>
-                                <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
-                              </div>
-                            </div>
-                          { /each }
-                        </div>
-                        <div class="shipping-forms">
-                          <div class="shipping">
-                            <div class="papyrus">Shipping Address</div>
-                            <div>{ order.name }</div>
-                            <div>{ order.addressLine1 }</div>
-                            { #if order.addressLine2 }
-                              <div>{ order.addressLine2 }</div>
-                            { /if }
-                            <div>{ order.city } { order.state } { order.zip } { order.country }</div>
-                          </div>
-
-                          <div class="forms">
-                            <div class="papyrus">Set Shipping Tracking</div>
-                            { #each order.orderItems as orderItem }
-                              <label class="switch-wrapper">
-                                <div class="switch">
-                                  <input type="checkbox">
-                                  <span class="slider"></span>
-                                </div>
-                                <div class="text">{ orderItem.id }</div>
-                              </label>
-                            { /each }
-                            <div class="input-button">
-                              <input type="text" class="brand tracking-number" placeholder="Tracking Number">
-                              <select class="brand shipping-company">
-                                <option value="" disabled>Company Shipping Products</option>
-                                <option value="USPS">USPS</option>
-                                <option value="UPS">UPS</option>
-                                <option value="DHL">DHL</option>
-                              </select>
-                              <Button text="Save" type="button" css="brand" />
-                            </div>
-                          </div>
-                        </div>
+              </thead>
+              <tbody>
+                { #each data.orders as order (order.id) }
+                  <tr class="top-row">
+                    <td>
+                      <div class="toggle-wrapper">
+                        <button on:click={ () => order.isOpen = !order.isOpen} class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
                       </div>
                     </td>
+                    <td>{ order.id }</td>
+                    <td>{ order.email }</td>
+                    <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
+                    <td class="right">${ (new Price(order.totalPrice)).str }</td>
                   </tr>
-                { /if }
-              { /each }
-            </tbody>
-          </table>
-        { /if }
-      </section>
-    </div>
+                  { #if order.isOpen }
+                    <tr class="bottom-row">
+                      <td></td>
+                      <td colspan="5">
+                        <div class="orders-shipping-forms">
+                          <div>
+                            <div class="papyrus">Order Items</div>
+                            { #each order.orderItems as orderItem }
+                              <div class="order">
+                                <div class="img">
+                                  <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
+                                </div>
+                                <div class="info">
+                                  <div class="info-item">{ orderItem.product?.name }</div>
+                                  <div class="info-item">ID: { orderItem.id }</div>
+                                  <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
+                                </div>
+                              </div>
+                            { /each }
+                          </div>
+                          <div class="shipping-forms">
+                            <div class="shipping">
+                              <div class="papyrus">Shipping Address</div>
+                              <div>{ order.name }</div>
+                              <div>{ order.addressLine1 }</div>
+                              { #if order.addressLine2 }
+                                <div>{ order.addressLine2 }</div>
+                              { /if }
+                              <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                            </div>
+
+                            <div class="forms">
+                              <div class="papyrus">Set Shipping Tracking</div>
+                              { #each order.orderItems as orderItem }
+                                <label class="switch-wrapper">
+                                  <div class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                  </div>
+                                  <div class="text">{ orderItem.id }</div>
+                                </label>
+                              { /each }
+                              <div class="input-button">
+                                <input type="text" class="brand tracking-number" placeholder="Tracking Number">
+                                <select class="brand shipping-company">
+                                  <option value="" disabled>Company Shipping Products</option>
+                                  <option value="USPS">USPS</option>
+                                  <option value="UPS">UPS</option>
+                                  <option value="DHL">DHL</option>
+                                </select>
+                                <Button text="Save" type="button" css="brand" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  { /if }
+                { /each }
+              </tbody>
+            </table>
+          { /if }
+        </section>
+      </div>
 
 
-    <!-- Slug -->
-    <div class="slug flex-center">
-      <Title noBottom={ true } text="Slug" />
-      <section>
-        <Slug />
-      </section>
+      <!-- Slug -->
+      <div class="slug flex-center">
+        <Title noBottom={ true } text="Slug" />
+        <section>
+          <Slug />
+        </section>
+      </div>
     </div>
-  </div>
+  </main>
 { /if }
 
 
