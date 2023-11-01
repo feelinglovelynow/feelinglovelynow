@@ -13,18 +13,6 @@ body {
   transition: background-color $theme-swap-speed;
 }
 
-@keyframes main__animation {
-  0% {
-    opacity: 0;
-    transform: translateY(-0.6rem);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 main {
   display: flex;
   flex-direction: column;
@@ -38,9 +26,7 @@ main {
   padding-top: 3rem;
   padding-bottom: 12rem;
   color: var(--text-color);
-  transition: all 0.3s;
-  animation-name: main__animation;
-  animation-duration: 0.9s;
+  transition: all 0.9s;
 
   @media only screen and (min-width: $move-nav-window-width) { // big screen
     padding-bottom: 3rem;

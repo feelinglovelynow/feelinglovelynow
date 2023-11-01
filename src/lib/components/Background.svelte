@@ -88,7 +88,7 @@
       width: 50%;
       aspect-ratio: 1 / 1; // height equal to width so images load in in their done loading location
       animation-name: bg__fade-in;
-      animation-duration: 0.9s;
+      animation-duration: $theme-swap-speed;
 
       img {
         height: 100%;
