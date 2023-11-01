@@ -25,7 +25,7 @@
 </script>
 
 
-<button class="theme-toggle top brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle top brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true" title="Update Theme">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
@@ -33,7 +33,7 @@
   { /if }
 </button>
 
-<button class="theme-toggle bottom brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true">
+<button class="theme-toggle bottom brand nav__mini-button hide-on-modal-visible light-glow" on:click={ setTheme } aria-hidden="true" title="Update Theme">
   { #if $theme === 'light' }
     { @html SVG_HOME }
   { :else }
