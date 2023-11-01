@@ -15,6 +15,14 @@
     border-radius: 1.8rem;
     background-color: var(--opacity-bg);
   }
+  &--mobile-max-height {
+    transition: max-height $move-nav-speed;
+
+    @media only screen and (max-width: $flow-layout-adjust-width) { // small screen
+      max-height: 15.3rem;
+      overflow: auto;
+    }
+  }
 
   .chip {
     position: relative;
