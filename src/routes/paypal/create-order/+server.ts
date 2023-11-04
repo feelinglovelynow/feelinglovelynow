@@ -10,11 +10,8 @@ import type { CreateOrderRequest, ExpandedSubTotal, Cart } from '$lib'
 export const POST = (async ({ request, platform }) => {
   try {
     const body = await request.json() as CreateOrderRequest
-    const response = await validateRequestCart(body.cart, body.totalPrice, platform)
-
-    if (response._errors.length) return json({ errors: response._errors }, { status: 400 })
-    else if (!response.expandedSubTotal) return json({ _errors: [ 'An unknown error occured' ] }, { status: 400 }) // allow us to be in the else below knowing we have a response (even though if we don't errors above we'll run, but ts doesen't know that so...)
-    else return await createPaypalOrder(body.cart, response.expandedSubTotal)
+    const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform)
+    return await createPaypalOrder(body.cart, expandedSubTotal)
   } catch (e) {
     return serverRequestCatch(e)
   }

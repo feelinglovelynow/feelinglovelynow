@@ -21,7 +21,7 @@
 </script>
 
 
-<section class="source type--product location--{ location } { css } glow">
+<section class="source type--product location--{ location } { css } { location !== 'search--source-titles' ? 'glow' : ''}">
   <div class="header">
     <div class="top">
       { #if location === 'source-page' }

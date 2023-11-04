@@ -83,6 +83,7 @@ export type Order = {
   transaction: Transaction
   paypalFee: number
   isOpen?: boolean
+  trOrderDetails?: HTMLTableRowElement
 }
 
 export type OrderItem = {

@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit'
 import Price from '$lib/store/Price'
+import { one } from '$lib/catch/error'
 import send from '$lib/mailchannels/send'
 import addOrder from '$lib/dgraph/addOrder'
 import type { RequestHandler } from './$types'
@@ -17,27 +18,18 @@ export const POST = (async ({ request, platform }) => {
   try {
     const body = await request.json() as CaptureOrderRequest
 
-    if (!body?.orderId) return json({ _errors: [ 'Please add an orderId to the request' ] }, { status: 400 })
+    if (!body?.orderId) throw one('Please add an orderId to the request', { body })
     else {
-      const response = await validateRequestCart(body.cart, body.totalPrice, platform) // validate the cart and totalPrice in request is valid
+      const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform) // validate the cart and totalPrice in request is valid
+      const rPaypal = await captureOrder(body.orderId) // send paypal the orderId and process the payment for this orderId
+      const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
 
-      if (response._errors.length) return json({ errors: response._errors }, { status: 400 })
-      else if (!response.expandedSubTotal) return json({ _errors: [ 'An unknown error occured' ] }, { status: 400 }) // allow us to be in the else below knowing we have a response (even though if we don't errors above we'll run, but ts doesen't know that so...)
-      else {
-        const rPaypal = await captureOrder(response._errors, body.orderId) // send paypal the orderId and process the payment for this orderId
+      await Promise.all([ // add the order to our database and send emails to us and the customer
+        dgraphAddOrder(body, pretty),
+        sendEmails(body, pretty, expandedSubTotal)
+      ])
 
-        if (response._errors.length) return json({ errors: response._errors }, { status: 400 })
-        else {
-          const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
-
-          await Promise.all([ // add the order to our database and send emails to us and the customer
-            dgraphAddOrder(body, pretty),
-            sendEmails(body, pretty, response.expandedSubTotal)
-          ])
-
-          return json({ success: true })
-        }
-      }
+      return json({ success: true }) // no one threw so we are good
     }
   } catch (e) {
     return serverRequestCatch(e)
@@ -45,7 +37,7 @@ export const POST = (async ({ request, platform }) => {
 }) satisfies RequestHandler
 
 
-async function captureOrder (_errors: string[], orderId: string) {
+async function captureOrder (orderId: string) {
   const { response } = await apiPaypal(`v2/checkout/orders/${ orderId }/capture`)
   return response
 }

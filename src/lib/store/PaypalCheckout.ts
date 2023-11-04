@@ -87,7 +87,7 @@ export default class Braintree {
 
     this.#showLoadingIcon('bottom')
 
-    const fetchResponse = await fetch('/paypal/create-order', {
+    const rFetch = await fetch('/paypal/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -96,13 +96,13 @@ export default class Braintree {
       })
     })
 
-    const response = await fetchResponse.json()
+    const r = await rFetch.json()
 
-    if (response._errors?.length) showToast({ type: 'info', items: response._errors })
+    if (r._errors?.length) showToast({ type: 'info', items: r._errors })
 
     this.#hideLoadingIcon()
 
-    return response?.id
+    return r?.id
   }
 
 
@@ -111,7 +111,7 @@ export default class Braintree {
 
     this.#showLoadingIcon('bottom')
 
-    const fetchResponse = await fetch('/paypal/capture-order', {
+    const rFetch = await fetch('/paypal/capture-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -121,9 +121,9 @@ export default class Braintree {
       })
     })
 
-    const response = await fetchResponse.json()
+    const r = await rFetch.json()
 
-    if (response._errors?.length) showToast({ type: 'info', items: response._errors })
+    if (r._errors?.length) showToast({ type: 'info', items: r._errors })
     else {
       set([])
       if (this.hideModal) this.hideModal()

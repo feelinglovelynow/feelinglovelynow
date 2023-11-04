@@ -1,16 +1,18 @@
 <script lang="ts">
-  import type { Product } from '$lib'
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
   import { Slug } from '@feelinglovelynow/slug'
   import showToast from '@feelinglovelynow/toast'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
+  import type { Order, Product, flnError } from '$lib'
+  import toastRouteError from '$lib/util/toastRouteError'
   import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Button from '$lib/components/forms/Button.svelte'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
 
   export let data: PageData
+  toastRouteError(data)
 
   const isLoading = {
     search: false,
@@ -34,23 +36,42 @@
 
   async function dgraphToKV (key: 'library' | 'products', url: string) {
     isLoading[key] = true
-    const fetchResponse = await fetch(url)
-    const response = await fetchResponse.json()
+    const rFetch = await fetch(url)
+    const r = await rFetch.json()
     isLoading[key] = false
 
-    if (response?._errors?.length) showToast({ type: 'info', items: response._errors })
+    if (r?._errors?.length) showToast({ type: 'info', items: r._errors })
     else showToast({ type: 'success', items: [ 'Success!' ] })
   }
 
   async function searchOrders () {
     isLoading.search = true
-    const fetchResponse = await fetch('/admin/search-orders', {
+    const rFetch = await fetch('/admin/search-orders', {
       method: 'POST',
       body: JSON.stringify(data.search),
       headers: { 'Content-Type': 'application/json' }
     })
-    data.orders = await fetchResponse.json()
+    data.orders = await rFetch.json()
     isLoading.search = false
+  }
+
+
+  function toggle (e: MouseEvent, order: Order) {
+    if (order.isOpen) { // already open
+      const button = e.currentTarget as HTMLButtonElement // toggle button that is clicked
+      button.classList.remove('is-open') // start the animation on the button that the order details are closing
+      order.trOrderDetails?.classList.remove('visible') // slide order details closed
+      setTimeout(() => { // once closed
+        order.isOpen = false // update order object
+        data.orders = data.orders // update orders array
+      }, 900)
+    } else {
+      order.isOpen = true // update order object
+      data.orders = data.orders // update orders array
+      setTimeout(() => { // now that the element is in the DOM
+        order.trOrderDetails?.classList.add('visible') // add the class
+      }, 90)
+    }
   }
 </script>
 
@@ -111,7 +132,7 @@
             <table>
               <thead>
                 <tr>
-                  <th></th>
+                  <th class="button-cell"></th>
                   <th>Order ID</th>
                   <th>Email</th>
                   <th>Created At</th>
@@ -123,7 +144,7 @@
                   <tr class="top-row">
                     <td>
                       <div class="toggle-wrapper">
-                        <button on:click={ () => order.isOpen = !order.isOpen} class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
+                        <button on:click={ (e) => toggle(e, order) } class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
                       </div>
                     </td>
                     <td>{ order.id }</td>
@@ -132,56 +153,58 @@
                     <td class="right">${ (new Price(order.totalPrice)).str }</td>
                   </tr>
                   { #if order.isOpen }
-                    <tr class="bottom-row">
-                      <td></td>
-                      <td colspan="5">
-                        <div class="orders-shipping-forms">
-                          <div>
-                            <div class="papyrus">Order Items</div>
-                            { #each order.orderItems as orderItem }
-                              <div class="order">
-                                <div class="img">
-                                  <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
-                                </div>
-                                <div class="info">
-                                  <div class="info-item">{ orderItem.product?.name }</div>
-                                  <div class="info-item">ID: { orderItem.id }</div>
-                                  <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
-                                </div>
-                              </div>
-                            { /each }
-                          </div>
-                          <div class="shipping-forms">
-                            <div class="shipping">
-                              <div class="papyrus">Shipping Address</div>
-                              <div>{ order.name }</div>
-                              <div>{ order.addressLine1 }</div>
-                              { #if order.addressLine2 }
-                                <div>{ order.addressLine2 }</div>
-                              { /if }
-                              <div>{ order.city } { order.state } { order.zip } { order.country }</div>
-                            </div>
-
-                            <div class="forms">
-                              <div class="papyrus">Set Shipping Tracking</div>
+                    <tr class="order-details--tr" bind:this={ order.trOrderDetails }>
+                      <td class="button-cell"></td>
+                      <td colspan="4">
+                        <div class="order-details--wrapper">
+                          <div class="order-details">
+                            <div>
+                              <div class="papyrus">Order Items</div>
                               { #each order.orderItems as orderItem }
-                                <label class="switch-wrapper">
-                                  <div class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
+                                <div class="order">
+                                  <div class="img">
+                                    <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
                                   </div>
-                                  <div class="text">{ orderItem.id }</div>
-                                </label>
+                                  <div class="info">
+                                    <div class="info-item">{ orderItem.product?.name }</div>
+                                    <div class="info-item">ID: { orderItem.id }</div>
+                                    <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
+                                  </div>
+                                </div>
                               { /each }
-                              <div class="input-button">
-                                <input type="text" class="brand tracking-number" placeholder="Tracking Number">
-                                <select class="brand shipping-company">
-                                  <option value="" disabled>Company Shipping Products</option>
-                                  <option value="USPS">USPS</option>
-                                  <option value="UPS">UPS</option>
-                                  <option value="DHL">DHL</option>
-                                </select>
-                                <Button text="Save" type="button" css="brand" />
+                            </div>
+                            <div class="shipping-forms">
+                              <div class="shipping">
+                                <div class="papyrus">Shipping Address</div>
+                                <div>{ order.name }</div>
+                                <div>{ order.addressLine1 }</div>
+                                { #if order.addressLine2 }
+                                  <div>{ order.addressLine2 }</div>
+                                { /if }
+                                <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                              </div>
+
+                              <div class="forms">
+                                <div class="papyrus">Set Shipping Tracking</div>
+                                { #each order.orderItems as orderItem }
+                                  <label class="switch-wrapper">
+                                    <div class="switch">
+                                      <input type="checkbox">
+                                      <span class="slider"></span>
+                                    </div>
+                                    <div class="text">{ orderItem.id }</div>
+                                  </label>
+                                { /each }
+                                <div class="input-button">
+                                  <input type="text" class="brand tracking-number" placeholder="Tracking Number">
+                                  <select class="brand shipping-company">
+                                    <option value="" disabled>Company Shipping Products</option>
+                                    <option value="USPS">USPS</option>
+                                    <option value="UPS">UPS</option>
+                                    <option value="DHL">DHL</option>
+                                  </select>
+                                  <Button text="Save" type="button" css="brand" />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -247,6 +270,8 @@
     }
 
     .orders-table {
+      $order-details-transition-speed: 0.9s;
+
       table {
         width: 100%;
       }
@@ -278,18 +303,22 @@
 
         th,
         td {
-          padding: 0.45rem;
           &.right {
             text-align: right;
+          }
+          &.button-cell {
+            width: 4.1rem;
           }
         }
 
         th {
+          padding: 0.45rem;
           white-space: nowrap;
         }
 
         tbody {
           tr {
+            transition: all $order-details-transition-speed;
             &:last-child {
               td {
                 padding-bottom: 0;
@@ -297,9 +326,10 @@
             }
             &.top-row {
               td {
+                padding: 0.45rem;
                 white-space: nowrap;
                 vertical-align: middle;
-                transition: all $theme-swap-speed;
+                transition: border-top $theme-swap-speed;
                 border-top: 1px solid var(--border-color);
 
                 .toggle-wrapper {
@@ -319,83 +349,104 @@
                     }
 
                     :global(svg) {
-                      transition: all 0.54s;
+                      transition: all $order-details-transition-speed;
                     }
                   }
                 }
               }
             }
-            &.bottom-row {
-              padding-bottom: 1.5rem;
+            &.order-details--tr {
+              transition: all $order-details-transition-speed;
+              &:global(.visible) {
+                padding-bottom: 1.5rem;
+              }
+              &:global(.visible .order-details--wrapper) {
+                grid-template-rows: 1fr;
+              }
+              &:global(.visible .order-details) {
+                padding: 0.45rem 0.45rem 1.5rem 0.45rem !important;
+              }
 
-              .orders-shipping-forms {
-                display: flex;
-                justify-content: space-between;
-                padding: 0.9rem 0 1.5rem 0;
+              td {
+                padding: 0;
+              }
 
-                .shipping-forms {
-                  text-align: right;
-                  padding-left: 4.5rem;
+              .order-details--wrapper {
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: all $order-details-transition-speed;
 
-                  .shipping {
-                    padding-bottom: 1.5rem;
-                    margin-bottom: 1.5rem;
-                    border-bottom: 1px solid var(--border-color-light);
-                  }
-
-                  .forms {
-                    .switch-wrapper {
-
-                      .text {
-                        white-space: nowrap;
-                      }
-                    }
-
-                    .input-button {
-                      input,
-                      select {
-                        display: inline-block;
-                        margin-right: 0.9rem;
-                      }
-
-                      .tracking-number {
-                        width: 24rem;
-                      }
-
-                      .shipping-company {
-                        width: 9rem;
-                      }
-                    }
-                  }
-                }
-
-                .order {
+                .order-details {
+                  padding: 0;
                   display: flex;
-                  padding-bottom: 1.62rem;
-                  margin-bottom: 1.62rem;
-                  transition: all $theme-swap-speed;
-                  border-bottom: 1px solid var(--border-color-light);
-                  &:last-child {
-                    border: none;
-                  }
+                  justify-content: space-between;
+                  overflow: hidden;
+                  transition: all $order-details-transition-speed;
 
-                  .img {
-                    width: 9rem;
-                    margin-right: 0.9rem;
+                  .shipping-forms {
+                    text-align: right;
+                    padding-left: 4.5rem;
 
-                    img {
-                      width: 100%;
+                    .shipping {
+                      padding-bottom: 1.5rem;
+                      margin-bottom: 1.5rem;
+                      border-bottom: 1px solid var(--border-color-light);
+                    }
+
+                    .forms {
+                      .switch-wrapper {
+
+                        .text {
+                          white-space: nowrap;
+                        }
+                      }
+
+                      .input-button {
+                        input,
+                        select {
+                          display: inline-block;
+                          margin-right: 0.9rem;
+                        }
+
+                        .tracking-number {
+                          width: 24rem;
+                        }
+
+                        .shipping-company {
+                          width: 9rem;
+                        }
+                      }
                     }
                   }
 
-                  .info {
-                    font-size: 1.62rem;
+                  .order {
+                    display: flex;
+                    padding-bottom: 1.62rem;
+                    margin-bottom: 1.62rem;
+                    transition: all $theme-swap-speed;
+                    border-bottom: 1px solid var(--border-color-light);
+                    &:last-child {
+                      border: none;
+                    }
 
-                    .info-item {
-                      margin-bottom: 0.3rem;
-                      &:first-child { // product name
-                        max-width: 45rem;
-                        font-weight: 500;
+                    .img {
+                      width: 9rem;
+                      margin-right: 0.9rem;
+
+                      img {
+                        width: 100%;
+                      }
+                    }
+
+                    .info {
+                      font-size: 1.62rem;
+
+                      .info-item {
+                        margin-bottom: 0.3rem;
+                        &:first-child { // product name
+                          max-width: 45rem;
+                          font-weight: 500;
+                        }
                       }
                     }
                   }

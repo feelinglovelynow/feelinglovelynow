@@ -10,7 +10,7 @@
   import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'
 
-  export let allProducts: undefined | Product[] = undefined
+  export let mapAllProducts: Map<string, Product>
 
   let showModal: ShowModal
   let hideModal: HideModal
@@ -25,7 +25,7 @@
   const paypalCheckout = new PaypalCheckout()
 
   $: if ($cart && divPaypalCheckout) {
-    const response = loopCart($cart, allProducts)
+    const response = loopCart($cart, mapAllProducts)
 
     if (response) {
       subTotal = response.subTotal

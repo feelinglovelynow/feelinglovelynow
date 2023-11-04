@@ -1,9 +1,9 @@
-import graphql from '$lib/dgraph/graphql'
+import dgraph from '$lib/dgraph/dgraph'
 import type { AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
 
 
 export default async function addOrder (id: string, orderItems: AddOrderRequestOrderItems, pretty: PrettyPaypal) {
-  return graphql({
+  return dgraph({
     query: `
       mutation MyMutation($input: [AddOrderInput!]! = {id: ""}) {
         addOrder(input: $input) {

@@ -14,7 +14,7 @@
   import IMG_LIGHT_5 from '$lib/img/bg/light/IMG_LIGHT_5.webp'
   import IMG_LIGHT_6 from '$lib/img/bg/light/IMG_LIGHT_6.webp'
 
-  export let localsTheme: Theme
+  export let localsTheme: Theme = 'dark'
 
   let isInititalSubscribe = true
   $: visibleImages = images[localsTheme]
@@ -73,12 +73,10 @@
 
     @keyframes bg__fade-in {
       0% {
-        opacity: 0;
-        transform: translateY(-0.6rem);
+        transform: translateY(-5.4rem);
       }
 
       100% {
-        opacity: 1;
         transform: translateY(0);
       }
     }

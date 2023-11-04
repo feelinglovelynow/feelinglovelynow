@@ -7,10 +7,11 @@
   $: layout = browser ? document.getElementById('fln__layout') : null
 
   function setTheme () {
-    const desiredTheme = ($theme === 'light') ? 'dark' : 'light'
-
     if (layout) {
-    theme.set(desiredTheme)
+      const desiredTheme = ($theme === 'light') ? 'dark' : 'light'
+
+      theme.set(desiredTheme)
+
       if (desiredTheme === 'light') {
         layout.classList.add('theme--light')
         layout.classList.remove('theme--dark')
@@ -18,9 +19,9 @@
         layout.classList.add('theme--dark')
         layout.classList.remove('theme--light')
       }
-    fetch(`/set-theme?to=${ desiredTheme }`)
-    }
 
+      fetch(`/set-theme?to=${ desiredTheme }`)
+    }
   }
 </script>
 

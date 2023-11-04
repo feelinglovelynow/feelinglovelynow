@@ -4,19 +4,22 @@ import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 import { dateToDateTimeLocal } from '$lib/util/dateToDateTimeLocal'
+import { one } from '$lib/catch/error'
 
 
 export const load = (async () => {
   try {
     if (PUBLIC_ENVIRONMENT === 'local') {
+      const endDate = new Date((new Date()).getTime() + (3 * 60000)) // now + 3 minutes
+
       const startDate = new Date()
-      startDate.setDate(startDate.getDate() - 7)
+      startDate.setDate(startDate.getDate() - 7) // now - 7 days
 
       const search = {
         orderId: '',
         email: '',
         startDate: dateToDateTimeLocal(startDate),
-        endDate: dateToDateTimeLocal(new Date())
+        endDate: dateToDateTimeLocal(endDate)
       }
 
       return {

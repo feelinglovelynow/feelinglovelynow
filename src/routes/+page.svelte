@@ -1,6 +1,6 @@
 <script lang="ts">
+  import type { Source } from '$lib'
   import type { PageData } from './$types'
-  import type { Product, Source } from '$lib'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
   import formatScience from '$lib/util/formatScience'

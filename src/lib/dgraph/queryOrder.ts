@@ -1,15 +1,15 @@
-import graphql from '$lib/dgraph/graphql'
+import dgraph from '$lib/dgraph/dgraph'
 import type { Order, SearchOrdersRequest } from '$lib'
 
 
-export default async function queryOrder (search: SearchOrdersRequest = {}): Promise<Order[]> {
+export default async function queryOrder (search: SearchOrdersRequest = {}): Promise<Order> {
   let params = 'order: {desc: createdAt}'
 
   if (search.orderId) params += `, filter: {id: {eq: "${ search.orderId }"}}`
   else if (search.email) params += `, filter: {email: {eq: "${ search.email }"}}`
   else if (search.startDate && search.endDate) params += `filter: {createdAt: {between: {min: "${ (new Date(search.startDate)).toISOString() }", max: "${ (new Date(search.endDate)).toISOString() }"}}}`
 
-  const response = await graphql({
+  const { queryOrder } = await dgraph({
     query: `
       query MyQuery {
         queryOrder(${ params }) {
@@ -43,5 +43,5 @@ export default async function queryOrder (search: SearchOrdersRequest = {}): Pro
     `
   })
 
-  return response?.data?.queryOrder || []
+  return queryOrder as Order
 }

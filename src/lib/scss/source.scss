@@ -9,6 +9,12 @@
       transform: translateY(-0.9rem);
     }
   }
+  &.location--search--with-quote,
+  &.location--search--source-titles {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+  }
   &.type--culture,
   &.type--product {
     .header {
@@ -55,15 +61,16 @@
     }
   }
   &.type--science {
-    &.location--search--with-quote,
-    &.location--search--source-titles {
-      border-bottom: 1px solid gold;
-      margin-bottom: 1.5rem;
-    }
     &.location--search--with-quote {
 
       ol {
         list-style-type: circle;
+        margin-bottom: 0;
+      }
+    }
+    &.location--search--source-titles {
+      .head {
+        margin-bottom: 0;
       }
     }
 

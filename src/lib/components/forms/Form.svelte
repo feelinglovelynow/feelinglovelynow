@@ -7,7 +7,7 @@
   import FormItem from '$lib/components/forms/FormItem.svelte'
   import { getFormEntries } from '@feelinglovelynow/get-form-entries'
   import { Turnstile, PUBLIC_KEY_ALWAYS_PASSES } from '@feelinglovelynow/svelte-turnstile'
-  import type { FormInputs, FormOnError, FormOnSuccess, FormToastOnSuccess, FormOnSubmitValidate } from '$lib'
+  import type { FormInputs, FormOnError, FormOnSuccess, FormToastOnSuccess, FormOnSubmitValidate, flnError } from '$lib'
 
   export let schema: any
   export let action: string

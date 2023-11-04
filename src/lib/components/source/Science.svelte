@@ -27,7 +27,7 @@
 </script>
 
 
-<section class="source type--science location--{ location } { css } glow">
+<section class="source type--science location--{ location } { css } { location !== 'search--source-titles' && location !== 'search--with-quote' ? 'glow' : ''}">
   <div class="head">
     <a class="publisher" href={ source.url } target="_blank" rel="noreferrer" aria-hidden="true">
       { #if source.urlType === 'academia' }

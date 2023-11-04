@@ -4,6 +4,7 @@
   import Flower from '$lib/sacred/Flower.svelte'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import type { Product, OrderItem, OrderItemSizes } from '$lib'
+  import { Modal, type ShowModal } from '@feelinglovelynow/svelte-modal'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import ProductCategories from '$lib/components/store/ProductCategories.svelte'
 
@@ -11,6 +12,7 @@
 
   let size = ''
   let quantity = ''
+  let showModal: ShowModal
 
   $: isBook = Boolean(product.description === 'HOW_TO_GET_HIGH')
 
@@ -59,11 +61,17 @@
 </script>
 
 
+<div class="big-product">
+  <Modal header={ product.name } on:functions={ e => showModal = e.detail.showModal }>
+    <img src={ product.primaryImage.src } alt={ product.name }/>
+  </Modal>
+</div>
+
 <section class="glow">
   <div class="image-categories">
-    <div class="image">
+    <button class="image" type="button" on:click={ showModal } title="Click to enlarge image">
       <img src={ product.primaryImage.src } alt={ product.name }/>
-    </div>
+    </button>
     <ProductCategories categories={ product.categories } isAllShowing={ false } doActiveSelection={ false } location="full-product"/>
   </div>
 
@@ -92,9 +100,9 @@
     <div class="description">
       { #if product.description === 'FLOWER_OF_LIFE' || product.description === 'METATRONS_CUBE' }
         <div class="geometry">
-          <Flower flower={ true }  />
-          <Flower fruit={ true }  />
-          <Flower fruit={ true } metatronsCube={ true }  />
+          <Flower flower={ true } flowerSurroundingCircle={ true } />
+          <Flower fruit={ true } flowerSurroundingCircle={ true } />
+          <Flower fruit={ true } metatronsCube={ true } flowerSurroundingCircle={ true }  />
         </div>
         <div>
           "The <strong>Flower of Life</strong> is not only found in Egypt, but all over the world… It is found in Ireland, Turkey, England, Israel, Egypt, China, Tibet, Greece and Japan."
@@ -177,7 +185,21 @@
 
   $image-swap-width: 900px;
 
-  :global()
+  .big-product {
+    :global(.fln__modal) {
+      max-width: 117rem !important;
+    }
+
+    :global(img) {
+      width: 100%;
+    }
+
+    :global(.fln__modal__header__text) {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 
   section {
     width: 100%;
@@ -201,6 +223,9 @@
         aspect-ratio: 1/1;
         width: 100%;
         max-height: none;
+        border: none;
+        background: transparent;
+        cursor: pointer;
 
         @media only screen and (min-width: $image-swap-width) { // big screen
           aspect-ratio: auto;

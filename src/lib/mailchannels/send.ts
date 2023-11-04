@@ -1,10 +1,10 @@
 import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 
 
-export default async ({ to, subject, content }: { to: string, subject: string, content: string }): Promise<number> => {
+export default async function send ({ to, subject, content }: { to: string, subject: string, content: string }): Promise<number> {
   if (PUBLIC_ENVIRONMENT === 'local') return Promise.resolve(200)
   else {
-    const fetchResponse = await fetch('https://api.mailchannels.net/tx/v1/send', {
+    const rFetch = await fetch('https://api.mailchannels.net/tx/v1/send', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -15,6 +15,6 @@ export default async ({ to, subject, content }: { to: string, subject: string, c
       }),
     })
 
-    return fetchResponse.status
+    return rFetch.status
   }
 }

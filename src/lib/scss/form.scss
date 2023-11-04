@@ -114,8 +114,8 @@ button.brand {
     padding: 1.2rem 1.6rem;
   }
   &:disabled {
-    opacity: 0.3;
-    cursor: default;
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   &.loading {
@@ -203,7 +203,8 @@ input.brand {
     box-shadow: var(--focus-error-box-shadow);
   }
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 }
 

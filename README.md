@@ -1,6 +1,6 @@
 # Feeling Lovely Now
 
-#### Documentation
+#### Docs
 - [Svelte](https://svelte.dev/docs)
 - [SvelteKit](https://kit.svelte.dev/docs/introduction)
 - [SvelteKit SVG](https://www.npmjs.com/package/@poppanator/sveltekit-svg)
@@ -9,7 +9,6 @@
 - [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv)
 - [Cloudflare Images](https://developers.cloudflare.com/images/)
 - [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/)
-- [Cloudflare API](https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url)
 - [Cloudflare Environments](https://developers.cloudflare.com/workers/wrangler/configuration/)
 - [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/platform/compatibility-dates/)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
@@ -19,7 +18,6 @@
 - [Paypal JS](https://www.npmjs.com/package/@paypal/paypal-js)
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
-- [Open AI](https://platform.openai.com/docs/guides/images/introduction?lang=node.js)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
@@ -48,9 +46,9 @@
 - [Sveltekit page transitions](https://joshcollinsworth.com/blog/sveltekit-page-transitions#the-final-code)
 - [SVG Viewbox](https://webdesign.tutsplus.com/svg-viewport-and-viewbox-for-beginners--cms-30844t)
 - [Svelete Store + Local Storage](https://rodneylab.com/using-local-storage-sveltekit/)
-- [Payment and address form best practices](https://web.dev/articles/payment-and-address-form-best-practices#checklist)
 - [Get Paypal Credentials](https://developer.paypal.com/api/rest/#get-credentials)
 - [Customize Paypal Checkout Page](https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/admin/checkout-settings/)
+- [Transition between height 0 and auto](https://www.youtube.com/watch?v=B_n4YONte5A)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)

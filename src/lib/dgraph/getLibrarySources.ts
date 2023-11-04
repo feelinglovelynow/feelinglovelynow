@@ -1,9 +1,9 @@
 import type { Source } from '$lib'
-import graphql from '$lib/dgraph/graphql'
+import dgraph from '$lib/dgraph/dgraph'
 
 
-export default async function getLibrarySources (): Promise<Source[] | undefined> {
-  const response = await graphql({
+export default async function getLibrarySources (): Promise<Source[]> {
+  const { sources } = await dgraph({
     query: `
       query MyQuery {
         sources: querySource(order: {desc: createdAt}) {
@@ -41,5 +41,5 @@ export default async function getLibrarySources (): Promise<Source[] | undefined
     `
   })
 
-  return response?.data?.sources
+  return sources as Source[]
 }

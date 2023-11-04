@@ -1,14 +1,19 @@
 import get from '$lib/kv/get'
 import type { Cookies } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types'
-import type { Source, Product, Category, Theme } from '$lib'
 import setThemeCookie from '$lib/cookies/setThemeCookie'
+import serverPageCatch from '$lib/catch/serverPageCatch'
+import type { Source, Product, Category, Theme } from '$lib'
 
 
 export const load = (async ({ platform, cookies }) => {
-  const theme = doTheme(cookies)
-  const { sources, products, productCategories } = await doKV(platform)
-  return { theme, sources, products, productCategories }
+  try {
+    const theme = doTheme(cookies)
+    const { sources, products, productCategories } = await doKV(platform)
+    return { theme, sources, products, productCategories }
+  } catch (e) {
+    return serverPageCatch(e)
+  }
 }) satisfies LayoutServerLoad
 
 
@@ -39,7 +44,7 @@ async function doKV (platform: Readonly<App.Platform> | undefined) {
     products[i].primaryImage.src = primaryImages[i].default
 
     for (const category of products[i].categories) {
-      mapCategories.set(category.slug, category) // categories at the top of the page
+      mapCategories.set(category.slug, category)
     }
   }
 

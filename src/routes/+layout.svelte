@@ -30,25 +30,7 @@
     }
   </style>
 
-  { #if $theme === 'dark' }
-    <meta name="theme-color" content="#111111"/>
-    <style>
-      :root {
-        --text-color:  #eceaea;
-        --opacity-bg: rgba(0, 0, 0, 0.9);
-        --anchor-color: #8bdd10;
-        --papyrus-text-color: var(--gold-text-color);
-        --bg-color: #111111;
-        --input-bg-color: rgb(55, 65, 81, 0.6);
-        --border-color: rgb(75, 85, 99);
-        --border-color-light: rgba(75, 85, 99, 0.3);
-        --bottom-nav-bg: #111111;
-        --glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.27);
-        --focus-box-shadow: 0 0 0 .2rem rgba(234, 198, 3, 0.63);
-        --focus-error-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(240, 82, 82) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-      }
-    </style>
-  { :else }
+  { #if $theme === 'light' }
     <meta name="theme-color" content="#fefefe"/>
     <style>
       :root {
@@ -66,10 +48,28 @@
         --focus-error-box-shadow: 0 0 0 0.2rem rgba(254, 84, 75, 0.25);
       }
     </style>
+  { :else }
+    <meta name="theme-color" content="#111111"/>
+    <style>
+      :root {
+        --text-color:  #eceaea;
+        --opacity-bg: rgba(0, 0, 0, 0.9);
+        --anchor-color: #8bdd10;
+        --papyrus-text-color: var(--gold-text-color);
+        --bg-color: #111111;
+        --input-bg-color: rgb(55, 65, 81, 0.6);
+        --border-color: rgb(75, 85, 99);
+        --border-color-light: rgba(75, 85, 99, 0.3);
+        --bottom-nav-bg: #111111;
+        --glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.27);
+        --focus-box-shadow: 0 0 0 .2rem rgba(234, 198, 3, 0.63);
+        --focus-error-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(240, 82, 82) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+      }
+    </style>
   { /if }
 </svelte:head>
 
-<div id="fln__layout" class="theme--{ $theme }" data-sveltekit-reload={ $updated ? '' : 'off' }>
+<div id="fln__layout" class="theme--{ $theme || 'dark' }" data-sveltekit-reload={ $updated ? '' : 'off' }>
   <slot />
 
   <Background localsTheme={ data.theme } />

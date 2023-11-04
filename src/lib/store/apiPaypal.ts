@@ -1,5 +1,6 @@
-import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
+import { one } from '$lib/catch/error'
 import { PAYPAL_SANDBOX_API_URL, PAYPAL_SANDBOX_SECRET } from '$env/static/private'
+import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
 
 
 const apiUrl = PUBLIC_ENVIRONMENT === 'local' ? PAYPAL_SANDBOX_API_URL : PAYPAL_SANDBOX_API_URL
@@ -22,19 +23,15 @@ export async function apiPaypal (url: string, body: any = undefined) {
 
   if (body) init.body = JSON.stringify(body)
 
-  const fetcResponse = await fetch(fetchUrl, init)
-  const response = await fetcResponse.json()
+  const rFetch = await fetch(fetchUrl, init)
+  const r = await rFetch.json()
 
-  if (response?.error_description) {
-    console.log('paypal error', fetcResponse.status, response, url, body)
-    throw { _errors: [ response.error_description ] }
-  } else if (fetcResponse.status !== 200 && fetcResponse.status !== 201 && response.message) {
-    console.log('paypal error', fetcResponse.status, response, url, body)
-    throw { _errors: [ response.message ] }
-  } else {
+  if (r?.error_description) throw one(r.error_description, { url, body, status: rFetch.status, r })
+  else if (rFetch.status > 201 && r.message) throw one(r.message, { url, body, status: rFetch.status, r })
+  else {
     return {
-      response,
-      status: fetcResponse.status
+      response: r,
+      status: rFetch.status
     }
   }
 }
@@ -48,8 +45,8 @@ export async function apiPaypalAccessToken (): Promise<string> {
     method: 'POST',
     body: 'grant_type=client_credentials',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${ auth }`
+      Authorization: `Basic ${ auth }`,
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
 

@@ -1,9 +1,9 @@
 import type { Product } from '$lib'
-import graphql from '$lib/dgraph/graphql'
+import dgraph from '$lib/dgraph/dgraph'
 
 
 export default async function getProducts (): Promise<Product[]> {
-  const response = await graphql({
+  const { queryProduct } = await dgraph({
     query: `
       query MyQuery {
         queryProduct {
@@ -24,18 +24,11 @@ export default async function getProducts (): Promise<Product[]> {
           }
           similarProducts {
             id
-            name
-            slug
-            price
-            primaryImage {
-              id
-              extension
-            }
           }
         }
       }
     `
   })
 
-  return response?.data?.queryProduct || []
+  return queryProduct as Product[]
 }

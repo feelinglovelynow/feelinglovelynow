@@ -1,4 +1,4 @@
-import graphql from '$lib/dgraph/graphql'
+import dgraph from '$lib/dgraph/dgraph'
 import type { Category, SearchResponse, Source } from '$lib'
 
 
@@ -80,7 +80,7 @@ export default async function getSearchSources (search: string, isQuotesChecked:
     }
   `
 
-  const response = await graphql({
+  const { sourcesByTitle, sourcesByDescription, quotes } = await dgraph({
     query: `
       query MyQuery {
         ${ sourcesByTitleQuery }
@@ -91,17 +91,17 @@ export default async function getSearchSources (search: string, isQuotesChecked:
   })
 
   return {
-    sourcesByTitle: response?.data?.sourcesByTitle,
-    sourcesByDescription: response?.data?.sourcesByDescription,
-    quotes: formatQuotes(response?.data?.quotes),
+    sourcesByTitle: (sourcesByTitle || []) as Source[],
+    sourcesByDescription: (sourcesByDescription || []) as Source[],
+    quotes: formatQuotes(quotes || []) as Source[],
   }
 }
 
 
-function formatQuotes (quotes: SearchQuotesByTextResponse | undefined): Source[] | undefined {
-  let response
+function formatQuotes (quotes: SearchQuotesByTextResponse): Source[] {
+  let response: Source[] = []
 
-  if (quotes) {
+  if (quotes.length) {
     response = quotes.map(r => {
       return {
         id: r.source.id,
