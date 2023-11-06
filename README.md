@@ -32,7 +32,6 @@
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
-- [HTML Country Select Dropdown List](https://gist.github.com/danrovito/977bcb97c9c2dfd3398a)
 
 #### Articles
 - [NPM to PNPM](https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/)
@@ -74,8 +73,8 @@
 - [Namecheap: $8.16/year for Domain Registration](https://www.namecheap.com/domains/)
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day and 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
-- [Proton Business: $19.98/month for 2 users w/ secure inboxes, calendars, and 1,000GB of cloud storage](https://proton.me/business/plans)
-- [Dgraph: $39.99 a month for 25GB of storage, 5GB of data transfer per day and encryption at rest](https://dgraph.io/pricing)
+- [Proton Business: $19.98/month for a secure email inbox, calendar, and 1,000GB of cloud storage](https://proton.me/business/plans)
+- [Dgraph: $39.99 a month for 25GB of graph database storage, 5GB of data transfer per day and encryption at rest](https://dgraph.io/pricing)
 
 #### Local install
 1. [Install git](https://github.com/git-guides/install-git)
