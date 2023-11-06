@@ -50,6 +50,7 @@
 - [Customize Paypal Checkout Page](https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/admin/checkout-settings/)
 - [Transition between height 0 and auto](https://www.youtube.com/watch?v=B_n4YONte5A)
 - [Best Practices for Returns and Refunds in eCommerce](https://www.clickpost.ai/blog/ecommerce-returns-best-practices)
+- [SameSite cookies explained](https://web.dev/articles/samesite-cookies-explained)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -70,11 +71,11 @@
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)
-- [Dgraph: FREE for 25GB of storage and 1MB of data transfer per day](https://dgraph.io/pricing)
 - [Namecheap: $8.16/year for Domain Registration](https://www.namecheap.com/domains/)
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
-- [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day & 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
-- [Proton Business: $19.98/month for 2 users w/ secure inboxes, calendars, & 1,000GB of cloud storage](https://proton.me/business/plans)
+- [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day and 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
+- [Proton Business: $19.98/month for 2 users w/ secure inboxes, calendars, and 1,000GB of cloud storage](https://proton.me/business/plans)
+- [Dgraph: $39.99 a month for 25GB of storage, 5GB of data transfer per day and encryption at rest](https://dgraph.io/pricing)
 
 #### Local install
 1. [Install git](https://github.com/git-guides/install-git)
@@ -82,8 +83,8 @@
 1. [Install nvm](https://github.com/nvm-sh/nvm)
 1. In [bash](https://opensource.com/resources/what-bash) navigate to the place you would love to place this code
 ```bash
-git clone https://github.com/sensethenlove/sensethenlove.git
-cd sensethenlove
+git clone https://github.com/feelinglovelynow/feelinglovelynow.git
+cd feelinglovelynow
 nvm use 18
 npm install -g pnpm
 pnpm setup
@@ -96,19 +97,9 @@ pnpm i
 pnpm dev
 ```
 
-#### Validates code & then pushes to [github qa branch](https://github.com/sensethenlove/sensethenlove/tree/qa)
-```bash
-pnpm qaPush
-```
-
-#### Validates code & then pushes to [github main branch](https://github.com/sensethenlove/sensethenlove/tree/main)
+#### Validates code & then pushes to [github main branch](https://github.com/feelinglovelynow/feelinglovelynow/tree/main)
 ```bash
 pnpm mainPush
-```
-
-#### Deploy to [qa](https://qa.feelinglovelynow.com)
-```bash
-pnpm qaDeploy
 ```
 
 #### Deploy to [production](https://feelinglovelynow.com)
