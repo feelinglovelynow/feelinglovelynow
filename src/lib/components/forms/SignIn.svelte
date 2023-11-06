@@ -26,7 +26,7 @@
     const r = await rFetch.json()
 
     if (r?._errors?.length) showToast('info', r._errors)
-    else if (!r?.href) removeToast = showToast('success', 'Success!') // define removeToast so we may removeToast on unmount
+    else if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
     else {
       const linkId = crypto.randomUUID()
       const spinId = crypto.randomUUID()

@@ -165,7 +165,9 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
           <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Purchased Products</div>
           ${ orderItemsHtml }
           <div style="color: #273142; width: 100%; text-align: right;">- Hakuna Matata</div>
-          <div style="display: none;">${ crypto.randomUUID() }</div>
+          <div style="height: 0px; width: 0px; overflow: hidden;">
+            <div style="display: none;">${ crypto.randomUUID() }</div>
+          </div>
         </div>
       </div>
     `
