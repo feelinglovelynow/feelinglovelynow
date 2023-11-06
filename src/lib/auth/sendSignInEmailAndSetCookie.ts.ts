@@ -33,11 +33,11 @@ async function sendEmail (href: string, email: string, firstName?: string) {
           <tr> 
             <td>
               <img style="margin-bottom: 6px; width: 280px; padding-right: 9px;" src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
-              <div style="color: #273142; font-size:27px; margin-bottom: 9px; font-family: papyrus, Inter, ui-sans-serif, system-ui;">Welcome${ firstName ? ' ' + firstName : ''}!</div>
-              <div style="margin-bottom: 9px;"><a href="${ href }" target="_blank" style="text-underline-offset: 4.5px;">🔮 Please click this link to sign in to Feeling Lovely Now!</a></div>
-              <div style="color: #273142; margin-bottom: 9px;">🕰 This link is valid for <strong>9 minutes</strong></div>
-              <div style="color: #273142; margin-bottom: 9px;">🙏 This link must be clicked from the <strong>same computer and browser</strong> that filled out the sign in form</div>
-              <div style="color: #273142; margin-bottom: 9px;">💚 Here is the link in plain text if you would love to <strong>copy and paste it</strong></div>
+              <div style="color: #273142; font-size:24px; margin-bottom: 9px; font-family: papyrus, Inter, ui-sans-serif, system-ui;">Welcome${ firstName ? ' ' + firstName : ''}!</div>
+              <div style="font-size: 18px; margin-bottom: 9px;"><a href="${ href }" target="_blank" style="text-underline-offset: 4.5px;">🔮 Please click this link to sign in to Feeling Lovely Now!</a></div>
+              <div style="font-size: 18px; color: #273142; margin-bottom: 9px;">🕰 This link is valid for <strong>9 minutes</strong></div>
+              <div style="font-size: 18px; color: #273142; margin-bottom: 9px;">🙏 This link must be clicked from the <strong>same computer and browser</strong> that filled out the sign in form</div>
+              <div style="font-size: 18px; color: #273142; margin-bottom: 9px;">💚 Here is the link in plain text if you would love to <strong>copy and paste it</strong></div>
               <div style="color: #273142; word-wrap: anywhere;">${ visibleHref }</div>
             </td>
           </tr>
