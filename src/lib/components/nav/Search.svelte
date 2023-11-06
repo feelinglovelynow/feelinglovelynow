@@ -29,7 +29,7 @@
     }
 
     if (!isValid) {
-      showToast({ type: 'info', items: [ 'Select atleast one checkbox please' ] })
+      showToast('info', 'Select atleast one checkbox please')
       isValid = false
     }
 
@@ -44,7 +44,7 @@
       if (data?.[ option ]?.length) resultsFound = true
     }
 
-    if (!resultsFound) showToast({ type: 'info', items: [ 'No search results found' ] })
+    if (!resultsFound) showToast('info', 'No search results found')
     else response = data
   }) satisfies FormOnSuccess
 

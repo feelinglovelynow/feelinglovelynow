@@ -1,17 +1,14 @@
-export type SourceType = 'science' | 'culture' | 'product' | undefined
-
-
 export type Source = {
   id: string
   slug: string
   description?: string
-  type: SourceType
+  type?: enumSourceType
   title: string
   authors: Author[]
   quotes: Quote[]
   categories?: Category[]
   url: string
-  urlType: 'academia' | 'pubmed' | 'youtube' | 'pdf' | 'heartmath' | 'scribd' | 'soundcloud' | 'internet'
+  urlType: enumSourceUrlType
   publicationLocation: string
   publicationYear: number
   images?: Image[]
@@ -44,7 +41,7 @@ export type Image = {
   id: string
   src?: string
   displayOrder?: int
-  extension: 'png' | 'webp'
+  extension: enumImageExtension
 }
 
 export type Product = {
@@ -53,7 +50,7 @@ export type Product = {
   printfulId?: string
   price: number
   name: string
-  description: 'HEART_LIGHT' | 'TORUS' | 'LOTUS' | 'EMOTIONS' | 'HOW_TO_GET_HIGH' | 'MERKABA' | 'FLOWER_OF_LIFE' | 'METATRONS_CUBE' | 'UNITY'
+  description: enumProductDescription
   primaryImage: Image
   featuredDisplayOrder: int
   storeDisplayOrder: int
@@ -79,30 +76,39 @@ export type Order = {
   totalPrice: number
   orderItems: OrderItem[]
   createdAt: string
-  status: OrderStatus
   transaction: Transaction
   paypalFee: number
   isOpen?: boolean
   trOrderDetails?: HTMLTableRowElement
+  shippingCarrier?: enumShippingCarrier
+  shippingTrackingId?: string
+  enableShippingInputs?: boolean
 }
 
 export type OrderItem = {
   id: string
   productId?: string
   quantity: number
-  size?: OrderItemSizes
+  size?: enumOrderItemSize
   product?: Product
   subTotal?: Price
-  order?: Order
+  order?: Order,
+  status?: enumOrderItemStatus
+  shippingCarrier?: enumShippingCarrier
+  shippingTrackingId?: string
 }
 
-export enum OrderStatus {
-  COMPLETED,
-  DECLINED,
-  PARTIALLY_REFUNDED,
-  PENDING,
-  REFUNDED,
-  FAILED,
+export type User = {
+  id: string
+  email?: string
+  firstName?: string
+  sessions?: Session[]
 }
 
-export type OrderItemSizes = 'S' | 'M' | 'L' | 'XL'
+export type Session = {
+  id: string
+  user: User
+  ipAddress: string
+  accessExpiration: string
+  refreshExpiration: string
+}

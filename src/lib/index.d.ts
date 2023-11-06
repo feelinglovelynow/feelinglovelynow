@@ -1,4 +1,5 @@
 // https://twitter.com/Rich_Harris/status/1489223459649560576
+export * from '$lib/auth/auth.d'
 export * from '$lib/form/form.d'
 export * from '$lib/catch/error.d'
 export * from '$lib/store/store.d'

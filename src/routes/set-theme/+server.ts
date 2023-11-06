@@ -1,6 +1,6 @@
 import { one } from '$lib/catch/error'
 import type { RequestHandler } from './$types'
-import setThemeCookie from '$lib/cookies/setThemeCookie'
+import setThemeCookie from '$lib/theme/setThemeCookie'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
 
 

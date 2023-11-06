@@ -7,6 +7,7 @@ import type { RequestHandler } from './$types'
 import { apiPaypal } from '$lib/store/apiPaypal'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import IMG_MERKABA from '$lib/sacred/IMG_MERKABA.png'
+import { enumOrderItemStatus } from '$lib/util/enums'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
@@ -22,14 +23,18 @@ export const POST = (async ({ request, platform }) => {
     else {
       const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform) // validate the cart and totalPrice in request is valid
       const rPaypal = await captureOrder(body.orderId) // send paypal the orderId and process the payment for this orderId
-      const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
 
-      await Promise.all([ // add the order to our database and send emails to us and the customer
-        dgraphAddOrder(body, pretty),
-        sendEmails(body, pretty, expandedSubTotal)
-      ])
+      if (rPaypal?.status !== 'COMPLETED') throw one('The payment was not successful', { rPaypal: JSON.stringify(rPaypal) })
+      else {
+        const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
 
-      return json({ success: true }) // no one threw so we are good
+        await Promise.all([ // add the order to our database and send emails to us and the customer
+          dgraphAddOrder(body, pretty),
+          sendEmails(body, pretty, expandedSubTotal)
+        ])
+
+        return json({ success: true }) // no one threw so we are good
+      }
     }
   } catch (e) {
     return serverRequestCatch(e)
@@ -45,7 +50,6 @@ async function captureOrder (orderId: string) {
 
 function getPrettyPaypalResponse (response: any): PrettyPaypal {
   return {
-    status: response?.status || '',
     email: response?.payment_source?.paypal.email_address || '',
     name: response?.purchase_units?.[0].shipping?.name?.full_name || '',
     addressLine1: response?.purchase_units?.[0].shipping?.address?.address_line_1 || '',
@@ -68,8 +72,9 @@ function dgraphAddOrder (body: CaptureOrderRequest, pretty: PrettyPaypal) {
       orderItems.push({
         id: cartItem.id,
         quantity: cartItem.quantity,
-        size: cartItem.size ? cartItem.size : undefined,
         product: { id: cartItem.product.id },
+        status: enumOrderItemStatus.PURCHASED,
+        size: cartItem.size ? cartItem.size : undefined,
       })
     }
   }

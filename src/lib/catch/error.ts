@@ -14,6 +14,11 @@ export function many (_errors: flnErrors, errorData: any = undefined) {
 }
 
 
+export function redirect (url: string) {
+  return { _redirect: url }
+}
+
+
 function log (_errors: flnErrors, errorData: any = undefined) {
   console.log('---FLN ERROR START---')
   console.log({ _errors })

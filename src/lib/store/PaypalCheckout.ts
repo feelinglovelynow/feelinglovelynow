@@ -77,8 +77,11 @@ export default class Braintree {
 
 
   #onError (error: any) {
-    console.error(error)
-    showToast({ type: 'info', items: [ 'There was an error creating the payment form' ] })
+    console.log('---FLN PAYPAL ERROR START---')
+    console.log({ error })
+    console.trace()
+    console.log('---FLN PAYPAL ERROR END---')
+    showToast('info', 'There was an error creating the payment form')
   }
 
 
@@ -98,7 +101,7 @@ export default class Braintree {
 
     const r = await rFetch.json()
 
-    if (r._errors?.length) showToast({ type: 'info', items: r._errors })
+    if (r._errors?.length) showToast('info', r._errors)
 
     this.#hideLoadingIcon()
 
@@ -123,11 +126,11 @@ export default class Braintree {
 
     const r = await rFetch.json()
 
-    if (r._errors?.length) showToast({ type: 'info', items: r._errors })
+    if (r._errors?.length) showToast('info', r._errors)
     else {
       set([])
       if (this.hideModal) this.hideModal()
-      showToast({ type: 'success', items: [ 'Thank you for your successful purchase!' ] })
+      showToast('success', 'Thank you for your successful purchase!')
     }
 
     this.#hideLoadingIcon()

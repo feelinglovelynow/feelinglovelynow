@@ -3,10 +3,12 @@
   import { page } from '$app/stores'
   import type { PageData } from './$types'
   import Head from '$lib/components/Head.svelte'
+  import { enumSourceType } from '$lib/util/enums'
   import Title from '$lib/components/Title.svelte'
   import { goto, onNavigate } from '$app/navigation'
   import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
+  import type { Source, Author, Category, Quote } from '$lib'
   import Science from '$lib/components/source/Science.svelte'
   import Product from '$lib/components/source/Product.svelte'
   import Culture from '$lib/components/source/Culture.svelte'
@@ -16,7 +18,6 @@
   import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
-  import type { Source, Author, Category, Quote, SourceType } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let data: PageData
@@ -34,7 +35,7 @@
   let title: string = 'Welcome to our Library!'
   let currentCount: number | undefined = undefined
   let currentAuthor: Author | undefined = undefined
-  let currentType: SourceType | undefined = undefined
+  let currentType: enumSourceType | undefined = undefined
   let currentCategory: Category | undefined = undefined
 
   const titleParts: string[] = []
@@ -163,9 +164,9 @@
     if (titleParts.length) title = titleParts.join(' ⋅ ')
   }
 
-  function getUrlParamType (searchParams: URLSearchParams): SourceType {
+  function getUrlParamType (searchParams: URLSearchParams): enumSourceType | undefined {
     const type = searchParams.get('type')
-    return (type === 'science' || type === 'product' || type === 'culture') ? type : undefined
+    return (type === enumSourceType.science || type === enumSourceType.product || type === enumSourceType.culture) ? type : undefined
   }
 
   function addCategoriesToSourceCategories (quote: Quote, sourceCategories: Map<string, Category>) {

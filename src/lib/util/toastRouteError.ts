@@ -7,7 +7,7 @@ import showToast from '@feelinglovelynow/toast'
 export default function toastRouteError (data: any, url?: string) {
   if (data?._errors) {
     onMount(() => {
-      showToast({ type: 'info', items: data._errors })
+      showToast('info', data._errors)
       if (url) goto(url)
     })
   }

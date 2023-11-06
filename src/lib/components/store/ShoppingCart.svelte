@@ -45,7 +45,7 @@
 
   function showCartUpdatedToast () {
     setTimeout(() => { // setTimeout allows inner fn to happen after updateCartQuantity() AND loopCart()
-      if ($cart.length) showToast({ type: 'success', items: [ `Item quantity and Paypal checkout updated, with the updated total price: <strong>$${ totalPrice.str } USD</strong>` ] })
+      if ($cart.length) showToast('success', `Item quantity and Paypal checkout updated, with the updated total price: <strong>$${ totalPrice.str } USD</strong>`)
     })
   }
 </script>

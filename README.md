@@ -49,6 +49,7 @@
 - [Get Paypal Credentials](https://developer.paypal.com/api/rest/#get-credentials)
 - [Customize Paypal Checkout Page](https://developer.paypal.com/api/nvp-soap/paypal-payments-standard/admin/checkout-settings/)
 - [Transition between height 0 and auto](https://www.youtube.com/watch?v=B_n4YONte5A)
+- [Best Practices for Returns and Refunds in eCommerce](https://www.clickpost.ai/blog/ecommerce-returns-best-practices)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -219,4 +220,9 @@ pnpm publish --access public .
     "strict": true
   }
 }
+```
+
+## Deprecate an npm package
+```bash
+npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install using @feelinglovelynow/toast instead."
 ```

@@ -1,11 +1,11 @@
 <script lang="ts">
   import  { page } from '$app/stores'
-  import type { SourceType } from '$lib'
   import Title from '$lib/components/Title.svelte'
+  import { enumSourceType } from '$lib/util/enums'
   import getLibraryHref from '$lib/util/getLibraryHref'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
-  export let type: SourceType = undefined
+  export let type: enumSourceType | undefined = undefined
 
   let allHref: string
   let cultureHref: string

@@ -8,7 +8,7 @@
 
   export let location = ''
   export let authors: Author[]
-  export let author: Author | null | undefined = undefined
+  export let author: Author | null | undefined
 
   let query: string
   let allHref: string

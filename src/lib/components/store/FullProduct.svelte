@@ -1,9 +1,10 @@
 <script lang="ts">
   import { cart, set } from '$lib/store/cart'
-  import showToast from '@feelinglovelynow/toast'
+  import type { Product, OrderItem } from '$lib'
   import Flower from '$lib/sacred/Flower.svelte'
+  import showToast from '@feelinglovelynow/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
-  import type { Product, OrderItem, OrderItemSizes } from '$lib'
+  import { enumOrderItemSize } from '$lib/util/enums'
   import { Modal, type ShowModal } from '@feelinglovelynow/svelte-modal'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import ProductCategories from '$lib/components/store/ProductCategories.svelte'
@@ -32,7 +33,7 @@
     else if (!isBook && !size) errors.push('Please select a size')
     else if (!isBook && !quantity) errors.push('Please select a quantity')
 
-    if (errors.length) showToast({ type: 'info', items: errors })
+    if (errors.length) showToast('info', errors)
     else {
       const cartItem: OrderItem = {
         id: crypto.randomUUID(),
@@ -40,11 +41,11 @@
         quantity: Number(quantity)
       }
 
-      if (!isBook) cartItem.size = size as OrderItemSizes
+      if (!isBook) cartItem.size = size as enumOrderItemSize
 
       $cart.push(cartItem)
       set($cart)
-      showToast({ type: 'success', items: [`Shopping cart updated! <span class="link view-cart-link">View cart!</span>`] })
+      showToast('success', `Shopping cart updated! <span class="link view-cart-link">View cart!</span>`)
 
       setTimeout(() => { // allow some time for the cart and toast to appear
         const links = document.querySelectorAll('.view-cart-link') as NodeListOf<Element> // link in the toast (there might be multiple toast showing)
@@ -142,10 +143,10 @@
       { :else if product.description === 'LOTUS' || product.description === 'TORUS' }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is the shape of a <strong>torus</strong>.</div>
-        <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
         { #if product.description === 'LOTUS' }
           <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center.</p>
         { /if }
+        <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again.</p>
         <p>Energy in your torus field circles out top of heart, out top of head, around body, in base of spine and in base of heart</p>
         <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales.</p>
       { :else if product.description === 'HEART_LIGHT' }

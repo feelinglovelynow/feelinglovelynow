@@ -24,10 +24,13 @@ export default async function queryOrder (search: SearchOrdersRequest = {}): Pro
           city
           country 
           totalPrice
-          orderItems {
+          orderItems(order: {asc: id}) {
             id
             size
             quantity
+            status
+            shippingCarrier
+            shippingTrackingId
             product {
               id
               slug

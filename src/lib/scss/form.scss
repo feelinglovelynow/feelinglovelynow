@@ -176,6 +176,10 @@ select.brand {
     width: 100%;
     height: 3.9rem;
   }
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
 }
 
 textarea.brand,

@@ -14,6 +14,6 @@ export default function updateCartQuantity ($cart: Cart, hideModal: HideModal, c
 
   if ($cart.length === 0) { // if no items in cart left
     hideModal() // hide the shopping cart modal
-    showToast({ type: 'success', items: [ 'Shopping cart cleared!' ] }) // notify clear
+    showToast('success', 'Shopping cart cleared!') // notify clear
   }
 }

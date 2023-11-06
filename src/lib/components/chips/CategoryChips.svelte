@@ -1,14 +1,15 @@
 <script lang="ts">
   import  { page } from '$app/stores'
+  import type { Category } from '$lib'
   import { afterNavigate } from '$app/navigation'
-  import type { Category, SourceType } from '$lib'
   import Title from '$lib/components/Title.svelte'
+  import { enumSourceType } from '$lib/util/enums'
   import getLibraryHref from '$lib/util/getLibraryHref'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let location = ''
   export let categories: Category[]
-  export let type: SourceType = undefined
+  export let type: enumSourceType | undefined = undefined
   export let category: Category | null | undefined = undefined
 
   let query: string

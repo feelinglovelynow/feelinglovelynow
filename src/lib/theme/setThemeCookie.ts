@@ -3,10 +3,10 @@ import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 
 
 export default function setThemeCookie (cookies: Cookies, theme: string) {
-  cookies.set('theme', theme, {
+  cookies.set('fln__theme', theme, {
     path: '/',
     httpOnly: true,
-    sameSite: true,
+    sameSite: 'lax',
     secure: PUBLIC_ENVIRONMENT !== 'local'
   })
 }

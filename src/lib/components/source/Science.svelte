@@ -1,18 +1,18 @@
 <script lang="ts">
-  import  { page } from '$app/stores'
   import { afterNavigate } from '$app/navigation'
+  import { enumSourceType } from '$lib/util/enums'
+  import type { Source, Author, Category } from '$lib'
   import SVG_SCRIBD from '$lib/svg/logo/SVG_SCRIBD.svg'
   import SVG_PUBMED from '$lib/svg/logo/SVG_PUBMED.svg'
   import SVG_ACADEMIA from '$lib/svg/logo/SVG_ACADEMIA.svg'
-  import type { Source, Author, Category, SourceType } from '$lib'
-  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import SVG_INTERNET_ARTICLE from '$lib/svg/SVG_INTERNET_ARTICLE.svg'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let css = ''
   export let source: Source
   export let location = 'sources'
-  export let type: SourceType = undefined
+  export let type: enumSourceType | undefined = undefined
   export let author: Author | null | undefined = undefined
   export let category: Category | null | undefined = { name: '', slug: '' }
 
@@ -76,7 +76,7 @@
     </ol>
   { /if }
 
-  { #if source.categories?.length }
+  { #if type && source.categories?.length }
     <CategoryChips { type } category={ displayCategory } categories={ source.categories } location="science" />
   { /if }
 </section>

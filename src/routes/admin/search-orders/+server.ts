@@ -3,13 +3,12 @@ import { one } from '$lib/catch/error'
 import type { RequestHandler } from './$types'
 import type { SearchOrdersRequest } from '$lib'
 import queryOrder from '$lib/dgraph/queryOrder'
-import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
 
 
-export const POST = (async ({ request }) => {
+export const POST = (async ({ locals, request }) => {
   try {
-    if (PUBLIC_ENVIRONMENT !== 'local') throw one('Unauthorized', { PUBLIC_ENVIRONMENT })
+    if (!locals.userId) throw one('Unauthorized', { locals })
     else {
       const body = await request.json() as SearchOrdersRequest
       return json(await queryOrder(body))

@@ -1,24 +1,30 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
+  import type { Order, Product } from '$lib'
   import { Slug } from '@feelinglovelynow/slug'
   import showToast from '@feelinglovelynow/toast'
   import Head from '$lib/components/Head.svelte'
   import Title from '$lib/components/Title.svelte'
-  import type { Order, Product, flnError } from '$lib'
   import toastRouteError from '$lib/util/toastRouteError'
-  import { PUBLIC_ENVIRONMENT } from '$env/static/public'
   import Button from '$lib/components/forms/Button.svelte'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
+  import { enumOrderItemStatus, enumShippingCarrier } from '$lib/util/enums'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor';
 
   export let data: PageData
   toastRouteError(data)
+
+  const shippingCarriers = Object.values(enumShippingCarrier)
+  const orderItemStatuses = Object.values(enumOrderItemStatus)
 
   const isLoading = {
     search: false,
     library: false,
     products: false,
+    updateOrderItems: false,
   }
+
 
   $: if (data.orders && data.products) {
     const mapProducts = new Map<string, Product>()
@@ -34,202 +40,277 @@
     }
   }
 
+
   async function dgraphToKV (key: 'library' | 'products', url: string) {
     isLoading[key] = true
+
     const rFetch = await fetch(url)
     const r = await rFetch.json()
-    isLoading[key] = false
 
-    if (r?._errors?.length) showToast({ type: 'info', items: r._errors })
-    else showToast({ type: 'success', items: [ 'Success!' ] })
+    if (r?._errors?.length) showToast('info', r._errors)
+    else showToast('success', 'Success!')
+
+    isLoading[key] = false
   }
 
-  async function searchOrders () {
+
+  async function searchOrders (index?: number) {
     isLoading.search = true
+
     const rFetch = await fetch('/admin/search-orders', {
       method: 'POST',
       body: JSON.stringify(data.search),
       headers: { 'Content-Type': 'application/json' }
     })
-    data.orders = await rFetch.json()
+
+    const r = await rFetch.json()
+
+    if (r?._errors?.length) showToast('info', r._errors)
+    else if (typeof index === 'undefined') data.orders = r
+    else {
+      r[index].isOpen = true
+      data.orders = r
+    }
+
     isLoading.search = false
   }
 
 
-  function toggle (e: MouseEvent, order: Order) {
-    if (order.isOpen) { // already open
-      const button = e.currentTarget as HTMLButtonElement // toggle button that is clicked
-      button.classList.remove('is-open') // start the animation on the button that the order details are closing
+  async function updateOrderItems (order: Order, index: number) {
+    isLoading.updateOrderItems = true
+
+    const rFetch = await fetch('/admin/update-order-items', {
+      method: 'POST',
+      body: JSON.stringify(order),
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    const r = await rFetch.json()
+
+    if (r?._errors?.length) showToast('info', r._errors)
+    else {
+      await searchOrders(index)
+      showToast('success', 'Success!')
+    }
+
+    isLoading.updateOrderItems = false
+  }
+
+
+  function toggleOrderDetails (e: { currentTarget: HTMLButtonElement }, order: Order) {
+    if (order.isOpen) { // IF order details are visible
+      const button = e.currentTarget // toggle button that is clicked
       order.trOrderDetails?.classList.remove('visible') // slide order details closed
-      setTimeout(() => { // once closed
+      button.classList.remove('is-open') // start the animation on the button b/c the order details is closing
+
+      setTimeout(() => { // once order details closed
         order.isOpen = false // update order object
         data.orders = data.orders // update orders array
       }, 900)
-    } else {
+    } else { // IF order details are not visible
+      order.shippingTrackingId = order.shippingCarrier = '' // show unselected carrier (directions) and empty tracking id (clean state)
       order.isOpen = true // update order object
       data.orders = data.orders // update orders array
+
       setTimeout(() => { // now that the element is in the DOM
-        order.trOrderDetails?.classList.add('visible') // add the class
+        order.trOrderDetails?.classList.add('visible') // slide order details open
       }, 90)
     }
+  }
+
+
+  function setEnableShippingInputs (order: Order) {
+    order.enableShippingInputs = false
+
+    for (const orderItem of order.orderItems) {
+      if (orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) { // IF any order item has a status set to shipping => enable shipping inputs
+        order.enableShippingInputs = true
+        break
+      }
+    }
+
+    if (!order.enableShippingInputs) order.shippingTrackingId = order.shippingCarrier = '' // IF no order item has a status set to shipping => clear shipping inputs
   }
 </script>
 
 
-{ #if PUBLIC_ENVIRONMENT === 'local' }
-  <Head title="Admin" />
 
-  <main>
-    <Title text="Welcome Admin!" />
+<Head title="Admin" />
 
-    <div class="wrapper">
-      <!-- Cache -->
-      <div class="cache flex-center">
-        <Title noBottom={ true } text="Cache" />
-        <section>
-          <Button
-            text="Dgraph Library to KV"
-            isLoading={ isLoading.library }
-            onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
+<main>
+  <Title text="Welcome Admin!" />
 
-          <Button
-            text="Dgraph Products to KV"
-            isLoading={ isLoading.products }
-            onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
-        </section>
+  <div class="wrapper">
+    <!-- Cache -->
+    <div class="cache flex-center">
+      <Title noBottom={ true } text="Cache" />
+      <section>
+        <Button
+          text="Dgraph Library to KV"
+          isLoading={ isLoading.library }
+          onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
+
+        <Button
+          text="Dgraph Products to KV"
+          isLoading={ isLoading.products }
+          onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
+      </section>
+    </div>
+
+    <!-- Orders -->
+    <div class="orders-table">
+      <div class="flex-center">
+        <Title noBottom={ true } text="Orders" />
       </div>
+      <section>
+        { #if data.search }
+          <form class="search-form">
+            <div class="form-item">
+              <label for="">Order ID</label>
+              <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">Email</label>
+              <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">Start</label>
+              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+            </div>
+            <div class="form-item">
+              <label for="">End</label>
+              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+            </div>
 
-      <!-- Orders -->
-      <div class="orders-table">
-        <div class="flex-center">
-          <Title noBottom={ true } text="Orders" />
-        </div>
-        <section>
-          { #if data.search }
-            <form class="search-form">
-              <div class="form-item">
-                <label for="">Order ID</label>
-                <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
-              </div>
-              <div class="form-item">
-                <label for="">Email</label>
-                <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
-              </div>
-              <div class="form-item">
-                <label for="">Start</label>
-                <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
-              </div>
-              <div class="form-item">
-                <label for="">End</label>
-                <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
-              </div>
+            <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
+          </form>
+        { /if }
 
-              <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
-            </form>
-          { /if }
-
-          { #if data.orders?.length }
-            <table>
-              <thead>
-                <tr>
-                  <th class="button-cell"></th>
-                  <th>Order ID</th>
-                  <th>Email</th>
-                  <th>Created At</th>
-                  <th class="right">Total Price</th>
+        { #if data.orders?.length }
+          <table>
+            <thead>
+              <tr>
+                <th class="button-cell"></th>
+                <th>Order ID</th>
+                <th>Email</th>
+                <th>Created At</th>
+                <th class="right">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              { #each data.orders as order, index (order.id) }
+                <tr class="top-row">
+                  <td>
+                    <div class="toggle-wrapper">
+                      <button on:click={ (e) => toggleOrderDetails(e, order) } class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
+                    </div>
+                  </td>
+                  <td>{ order.id }</td>
+                  <td>{ order.email }</td>
+                  <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
+                  <td class="right">${ (new Price(order.totalPrice)).str }</td>
                 </tr>
-              </thead>
-              <tbody>
-                { #each data.orders as order (order.id) }
-                  <tr class="top-row">
-                    <td>
-                      <div class="toggle-wrapper">
-                        <button on:click={ (e) => toggle(e, order) } class="brand toggle { order.isOpen ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
-                      </div>
-                    </td>
-                    <td>{ order.id }</td>
-                    <td>{ order.email }</td>
-                    <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
-                    <td class="right">${ (new Price(order.totalPrice)).str }</td>
-                  </tr>
-                  { #if order.isOpen }
-                    <tr class="order-details--tr" bind:this={ order.trOrderDetails }>
-                      <td class="button-cell"></td>
-                      <td colspan="4">
-                        <div class="order-details--wrapper">
-                          <div class="order-details">
-                            <div>
-                              <div class="papyrus">Order Items</div>
-                              { #each order.orderItems as orderItem }
-                                <div class="order">
-                                  <div class="img">
-                                    <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
-                                  </div>
-                                  <div class="info">
-                                    <div class="info-item">{ orderItem.product?.name }</div>
-                                    <div class="info-item">ID: { orderItem.id }</div>
-                                    <div>Status: Purchased ⋅ Quantity: { orderItem.quantity } { #if orderItem.size }⋅ Size: { orderItem.size }{ /if }</div>
-                                  </div>
-                                </div>
-                              { /each }
-                            </div>
-                            <div class="shipping-forms">
-                              <div class="shipping">
-                                <div class="papyrus">Shipping Address</div>
-                                <div>{ order.name }</div>
-                                <div>{ order.addressLine1 }</div>
-                                { #if order.addressLine2 }
-                                  <div>{ order.addressLine2 }</div>
-                                { /if }
-                                <div>{ order.city } { order.state } { order.zip } { order.country }</div>
-                              </div>
+                { #if order.isOpen }
+                  <tr class="order-details--tr" bind:this={ order.trOrderDetails }>
+                    <td class="button-cell"></td>
+                    <td colspan="4">
+                      <div class="order-details--wrapper">
+                        <div class="order-details">
+                          <div class="order-items">
+                            <div class="papyrus two">Order Items</div>
 
-                              <div class="forms">
-                                <div class="papyrus">Set Shipping Tracking</div>
-                                { #each order.orderItems as orderItem }
-                                  <label class="switch-wrapper">
-                                    <div class="switch">
-                                      <input type="checkbox">
-                                      <span class="slider"></span>
+                            { #each order.orderItems as orderItem (orderItem.id) }
+                              <div class="order-item">
+                                <div class="img">
+                                  <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
+                                </div>
+                                <div class="info">
+                                  { #if orderItem.size || (orderItem.shippingCarrier && orderItem.shippingTrackingId) }
+                                    <div class="size">
+                                      { #if orderItem.size }
+                                        <span class="fln__pr-text">Size: { orderItem.size }</span>
+                                      { /if }
+                                      { #if orderItem.shippingCarrier && orderItem.shippingTrackingId }
+                                        { #if orderItem.size }
+                                          <span class="fln__pr-text">⋅</span>
+                                        { /if }
+                                        <span class="fln__pr-text">Carrier: { orderItem.shippingCarrier }</span>
+                                        <span class="fln__pr-text">⋅</span>
+                                        { #if orderItem.shippingCarrier === enumShippingCarrier.FED_EX }
+                                          <span>Tracking ID: <a target="_blank" href="https://www.fedex.com/fedextrack/?trknbr={ orderItem.shippingTrackingId }">{ orderItem.shippingTrackingId }</a></span>
+                                        { :else if orderItem.shippingCarrier === enumShippingCarrier.USPS }
+                                          <span>Tracking ID: <a target="_blank" href="https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels={ orderItem.shippingTrackingId }">{ orderItem.shippingTrackingId }</a></span>
+                                        { /if }
+                                      { /if }
                                     </div>
-                                    <div class="text">{ orderItem.id }</div>
-                                  </label>
-                                { /each }
-                                <div class="input-button">
-                                  <input type="text" class="brand tracking-number" placeholder="Tracking Number">
-                                  <select class="brand shipping-company">
-                                    <option value="" disabled>Company Shipping Products</option>
-                                    <option value="USPS">USPS</option>
-                                    <option value="UPS">UPS</option>
-                                    <option value="DHL">DHL</option>
-                                  </select>
-                                  <Button text="Save" type="button" css="brand" />
+                                  { /if }
+                                  <div class="product-name">{ orderItem.product?.name }</div>
+                                  <div class="selects">
+                                    <select bind:value={ orderItem.status } on:change={ () => setEnableShippingInputs(order) } class="brand status">
+                                      <option value="" disabled>Set Order Items Status</option>
+                                      { #each orderItemStatuses as orderItemStatus (orderItemStatus) }
+                                        <option value={ orderItemStatus }>{ orderItemStatus }</option>
+                                      { /each }
+                                    </select>
+
+                                    <select bind:value={ orderItem.quantity } disabled name="quantity" class="brand quantity">
+                                      <option value="" disabled>Quantity</option>
+                                      { #each { length: 28 } as _, index }
+                                        <option value={ index }>{ index }</option>
+                                      { /each }
+                                    </select>
+                                  </div>
                                 </div>
                               </div>
+                            { /each }
+
+                            <div class="save">
+                              <input bind:value={ order.shippingTrackingId } disabled={ order.enableShippingInputs !== true } type="text" class="brand tracking-number" placeholder="Shipping Tracking ID">
+                              <select bind:value={ order.shippingCarrier } disabled={ order.enableShippingInputs !== true } class="brand shipping-carrier">
+                                <option disabled value="">Shipping Carrier</option>
+                                { #each shippingCarriers as shippingCarrier (shippingCarrier) }
+                                  <option value={ shippingCarrier }>{ shippingCarrier }</option>
+                                { /each }
+                              </select>
+                              <Button onClick={ () => updateOrderItems(order, index) } isLoading={ isLoading.updateOrderItems } text="Save" type="button" css="brand" />
                             </div>
                           </div>
+
+                          <div class="shipping">
+                            <div class="papyrus two">Shipping Address</div>
+                            <div>{ order.name }</div>
+                            <div>{ order.addressLine1 }</div>
+                            { #if order.addressLine2 }
+                              <div>{ order.addressLine2 }</div>
+                            { /if }
+                            <div>{ order.city } { order.state } { order.zip } { order.country }</div>
+                          </div>
                         </div>
-                      </td>
-                    </tr>
-                  { /if }
-                { /each }
-              </tbody>
-            </table>
-          { /if }
-        </section>
-      </div>
-
-
-      <!-- Slug -->
-      <div class="slug flex-center">
-        <Title noBottom={ true } text="Slug" />
-        <section>
-          <Slug />
-        </section>
-      </div>
+                      </div>
+                    </td>
+                  </tr>
+                { /if }
+              { /each }
+            </tbody>
+          </table>
+        { /if }
+      </section>
     </div>
-  </main>
-{ /if }
+
+
+    <!-- Slug -->
+    <div class="slug flex-center">
+      <Title noBottom={ true } text="Slug" />
+      <section>
+        <Slug />
+      </section>
+    </div>
+  </div>
+
+  <section>
+    <LoadingAnchor href="/auth/sign-out" label="Sign Out" />
+  </section>
+</main>
 
 
 <style lang="scss">
@@ -274,6 +355,7 @@
 
       table {
         width: 100%;
+        min-width: 108rem;
       }
 
       section {
@@ -364,7 +446,7 @@
                 grid-template-rows: 1fr;
               }
               &:global(.visible .order-details) {
-                padding: 0.45rem 0.45rem 1.5rem 0.45rem !important;
+                padding: 0.45rem 0.45rem 2.7rem 0.45rem !important;
               }
 
               td {
@@ -383,70 +465,82 @@
                   overflow: hidden;
                   transition: all $order-details-transition-speed;
 
-                  .shipping-forms {
+                  .shipping {
                     text-align: right;
-                    padding-left: 4.5rem;
-
-                    .shipping {
-                      padding-bottom: 1.5rem;
-                      margin-bottom: 1.5rem;
-                      border-bottom: 1px solid var(--border-color-light);
-                    }
-
-                    .forms {
-                      .switch-wrapper {
-
-                        .text {
-                          white-space: nowrap;
-                        }
-                      }
-
-                      .input-button {
-                        input,
-                        select {
-                          display: inline-block;
-                          margin-right: 0.9rem;
-                        }
-
-                        .tracking-number {
-                          width: 24rem;
-                        }
-
-                        .shipping-company {
-                          width: 9rem;
-                        }
-                      }
-                    }
+                    padding-right: 0.45rem;
                   }
 
-                  .order {
-                    display: flex;
-                    padding-bottom: 1.62rem;
-                    margin-bottom: 1.62rem;
-                    transition: all $theme-swap-speed;
-                    border-bottom: 1px solid var(--border-color-light);
-                    &:last-child {
-                      border: none;
-                    }
+                  .order-items {
+                    flex: auto;
+                    max-width: 72rem;
+                    margin-right: 1.8rem;
+                    padding-right: 1.8rem;
+                    border-right: 0.12rem solid var(--border-color-light);
 
-                    .img {
-                      width: 9rem;
-                      margin-right: 0.9rem;
+                    .order-item {
+                      display: flex;
+                      margin-bottom: 1.8rem;
+                      transition: all $theme-swap-speed;
+                      &:last-child {
+                        border: none;
+                      }
 
-                      img {
-                        width: 100%;
+                      .img {
+                        width: 12.3rem;
+                        min-width: 12.3rem;
+                        margin-right: 0.9rem;
+
+                        img {
+                          width: 100%;
+                        }
+                      }
+
+                      .info {
+                        margin-right: 2.1rem;
+
+                        .size {
+                          margin-bottom: 0.45rem;
+                        }
+
+                        .product-name {
+                          width: 100%;
+                          font-weight: 500;
+                          margin-bottom: 0.9rem;
+                        }
+
+                        .selects {
+                          display: flex;
+                          justify-content: start;
+                          align-items: center;
+
+                          select {
+                            height: 3.6rem;
+                            &.status {
+                              width: 28.2rem;
+                              margin-right: 1.8rem;
+                            }
+                            &.quantity {
+                              width: 6rem;
+                            }
+                          }
+                        }
                       }
                     }
 
-                    .info {
-                      font-size: 1.62rem;
+                    .save {
+                      display: flex;
+                      justify-content: start;
+                      align-items: end;
+                      margin-top: 2.7rem;
 
-                      .info-item {
-                        margin-bottom: 0.3rem;
-                        &:first-child { // product name
-                          max-width: 45rem;
-                          font-weight: 500;
-                        }
+                      input,
+                      select {
+                        margin-right: 0.9rem;
+                      }
+
+                      .tracking-number,
+                      .shipping-carrier {
+                        width: 27rem;
                       }
                     }
                   }

@@ -7,7 +7,7 @@
   import FormItem from '$lib/components/forms/FormItem.svelte'
   import { getFormEntries } from '@feelinglovelynow/get-form-entries'
   import { Turnstile, PUBLIC_KEY_ALWAYS_PASSES } from '@feelinglovelynow/svelte-turnstile'
-  import type { FormInputs, FormOnError, FormOnSuccess, FormToastOnSuccess, FormOnSubmitValidate, flnError } from '$lib'
+  import type { FormInputs, FormOnError, FormOnSuccess, FormToastOnSuccess, FormOnSubmitValidate } from '$lib'
 
   export let schema: any
   export let action: string
@@ -46,13 +46,13 @@
 
         switch (result.type) {
           case 'error':
-            if (typeof result.error?.message === 'string') showToast({ type: 'info', items: [ result.error.message ] }) // form errors (not field specific)
+            if (typeof result.error?.message === 'string') showToast('info', result.error.message) // form errors (not field specific)
             setTimeout(() => {
               onError({ fields, data: result?.data })
             })
             break
           case 'failure':
-            if (result.data?._errors?.length) showToast({ type: 'info', items: result.data._errors }) // form errors (not field specific)
+            if (result.data?._errors?.length) showToast('info', result.data._errors) // form errors (not field specific)
             errors = result.data
             setTimeout(() => {
               onError({ fields, data: result?.data })
@@ -61,8 +61,8 @@
           case 'success':
             const successMessage = toastOnSuccess({ fields, data: result?.data })
 
-            if (successMessage) showToast({ type: 'success', items: [ successMessage ] })
-            if (result?.data?.$localHref) showToast({ type: 'success', items: [ `<a href="${ result?.data?.$localHref }">Local Link</a>` ] }) // if a $localHref has been returned by the action (something to click locally that we wouldn't click in qa or main)
+            if (successMessage) showToast('success', successMessage)
+            if (result?.data?.$localHref) showToast('success', `<a href="${ result?.data?.$localHref }">Local Link</a>`) // if a $localHref has been returned by the action (something to click locally that we wouldn't click in qa or main)
             if (reset !== false) resetCounter++
 
             setTimeout(() => {

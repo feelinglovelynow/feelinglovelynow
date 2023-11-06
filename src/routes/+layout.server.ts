@@ -1,16 +1,16 @@
 import get from '$lib/kv/get'
 import type { Cookies } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types'
-import setThemeCookie from '$lib/cookies/setThemeCookie'
+import setThemeCookie from '$lib/theme/setThemeCookie'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 import type { Source, Product, Category, Theme } from '$lib'
 
 
-export const load = (async ({ platform, cookies }) => {
+export const load = (async ({ platform, cookies, locals }) => {
   try {
     const theme = doTheme(cookies)
     const { sources, products, productCategories } = await doKV(platform)
-    return { theme, sources, products, productCategories }
+    return { locals, theme, sources, products, productCategories }
   } catch (e) {
     return serverPageCatch(e)
   }
@@ -19,7 +19,7 @@ export const load = (async ({ platform, cookies }) => {
 
 function doTheme (cookies: Cookies) {
   const DEFAULT_THEME = 'dark'
-  const COOKIE_THEME = cookies.get('theme')
+  const COOKIE_THEME = cookies.get('fln__theme')
   const theme: Theme = (COOKIE_THEME === 'light' || COOKIE_THEME === 'dark') ? COOKIE_THEME : DEFAULT_THEME
 
   if (!COOKIE_THEME) setThemeCookie(cookies, theme)

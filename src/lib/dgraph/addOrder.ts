@@ -21,7 +21,6 @@ export default async function addOrder (id: string, orderItems: AddOrderRequestO
       input: {
         id,
         orderItems,
-        status: pretty.status,
         email: pretty.email,
         name: pretty.name,
         addressLine1: pretty.addressLine1,

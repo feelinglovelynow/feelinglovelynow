@@ -1,13 +1,14 @@
 <script lang="ts">
+  import { enumSourceType } from '$lib/util/enums'
+  import type { Source, Author, Category } from '$lib'
   import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
-  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
-  import type { Source, Author, Category, SourceType, Image } from '$lib'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let css = ''
   export let source: Source
   export let location: string
-  export let type: SourceType = undefined
+  export let type: enumSourceType | undefined = undefined
   export let author: Author | null | undefined = undefined
   export let category: Category | null | undefined = undefined
 
@@ -47,7 +48,7 @@
   { /if }
 
   
-  { #if source?.categories?.length }
+  { #if type && source?.categories?.length }
     <CategoryChips { type } { category } categories={ source.categories } location="product" />
   { /if }
 </section>

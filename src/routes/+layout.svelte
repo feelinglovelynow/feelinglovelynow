@@ -41,7 +41,7 @@
         --bg-color: #fefefe;
         --input-bg-color: rgb(255, 255, 255, 0.6);
         --border-color: rgb(206, 211, 214);
-        --border-color-light: rgba(206, 211, 214, 0.3);
+        --border-color-light: rgba(206, 211, 214, 0.45);
         --bottom-nav-bg: #fefefe;
         --glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.36);
         --focus-box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .21);
@@ -59,7 +59,7 @@
         --bg-color: #111111;
         --input-bg-color: rgb(55, 65, 81, 0.6);
         --border-color: rgb(75, 85, 99);
-        --border-color-light: rgba(75, 85, 99, 0.3);
+        --border-color-light: rgba(75, 85, 99, 0.45);
         --bottom-nav-bg: #111111;
         --glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.27);
         --focus-box-shadow: 0 0 0 .2rem rgba(234, 198, 3, 0.63);

@@ -1,15 +1,15 @@
 import search from '$lib/actions/search'
+import { redirect } from '$lib/catch/error'
 import queryOrder from '$lib/dgraph/queryOrder'
-import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 import { dateToDateTimeLocal } from '$lib/util/dateToDateTimeLocal'
-import { one } from '$lib/catch/error'
 
 
-export const load = (async () => {
+export const load = (async ({ locals }) => {
   try {
-    if (PUBLIC_ENVIRONMENT === 'local') {
+    if (!locals.userId) throw redirect('/auth/sign-in')
+    else {
       const endDate = new Date((new Date()).getTime() + (3 * 60000)) // now + 3 minutes
 
       const startDate = new Date()
