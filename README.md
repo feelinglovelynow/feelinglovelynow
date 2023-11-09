@@ -50,6 +50,7 @@
 - [Transition between height 0 and auto](https://www.youtube.com/watch?v=B_n4YONte5A)
 - [Best Practices for Returns and Refunds in eCommerce](https://www.clickpost.ai/blog/ecommerce-returns-best-practices)
 - [SameSite cookies explained](https://web.dev/articles/samesite-cookies-explained)
+- [Everything you always wanted to know about touch icons](https://mathiasbynens.be/notes/touch-icons)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)

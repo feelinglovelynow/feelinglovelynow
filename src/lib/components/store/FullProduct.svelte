@@ -221,6 +221,8 @@
       }
 
       .image {
+        display: flex;
+        justify-content: center;
         aspect-ratio: 1/1;
         width: 100%;
         max-height: none;
@@ -230,20 +232,14 @@
 
         @media only screen and (min-width: $image-swap-width) { // big screen
           aspect-ratio: auto;
-          width: 100%;
-          min-height: 54rem;
+          width: 54rem;
+          min-width: 54rem;
           transition: all 0.9s;
-          display: flex; // for some reason the container size works on load better with this
         }
 
         img {
-          width: auto;
-          height: 100%;
-
-          @media only screen and (min-width: $image-swap-width) { // big screen
-            width: 100%;
-            height: fit-content;
-          }
+          width: 100%;
+          height: auto;
         }
       }
 
