@@ -238,8 +238,13 @@
         }
 
         img {
-          width: 100%;
-          height: auto;
+          height: 100%;
+          width: auto;
+
+          @media only screen and (min-width: $image-swap-width) { // big screen
+            width: 100%;
+            height: auto;
+          }
         }
       }
 
