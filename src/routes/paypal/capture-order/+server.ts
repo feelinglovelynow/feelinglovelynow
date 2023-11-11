@@ -108,7 +108,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
 
   function getContent (key: 'us' | 'customer') {
     return `
-      <div style="padding: 18px 18px 27px 18px; font-size: 16px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;">
+      <div style="padding: 18px 18px 27px 18px; font-size: 16px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial;">
         <div style="max-width: 444px; width: 100%; margin: 0 auto;">
 
           <div style="height: 90px; width: 100%; text-align: center;">

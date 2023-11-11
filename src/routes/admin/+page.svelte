@@ -9,8 +9,9 @@
   import toastRouteError from '$lib/util/toastRouteError'
   import Button from '$lib/components/forms/Button.svelte'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
+  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
+  import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
   import { enumOrderItemStatus, enumShippingCarrier } from '$lib/util/enums'
-  import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor';
 
   export let data: PageData
   toastRouteError(data)
@@ -236,11 +237,7 @@
                                         { /if }
                                         <span class="fln__pr-text">Carrier: { orderItem.shippingCarrier }</span>
                                         <span class="fln__pr-text">⋅</span>
-                                        { #if orderItem.shippingCarrier === enumShippingCarrier.FED_EX }
-                                          <span>Tracking ID: <a target="_blank" href="https://www.fedex.com/fedextrack/?trknbr={ orderItem.shippingTrackingId }">{ orderItem.shippingTrackingId }</a></span>
-                                        { :else if orderItem.shippingCarrier === enumShippingCarrier.USPS }
-                                          <span>Tracking ID: <a target="_blank" href="https://tools.usps.com/go/TrackConfirmAction?tRef=fullpage&tLc=2&text28777=&tLabels={ orderItem.shippingTrackingId }">{ orderItem.shippingTrackingId }</a></span>
-                                        { /if }
+                                        <span>Tracking ID: <a target="_blank" href="{ getShippingTrackingHref(orderItem.shippingCarrier, orderItem.shippingTrackingId) }">{ orderItem.shippingTrackingId }</a></span>
                                       { /if }
                                     </div>
                                   { /if }
