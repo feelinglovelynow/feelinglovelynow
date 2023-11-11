@@ -39,8 +39,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(svelte@4.2.2)
       '@feelinglovelynow/toast':
-        specifier: ^1.1.3
-        version: 1.1.3(svelte@4.2.2)
+        specifier: ^1.2.0
+        version: 1.2.0(svelte@4.2.2)
       '@paypal/paypal-js':
         specifier: ^7.0.3
         version: 7.0.3
@@ -647,8 +647,8 @@ packages:
       svelte: 4.2.2
     dev: true
 
-  /@feelinglovelynow/toast@1.1.3(svelte@4.2.2):
-    resolution: {integrity: sha512-6knWb2zWKNOt6JJuuYekeG9+bdITXrgpIVRfx2UzBBpwJTZLxUrjoOyaCZOqemQQQ+Lo0nwVW+bjR4HEoG9axA==}
+  /@feelinglovelynow/toast@1.2.0(svelte@4.2.2):
+    resolution: {integrity: sha512-bfNuEaREwGPRnXbrYvWegTPJWwOVsyni1nyFtXLW3LEcpmtxk+BtQ5GhvymqwC4XMRgF8NsRFpBBXEsdZjAlTA==}
     peerDependencies:
       svelte: ^4.0.0
     dependencies:
