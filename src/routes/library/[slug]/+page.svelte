@@ -2,12 +2,12 @@
   import type { Source } from '$lib'
   import { page } from '$app/stores'
   import type { PageData } from './$types'
-  import Head from '$lib/components/Head.svelte'
-  import formatScience from '$lib/util/formatScience'
-  import toastRouteError from '$lib/util/toastRouteError'
-  import Science from '$lib/components/source/Science.svelte'
-  import Product from '$lib/components/source/Product.svelte'
-  import Culture from '$lib/components/source/Culture.svelte'
+  import Head from '$lib/global/Head.svelte'
+  import Science from '$lib/source/Science.svelte'
+  import Culture from '$lib/source/Culture.svelte'
+  import Product from '$lib/source/Product.svelte'
+  import formatScience from '$lib/source/formatScience'
+  import toastRouteError from '$lib/catch/toastRouteError'
 
   export let data: PageData
   toastRouteError(data)

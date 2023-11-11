@@ -3,7 +3,7 @@ import { redirect } from '$lib/catch/error'
 import queryOrder from '$lib/dgraph/queryOrder'
 import type { Actions, PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
-import { dateToDateTimeLocal } from '$lib/util/dateToDateTimeLocal'
+import { dateToDateTimeLocal } from '$lib/global/dateToDateTimeLocal'
 
 
 export const load = (async ({ locals }) => {

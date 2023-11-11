@@ -3,11 +3,11 @@
   import { cart } from '$lib/store/cart'
   import type { Cart, Product } from '$lib'
   import loopCart from '$lib/store/loopCart'
-  import showToast from '@feelinglovelynow/toast'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
+  import showToast from '@feelinglovelynow/toast'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
+  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
-  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
   import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'
 
   export let mapAllProducts: Map<string, Product>

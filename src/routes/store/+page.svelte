@@ -1,15 +1,15 @@
 <script lang="ts">
   import type { Product } from '$lib'
   import type { PageData } from './$types'
-  import Head from '$lib/components/Head.svelte'
-  import Title from '$lib/components/Title.svelte'
-  import toastRouteError from '$lib/util/toastRouteError'
+  import Head from '$lib/global/Head.svelte'
+  import Title from '$lib/global/Title.svelte'
+  import FullProduct from '$lib/store/FullProduct.svelte'
+  import toastRouteError from '$lib/catch/toastRouteError'
   import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
-  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
-  import FullProduct from '$lib/components/store/FullProduct.svelte'
-  import BriefProduct from '$lib/components/store/BriefProduct.svelte'
-  import ShoppingCart from '$lib/components/store/ShoppingCart.svelte'
-  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
+  import ShoppingCart from '$lib/store/ShoppingCart.svelte'
+  import BriefProduct from '$lib/store/BriefProduct.svelte'
+  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
+  import ProductCategories from '$lib/store/ProductCategories.svelte'
 
   export let data: PageData
 

@@ -1,7 +1,7 @@
 import type { Session } from '$lib'
 import createToken from '$lib/auth/createToken'
 import verifyToken from '$lib/auth/verifyToken'
-import { enumTokenType } from '$lib/util/enums'
+import { enumTokenType } from '$lib/global/enums'
 import type { RequestEvent } from '@sveltejs/kit'
 import { getOne, updateIP } from '$lib/auth/sessions'
 import setAccessAndRefreshCookies from '$lib/auth/setAccessAndRefreshCookies'

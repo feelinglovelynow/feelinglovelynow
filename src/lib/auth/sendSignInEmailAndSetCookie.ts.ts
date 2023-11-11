@@ -1,7 +1,7 @@
 import send from '$lib/mailchannels/send'
 import type { Cookies } from '@sveltejs/kit'
-import { enumTokenType } from '$lib/util/enums'
 import createToken from '$lib/auth/createToken'
+import { enumTokenType } from '$lib/global/enums'
 import setSignInCookie from '$lib/auth/setSignInCookie'
 import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import { PUBLIC_ENVIRONMENT, PUBLIC_HOST } from '$env/static/public'

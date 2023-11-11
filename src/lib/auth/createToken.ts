@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer/'
 import { one } from '$lib/catch/error'
 import type { TokenPayload } from '$lib'
-import { enumTokenType } from '$lib/util/enums'
+import { enumTokenType } from '$lib/global/enums'
 import { createJWT } from '@feelinglovelynow/jwt'
 import { JWK_FOR_ACCESS_TOKEN_PRIVATE, JWK_FOR_REFRESH_TOKEN_PRIVATE, JWK_FOR_SIGN_IN_PRIVATE } from '$env/static/private'
 import { ACCESS_COOKIE_MAX_AGE_IN_SECONDS, REFRESH_COOKIE_MAX_AGE_IN_SECONDS, SIGN_IN_COOKIE_MAX_AGE_IN_SECONDS } from '$lib/auth/variables'

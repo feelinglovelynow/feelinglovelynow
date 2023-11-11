@@ -1,5 +1,4 @@
 import { onMount } from 'svelte'
-import type { flnError } from '$lib'
 import { goto } from '$app/navigation'
 import showToast from '@feelinglovelynow/toast'
 

@@ -1,8 +1,8 @@
 <script lang="ts">
   import  { page } from '$app/stores'
-  import Title from '$lib/components/Title.svelte'
-  import { enumSourceType } from '$lib/util/enums'
-  import getLibraryHref from '$lib/util/getLibraryHref'
+  import Title from '$lib/global/Title.svelte'
+  import { enumSourceType } from '$lib/global/enums'
+  import getLibraryHref from '$lib/source/getLibraryHref'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let type: enumSourceType | undefined = undefined

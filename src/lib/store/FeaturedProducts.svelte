@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Title from '$lib/global/Title.svelte'
   import type { Product, Category } from '$lib'
-  import Title from '$lib/components/Title.svelte'
-  import BriefProduct from '$lib/components/store/BriefProduct.svelte'
-  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
+  import BriefProduct from '$lib/store/BriefProduct.svelte'
+  import ProductCategories from '$lib/store/ProductCategories.svelte'
 
   export let products: Product[]
   export let productCategories: Category[]

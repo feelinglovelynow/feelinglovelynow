@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types'
-  import toastRouteError from '$lib/util/toastRouteError'
-  import SignIn from '$lib/components/forms/SignIn.svelte'
+  import SignIn from '$lib/form/SignIn.svelte'
+  import toastRouteError from '$lib/catch/toastRouteError'
 
   export let data: PageData
   toastRouteError(data)

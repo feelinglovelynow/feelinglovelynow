@@ -1,4 +1,4 @@
-import { enumShippingCarrier } from '$lib/util/enums'
+import { enumShippingCarrier } from '$lib/global/enums'
 
 
 export default function getShippingTrackingHref (shippingCarrier: enumShippingCarrier, shippingTrackingId: string) {

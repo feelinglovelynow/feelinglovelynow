@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import Button from '$lib/form/Button.svelte'
+  import Title from '$lib/global/Title.svelte'
   import showToast from '@feelinglovelynow/toast'
-  import Title from '$lib/components/Title.svelte'
-  import Button from '$lib/components/forms/Button.svelte'
 
   let email: string
   let isLoading: boolean

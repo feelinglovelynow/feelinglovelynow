@@ -1,12 +1,12 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
-  import { enumSourceType } from '$lib/util/enums'
+  import { enumSourceType } from '$lib/global/enums'
   import type { Source, Author, Category } from '$lib'
   import SVG_SCRIBD from '$lib/svg/logo/SVG_SCRIBD.svg'
   import SVG_PUBMED from '$lib/svg/logo/SVG_PUBMED.svg'
   import SVG_ACADEMIA from '$lib/svg/logo/SVG_ACADEMIA.svg'
+  import CategoryChips from '$lib/chips/CategoryChips.svelte'
   import SVG_INTERNET_ARTICLE from '$lib/svg/SVG_INTERNET_ARTICLE.svg'
-  import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let css = ''

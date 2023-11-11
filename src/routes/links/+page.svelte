@@ -1,17 +1,17 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import type { PageData } from './$types'
-  import Head from '$lib/components/Head.svelte'
-  import Title from '$lib/components/Title.svelte'
-  import AboutUs from '$lib/components/AboutUs.svelte'
-  import toastRouteError from '$lib/util/toastRouteError'
-  import GuitarPic from '$lib/components/GuitarPic.svelte'
+  import Head from '$lib/global/Head.svelte'
+  import Title from '$lib/global/Title.svelte'
+  import EmailUs from '$lib/form/EmailUs.svelte'
+  import AboutUs from '$lib/global/AboutUs.svelte'
+  import GuitarPic from '$lib/global/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
-  import EmailUs from '$lib/components/forms/EmailUs.svelte'
-  import SimpleLoader from '$lib/components/SimpleLoader.svelte'
-  import SocialSupport from '$lib/components/SocialSupport.svelte'
+  import toastRouteError from '$lib/catch/toastRouteError'
+  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
+  import SocialSupport from '$lib/global/SocialSupport.svelte'
+  import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
   import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
-  import FeaturedProducts from '$lib/components/store/FeaturedProducts.svelte'
 
   export let data: PageData
   toastRouteError(data)

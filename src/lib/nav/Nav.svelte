@@ -1,5 +1,5 @@
 <script lang="ts">
-  import '$lib/components/nav/Nav.scss'
+  import '$lib/nav/Nav.scss'
   import { cart } from '$lib/store/cart'
   import Lotus from '$lib/sacred/Lotus.svelte'
   import { page, navigating } from '$app/stores'

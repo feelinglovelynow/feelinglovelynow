@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Title from '$lib/components/Title.svelte'
+  import Title from '$lib/global/Title.svelte'
   import SVG_VENMO from '$lib/svg/logo/SVG_VENMO.svg'
   import SVG_PAYPAL from '$lib/svg/logo/SVG_PAYPAL.svg'
   import SVG_YOUTUBE from '$lib/svg/logo/SVG_YOUTUBE.svg'

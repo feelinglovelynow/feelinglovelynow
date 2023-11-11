@@ -1,10 +1,10 @@
 <script lang="ts">
   import  { page } from '$app/stores'
   import type { Category } from '$lib'
+  import Title from '$lib/global/Title.svelte'
   import { afterNavigate } from '$app/navigation'
-  import Title from '$lib/components/Title.svelte'
-  import { enumSourceType } from '$lib/util/enums'
-  import getLibraryHref from '$lib/util/getLibraryHref'
+  import { enumSourceType } from '$lib/global/enums'
+  import getLibraryHref from '$lib/source/getLibraryHref'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let location = ''

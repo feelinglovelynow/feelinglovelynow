@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { enumSourceType } from '$lib/util/enums'
+  import { enumSourceType } from '$lib/global/enums'
   import type { Source, Author, Category } from '$lib'
-  import YoutubeEmbed from '$lib/components/YoutubeEmbed.svelte'
-  import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
+  import AuthorChips from '$lib/chips/AuthorChips.svelte'
+  import YoutubeEmbed from '$lib/global/YoutubeEmbed.svelte'
+  import CategoryChips from '$lib/chips/CategoryChips.svelte'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
-  import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
 
   export let css = ''
   export let source: Source

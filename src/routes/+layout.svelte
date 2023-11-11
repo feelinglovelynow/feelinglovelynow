@@ -1,14 +1,14 @@
 <script lang="ts">
   import '$lib/scss/global.scss'
+  import Nav from '$lib/nav/Nav.svelte'
   import { updated } from '$app/stores'
   import '@feelinglovelynow/global-style'
   import { theme } from '$lib/theme/theme'
   import type { PageData } from './$types'
   import '@feelinglovelynow/toast/index.css'
-  import Nav from '$lib/components/nav/Nav.svelte'
-  import Search from '$lib/components/nav/Search.svelte'
-  import Background from '$lib/components/Background.svelte'
-  import ThemeToggle from '$lib/components/nav/ThemeToggle.svelte'
+  import Search from '$lib/nav/Search.svelte'
+  import ThemeToggle from '$lib/nav/ThemeToggle.svelte'
+  import Background from '$lib/global/Background.svelte'
 
   export let data: PageData
 

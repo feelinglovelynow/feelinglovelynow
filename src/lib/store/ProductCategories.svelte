@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Category } from '$lib'
-  import Title from '$lib/components/Title.svelte'
+  import Title from '$lib/global/Title.svelte'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
 

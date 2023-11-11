@@ -4,10 +4,10 @@
   import Flower from '$lib/sacred/Flower.svelte'
   import showToast from '@feelinglovelynow/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
-  import { enumOrderItemSize } from '$lib/util/enums'
+  import { enumOrderItemSize } from '$lib/global/enums'
+  import ProductCategories from '$lib/store/ProductCategories.svelte'
   import { Modal, type ShowModal } from '@feelinglovelynow/svelte-modal'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
-  import ProductCategories from '$lib/components/store/ProductCategories.svelte'
 
   export let product: Product
 

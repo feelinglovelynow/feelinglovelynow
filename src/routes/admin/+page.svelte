@@ -1,17 +1,17 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
+  import Head from '$lib/global/Head.svelte'
   import type { Order, Product } from '$lib'
+  import Title from '$lib/global/Title.svelte'
+  import Button from '$lib/form/Button.svelte'
   import { Slug } from '@feelinglovelynow/slug'
   import showToast from '@feelinglovelynow/toast'
-  import Head from '$lib/components/Head.svelte'
-  import Title from '$lib/components/Title.svelte'
-  import toastRouteError from '$lib/util/toastRouteError'
-  import Button from '$lib/components/forms/Button.svelte'
+  import toastRouteError from '$lib/catch/toastRouteError'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
-  import { enumOrderItemStatus, enumShippingCarrier } from '$lib/util/enums'
+  import { enumOrderItemStatus, enumShippingCarrier } from '$lib/global/enums'
 
   export let data: PageData
   toastRouteError(data)

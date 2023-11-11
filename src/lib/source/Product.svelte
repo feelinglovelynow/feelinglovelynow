@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { enumSourceType } from '$lib/util/enums'
+  import { enumSourceType } from '$lib/global/enums'
   import type { Source, Author, Category } from '$lib'
-  import AuthorChips from '$lib/components/chips/AuthorChips.svelte'
-  import CategoryChips from '$lib/components/chips/CategoryChips.svelte'
+  import AuthorChips from '$lib/chips/AuthorChips.svelte'
+  import CategoryChips from '$lib/chips/CategoryChips.svelte'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let css = ''
@@ -16,7 +16,7 @@
 
   $: if (source?.images?.length) {
     Promise
-      .all(source.images.map(img => import(`../../img/source/${ source.id }/${ img.id }.${ img.extension }`)))
+      .all(source.images.map(img => import(`../img/source/${ source.id }/${ img.id }.${ img.extension }`)))
       .then(importedImages => images = importedImages)
   }
 </script>
