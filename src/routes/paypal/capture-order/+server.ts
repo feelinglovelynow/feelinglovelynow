@@ -188,8 +188,8 @@ async function getOrderItemHtml (orderItem: OrderItem) {
   return `
     <table style="width: 100%; margin-bottom: 15px;">
       <tr>
-        <td style="width: 126px; height: 126px; text-align: center; vertical-align: top;">
-          <img style="height: 100%; max-height: 126px;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
+        <td style="width: 126px; vertical-align: top;">
+          <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
         </td>
       <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
         <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>

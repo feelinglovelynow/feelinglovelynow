@@ -7,6 +7,7 @@ export default async function getOrder (orderId: string): Promise<Order> {
     query: `
       query MyQuery {
         getOrder(id: "${ orderId }") {
+          email
           orderItems(order: {}) {
             id
             status

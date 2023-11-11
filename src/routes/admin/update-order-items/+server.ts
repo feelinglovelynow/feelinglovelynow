@@ -66,19 +66,19 @@ export const POST = (async ({ locals, request }) => {
 async function emailCustomer ({ bodyOrder, dgraphOrder, justShipped, justPrintfulProcessed }: { bodyOrder: Order, dgraphOrder: Order, justShipped: OrderItem[], justPrintfulProcessed: OrderItem[] }) {
   send({
     to: dgraphOrder.email,
-    subject: '💚 Order Items Update from Feeling Lovely Now!',
+    subject: '💚 Purchase Update from Feeling Lovely Now!',
     content: `
       <div style="padding: 18px 18px 27px 18px; font-size: 16px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial;">
         <div style="max-width: 444px; width: 100%; margin: 0 auto;">
-
           <div style="height: 90px; width: 100%; text-align: center;">
             <img style="width: 280px; padding-right: 9px;" src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
           </div>
 
-          ${ getOrderItemHtml('justShipped', 'Just Shipped Order Items', bodyOrder, justShipped) }
-          ${ getOrderItemHtml('justPrintfulProcessed', 'justPrintfulProcessed', bodyOrder, justPrintfulProcessed) }
+          ${ await getOrderItemHtml('justShipped', 'Shipped!', bodyOrder, justShipped) }
+          ${ await getOrderItemHtml('justPrintfulProcessed', 'Creating!', bodyOrder, justPrintfulProcessed) }
         </div>
       </div>
+      <div style="display: none;">${ crypto.randomUUID() }</div>
     `
   })
 }
@@ -88,36 +88,27 @@ async function getOrderItemHtml (key: 'justShipped' | 'justPrintfulProcessed', h
   let orderItemsHtml = ''
 
   for (const orderItem of orderItems) {
-    let additional = ''
-
-    switch (key) {
-      case 'justShipped':
-        additional = bodyOrder.shippingCarrier && bodyOrder.shippingTrackingId ? `
-          <div style="color: #273142; margin-bottom: 3px;">Shipping Carrier: ${ bodyOrder.shippingCarrier }</div>
-          <div style="color: #273142; margin-bottom: 3px;">Shipping Tracking Id: 🚚 ${ bodyOrder.shippingTrackingId }</div>
-          <div style="color: #273142; margin-bottom: 3px;"><a target="_blank" href="${ getShippingTrackingHref(bodyOrder.shippingCarrier, bodyOrder.shippingTrackingId) }">Click here to track your order item${ orderItem.quantity > 1 ? 's' : '' }</a></div>
-        ` : ''
-        break
-      case 'justPrintfulProcessed':
-        additional = `
-          <div style="color: #273142; margin-bottom: 3px;">Started Creating Shirts: 🙌 Yes!</div>
-        `
-        break
-    }
+    const quantityStr = `Quantity ${ orderItem.quantity }`
+    const sizeStr = `${ orderItem.size ? ` ⋅ Size ${ orderItem.size }` : '' }`
+    const justPrintfulProcessedStr = orderItems.length && key === 'justPrintfulProcessed' ? ' ⋅ Started Creating Shirts!' : ''
+    const justShippedStr = orderItems.length && key === 'justShipped' && bodyOrder.shippingCarrier && bodyOrder.shippingTrackingId ? `
+      <div style="color: #273142; margin-bottom: 3px;">Shipping Carrier: ${ bodyOrder.shippingCarrier }</div>
+      <div style="color: #273142; margin-bottom: 3px;">Shipping Tracking Id: ${ bodyOrder.shippingTrackingId }</div>
+      <div style="color: #273142;"><a target="_blank" href="${ getShippingTrackingHref(bodyOrder.shippingCarrier, bodyOrder.shippingTrackingId) }">Click here to track your order item${ orderItem.quantity > 1 ? 's' : '' }</a></div>
+    ` : ''
 
     orderItemsHtml += `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">${ header }</div>
       <table style="width: 100%; margin-bottom: 15px;">
         <tr>
-          <td style="width: 126px; height: 126px; text-align: center; vertical-align: top;">
-            <img style="height: 100%; max-height: 126px;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
+          <td style="width: 126px; vertical-align: top;">
+            <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
           </td>
-        <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
-          ${ additional }
-          <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>
-          <div style="color: #273142; margin-bottom: 3px;">Quantity: ${ orderItem.quantity }</div>
-          ${ orderItem.size ? '<div style="color: #273142; margin-bottom: 3px;">Size: ' + orderItem.size + '</div>' : '' }
-        </td>
+          <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
+            <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>
+            <div style="color: #273142; margin-bottom: 3px;">${ quantityStr }${ sizeStr }${ justPrintfulProcessedStr }</div>
+            ${ justShippedStr }
+          </td>
         </tr>
       </table>
     `

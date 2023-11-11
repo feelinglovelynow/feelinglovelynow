@@ -1,3 +1,4 @@
+import { DKIM_PRIVATE_KEY } from '$env/static/private'
 import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 
 
@@ -9,9 +10,14 @@ export default async function send ({ to, subject, content }: { to: string, subj
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         subject,
-        personalizations: [ { to: [ { email: to } ] } ],
         content: [{ type: 'text/html', value: content }],
         from: { name: 'Feeling Lovely Now', email: 'us@feelinglovelynow.com' },
+        personalizations: [{
+          to: [ { email: to } ],
+          dkim_selector: "mcdkim",
+          dkim_private_key: DKIM_PRIVATE_KEY,
+          dkim_domain: 'feelinglovelynow.com',
+        }],
       }),
     })
 
