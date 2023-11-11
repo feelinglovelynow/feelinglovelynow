@@ -33,9 +33,6 @@
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute)
     // November
-    Date.UTC(2023, 10, 1, 23, 44),
-    Date.UTC(2023, 10, 6, 23, 44),
-    Date.UTC(2023, 10, 8, 23, 44),
     Date.UTC(2023, 10, 13, 23, 44),
     Date.UTC(2023, 10, 15, 23, 44),
     Date.UTC(2023, 10, 20, 23, 44),

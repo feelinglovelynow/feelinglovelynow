@@ -1,40 +1,27 @@
+import type { OrderItem } from '$lib'
 import dgraph from '$lib/dgraph/dgraph'
-import type { OrderItem, Order } from '$lib'
+import { enumOrderItemStatus } from '$lib/global/enums'
 
 
-function getSet (orderItem: OrderItem, order?: Order) {
- return  `set: { status: ${ orderItem.status }${ order?.shippingTrackingId && order?.shippingCarrier ? `, shippingTrackingId: "${ order.shippingTrackingId }", shippingCarrier: ${ order.shippingCarrier }` : '' } }`
+export default async function updateOrderItems (orderItems: OrderItem[]) {
+  return Promise.all(orderItems.map(orderItem => {
+    return dgraph({
+      query: `
+        mutation MyMutation {
+          updateOrderItem${ getArgs(orderItem) } {
+            numUids
+          }
+        }
+      `
+    })
+  }))
 }
 
 
-export default async function updateOrderItems (orderItems: OrderItem[], order?: Order) {
-  let args = ''
-
-  if (orderItems.length === 1) args = `(input: {filter: {id: {eq: "${ orderItems[0].id }"}}, ${ getSet(orderItems[0], order) }})`
-  else {
-    let closingBrackets = ''
-
-    args = '(input: {filter: {'
-
-    for (let i = 0; i < orderItems.length; i++) {
-      closingBrackets += '}'
-      args += `id: {eq: "${ orderItems[i].id }"}`
-
-      if (orderItems.length !== i + 1) args += ', or: {' // not the last order item
-      else args += `${ closingBrackets }, ${ getSet(orderItems[i], order) }})`  // the last order item
-    }
+function getArgs (orderItem: OrderItem) {
+  switch(orderItem.status) {
+    case enumOrderItemStatus.PURCHASED:
+    case enumOrderItemStatus.PRINTFUL_PROCESSING: return `(input: {filter: {id: {eq: "${ orderItem.id }"}}, set: {status: ${ orderItem.status }}})`
+    case enumOrderItemStatus.SHIPPING_TO_CUSTOMER: return `(input: {filter: {id: {eq: "${ orderItem.id }"}}, set: {status: ${ orderItem.status }, shippingTrackingId: "${ orderItem.shippingTrackingId }", shippingCarrier: ${ orderItem.shippingCarrier }}})`
   }
-
-  return dgraph({
-    query: `
-      mutation MyMutation {
-        updateOrderItem${ args } {
-          orderItem {
-            id
-            status
-          }
-        }
-      }
-    `
-  })
 }

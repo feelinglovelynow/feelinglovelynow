@@ -78,11 +78,8 @@ export type Order = {
   createdAt: string
   transaction: Transaction
   paypalFee: number
-  isOpen?: boolean
+  showOrderDetails?: boolean
   trOrderDetails?: HTMLTableRowElement
-  shippingCarrier?: enumShippingCarrier
-  shippingTrackingId?: string
-  enableShippingInputs?: boolean
 }
 
 export type OrderItem = {
