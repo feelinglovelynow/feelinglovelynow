@@ -9,6 +9,7 @@ import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import updateOrderItems from '$lib/dgraph/updateOrderItems'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
+import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
 
 
@@ -23,6 +24,7 @@ export const POST = (async ({ locals, request }) => {
       else {
         const justShipped: OrderItem[] = []
         const justPurchased: OrderItem[] = []
+        const justDelivered: OrderItem[] = []
         const justPrintfulProcessed: OrderItem[] = []
         const mapDgraphOrderItems: Map<string, OrderItem> = new Map()
         const dgraphOrder = await getOrder(bodyOrder.id) // get order by id
@@ -35,30 +37,29 @@ export const POST = (async ({ locals, request }) => {
           const dgraphOrderItem = mapDgraphOrderItems.get(bodyOrderItem.id) // find dgraph order item that aligns w/ body order item
 
           if (dgraphOrderItem) {
-            // IF dgraph's order item status is PURCHASED AND body's order item's status is PRINTFUL_PROCESSING => place bodyOrderItem into justPrintfulProcessed array
-            if (dgraphOrderItem.status === enumOrderItemStatus.PURCHASED && bodyOrderItem.status === enumOrderItemStatus.PRINTFUL_PROCESSING) justPrintfulProcessed.push(bodyOrderItem)
+            // IF dgraph's order item status is not PRINTFUL_PROCESSING AND body's order item's status is PRINTFUL_PROCESSING => place bodyOrderItem into justPrintfulProcessed array
+            if (dgraphOrderItem.status !== enumOrderItemStatus.PRINTFUL_PROCESSING && bodyOrderItem.status === enumOrderItemStatus.PRINTFUL_PROCESSING) justPrintfulProcessed.push(bodyOrderItem)
 
-            // ELSE IF dgraph's order item status is (PURCHASED || PRINTFUL_PROCESSING) AND body's order item's status is SHIPPING_TO_CUSTOMER => place bodyOrderItem into justShipped array
-            else if ((dgraphOrderItem.status === enumOrderItemStatus.PURCHASED || dgraphOrderItem.status === enumOrderItemStatus.PRINTFUL_PROCESSING) && bodyOrderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) justShipped.push(bodyOrderItem)
+            // ELSE IF dgraph's order item status is not SHIPPING_TO_CUSTOMER AND body's order item's status is SHIPPING_TO_CUSTOMER => place bodyOrderItem into justShipped array
+            else if (dgraphOrderItem.status !== enumOrderItemStatus.SHIPPING_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) justShipped.push(bodyOrderItem)
           
-            // IF dgraph's order item status is not PURCHASED AND body's order item's status is PURCHASED => place bodyOrderItem into justPurchased array
-            if (dgraphOrderItem.status !== enumOrderItemStatus.PURCHASED && bodyOrderItem.status === enumOrderItemStatus.PURCHASED) justPurchased.push(bodyOrderItem)
+            // ELSE IF dgraph's order item status is not PURCHASED AND body's order item's status is PURCHASED => place bodyOrderItem into justPurchased array
+            else if (dgraphOrderItem.status !== enumOrderItemStatus.PURCHASED && bodyOrderItem.status === enumOrderItemStatus.PURCHASED) justPurchased.push(bodyOrderItem)
+          
+            // ELSE IF dgraph's order item status is not DELIVERED_TO_CUSTOMER AND body's order item's status is DELIVERED_TO_CUSTOMER => place bodyOrderItem into justDelivered array
+            else if (dgraphOrderItem.status !== enumOrderItemStatus.DELIVERED_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER) justDelivered.push(bodyOrderItem)
           }
         }
 
-        if (justShipped.length) {
-          for (const orderItem of justShipped) {
-            if (!orderItem.shippingCarrier && !orderItem.shippingTrackingId) throw one(`Please add shippingCarrier and shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
-            if (!orderItem.shippingCarrier) throw one(`Please add shippingCarrier and shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
-            if (!orderItem.shippingTrackingId) throw one(`Please add shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
-          }
-        }
+        shippingValidation(justShipped, bodyOrder)
+        shippingValidation(justDelivered, bodyOrder)
 
         await Promise.all([
           (justShipped.length) ? updateOrderItems(justShipped) : Promise.resolve(),
           (justPurchased.length) ? updateOrderItems(justPurchased) : Promise.resolve(),
+          (justDelivered.length) ? updateOrderItems(justDelivered) : Promise.resolve(),
           (justPrintfulProcessed.length) ? updateOrderItems(justPrintfulProcessed) : Promise.resolve(),
-          (justPrintfulProcessed.length || justShipped.length) && !dgraphOrder.email.includes('example.com') ? emailCustomer({ dgraphOrder, justShipped, justPrintfulProcessed }) : Promise.resolve()
+          (justPrintfulProcessed.length || justShipped.length) && !dgraphOrder.email.includes('example.com') ? emailCustomer({ dgraphOrder, justShipped, justDelivered, justPrintfulProcessed }) : Promise.resolve()
         ])
 
         return json({ success: true })
@@ -70,7 +71,7 @@ export const POST = (async ({ locals, request }) => {
 }) satisfies RequestHandler
 
 
-async function emailCustomer ({ dgraphOrder, justShipped, justPrintfulProcessed }: { dgraphOrder: Order, justShipped: OrderItem[], justPrintfulProcessed: OrderItem[] }) {
+async function emailCustomer ({ dgraphOrder, justShipped, justDelivered, justPrintfulProcessed }: { dgraphOrder: Order, justShipped: OrderItem[], justDelivered: OrderItem[], justPrintfulProcessed: OrderItem[] }) {
   send({
     to: dgraphOrder.email,
     subject: '💚 Purchase Update from Feeling Lovely Now!',
@@ -82,7 +83,24 @@ async function emailCustomer ({ dgraphOrder, justShipped, justPrintfulProcessed 
           </div>
 
           ${ await getOrderItemHtml('justShipped', 'Shipped!', justShipped) }
+          ${ await getOrderItemHtml('justDelivered', 'Delivered!', justDelivered) }
           ${ await getOrderItemHtml('justPrintfulProcessed', 'Creating!', justPrintfulProcessed) }
+
+          <table style="margin-top: 18px; width: 100%; border-top: 1px solid rgba(206, 211, 214, 0.6);">
+            <tr>
+              <td>
+                <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Shipping Address</div>
+                <div style="line-height: 1.45;">
+                  <div style="color: #273142;">${ dgraphOrder.name }</div>
+                  <div style="color: #273142;">${ dgraphOrder.addressLine1 } ${ dgraphOrder.addressLine2 || '' }</div>
+                  <div style="color: #273142;">${ dgraphOrder.city }, ${ dgraphOrder.state }, ${ dgraphOrder.country } ${ dgraphOrder.zip }</div>
+                </div>
+              </td>
+              <td style="text-align: right; padding-left: 9px;">
+                <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
+              </td>
+            </tr>
+          </table>          
         </div>
       </div>
       <div style="display: none;">${ crypto.randomUUID() }</div>
@@ -91,14 +109,15 @@ async function emailCustomer ({ dgraphOrder, justShipped, justPrintfulProcessed 
 }
 
 
-async function getOrderItemHtml (key: 'justShipped' | 'justPrintfulProcessed', header: string, orderItems: OrderItem[]) {
+async function getOrderItemHtml (key: 'justShipped' | 'justDelivered' | 'justPrintfulProcessed', header: string, orderItems: OrderItem[]) {
   let orderItemsHtml = ''
 
   for (const orderItem of orderItems) {
     const quantityStr = `Quantity ${ orderItem.quantity }`
     const sizeStr = `${ orderItem.size ? ` ⋅ Size ${ orderItem.size }` : '' }`
+    const justDeliveredStr = orderItems.length && key === 'justDelivered' ? ' ⋅ Delivered!' : ''
     const justPrintfulProcessedStr = orderItems.length && key === 'justPrintfulProcessed' ? ' ⋅ Started Creating Shirts!' : ''
-    const justShippedStr = orderItems.length && key === 'justShipped' && orderItem.shippingCarrier && orderItem.shippingTrackingId ? `
+    const shippingStr = orderItems.length && (key === 'justShipped' || key === 'justDelivered') && orderItem.shippingCarrier && orderItem.shippingTrackingId ? `
       <div style="color: #273142; margin-bottom: 3px;">Shipping Carrier: ${ orderItem.shippingCarrier }</div>
       <div style="color: #273142; margin-bottom: 3px;">Shipping Tracking Id: ${ orderItem.shippingTrackingId }</div>
       <div style="color: #273142;"><a target="_blank" href="${ getShippingTrackingHref(orderItem.shippingCarrier, orderItem.shippingTrackingId) }">Click here to track your order item${ orderItem.quantity > 1 ? 's' : '' }</a></div>
@@ -113,8 +132,8 @@ async function getOrderItemHtml (key: 'justShipped' | 'justPrintfulProcessed', h
           </td>
           <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
             <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>
-            <div style="color: #273142; margin-bottom: 3px;">${ quantityStr }${ sizeStr }${ justPrintfulProcessedStr }</div>
-            ${ justShippedStr }
+            <div style="color: #273142; margin-bottom: 3px;">${ quantityStr }${ sizeStr }${ justPrintfulProcessedStr }${ justDeliveredStr }</div>
+            ${ shippingStr }
           </td>
         </tr>
       </table>
@@ -122,4 +141,15 @@ async function getOrderItemHtml (key: 'justShipped' | 'justPrintfulProcessed', h
   }
 
   return orderItemsHtml
+}
+
+
+function shippingValidation (orderItems: OrderItem[], bodyOrder: Order) {
+    if (orderItems.length) {
+    for (const orderItem of orderItems) {
+      if (!orderItem.shippingCarrier && !orderItem.shippingTrackingId) throw one(`Please add shippingCarrier and shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
+      if (!orderItem.shippingCarrier) throw one(`Please add shippingCarrier and shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
+      if (!orderItem.shippingTrackingId) throw one(`Please add shippingTrackingId for the order item ${ orderItem.product?.name }`, { body: bodyOrder, orderItem })
+    }
+  }
 }

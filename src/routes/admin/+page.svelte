@@ -1,12 +1,12 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
+  import type { Order, Product } from '$lib'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
   import Button from '$lib/form/Button.svelte'
   import { Slug } from '@feelinglovelynow/slug'
   import showToast from '@feelinglovelynow/toast'
-  import type { Order, OrderItem, Product } from '$lib'
   import toastRouteError from '$lib/catch/toastRouteError'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
@@ -117,14 +117,6 @@
       }, 90)
     }
   }
-
-
-  function onOrderItemStatusChange (orderItem: OrderItem) {
-    if (orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) {
-      orderItem.shippingCarrier = ''
-      orderItem.shippingTrackingId = ''
-    }
-  }
 </script>
 
 
@@ -223,7 +215,7 @@
                                     { #if orderItem.size }
                                       <span class="fln__pr-text">Size { orderItem.size } ⋅</span>
                                     { /if }
-                                    { #if orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER && orderItem.shippingCarrier && orderItem.shippingTrackingId }
+                                    { #if (orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER || orderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER) && orderItem.shippingCarrier && orderItem.shippingTrackingId }
                                       <span class="fln__pr-text">
                                         <span class="fln__pr-text">Tracking ID:</span>
                                         <a class="fln__pr-text" target="_blank" href="{ getShippingTrackingHref(orderItem.shippingCarrier, orderItem.shippingTrackingId) }">{ orderItem.shippingTrackingId }</a>  
@@ -234,7 +226,7 @@
                                   </div>
 
                                   <div class="selects top">
-                                    <select bind:value={ orderItem.status } on:change={ () => onOrderItemStatusChange(orderItem) } class="brand status">
+                                    <select bind:value={ orderItem.status } class="brand status">
                                       <option value="" disabled>Set Order Items Status</option>
                                       { #each orderItemStatuses as orderItemStatus (orderItemStatus) }
                                         <option value={ orderItemStatus }>{ orderItemStatus }</option>
@@ -248,7 +240,7 @@
                                       { /each }
                                     </select>
                                   </div>
-                                  { #if orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER }
+                                  { #if orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER || orderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER }
                                     <div class="selects">
                                       <input bind:value={ orderItem.shippingTrackingId } type="text" class="brand tracking-number" placeholder="Tracking ID">
                                       <select bind:value={ orderItem.shippingCarrier } class="brand shipping-carrier">
