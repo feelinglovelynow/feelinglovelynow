@@ -8,3 +8,4 @@ wrangler.toml
 priv_key.pem
 priv_key.txt
 pub_key_record.txt
+vite.config.ts.timestamp*

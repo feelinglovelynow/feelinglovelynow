@@ -168,7 +168,7 @@
               <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
             </div>
 
-            <Button onClick={ searchOrders } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
+            <Button onClick={ () => searchOrders() } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
           </form>
         { /if }
 
@@ -213,19 +213,19 @@
                                 <div class="info">
                                   <div class="title">
                                     { #if orderItem.size }
-                                      <span class="fln__pr-text">Size { orderItem.size } ⋅</span>
+                                      <span class="fln__pr-text">Size { orderItem.size } •</span>
                                     { /if }
                                     { #if (orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER || orderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER) && orderItem.shippingCarrier && orderItem.shippingTrackingId }
                                       <span class="fln__pr-text">
                                         <span class="fln__pr-text">Tracking ID:</span>
                                         <a class="fln__pr-text" target="_blank" href="{ getShippingTrackingHref(orderItem.shippingCarrier, orderItem.shippingTrackingId) }">{ orderItem.shippingTrackingId }</a>  
-                                        <span class="fln__pr-text">⋅</span>
+                                        <span class="fln__pr-text">•</span>
                                       </span>
                                     { /if }
                                     <span class="fln__pr-text">{ orderItem.product?.name }</span>
                                   </div>
 
-                                  <div class="selects top">
+                                  <div class="form top">
                                     <select bind:value={ orderItem.status } class="brand status">
                                       <option value="" disabled>Set Order Items Status</option>
                                       { #each orderItemStatuses as orderItemStatus (orderItemStatus) }
@@ -233,22 +233,29 @@
                                       { /each }
                                     </select>
 
-                                    <select bind:value={ orderItem.quantity } disabled name="quantity" class="brand quantity">
+                                    <select bind:value={ orderItem.quantity } disabled={ orderItem.status !== enumOrderItemStatus.RETURN_REQUESTED } name="quantity" class="brand quantity">
                                       <option value="" disabled>Quantity</option>
                                       { #each { length: 28 } as _, index }
                                         <option value={ index }>{ index }</option>
                                       { /each }
                                     </select>
                                   </div>
+
                                   { #if orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER || orderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER }
-                                    <div class="selects">
-                                      <input bind:value={ orderItem.shippingTrackingId } type="text" class="brand tracking-number" placeholder="Tracking ID">
+                                    <div class="form">
+                                      <input bind:value={ orderItem.shippingTrackingId } type="text" class="brand" placeholder="Tracking ID">
                                       <select bind:value={ orderItem.shippingCarrier } class="brand shipping-carrier">
                                         <option disabled value="">Carrier</option>
                                         { #each shippingCarriers as shippingCarrier (shippingCarrier) }
                                           <option value={ shippingCarrier }>{ shippingCarrier }</option>
                                         { /each }
                                       </select>
+                                    </div>
+                                  { /if }
+
+                                  { #if orderItem.status === enumOrderItemStatus.RETURN_REQUESTED || orderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING || orderItem.status === enumOrderItemStatus.REFUNDED }
+                                    <div class="form">
+                                      <input bind:value={ orderItem.refundAmount } disabled={ orderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING || orderItem.status === enumOrderItemStatus.REFUNDED } type="number" class="brand" placeholder="Refund Amount">
                                     </div>
                                   { /if }
                                 </div>
@@ -492,7 +499,7 @@
                           font-size: 2.1rem;
                         }
 
-                        .selects {
+                        .form {
                           display: flex;
                           justify-content: start;
                           align-items: center;

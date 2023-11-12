@@ -51,3 +51,9 @@ export type SearchOrdersRequest = {
   startDate?: string
   endDate?: string
 }
+
+
+export type ReturnRequestSome = {
+  bodyOrderItem: OrderItem,
+  dgraphOrderItem: OrderItem
+}[]

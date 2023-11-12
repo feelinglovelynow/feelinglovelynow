@@ -53,7 +53,7 @@ export default class Braintree {
     loadScript({ clientId: PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, currency: 'USD', intent: 'capture' })
       .then(x => {
         if (x) this.#onScriptLoaded(x)
-        else this.#onError('Paypal script did not load')
+        else this.#onError('PayPal script did not load')
       })
       .catch(this.#onError)
   }

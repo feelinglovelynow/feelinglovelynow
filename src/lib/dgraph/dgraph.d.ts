@@ -93,6 +93,7 @@ export type OrderItem = {
   status?: enumOrderItemStatus
   shippingCarrier?: enumShippingCarrier
   shippingTrackingId?: string
+  refundAmount?: number
 }
 
 export type User = {

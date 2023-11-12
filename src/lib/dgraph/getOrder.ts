@@ -7,6 +7,7 @@ export default async function getOrder (orderId: string): Promise<Order> {
     query: `
       query MyQuery {
         getOrder(id: "${ orderId }") {
+          id
           name
           addressLine1
           addressLine2
@@ -18,6 +19,12 @@ export default async function getOrder (orderId: string): Promise<Order> {
           orderItems(order: {}) {
             id
             status
+            size
+            quantity
+            refundAmount
+            product {
+              id
+            }
           }
         }
       }

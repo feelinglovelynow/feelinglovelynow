@@ -29,6 +29,7 @@ export default async function queryOrder (search: SearchOrdersRequest = {}): Pro
             size
             quantity
             status
+            refundAmount
             shippingCarrier
             shippingTrackingId
             product {

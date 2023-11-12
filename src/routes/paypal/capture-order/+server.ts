@@ -6,10 +6,11 @@ import addOrder from '$lib/dgraph/addOrder'
 import type { RequestHandler } from './$types'
 import { apiPaypal } from '$lib/store/apiPaypal'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
+import getHeader from '$lib/mailchannels/getHeader'
+import getFooter from '$lib/mailchannels/getFooter'
 import IMG_MERKABA from '$lib/sacred/IMG_MERKABA.png'
 import { enumOrderItemStatus } from '$lib/global/enums'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
-import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CaptureOrderRequest, ExpandedSubTotal, OrderItem, AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
@@ -93,12 +94,12 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
   const header = {
     customer: `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Thanks ${ pretty.name }!</div>
-      <div style="color: #273142; text-align: justify; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! We will email you order status information and shipping tracking information soon!</div>
+      <div style="color: #273142; text-align: justify; margin-bottom: 12px; padding-bottom: 15px; line-height: 1.44; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">Please feel free to reply to this email if you would love to contact us about your order! We will email you order status information and shipping tracking information soon!</div>
     `,
     us: `
       <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">🙏 Purchase Details</div>
-      <div style="margin-bottom: 12px; padding-bottom: 15px; line-height: 1.45; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
-        <div style="color: #273142;">Paypal Fee: $${ pretty.paypalFee.str }</div>
+      <div style="margin-bottom: 12px; padding-bottom: 15px; line-height: 1.44; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
+        <div style="color: #273142;">PayPal Fee: $${ pretty.paypalFee.str }</div>
         <div style="color: #273142;">Name: ${ pretty.name }</div>
         <div style="color: #273142;">Email: ${ pretty.email }</div>
       </div>
@@ -111,17 +112,14 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
       <div style="padding: 18px 18px 27px 18px; font-size: 16px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial;">
         <div style="max-width: 444px; width: 100%; margin: 0 auto;">
 
-          <div style="height: 90px; width: 100%; text-align: center;">
-            <img style="width: 280px; padding-right: 9px;" src="https://feelinglovelynow.com${ IMG_EMAIL_HEAD }" alt="logo" />
-          </div>
-
+          ${ getHeader() }
           ${ header[key] }
 
           <table style="margin-bottom: 15px; padding-bottom: 12px; width: 100%; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Order ID</div>
-                <div style="color: #273142; line-height: 1.45;">${ body.orderId }</div>
+                <div style="color: #273142; line-height: 1.44;">${ body.orderId }</div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
                 <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
@@ -133,7 +131,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Shipping Address</div>
-                <div style="line-height: 1.45;">
+                <div style="line-height: 1.44;">
                   <div style="color: #273142;">${ pretty.name }</div>
                   <div style="color: #273142;">${ pretty.addressLine1 } ${ pretty.addressLine2 || '' }</div>
                   <div style="color: #273142;">${ pretty.city }, ${ pretty.state }, ${ pretty.country } ${ pretty.zip }</div>
@@ -149,7 +147,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
             <tr>
               <td>
                 <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Pricing Details</div>
-                <div style="line-height: 1.45;">
+                <div style="line-height: 1.44;">
                   <div style="color: #273142;">Sub Total: $${ expandedSubTotal.subTotal.str }</div>
                   <div style="color: #273142;">Shipping: $${ expandedSubTotal.shipping.str }</div>
                   <div style="color: #273142;">Sales Tax: $${ expandedSubTotal.salesTax.str }</div>
@@ -164,10 +162,7 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
 
           <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Purchased Products</div>
           ${ orderItemsHtml }
-          <div style="color: #273142; width: 100%; text-align: right;">- Hakuna Matata</div>
-          <div style="height: 0px; width: 0px; overflow: hidden;">
-            <div style="display: none;">${ crypto.randomUUID() }</div>
-          </div>
+          ${ getFooter() }
         </div>
       </div>
     `
