@@ -30,8 +30,8 @@ function doTheme (cookies: Cookies) {
 
 async function doKV (platform: Readonly<App.Platform> | undefined) {
   const [ sources, products ] = await Promise.all([
-    get('MAIN_CACHE', 'sources', platform),
-    get('MAIN_CACHE', 'products', platform)
+    get('CACHE', 'sources', platform),
+    get('CACHE', 'products', platform)
   ])
 
   const mapCategories: Map<string, Category> = new Map()

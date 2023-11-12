@@ -10,7 +10,7 @@
 - [Cloudflare Images](https://developers.cloudflare.com/images/)
 - [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/)
 - [Cloudflare Environments](https://developers.cloudflare.com/workers/wrangler/configuration/)
-- [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/platform/compatibility-dates/)
+- [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/configuration/compatibility-dates/#change-history)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
 - [Cloudflare API Fundamentals](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
 - [Paypal Options](https://developer.paypal.com/sdk/js/reference/)

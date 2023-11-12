@@ -21,7 +21,7 @@ function validateFields (cart: Cart, requestTotalPrice: Price) {
 async function mergeCartWithProducts (cart: Cart, platform: Readonly<App.Platform> | undefined) {
   const cartSubTotal = new Price()
 
-  const kvProducts = await get('MAIN_CACHE', 'products', platform) as Product[]
+  const kvProducts = await get('CACHE', 'products', platform) as Product[]
 
   for (const cartItem of cart) { // give each product in the cart a product object (so we know it's price)
     for (const product of kvProducts) {

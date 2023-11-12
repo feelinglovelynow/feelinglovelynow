@@ -1,16 +1,14 @@
 import { one } from '$lib/catch/error'
-import { PAYPAL_SANDBOX_API_URL, PAYPAL_SANDBOX_SECRET } from '$env/static/private'
-import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
+import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_CLIENT_ID, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
+import { PAYPAL_API_URL, PAYPAL_SECRET, PAYPAL_SANDBOX_API_URL, PAYPAL_SANDBOX_SECRET } from '$env/static/private'
 
 
-const apiUrl = PUBLIC_ENVIRONMENT === 'local' ? PAYPAL_SANDBOX_API_URL : PAYPAL_SANDBOX_API_URL
-const clientId = PUBLIC_ENVIRONMENT === 'local' ? PUBLIC_PAYPAL_SANDBOX_CLIENT_ID : PUBLIC_PAYPAL_SANDBOX_CLIENT_ID
-const clientSecret = PUBLIC_ENVIRONMENT === 'local' ? PAYPAL_SANDBOX_SECRET : PAYPAL_SANDBOX_SECRET
 
 
-export async function apiPaypal (url: string, body: any = undefined) {
-  const fetchUrl = `${ PAYPAL_SANDBOX_API_URL }/${ url }`
-  const accessToken = await apiPaypalAccessToken()
+export default async function apiPaypal (url: string, body: any = undefined) {
+  const apiUrl = PUBLIC_ENVIRONMENT === 'main' ? PAYPAL_API_URL: PAYPAL_SANDBOX_API_URL
+  const accessToken = await apiPaypalAccessToken(apiUrl)
+  const fetchUrl = `${ apiUrl }/${ url }`
 
   const init: RequestInit = {
     method: 'POST',
@@ -37,8 +35,10 @@ export async function apiPaypal (url: string, body: any = undefined) {
 }
 
 
-export async function apiPaypalAccessToken (): Promise<string> {
+async function apiPaypalAccessToken (apiUrl: string): Promise<string> {
   const fetchUrl = `${ apiUrl }/v1/oauth2/token`
+  const clientSecret = PUBLIC_ENVIRONMENT === 'main' ? PAYPAL_SECRET : PAYPAL_SANDBOX_SECRET
+  const clientId = PUBLIC_ENVIRONMENT === 'main' ? PUBLIC_PAYPAL_CLIENT_ID : PUBLIC_PAYPAL_SANDBOX_CLIENT_ID
   const auth = btoa(`${ clientId }:${ clientSecret }`)
 
   const init: RequestInit = {
