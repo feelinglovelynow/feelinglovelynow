@@ -12,7 +12,7 @@
 { #if products?.length }
   <Title text="Featured Store Items" noBottom={ true } />
   <div class="products">
-    { #each products as product }
+    { #each products as product (product.slug) }
       <BriefProduct { product } />
     { /each }
   </div>

@@ -13,6 +13,7 @@
 - [Cloudflare Compatibility Dates](https://developers.cloudflare.com/workers/configuration/compatibility-dates/#change-history)
 - [Cloudflare API Docs](https://developers.cloudflare.com/api/operations/workers-kv-namespace-read-key-value-pair)
 - [Cloudflare API Fundamentals](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
+- [Cloudflare Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
 - [Paypal Options](https://developer.paypal.com/sdk/js/reference/)
 - [Paypal API](https://developer.paypal.com/docs/api/orders/v2/#orders_create)
 - [Paypal JS](https://www.npmjs.com/package/@paypal/paypal-js)

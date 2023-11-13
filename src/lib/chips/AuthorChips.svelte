@@ -59,7 +59,7 @@
   { #if location === 'nav' && isAllVisible }
     <LoadingAnchor label="All" href={ allHref }  css="chip { !author ? 'active' : '' }"/>
   { /if }
-  { #each filterdAuthors as a }
+  { #each filterdAuthors as a (a.slug) }
     <LoadingAnchor label={ a.name } href={ a.href }  css="chip { author?.slug === a.slug ? 'active' : '' }"/>
   { /each }
 </div>

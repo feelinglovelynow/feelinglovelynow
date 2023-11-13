@@ -24,7 +24,7 @@
       <LoadingAnchor label="All" href="/store" css="chip { doActiveSelection && !currentProductSlug && currentCategorySlug === null ? 'active' : '' }"/>
     { /if }
 
-    { #each categories as category }
+    { #each categories as category (category.slug) }
       <LoadingAnchor label={ category.name } css="chip { doActiveSelection && currentCategorySlug === category.slug ? 'active' : '' }" href={ `/store?category=${ category.slug }` } />
     {/each}
   </section>

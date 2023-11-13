@@ -59,8 +59,7 @@
 
 
 <div class="cart">
-  <!-- <Modal header="Shopping Cart" on:functions={ bindModalFunctions }> -->
-  <Modal header="Release Date ⋅ 11/11/23" on:functions={ bindModalFunctions }>
+  <Modal header="Shopping Cart" on:functions={ bindModalFunctions }>
     <div class="total-price">
       { `Sub Total $${ subTotal.str } ⋅ Shipping $${ shipping.str } ⋅ Sales Tax $${ salesTax.str } ⋅` }
       <strong>{ `Total Price $${ totalPrice.str } USD` }</strong>
@@ -94,7 +93,7 @@
     </div>
 
     <div class="papyrus two options-head">Preferred purchase method?</div>
-    <div class="fln__relative" style="display: none;">
+    <div class="fln__relative">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
         <SimpleLoader style="paypal" />

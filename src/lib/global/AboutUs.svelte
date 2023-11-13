@@ -6,7 +6,7 @@
 <section class="us glow">
   <div class="item">
     <div class="emoji">🌟</div>
-    <div>Welcome to Feeling Lovely Now!!</div>
+    <div>Welcome to Feeling Lovely Now!</div>
   </div>
   <div class="item">
     <div class="emoji">💎</div>
@@ -14,8 +14,8 @@
   </div>
 
   <div class="item no-bottom">
-    <div class="emoji">🕉</div>
-    <div>Bare Necessities, Hakuna Matata, Go the Distance!</div>
+    <div class="emoji">💚</div>
+    <div>Intention ⋅ Good of all please!</div>
   </div>
 </section>
 

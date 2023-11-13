@@ -119,7 +119,7 @@
       { #if products[0].similarProducts.length }
         <Title text="May also love" noBottom={ true }/>
         <div class="products">
-          { #each products[0].similarProducts as p }
+          { #each products[0].similarProducts as p (p.slug) }
             <BriefProduct product={ p } />
           { /each }
         </div>

@@ -4,13 +4,14 @@ import { DGRAPH_CLOUD_URL, DGRAPH_CLOUD_API_KEY, DGRAPH_CLOUD_URL_QA, DGRAPH_CLO
 
 
 export default async function dgraph ({ query, variables }: { query: string, variables?: any }) {
-  const url = (PUBLIC_ENVIRONMENT === 'main') ? DGRAPH_CLOUD_URL : DGRAPH_CLOUD_URL_QA
-  const apiKey = (PUBLIC_ENVIRONMENT === 'main') ? DGRAPH_CLOUD_API_KEY : DGRAPH_CLOUD_API_KEY_QA
+  const params = PUBLIC_ENVIRONMENT === 'main' ?
+    { url: DGRAPH_CLOUD_URL, apiKey: DGRAPH_CLOUD_API_KEY } :
+    { url: DGRAPH_CLOUD_URL_QA, apiKey: DGRAPH_CLOUD_API_KEY_QA }
 
-  const rFetch = await fetch(url, {
+  const rFetch = await fetch(params.url, {
     method: 'POST',
-    headers: { 'Accept': 'application/json', 'X-Auth-Token': apiKey, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables })
+    body: JSON.stringify({ query, variables }),
+    headers: { 'Accept': 'application/json', 'X-Auth-Token': params.apiKey, 'Content-Type': 'application/json' },
   })
 
   const r = await rFetch.json()

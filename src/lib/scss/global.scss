@@ -82,12 +82,21 @@ main {
   }
 }
 
-a {
+a,
+.link {
+  cursor: pointer;
   color: var(--anchor-color);
   text-decoration: none;
   &:hover {
     color: var(--gold-text-color);
   }
+}
+
+.link {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
 }
 
 .papyrus {

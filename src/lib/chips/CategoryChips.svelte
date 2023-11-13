@@ -72,7 +72,7 @@
   { :else if location === 'nav' && isAllVisible }
     <LoadingAnchor href={ allHref } label="All" css="chip { !category ? 'active' : '' }" />
   { /if }
-  { #each filterdCategories as c }
+  { #each filterdCategories as c (c.slug) }
     <LoadingAnchor label={ c.name } href={ c.href } css="chip { c.slug === category?.slug ? 'active' : '' }"/>
   { /each }
 </div>
