@@ -294,8 +294,10 @@
         { /if }
       </div>
       <div class="links">
-        <button on:click={ () => showSizeGuideModal() } class="link" type="button">Size Guide</button>
-        <div class="dot">⋅</div>
+        { #if !isBook }
+          <button on:click={ () => showSizeGuideModal() } class="link" type="button">Size Guide</button>
+          <div class="dot">⋅</div>
+        { /if }
         <button on:click={ () => showRefundPolicyModal() } class="link" type="button">Refund Policy</button>
       </div>
     </div>
