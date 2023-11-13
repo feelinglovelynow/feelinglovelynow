@@ -3,8 +3,6 @@ import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_CLIENT_ID, PUBLIC_PAYPAL_SANDBOX_CLIE
 import { PAYPAL_API_URL, PAYPAL_SECRET, PAYPAL_SANDBOX_API_URL, PAYPAL_SANDBOX_SECRET } from '$env/static/private'
 
 
-
-
 export default async function apiPaypal (url: string, body: any = undefined) {
   const apiUrl = PUBLIC_ENVIRONMENT === 'main' ? PAYPAL_API_URL: PAYPAL_SANDBOX_API_URL
   const accessToken = await apiPaypalAccessToken(apiUrl)

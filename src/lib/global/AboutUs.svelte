@@ -6,7 +6,7 @@
 <section class="us glow">
   <div class="item">
     <div class="emoji">🌟</div>
-    <div>Welcome to Feeling Lovely Now!</div>
+    <div>Welcome to Feeling Lovely Now!!</div>
   </div>
   <div class="item">
     <div class="emoji">💎</div>
