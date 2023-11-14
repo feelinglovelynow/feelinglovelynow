@@ -178,7 +178,7 @@
         margin-bottom: 0;
       }
 
-      :global(.simple-loader) {
+      :global(.fln__simple-load) {
         display: flex;
         justify-content: center;
       }

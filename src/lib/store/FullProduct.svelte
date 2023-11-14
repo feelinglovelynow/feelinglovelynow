@@ -95,7 +95,7 @@
 
 <div class="refund-policy">
   <Modal header="Refund Policy" on:functions={ e => showRefundPolicyModal = e.detail.showModal }>
-    <p>To get complete a refund:</p>
+    <div class="head">To get complete a refund:</div>
     <ol>
       <li>Email us@feelinglovelynow.com the order items you would love to return within 120 days of purchase</li>
       <li>We send you return address information</li>
@@ -398,6 +398,10 @@
   .refund-policy {
     :global(.fln__modal) {
       max-width: 90rem !important;
+    }
+
+    .head {
+      padding: 0.3rem 0 0.6rem 0;
     }
   }
 

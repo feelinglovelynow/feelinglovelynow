@@ -92,7 +92,7 @@
       { /each }
     </div>
 
-    <div class="papyrus two options-head">Preferred purchase method?</div>
+    <div class="papyrus two options-head">💚 Purchase</div>
     <div class="fln__relative">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
