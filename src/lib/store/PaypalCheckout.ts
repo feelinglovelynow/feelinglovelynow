@@ -1,9 +1,10 @@
-import type { Cart } from '$lib'
 import Price from '$lib/store/Price'
 import { set } from '$lib/store/cart'
+import { log } from '$lib/catch/error'
 import showToast from '@feelinglovelynow/toast'
 import type { HideModal } from '@feelinglovelynow/svelte-modal'
 import { PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
+import type { CaptureOrderRequest, Cart, CreateOrderRequest } from '$lib'
 import { loadScript, type PayPalNamespace, type OnApproveData } from '@paypal/paypal-js'
 
 
@@ -77,10 +78,7 @@ export default class Braintree {
 
 
   #onError (error: any) {
-    console.log('---FLN PAYPAL ERROR START---')
-    console.log({ error })
-    console.trace()
-    console.log('---FLN PAYPAL ERROR END---')
+    log({ error })
     showToast('info', 'There was an error creating the payment form')
   }
 
@@ -88,15 +86,17 @@ export default class Braintree {
   async #createOrder () { // on paypal checkout click
     const self = this
 
+    const body: CreateOrderRequest = {
+      cart: self.cart,
+      totalPrice: self.totalPrice,
+    }
+
     this.#showLoadingIcon('bottom')
 
     const rFetch = await fetch('/paypal/create-order', {
       method: 'POST',
+      body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        cart: self.cart,
-        totalPrice: self.totalPrice,
-      })
     })
 
     const r = await rFetch.json()
@@ -112,16 +112,18 @@ export default class Braintree {
   async #onApprove (data: OnApproveData) { // on paypal widget completion success
     const self = this
 
+    const body: CaptureOrderRequest = {
+      cart: self.cart,
+      paypalId: data.orderID,
+      totalPrice: self.totalPrice,
+    }
+
     this.#showLoadingIcon('bottom')
 
     const rFetch = await fetch('/paypal/capture-order', {
       method: 'POST',
+      body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        cart: self.cart,
-        orderId: data.orderID,
-        totalPrice: self.totalPrice,
-      })
     })
 
     const r = await rFetch.json()

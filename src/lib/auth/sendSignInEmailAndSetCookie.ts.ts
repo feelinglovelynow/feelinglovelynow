@@ -7,15 +7,15 @@ import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import { PUBLIC_ENVIRONMENT, PUBLIC_HOST } from '$env/static/public'
 
 
-export default async function sendSignInEmailAndSetCookie (cookies: Cookies, userId: string, email: string, firstName?: string): Promise<string | undefined> {
+export default async function sendSignInEmailAndSetCookie (cookies: Cookies, userUid: string, email: string, firstName?: string): Promise<string | void> {
   const signInId = crypto.randomUUID() // sign in id will be in the token & in the cookie
-  const token = await createToken(enumTokenType.SIGN_IN, { userId, signInId }) // create token to place in sign in email
+  const token = await createToken(enumTokenType.SIGN_IN, { userUid, signInId }) // create token to place in sign in email
   const href = `${ PUBLIC_HOST }/auth/verify-token?token=${ token }`
 
   setSignInCookie(signInId, cookies)
 
   if (PUBLIC_ENVIRONMENT === 'local') return href // so we may click the link w/in the email locally, b/c emails do not work outside of cloudflare workers (aka locally)
-  else await sendEmail(href, email, firstName)
+  else await sendEmail(href, email, firstName) // do not return href off local so they must access email to sign in
 }
 
 

@@ -61,8 +61,8 @@
     if (errors.length) showToast('info', errors)
     else {
       const cartItem: OrderItem = {
-        id: crypto.randomUUID(),
-        productId: product.id,
+        uid: crypto.randomUUID(),
+        productUid: product.uid,
         quantity: Number(quantity)
       }
 

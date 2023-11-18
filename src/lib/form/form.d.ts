@@ -3,8 +3,7 @@ export type FormFields = {
 }
 
 
-export type FormOnError = ({ fields, data }: { fields: FormFields, data: any }) => void
-export type FormOnSuccess = ({ fields, data }: { fields: FormFields, data: any }) => void
+export type FormOnSuccess = ({ fields, r }: { fields: FormFields, r: any } ) => void
 export type FormToastOnSuccess = ({ fields, data }: { fields: FormFields, data: any }) => string
 export type FormOnSubmitValidate = (fields: FormFields) => boolean
 

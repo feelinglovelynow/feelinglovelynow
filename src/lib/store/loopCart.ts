@@ -8,14 +8,14 @@ export default function loopCart ($cart: Cart, mapAllProducts: Map<string, Produ
   const cartSubTotal = new Price() // reset cart sub total
 
   for (const cartItem of $cart) {
-    const product = mapAllProducts.get(cartItem.productId)
+    const product = mapAllProducts.get(cartItem.productUid)
 
     if (product) {
       cartSubTotal.add(product.price * cartItem.quantity) // add to the cart sub total the price of this product * the number of products at this price
 
       cartItems.push({ // add the product to the cartItems array
         product,
-        id: cartItem.id,
+        uid: cartItem.uid,
         size: cartItem.size,
         quantity: cartItem.quantity,
       })

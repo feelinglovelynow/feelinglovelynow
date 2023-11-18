@@ -10,20 +10,20 @@ import userIsNotAuthenticated from '$lib/auth/userIsNotAuthenticated'
 import setAccessAndRefreshCookies from '$lib/auth/setAccessAndRefreshCookies'
 
 
-export const load = (async ({ url, platform, cookies, locals, getClientAddress }) => {
+export const load = (async ({ url, cookies, locals, getClientAddress }) => {
   try {
     userIsNotAuthenticated(locals)
     const urlToken = url.searchParams.get('token')
 
     if (!urlToken) one('Please add a token to the request url', { urlToken })
     else {
-      const { userId, signInId } = await verifyToken(enumTokenType.SIGN_IN, urlToken)
+      const { userUid, signInId } = await verifyToken(enumTokenType.SIGN_IN, urlToken)
       const cookieSignInId = cookies.get(SIGN_IN_COOKIE_NAME)
 
       if (signInId !== cookieSignInId) throw one('The email link must be clicked from the same computer and browser that signed in', { signInId, cookieSignInId })
       else {
-        const session = await createSession(userId, platform, getClientAddress())
-        const payload = { userId, sessionId: session.id }
+        const sessionUid = await createSession(userUid, getClientAddress())
+        const payload = { userUid, sessionUid }
         const [ accessToken, refreshToken ] = await Promise.all([
           createToken(enumTokenType.ACCESS, payload),
           createToken(enumTokenType.REFRESH, payload)

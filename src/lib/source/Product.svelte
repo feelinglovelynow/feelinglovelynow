@@ -16,7 +16,7 @@
 
   $: if (source?.images?.length) {
     Promise
-      .all(source.images.map(img => import(`../img/source/${ source.id }/${ img.id }.${ img.extension }`)))
+      .all(source.images.map(img => import(`../img/source/${ source.uid }/${ img.uid }.${ img.extension }`)))
       .then(importedImages => images = importedImages)
   }
 </script>

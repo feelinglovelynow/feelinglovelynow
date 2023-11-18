@@ -4,6 +4,8 @@ import { one } from '$lib/catch/error'
 import send from '$lib/mailchannels/send'
 import getOrder from '$lib/dgraph/getOrder'
 import type { RequestHandler } from './$types'
+import queryOrder from '$lib/dgraph/queryOrder'
+import { dgraph, txn } from '$lib/dgraph/dgraph'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import getHeader from '$lib/mailchannels/getHeader'
 import getFooter from '$lib/mailchannels/getFooter'
@@ -11,96 +13,126 @@ import { enumOrderItemStatus } from '$lib/global/enums'
 import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import updateOrderItems from '$lib/dgraph/updateOrderItems'
 import serverRequestCatch from '$lib/catch/serverRequestCatch'
-import type { Order, OrderItem, ReturnRequestSome } from '$lib'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
 import returnRequestSomeOrderItems from '$lib/dgraph/returnRequestSomeOrderItems'
+import type { Order, OrderItem, Product, ReturnRequestSome, UpdateOrderItemsRequest } from '$lib'
 
 
 export const POST = (async ({ locals, request }) => {
   try {
-    if (!locals.userId) throw one('Unauthorized', { locals })
-    else if (PUBLIC_ENVIRONMENT === 'local') throw one('Please do this at <a target="_blank" href="https://feelinglovelynow.com/admin">https://feelinglovelynow.com/admin</a> b/c this action requires emails to be sent', { locals })
+    if (!locals.userUid) throw one('Unauthorized', { locals })
+    // else if (PUBLIC_ENVIRONMENT === 'local') throw one('Please do this at <a target="_blank" href="https://feelinglovelynow.com/admin">https://feelinglovelynow.com/admin</a> b/c this action requires emails to be sent', { locals })
     else {
-      const bodyOrder = await request.json() as Order
+      const body = await request.json() as UpdateOrderItemsRequest
 
-      if (!bodyOrder.id) throw one('Please add an id to the request body', { bodyOrder })
+      if (!body.order.uid) throw one('Please add an id to the request body', { bodyOrder: body.order })
       else {
-        const justShipped: OrderItem[] = []
-        const justRefunded: OrderItem[] = []
-        const totalRefundAmount = new Price()
-        const justPurchased: OrderItem[] = []
-        const justDelivered: OrderItem[] = []
-        const justPrintfulProcessed: OrderItem[] = []
-        const justReturnRequestedAll: OrderItem[] = []
-        const dgraphOrder = await getOrder(bodyOrder.id)
-        const justStartedRefundProcessing: OrderItem[] = []
-        const justReturnRequestedSome: ReturnRequestSome = []
-        const mapDgraphOrderItems: Map<string, OrderItem> = new Map()
+        const dgraphOrder = await getOrder(body.order.uid)
 
-        for (const dgraphOrderItem of dgraphOrder.orderItems) { // place each dgraph order item into a map
-          mapDgraphOrderItems.set(dgraphOrderItem.id, dgraphOrderItem)
-        }
+        if (!dgraphOrder) throw one('Please add an valid order.uid to the request body', { bodyOrder: body.order, dgraphOrder })
+        else {
+          const justShipped: OrderItem[] = []
+          const justRefunded: OrderItem[] = []
+          const totalRefundAmount = new Price()
+          const justPurchased: OrderItem[] = []
+          const justDelivered: OrderItem[] = []
+          const justPrintfulProcessed: OrderItem[] = []
+          const justReturnRequestedAll: OrderItem[] = []
+          const justStartedRefundProcessing: OrderItem[] = []
+          const justReturnRequestedSome: ReturnRequestSome[] = []
+          let newlyCreatedReturnRequestOrderItemUids: string[] = []
+          const mapDgraphOrderItems: Map<string, OrderItem> = new Map()
 
-        for (const bodyOrderItem of bodyOrder.orderItems) { // loop body order items
-          const dgraphOrderItem = mapDgraphOrderItems.get(bodyOrderItem.id) // find dgraph order item that aligns w/ body order item
+          for (const dgraphOrderItem of dgraphOrder.orderItems) { // place each dgraph order item into a map
+            mapDgraphOrderItems.set(dgraphOrderItem.uid, dgraphOrderItem)
+          }
 
-          if (dgraphOrderItem) {
-            // IF dgraph's order item status is not PURCHASED AND body's order item's status is PURCHASED => place bodyOrderItem into justPurchased array
-            if (dgraphOrderItem.status !== enumOrderItemStatus.PURCHASED && bodyOrderItem.status === enumOrderItemStatus.PURCHASED) justPurchased.push(bodyOrderItem)
+          for (const bodyOrderItem of body.order.orderItems) { // loop body order items
+            const dgraphOrderItem = mapDgraphOrderItems.get(bodyOrderItem.uid) // find dgraph order item that aligns w/ body order item
 
-            // ELSE IF dgraph's order item status is not PRINTFUL_PROCESSING AND body's order item's status is PRINTFUL_PROCESSING => place bodyOrderItem into justPrintfulProcessed array
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.PRINTFUL_PROCESSING && bodyOrderItem.status === enumOrderItemStatus.PRINTFUL_PROCESSING) justPrintfulProcessed.push(bodyOrderItem)
+            if (dgraphOrderItem) {
+              // IF dgraph's order item status is not PURCHASED AND body's order item's status is PURCHASED => place bodyOrderItem into justPurchased array
+              if (dgraphOrderItem.status !== enumOrderItemStatus.PURCHASED && bodyOrderItem.status === enumOrderItemStatus.PURCHASED) justPurchased.push(bodyOrderItem)
 
-            // ELSE IF dgraph's order item status is not SHIPPING_TO_CUSTOMER AND body's order item's status is SHIPPING_TO_CUSTOMER
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.SHIPPING_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) {
-              validateShippingOrderItem(bodyOrderItem) // throws if invalid
-              justShipped.push(bodyOrderItem) // place bodyOrderItem into justShipped array
-            }
+              // ELSE IF dgraph's order item status is not PRINTFUL_PROCESSING AND body's order item's status is PRINTFUL_PROCESSING => place bodyOrderItem into justPrintfulProcessed array
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.PRINTFUL_PROCESSING && bodyOrderItem.status === enumOrderItemStatus.PRINTFUL_PROCESSING) justPrintfulProcessed.push(bodyOrderItem)
 
-            // ELSE IF dgraph's order item status is not DELIVERED_TO_CUSTOMER AND body's order item's status is DELIVERED_TO_CUSTOMER
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.DELIVERED_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER) {
-              validateShippingOrderItem(bodyOrderItem) // throws if invalid
-              justDelivered.push(bodyOrderItem) // place bodyOrderItem into justDelivered array
-            }
+              // ELSE IF dgraph's order item status is not SHIPPING_TO_CUSTOMER AND body's order item's status is SHIPPING_TO_CUSTOMER
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.SHIPPING_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER) {
+                validateShippingOrderItem(bodyOrderItem) // throws if invalid
+                justShipped.push(bodyOrderItem) // place bodyOrderItem into justShipped array
+              }
 
-            // ELSE IF dgraph's order item status is not RETURN_REQUESTED AND body's order item's status is RETURN_REQUESTED
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.RETURN_REQUESTED && bodyOrderItem.status === enumOrderItemStatus.RETURN_REQUESTED) {
-              validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: false }) // throws if invalid
-              totalRefundAmount.add(bodyOrderItem.refundAmount || 0) // || 0 is just for typescript we know we'll have a refundAmount b/c of the validations above
-              if (dgraphOrderItem.quantity === bodyOrderItem.quantity) justReturnRequestedAll.push(bodyOrderItem) // IF quantities match => place bodyOrderItem into justReturnRequestedAll array
-              else justReturnRequestedSome.push({ dgraphOrderItem, bodyOrderItem }) // IF quantities do not match => place dgraphOrderItem AND bodyOrderItem into justReturnRequestedSome array
-            }
+              // ELSE IF dgraph's order item status is not DELIVERED_TO_CUSTOMER AND body's order item's status is DELIVERED_TO_CUSTOMER
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.DELIVERED_TO_CUSTOMER && bodyOrderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER) {
+                validateShippingOrderItem(bodyOrderItem) // throws if invalid
+                justDelivered.push(bodyOrderItem) // place bodyOrderItem into justDelivered array
+              }
 
-            // ELSE IF dgraph's order item status is not REFUND_MONEY_PROCESSING AND body's order item's status is REFUND_MONEY_PROCESSING
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.REFUND_MONEY_PROCESSING && bodyOrderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING) {
-              validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: true }) // throws if invalid
-              justStartedRefundProcessing.push(bodyOrderItem) // place bodyOrderItem into justStartedRefundProcessing array
-            }
+              // ELSE IF dgraph's order item status is not RETURN_REQUESTED AND body's order item's status is RETURN_REQUESTED
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.RETURN_REQUESTED && bodyOrderItem.status === enumOrderItemStatus.RETURN_REQUESTED) {
+                validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: false }) // throws if invalid
+                totalRefundAmount.add(bodyOrderItem.refundAmount || 0) // || 0 is just for typescript but we know we'll have a refundAmount b/c of validateRefundOrderItem() above
 
-            // ELSE IF dgraph's order item status is not REFUNDED AND body's order item's status is REFUNDED
-            else if (dgraphOrderItem.status !== enumOrderItemStatus.REFUNDED && bodyOrderItem.status === enumOrderItemStatus.REFUNDED) {
-              validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: true }) // throws if invalid
-              justRefunded.push(bodyOrderItem) // place bodyOrderItem into justRefunded array
+                if (dgraphOrderItem.quantity === bodyOrderItem.quantity) justReturnRequestedAll.push(bodyOrderItem) // IF quantities match => place bodyOrderItem into justReturnRequestedAll array
+                else justReturnRequestedSome.push({ dgraphOrderItem, bodyOrderItem }) // IF quantities do not match => place dgraphOrderItem AND bodyOrderItem into justReturnRequestedSome array
+              }
+
+              // ELSE IF dgraph's order item status is not REFUND_MONEY_PROCESSING AND body's order item's status is REFUND_MONEY_PROCESSING
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.REFUND_MONEY_PROCESSING && bodyOrderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING) {
+                validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: true }) // throws if invalid
+                justStartedRefundProcessing.push(bodyOrderItem) // place bodyOrderItem into justStartedRefundProcessing array
+              }
+
+              // ELSE IF dgraph's order item status is not REFUNDED AND body's order item's status is REFUNDED
+              else if (dgraphOrderItem.status !== enumOrderItemStatus.REFUNDED && bodyOrderItem.status === enumOrderItemStatus.REFUNDED) {
+                validateRefundOrderItem({ bodyOrderItem, dgraphOrderItem, checkEqual: true }) // throws if invalid
+                justRefunded.push(bodyOrderItem) // place bodyOrderItem into justRefunded array
+              }
             }
           }
+
+          const transaction = txn({}) // start a transaction
+
+          if (justShipped.length || justRefunded.length || justPurchased.length || justDelivered.length || justPrintfulProcessed.length || justReturnRequestedAll.length || justStartedRefundProcessing.length) {
+            await dgraph({ transaction, mutation: `
+              ${ (justShipped.length) ? updateOrderItems(justShipped) : '' }
+              ${ (justRefunded.length) ? updateOrderItems(justRefunded) : '' }
+              ${ (justPurchased.length) ? updateOrderItems(justPurchased) : '' }
+              ${ (justDelivered.length) ? updateOrderItems(justDelivered) : '' }
+              ${ (justPrintfulProcessed.length) ? updateOrderItems(justPrintfulProcessed) : '' }
+              ${ (justReturnRequestedAll.length) ? updateOrderItems(justReturnRequestedAll) : '' }
+              ${ (justStartedRefundProcessing.length) ? updateOrderItems(justStartedRefundProcessing) : '' }
+            `})
+          }
+
+          if (justReturnRequestedSome.length) { // if any order items have requested some (not all) of their quantity to be refunded => reflect in dgraph
+            newlyCreatedReturnRequestOrderItemUids = await returnRequestSomeOrderItems({ transaction, dgraphOrder, justReturnRequestedSome })
+          }
+
+          const freshOrders = await queryOrder(transaction, body.search)
+
+          await transaction.commit() // commit the transaction if we made it this far w/o an error
+
+          const newlyCreatedReturnRequestOrderItems: OrderItem[] = setNewlyCreatedReturnRequestOrderItems(newlyCreatedReturnRequestOrderItemUids, freshOrders, dgraphOrder, body.order)
+
+          if ((justShipped.length || justDelivered.length || justPrintfulProcessed.length || justReturnRequestedAll.length || newlyCreatedReturnRequestOrderItems?.length || justStartedRefundProcessing.length || justRefunded.length) && !dgraphOrder.email.includes('example.com')) {
+            await emailCustomer({
+              dgraphOrder,
+              totalRefundAmount,
+              justShipped,
+              justDelivered,
+              justPrintfulProcessed,
+              justReturnRequestedAll,
+              justStartedRefundProcessing,
+              justRefunded,
+              newlyCreatedReturnRequestOrderItems
+            })
+          }
+
+          return json(freshOrders)
         }
-
-        const newlyCreatedReturnRequestOrderItems = (justReturnRequestedSome.length) ? await returnRequestSomeOrderItems({ dgraphOrder, justReturnRequestedSome }) : []
-
-        await Promise.all([
-          (justShipped.length) ? updateOrderItems(justShipped) : Promise.resolve(),
-          (justRefunded.length) ? updateOrderItems(justRefunded) : Promise.resolve(),
-          (justPurchased.length) ? updateOrderItems(justPurchased) : Promise.resolve(),
-          (justDelivered.length) ? updateOrderItems(justDelivered) : Promise.resolve(),
-          (justPrintfulProcessed.length) ? updateOrderItems(justPrintfulProcessed) : Promise.resolve(),
-          (justReturnRequestedAll.length) ? updateOrderItems(justReturnRequestedAll) : Promise.resolve(),
-          (justStartedRefundProcessing.length) ? updateOrderItems(justStartedRefundProcessing) : Promise.resolve(),
-          (justShipped.length || justDelivered.length || justPrintfulProcessed.length || justReturnRequestedAll.length || newlyCreatedReturnRequestOrderItems.length || justStartedRefundProcessing.length || justRefunded.length) && !dgraphOrder.email.includes('example.com') ?
-            emailCustomer({ dgraphOrder, totalRefundAmount, justShipped, justDelivered, justPrintfulProcessed, justReturnRequestedAll, newlyCreatedReturnRequestOrderItems, justStartedRefundProcessing, justRefunded }) : Promise.resolve()
-        ])
-
-        return json({ success: true })
       }
     }
   } catch (e) {
@@ -109,9 +141,48 @@ export const POST = (async ({ locals, request }) => {
 }) satisfies RequestHandler
 
 
+function setNewlyCreatedReturnRequestOrderItems (newlyCreatedReturnRequestOrderItemUids: string[], freshOrders: Order[], dgraphOrder: Order, bodyOrder: Order): OrderItem[] {
+  const newlyCreatedReturnRequestOrderItems: OrderItem[] = []
+  
+  if (newlyCreatedReturnRequestOrderItemUids.length) {
+    const freshOrder = freshOrders.find(o => o.uid === dgraphOrder.uid) // get order from recent queryOrder()
+
+    if (freshOrder) {
+      const productMap = new Map<string, Product>()
+      const orderItemMap = new Map<string, OrderItem>()
+
+      if (PUBLIC_ENVIRONMENT !== 'main') { // only main has the products so we need to get the products from body
+        for (const orderItem of bodyOrder.orderItems) {
+          if (orderItem.product) productMap.set(orderItem.product.uid, orderItem.product)
+        }
+      }
+
+      for (const orderItem of freshOrder.orderItems) { // put orderItems in a map
+        orderItemMap.set(orderItem.uid, orderItem)
+      }
+
+      for (const uid of newlyCreatedReturnRequestOrderItemUids) { // loop uids => aling uids w/ fresh order items
+        const mapItem = orderItemMap.get(uid)
+
+        if (mapItem) {
+          if (PUBLIC_ENVIRONMENT !== 'main' && mapItem.product) { // only main has products so use the product from the body
+            mapItem.product = productMap.get(mapItem.product.uid)
+          }
+
+          newlyCreatedReturnRequestOrderItems.push(mapItem)
+        }
+
+      }
+    }
+  }
+
+  return newlyCreatedReturnRequestOrderItems
+}
+
+
 async function emailCustomer ({ dgraphOrder, totalRefundAmount, justShipped, justDelivered, justPrintfulProcessed, justReturnRequestedAll, newlyCreatedReturnRequestOrderItems, justStartedRefundProcessing, justRefunded }: { dgraphOrder: Order, totalRefundAmount: Price, justShipped: OrderItem[], justDelivered: OrderItem[], justPrintfulProcessed: OrderItem[], justReturnRequestedAll: OrderItem[], newlyCreatedReturnRequestOrderItems: OrderItem[], justStartedRefundProcessing: OrderItem[], justRefunded: OrderItem[] }): Promise<number> {
-  const justReturnRequested = newlyCreatedReturnRequestOrderItems.length ?
-    justReturnRequestedAll.concat(newlyCreatedReturnRequestOrderItems) :
+  const justReturnRequested = newlyCreatedReturnRequestOrderItems.length ? // if any items have been newly created b/c some of the itmes were refunded
+    justReturnRequestedAll.concat(newlyCreatedReturnRequestOrderItems) : // add newly created items to array of items where all the quantities wanted to be refunded
     justReturnRequestedAll
 
   return send({
@@ -166,7 +237,7 @@ async function getOrderItemHtml (key: 'justShipped' | 'justDelivered' | 'justPri
       <table style="width: 100%; margin-bottom: 15px;">
         <tr>
           <td style="width: 126px; vertical-align: top;">
-            <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
+            <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.uid }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
           </td>
           <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
             <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>

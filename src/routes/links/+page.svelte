@@ -3,13 +3,13 @@
   import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
-  import EmailUs from '$lib/form/EmailUs.svelte'
   import AboutUs from '$lib/global/AboutUs.svelte'
   import GuitarPic from '$lib/global/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import toastRouteError from '$lib/catch/toastRouteError'
   import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import SocialSupport from '$lib/global/SocialSupport.svelte'
+  import AddSiteComment from '$lib/form/AddSiteComment.svelte'
   import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
   import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
 
@@ -162,7 +162,7 @@
     </section>
   { /each }
 
-  <EmailUs />
+  <AddSiteComment />
   <FeaturedProducts { products } productCategories={ data.productCategories }  />
 </main>
 

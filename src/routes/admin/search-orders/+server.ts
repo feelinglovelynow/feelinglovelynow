@@ -8,10 +8,10 @@ import serverRequestCatch from '$lib/catch/serverRequestCatch'
 
 export const POST = (async ({ locals, request }) => {
   try {
-    if (!locals.userId) throw one('Unauthorized', { locals })
+    if (!locals.userUid) throw one('Unauthorized', { locals })
     else {
       const body = await request.json() as SearchOrdersRequest
-      return json(await queryOrder(body))
+      return json(await queryOrder(null, body))
     }
   } catch (e) {
     return serverRequestCatch(e)

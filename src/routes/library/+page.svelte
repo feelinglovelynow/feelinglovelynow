@@ -216,7 +216,7 @@
       </div>
 
       { #if visibleSources?.length }
-        { #each visibleSources as source (source.id) }
+        { #each visibleSources as source (source.uid) }
           { #if source.type === 'science' }
             <Science { source } type={ currentType } category={ currentCategory } author={ currentAuthor } css="flow-layout__right-item" location="library" />
           { :else if source.type === 'culture' }

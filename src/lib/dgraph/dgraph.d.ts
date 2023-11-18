@@ -1,5 +1,7 @@
+import dgraphJsHttp from 'dgraph-js-http'
+
 export type Source = {
-  id: string
+  uid: string
   slug: string
   description?: string
   type?: enumSourceType
@@ -15,7 +17,7 @@ export type Source = {
 }
 
 export type Author = {
-  id?: string
+  uid?: string
   slug: string
   name: string
   lowName?: string
@@ -23,14 +25,14 @@ export type Author = {
 }
 
 export type Quote = {
-  id?: string
+  uid?: string
   text: string
   displayOrder: number
   categories: Category[]
 }
 
 export type Category = {
-  id?: string
+  uid?: string
   slug: string
   name: string
   lowName?: string
@@ -38,14 +40,14 @@ export type Category = {
 }
 
 export type Image = {
-  id: string
+  uid: string
   src?: string
   displayOrder?: int
   extension: enumImageExtension
 }
 
 export type Product = {
-  id: string
+  uid: string
   slug: string
   printfulId?: string
   price: number
@@ -59,12 +61,9 @@ export type Product = {
   similarProducts: Product[]
 }
 
-export type AddOrderProduct = {
-  id: string
-}
-
 export type Order = {
-  id: string
+  uid: string
+  paypalId: string
   name: string
   email: string
   addressLine1: string
@@ -83,8 +82,8 @@ export type Order = {
 }
 
 export type OrderItem = {
-  id: string
-  productId?: string
+  uid: string
+  productUid?: string
   quantity: number
   size?: enumOrderItemSize
   product?: Product
@@ -97,16 +96,42 @@ export type OrderItem = {
 }
 
 export type User = {
-  id: string
-  email?: string
-  firstName?: string
-  sessions?: Session[]
+  uid: string
+  email: string
+  firstName: string
+  sessions: Session[]
 }
 
 export type Session = {
-  id: string
+  uid: string
   user: User
   ipAddress: string
   accessExpiration: string
   refreshExpiration: string
 }
+
+export interface AddSession extends Session {
+  uid?: never
+  user: AddByUid
+  ipAddress: string
+  accessExpiration: string
+  refreshExpiration: string
+}
+
+export type AddByUid = {
+  uid: string
+}
+
+
+export type DgraphTransaction = dgraphJsHttp.Txn
+
+interface DgraphResponseInterface {} // https://stackoverflow.com/a/61281828
+interface DgraphSuccessResponse extends DgraphResponseInterface  { data: any, errors?: never }
+interface DgraphErrorResponse extends DgraphResponseInterface { data?: never, errors: { message: string }[] }
+export type DgraphResponse = DgraphSuccessResponse | DgraphErrorResponse
+
+interface DgraphOptionsInterface {} // https://stackoverflow.com/a/61281828
+interface DgraphQueryOptions extends DgraphOptionsInterface  { query: string, mutation?: never, remove?: never, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
+interface DgraphMutationOptions extends DgraphOptionsInterface { query?: never, mutation: string, remove?: never, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
+interface DgraphRemoveOptions extends DgraphOptionsInterface { query?: never, mutation?: never, remove: string, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
+export type DgraphOptions = DgraphQueryOptions | DgraphMutationOptions | DgraphRemoveOptions

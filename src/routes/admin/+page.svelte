@@ -1,7 +1,6 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
   import type { PageData } from './$types'
-  import type { Order, Product } from '$lib'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
   import Button from '$lib/form/Button.svelte'
@@ -9,6 +8,7 @@
   import showToast from '@feelinglovelynow/toast'
   import toastRouteError from '$lib/catch/toastRouteError'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
+  import type { Order, Product, UpdateOrderItemsRequest } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
   import { enumOrderItemStatus, enumShippingCarrier } from '$lib/global/enums'
@@ -31,12 +31,19 @@
     const mapProducts = new Map<string, Product>()
 
     for (const product of data.products) {
-      mapProducts.set(product.id, product)
+      mapProducts.set(product.uid, product)
     }
 
     for (const order of data.orders) {
       for (const orderItem of order.orderItems) {
-        if (orderItem.product) orderItem.product.primaryImage.src = mapProducts.get(orderItem.product.id)?.primaryImage.src
+        if (orderItem.product) {
+          const mapProduct = mapProducts.get(orderItem.product.uid)
+
+          if (mapProduct) {
+            orderItem.product.name = mapProduct.name
+            orderItem.product.primaryImage = mapProduct.primaryImage
+          }
+        }
       }
     }
   }
@@ -55,7 +62,7 @@
   }
 
 
-  async function searchOrders (index?: number) {
+  async function searchOrders () {
     isLoading.search = true
 
     const rFetch = await fetch('/admin/search-orders', {
@@ -67,11 +74,7 @@
     const r = await rFetch.json()
 
     if (r?._errors?.length) showToast('info', r._errors)
-    else if (typeof index === 'undefined') data.orders = r
-    else {
-      r[index].showOrderDetails = true
-      data.orders = r
-    }
+    else data.orders = r
 
     isLoading.search = false
   }
@@ -80,9 +83,11 @@
   async function updateOrderItems (order: Order, index: number) {
     isLoading.updateOrderItems = true
 
+    const body: UpdateOrderItemsRequest = { order, search: data.search }
+
     const rFetch = await fetch('/admin/update-order-items', {
       method: 'POST',
-      body: JSON.stringify(order),
+      body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' }
     })
 
@@ -90,7 +95,8 @@
 
     if (r?._errors?.length) showToast('info', r._errors)
     else {
-      await searchOrders(index)
+      r[index].showOrderDetails = true
+      data.orders = r
       showToast('success', 'Success!')
     }
 
@@ -153,19 +159,19 @@
           <form class="search-form">
             <div class="form-item">
               <label for="">Order ID</label>
-              <input bind:value={ data.search.orderId } disabled={ Boolean(data.search.email) } type="text" class="brand">
+              <input bind:value={ data.search.uid } disabled={ Boolean(data.search.email) } type="text" class="brand">
             </div>
             <div class="form-item">
               <label for="">Email</label>
-              <input bind:value={ data.search.email } disabled={ Boolean(data.search.orderId) } type="text" class="brand">
+              <input bind:value={ data.search.email } disabled={ Boolean(data.search.uid) } type="text" class="brand">
             </div>
             <div class="form-item">
               <label for="">Start</label>
-              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.uid || data.search.email) } type="datetime-local" class="brand">
             </div>
             <div class="form-item">
               <label for="">End</label>
-              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.orderId || data.search.email) } type="datetime-local" class="brand">
+              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.uid || data.search.email) } type="datetime-local" class="brand">
             </div>
 
             <Button onClick={ () => searchOrders() } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
@@ -184,14 +190,14 @@
               </tr>
             </thead>
             <tbody>
-              { #each data.orders as order, index (order.id) }
+              { #each data.orders as order, index (order.uid) }
                 <tr class="top-row">
                   <td>
                     <div class="toggle-wrapper">
                       <button on:click={ (e) => toggleOrderDetails(e, order) } class="brand toggle { order.showOrderDetails ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
                     </div>
                   </td>
-                  <td>{ order.id }</td>
+                  <td>{ order.uid }</td>
                   <td>{ order.email }</td>
                   <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
                   <td class="right">${ (new Price(order.totalPrice)).str }</td>
@@ -205,7 +211,7 @@
                           <div class="order-items">
                             <div class="papyrus two">Order Items</div>
 
-                            { #each order.orderItems as orderItem (orderItem.id) }
+                            { #each order.orderItems as orderItem (orderItem.uid) }
                               <div class="order-item">
                                 <div class="img">
                                   <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
@@ -495,7 +501,7 @@
                           white-space: nowrap;
                           text-overflow: ellipsis;
                           overflow: auto;
-                          max-width: 58rem;
+                          max-width: 51rem;
                           font-size: 2.1rem;
                         }
 

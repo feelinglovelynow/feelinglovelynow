@@ -53,7 +53,7 @@
         { /if }
         { #if source.authors }
           { #each source.authors as a, i }
-            <LoadingAnchor href={ `/library?author=${ a.slug }${ type ? '&type=' + type : '' }${ displayCategory?.slug ? '&category=' + displayCategory.slug : '' }` } css="{ author?.id === a.id ? 'active': '' }" label="{ a.name || undefined }" />
+            <LoadingAnchor href={ `/library?author=${ a.slug }${ type ? '&type=' + type : '' }${ displayCategory?.slug ? '&category=' + displayCategory.slug : '' }` } css="{ author?.uid === a.uid ? 'active': '' }" label="{ a.name || undefined }" />
             { #if i+1 !== source.authors.length }
               <span>⋅</span>
             { /if }

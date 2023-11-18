@@ -42,7 +42,7 @@ async function createPaypalOrder (cart: Cart, expandedSubTotal: ExpandedSubTotal
         }
       },
       items: cart.map(cartItem => ({
-        sku: cartItem.product?.id,
+        sku: cartItem.product?.uid,
         quantity: cartItem.quantity,
         name: cartItem.size ?
           `Size: ${cartItem.size} ⋅ ${ cartItem.product?.name }` :
@@ -70,5 +70,5 @@ async function createPaypalOrder (cart: Cart, expandedSubTotal: ExpandedSubTotal
   }
 
   const { response, status } = await apiPaypal('v2/checkout/orders', { intent: 'CAPTURE', purchase_units, payment_source })
-  return json(response, { status })
+  return json({ id: response.id }, { status })
 }

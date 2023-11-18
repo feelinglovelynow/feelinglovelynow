@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Theme } from '$lib'
   import { theme } from '$lib/theme/theme'
+  import { enumTheme } from '$lib/global/enums'
   import IMG_DARK_1 from '$lib/img/bg/dark/IMG_DARK_1.webp'
   import IMG_DARK_2 from '$lib/img/bg/dark/IMG_DARK_2.webp'
   import IMG_DARK_3 from '$lib/img/bg/dark/IMG_DARK_3.webp'
@@ -14,7 +14,7 @@
   import IMG_LIGHT_5 from '$lib/img/bg/light/IMG_LIGHT_5.webp'
   import IMG_LIGHT_6 from '$lib/img/bg/light/IMG_LIGHT_6.webp'
 
-  export let localsTheme: Theme = 'dark'
+  export let localsTheme: enumTheme = enumTheme.dark
 
   let isInititalSubscribe = true
   $: visibleImages = images[localsTheme]

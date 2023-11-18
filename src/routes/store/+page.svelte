@@ -17,7 +17,6 @@
 
   let isPageLoading = true
   let products: Product[] = []
-
   const mapAllProducts: Map<string, Product> = new Map()
 
   $: if (data.products) bindProducts()
@@ -38,7 +37,7 @@
     if (mapAllProducts.size !== data.products.length) {
       setTimeout(() => { // only necessary for when the shopping cart is open so allow isPageLoading to toggle first so page shows swiftly
         for (const product of data.products) {
-          mapAllProducts.set(product.id, product)
+          mapAllProducts.set(product.uid, product)
         }
       })
     }
@@ -49,10 +48,10 @@
     const activeProducts: Map<string, Product> = new Map()
 
     for (const product of data.products) {
-      if (mapAllProducts.size !== data.products.length) mapAllProducts.set(product.id, product)
+      if (mapAllProducts.size !== data.products.length) mapAllProducts.set(product.uid, product)
 
       for (const category of product.categories) {        
-        if (data.urlCategorySlug === category.slug) activeProducts.set(product.id, product)
+        if (data.urlCategorySlug === category.slug) activeProducts.set(product.uid, product)
       }
     }
 
@@ -62,12 +61,12 @@
 
   function productSelected () {
     for (const product of data.products) {
-      if (mapAllProducts.size !== data.products.length) mapAllProducts.set(product.id, product)
+      if (mapAllProducts.size !== data.products.length) mapAllProducts.set(product.uid, product)
       if (data.urlProductSlug === product.slug) products = [ product ]
     }
 
     for (const product of products[0].similarProducts) {
-      const pFromAll = mapAllProducts.get(product.id)
+      const pFromAll = mapAllProducts.get(product.uid)
 
       if (pFromAll) {
         product.name = pFromAll.name
@@ -105,7 +104,7 @@
 
     { #if products?.length }
       <div class="products">
-        { #each products as product (product.id) }
+        { #each products as product (product.uid) }
           { #if data.urlProductSlug }
             <FullProduct { product} />
           { :else }

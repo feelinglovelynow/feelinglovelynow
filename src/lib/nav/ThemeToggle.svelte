@@ -3,16 +3,17 @@
   import { browser } from '$app/environment'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_MOON from '$lib/svg/nav/SVG_MOON.svg'
+  import { enumTheme } from '$lib/global/enums';
 
   $: layout = browser ? document.getElementById('fln__layout') : null
 
   function setTheme () {
     if (layout) {
-      const desiredTheme = ($theme === 'light') ? 'dark' : 'light'
+      const desiredTheme = ($theme === enumTheme.dark) ? enumTheme.light : enumTheme.dark
 
       theme.set(desiredTheme)
 
-      if (desiredTheme === 'light') {
+      if (desiredTheme === enumTheme.light) {
         layout.classList.add('theme--light')
         layout.classList.remove('theme--dark')
       } else {

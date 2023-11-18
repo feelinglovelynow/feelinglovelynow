@@ -1,63 +1,32 @@
-import dgraph from '$lib/dgraph/dgraph'
-import type { Order, OrderItem, ReturnRequestSome } from '$lib'
+import { dgraph } from '$lib/dgraph/dgraph'
+import type { Order, ReturnRequestSome, DgraphTransaction } from '$lib'
 
 
-export default async function returnRequestSomeOrderItems ({ dgraphOrder, justReturnRequestedSome }: { dgraphOrder: Order, justReturnRequestedSome: ReturnRequestSome}) {
-  const values = await Promise.all(justReturnRequestedSome.map(r => {
-    return Promise.all([
-      /**
-       * @ dgraphOrderItem.id set:
-       *  quantity: dgraphOrderItem.quantity - bodyOrderItem.quantity
-       */
-      dgraph({
-        query: `
-          mutation MyMutation {
-            updateOrderItem(input: {filter: {id: {eq: "${ r.dgraphOrderItem.id }"}}, set: {quantity: ${ r.dgraphOrderItem.quantity  - r.bodyOrderItem.quantity }}}) {
-              numUids
-            }
-          }
-        `
-      }),
+export default async function returnRequestSomeOrderItems ({ transaction, dgraphOrder, justReturnRequestedSome }: { transaction: DgraphTransaction, dgraphOrder: Order, justReturnRequestedSome: ReturnRequestSome[]}): Promise<string[]> {
+  let mutation = ''
 
-      /**
-       * Add new orderItem:
-       *  id: crypto.randomUUID()
-       *  orderId: dgraphOrder.id
-       *  productId: dgraphOrderItem.product?.id
-       *  status: RETURN_REQUESTED
-       *  quantity: bodyOrderItem.quantity
-       *  refundAmount: bodyOrderItem.refundAmount
-       *  size: dgraphOrderItem.size || ''
-       */
-      dgraph({
-        query: `
-          mutation MyMutation {
-            addOrderItem(input: {id: "${ crypto.randomUUID() }", order: {id: "${ dgraphOrder.id }"}, product: {id: "${ r.dgraphOrderItem.product?.id }"}, status: RETURN_REQUESTED, quantity: ${ r.bodyOrderItem.quantity }, refundAmount: ${ r.bodyOrderItem.refundAmount }, size: "${ r.dgraphOrderItem.size || '' }"}) {
-              orderItem {
-                id
-                size
-                quantity
-                product {
-                  id
-                  name
-                  primaryImage {
-                    id
-                    extension
-                  }
-                }
-              }
-            }
-          }
-        `
-      })
-    ])
-  }))
+  for (let i = 0; i < justReturnRequestedSome.length; i++) { // loop order items that are requesting a refund but not all the order items quantity are requsting to be refunded
+    const r = justReturnRequestedSome[i]
 
-  const orderItems: OrderItem[] = []
+    /**
+     * Update the original order item:
+     * Add new orderItem:
+     * Link Order.orderItems to new orderItem
+     */
+    mutation += `
+      <${ r.dgraphOrderItem.uid }> <OrderItem.quantity> "${ r.dgraphOrderItem.quantity  - r.bodyOrderItem.quantity }" .
 
-  for (const v of values) {
-    orderItems.push(v[1].addOrderItem.orderItem[0])
+      _:${ i } <dgraph.type> "OrderItem" .
+      _:${ i } <OrderItem.product> <${ r.dgraphOrderItem.product.uid }> .
+      _:${ i } <OrderItem.status> "RETURN_REQUESTED" .
+      _:${ i } <OrderItem.quantity> "${ r.bodyOrderItem.quantity }" .
+      _:${ i } <OrderItem.refundAmount> "${ r.bodyOrderItem.refundAmount }" .
+      _:${ i } <OrderItem.size> "${ r.dgraphOrderItem.size || '' }" .      
+
+      <${ dgraphOrder.uid }> <Order.orderItems> _:${ i } .
+    `
   }
 
-  return orderItems
+  const r = await dgraph({ transaction, mutation })
+  return Object.values(r?.data?.uids) // return recently created uids in an array
 }

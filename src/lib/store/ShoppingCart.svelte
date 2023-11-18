@@ -66,7 +66,7 @@
     </div>
 
     <div class="cart-items">
-      { #each cartItems as c, cartIndex (c.id) }
+      { #each cartItems as c, cartIndex (c.uid) }
         { #if c.product }
           <div class="cart-item">
             <div class="img-wrapper">

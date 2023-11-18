@@ -9,9 +9,9 @@ import { ACCESS_COOKIE_MAX_AGE_IN_SECONDS, REFRESH_COOKIE_MAX_AGE_IN_SECONDS, SI
 
 export default async function createToken (type: enumTokenType, data: TokenPayload): Promise<string> {
   switch (type) {
-    case enumTokenType.ACCESS: return await _createToken(type, data, JWK_FOR_ACCESS_TOKEN_PRIVATE, ACCESS_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userId && data.sessionId), `Please pass userId and sessionId w/in data`)
-    case enumTokenType.REFRESH: return await _createToken(type, data, JWK_FOR_REFRESH_TOKEN_PRIVATE, REFRESH_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userId && data.sessionId), `Please pass userId and sessionId w/in data`)
-    case enumTokenType.SIGN_IN: return await _createToken(type, data, JWK_FOR_SIGN_IN_PRIVATE, SIGN_IN_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userId && data.signInId), `Please pass userId and signInId w/in data`)
+    case enumTokenType.ACCESS: return await _createToken(type, data, JWK_FOR_ACCESS_TOKEN_PRIVATE, ACCESS_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userUid && data.sessionUid), `Please pass userUid and sessionUid w/in data`)
+    case enumTokenType.REFRESH: return await _createToken(type, data, JWK_FOR_REFRESH_TOKEN_PRIVATE, REFRESH_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userUid && data.sessionUid), `Please pass userUid and sessionUid w/in data`)
+    case enumTokenType.SIGN_IN: return await _createToken(type, data, JWK_FOR_SIGN_IN_PRIVATE, SIGN_IN_COOKIE_MAX_AGE_IN_SECONDS, (data) => Boolean(data.userUid && data.signInId), `Please pass userUid and signInId w/in data`)
   }
 }
 

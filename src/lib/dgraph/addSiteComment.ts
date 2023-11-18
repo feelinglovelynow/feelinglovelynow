@@ -1,24 +1,14 @@
-import type { FormFields } from '$lib'
-import dgraph from '$lib/dgraph/dgraph'
+import { dgraph } from '$lib/dgraph/dgraph'
+import type { SchemaAddSiteComment } from '$lib/zod/addSiteComent'
 
 
-export default async function addSiteComment (fields: FormFields) {
-  return dgraph({
-    query: `
-      mutation MyMutation($email: String!, $firstName: String!, $lastName: String!, $createdAt: DateTime!, $comment: String!) {
-        addSiteComment(input: {email: $email, firstName: $firstName, lastName: $lastName, createdAt: $createdAt, comment: $comment}) {
-          siteComment {
-            id
-          }
-        }
-      }
-    `,
-    variables: {
-      email: fields.email.toString(),
-      firstName: fields.firstName.toString(),
-      lastName: fields.lastName.toString(),
-      createdAt: (new Date()).toISOString(),
-      comment: fields.comment.toString(),
-    }
-  })
+export default async function addSiteComment (body: SchemaAddSiteComment) {
+  return dgraph({ commitNow: true, mutation: `
+    _:comment <dgraph.type> "SiteComment" .
+    _:comment <SiteComment.email> "${ body.email }" .
+    _:comment <SiteComment.firstName> "${ body.firstName }" .
+    _:comment <SiteComment.lastName> "${ body.lastName }" .
+    _:comment <SiteComment.createdAt> "${ (new Date()).toISOString() }" .
+    _:comment <SiteComment.comment> "${ body.comment }" .
+  `})
 }

@@ -1,9 +1,10 @@
 import get from '$lib/kv/get'
 import type { Cookies } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types'
+import type { Source, Product, Category } from '$lib'
 import setThemeCookie from '$lib/theme/setThemeCookie'
 import serverPageCatch from '$lib/catch/serverPageCatch'
-import type { Source, Product, Category, Theme } from '$lib'
+import { enumCacheKey, enumTheme } from '$lib/global/enums'
 
 
 export const load = (async ({ platform, cookies, locals }) => {
@@ -18,9 +19,9 @@ export const load = (async ({ platform, cookies, locals }) => {
 
 
 function doTheme (cookies: Cookies) {
-  const DEFAULT_THEME = 'dark'
+  const DEFAULT_THEME = enumTheme.dark
   const COOKIE_THEME = cookies.get('fln__theme')
-  const theme: Theme = (COOKIE_THEME === 'light' || COOKIE_THEME === 'dark') ? COOKIE_THEME : DEFAULT_THEME
+  const theme: enumTheme = (COOKIE_THEME === enumTheme.light || COOKIE_THEME === enumTheme.dark) ? COOKIE_THEME : DEFAULT_THEME
 
   if (!COOKIE_THEME) setThemeCookie(cookies, theme)
 
@@ -30,14 +31,14 @@ function doTheme (cookies: Cookies) {
 
 async function doKV (platform: Readonly<App.Platform> | undefined) {
   const [ sources, products ] = await Promise.all([
-    get('CACHE', 'sources', platform),
-    get('CACHE', 'products', platform)
+    get('CACHE', enumCacheKey.sourcesv2, platform),
+    get('CACHE', enumCacheKey.productsv2, platform)
   ])
 
   const mapCategories: Map<string, Category> = new Map()
 
   const primaryImages = await Promise.all(products.map((product: Product) => {
-    return import(`../lib/img/store/${ product.primaryImage.id }.${ product.primaryImage.extension }`)
+    return import(`../lib/img/store/${ product.primaryImage.uid }.${ product.primaryImage.extension }`)
   }))
 
   for (let i = 0; i < products.length; i++) {

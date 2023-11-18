@@ -1,100 +1,102 @@
-import dgraph from '$lib/dgraph/dgraph'
+import { txn, dgraph } from '$lib/dgraph/dgraph'
 import type { Category, SearchResponse, Source } from '$lib'
-
 
 
 export default async function getSearchSources (search: string, isQuotesChecked: boolean, isSourcesByTitleChecked: boolean, isSourcesByDescriptionChecked: boolean): Promise<SearchResponse> {
   const sourcesByTitleQuery = !isSourcesByTitleChecked ? '' : `
-    sourcesByTitle: querySource(filter: {title: {anyoftext: "${ search }"}}) {
-      id
-      type
-      title
-      slug
-      url
-      urlType
-      description
-      publicationYear
-      publicationLocation
-      authors(order: {asc: name}) {
-        name
-        slug
+    sourcesByTitle (func: anyoftext(Source.title, "${ search }")) @filter(type(Source))  {
+      uid
+      type: Source.type
+      title: Source.title
+      slug: Source.slug
+      url: Source.url
+      urlType: Source.urlType
+      description: Source.description
+      publicationYear: Source.publicationYear
+      publicationLocation: Source.publicationLocation
+      authors: Source.authors {
+        name: Author.name
+        slug: Author.slug
       }
-    } 
+    }
   `
+
   const sourcesByDescriptionQuery = !isSourcesByDescriptionChecked ? '' : `
-    sourcesByDescription: querySource(filter: {description: {anyoftext: "${ search }"}}) {
-      id
-      type
-      title
-      slug
-      url
-      urlType
-      description
-      publicationYear
-      publicationLocation
-      images {
-        id
+    sourcesByDescription (func: anyoftext(Source.description, "${ search }")) @filter(type(Source))  {
+      uid
+      type: Source.type
+      title: Source.title
+      slug: Source.slug
+      url: Source.url
+      urlType: Source.urlType
+      description: Source.description
+      publicationYear: Source.publicationYear
+      publicationLocation: Source.publicationLocation
+      images: Product.images {
+        uid
+        extension: Image.extension
       }
-      quotes {
-        text
-        displayOrder
-        categories {
-          name
-          slug
+      quotes: Source.quotes {
+        text: Quote.text
+        displayOrder: Quote.displayOrder
+        categories: Quote.categories {
+          name: Category.name
+          slug: Category.slug
         }
       }
-      categories(order: {asc: name}) {
-        name
-        slug
+      categories: Source.categories(orderasc: Category.name) {
+        name: Category.name
+        slug: Category.slug
       }
-      authors(order: {asc: name}) {
-        name
-        slug
+      authors: Source.authors(orderasc: Author.name) {
+        name: Author.name
+        slug: Author.slug
       }
     }
   `
 
   const quotesQuery = !isQuotesChecked ? '' : `
-    quotes: queryQuote(filter: {text: {anyoftext: "${ search }"}}) {
-      text
-      displayOrder
-      categories(order: {asc: name}) {
-        name
-        slug
+    quotes (func: anyoftext(Quote.text, "${ search }")) @filter(type(Quote))  {
+      uid
+      text: Quote.text
+      displayOrder: Quote.displayOrder
+      categories: Quote.categories(orderasc: Category.name) {
+        name: Category.name
+        slug: Category.slug
       }
-      source {
-        id
-        type
-        title
-        slug
-        url
-        urlType
-        description
-        publicationYear
-        publicationLocation
-        authors(order: {asc: name}) {
-          name
-          slug
+      source: Quote.source {
+        uid
+        type: Source.type
+        title: Source.title
+        slug: Source.slug
+        url: Source.url
+        urlType: Source.urlType
+        description: Source.description
+        publicationYear: Source.publicationYear
+        publicationLocation: Source.publicationLocation
+        authors: Quote.author(orderasc: Author.name) {
+          name: Author.name
+          slug: Author.slug
         }
       }
     }
   `
 
-  const { sourcesByTitle, sourcesByDescription, quotes } = await dgraph({
-    query: `
-      query MyQuery {
-        ${ sourcesByTitleQuery }
-        ${ sourcesByDescriptionQuery }
-        ${ quotesQuery }
-      }
-    `
-  })
+  const transaction = await txn({ readOnly: true, pointMain: true }) // sources are only in main db
 
-  return {
-    sourcesByTitle: (sourcesByTitle || []) as Source[],
-    sourcesByDescription: (sourcesByDescription || []) as Source[],
-    quotes: formatQuotes(quotes || []) as Source[],
-  }
+  const r = await dgraph({ transaction, discardTxn: true, query: `
+    query {
+      ${ sourcesByTitleQuery }
+      ${ sourcesByDescriptionQuery }
+      ${ quotesQuery }
+    }
+  `})
+
+  const sourcesByTitle = (r?.data?.sourcesByTitle || []) as Source[]
+  const sourcesByDescription = (r?.data?.sourcesByDescription || []) as Source[]
+  const quotes = formatQuotes(r?.data?.quotes || []) as Source[]
+
+  return { sourcesByTitle, sourcesByDescription, quotes }
 }
 
 
@@ -104,7 +106,7 @@ function formatQuotes (quotes: SearchQuotesByTextResponse): Source[] {
   if (quotes.length) {
     response = quotes.map(r => {
       return {
-        id: r.source.id,
+        uid: r.source.uid,
         title: r.source.title,
         type: r.source.type,
         description: r.source.description,
@@ -116,7 +118,7 @@ function formatQuotes (quotes: SearchQuotesByTextResponse): Source[] {
         authors: r.source.authors,
         quotes: [
           {
-            id: r.id,
+            uid: r.uid,
             text: r.text,
             categories: r.categories,
             displayOrder: r.displayOrder
@@ -131,7 +133,7 @@ function formatQuotes (quotes: SearchQuotesByTextResponse): Source[] {
 
 
 type SearchQuotesByTextResponse = {
-  id: string
+  uid: string
   text: string
   displayOrder: number
   categories: Category[]

@@ -1,5 +1,5 @@
-import type { Theme } from '$lib/theme/theme.d'
+import { enumTheme } from '$lib/global/enums'
 import { writable, type Writable } from 'svelte/store'
 
 
-export const theme: Writable<Theme> = writable('dark')
+export const theme: Writable<enumTheme> = writable(enumTheme.dark)

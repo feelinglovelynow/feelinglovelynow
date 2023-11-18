@@ -19,6 +19,7 @@
 - [Paypal JS](https://www.npmjs.com/package/@paypal/paypal-js)
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
+- [Dgraph Client](https://www.npmjs.com/package/dgraph-js-http)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
@@ -33,6 +34,7 @@
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
+- [Dgraph Client](https://github.com/dgraph-io/dgraph-js-http/tree/master/examples/simple)
 
 #### Articles
 - [NPM to PNPM](https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/)
@@ -68,7 +70,6 @@
 - [SVG Formatter](https://htmlformatter.com/)
 - [AI Image Generator](https://playgroundai.com/create)
 - [AI Photo to Art](https://www.befunky.com/create/photo-to-art/)
-
 
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)

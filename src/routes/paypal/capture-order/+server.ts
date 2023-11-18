@@ -20,20 +20,16 @@ export const POST = (async ({ request, platform }) => {
   try {
     const body = await request.json() as CaptureOrderRequest
 
-    if (!body?.orderId) throw one('Please add an orderId to the request', { body })
+    if (!body?.paypalId) throw one('Please add a paypalId to the request', { body })
     else {
       const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform) // validate the cart and totalPrice in request is valid
-      const rPaypal = await captureOrder(body.orderId) // send paypal the orderId and process the payment for this orderId
+      const rPaypal = await captureOrder(body.paypalId) // send paypal the paypalId and process the payment for this order
 
       if (rPaypal?.status !== 'COMPLETED') throw one('The payment was not successful', { rPaypal: JSON.stringify(rPaypal) })
       else {
         const pretty = getPrettyPaypalResponse(rPaypal) // get necessary info from the paypal payment response
-
-        await Promise.all([ // add the order to our database and send emails to us and the customer
-          dgraphAddOrder(body, pretty),
-          sendEmails(body, pretty, expandedSubTotal)
-        ])
-
+        const dgraphOrderUid = await dgraphAddOrder(body, pretty) // add the order to our database
+        await sendEmails(dgraphOrderUid, body, pretty, expandedSubTotal) // send emails to us and the customer
         return json({ success: true }) // no one threw so we are good
       }
     }
@@ -43,8 +39,8 @@ export const POST = (async ({ request, platform }) => {
 }) satisfies RequestHandler
 
 
-async function captureOrder (orderId: string) {
-  const { response } = await apiPaypal(`v2/checkout/orders/${ orderId }/capture`)
+async function captureOrder (paypalId: string) {
+  const { response } = await apiPaypal(`v2/checkout/orders/${ paypalId }/capture`)
   return response
 }
 
@@ -71,20 +67,19 @@ function dgraphAddOrder (body: CaptureOrderRequest, pretty: PrettyPaypal) {
   for (const cartItem of body.cart) {
     if (cartItem.product) {
       orderItems.push({
-        id: cartItem.id,
         quantity: cartItem.quantity,
-        product: { id: cartItem.product.id },
+        product: { uid: cartItem.product.uid },
         status: enumOrderItemStatus.PURCHASED,
         size: cartItem.size ? cartItem.size : undefined,
       })
     }
   }
 
-  return addOrder(body.orderId, orderItems, pretty)
+  return addOrder(body.paypalId, orderItems, pretty)
 }
 
 
-async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expandedSubTotal: ExpandedSubTotal) {
+async function sendEmails (dgraphOrderUid: string, body: CaptureOrderRequest, pretty: PrettyPaypal, expandedSubTotal: ExpandedSubTotal) {
   let orderItemsHtml = ''
 
   for (const orderItem of body.cart) {
@@ -118,8 +113,8 @@ async function sendEmails (body: CaptureOrderRequest, pretty: PrettyPaypal, expa
           <table style="margin-bottom: 15px; padding-bottom: 12px; width: 100%; border-bottom: 1px solid rgba(206, 211, 214, 0.6);">
             <tr>
               <td>
-                <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Order ID</div>
-                <div style="color: #273142; line-height: 1.44;">${ body.orderId }</div>
+                <div style="color: #273142; font-weight: 600; font-size: 18px; margin-bottom: 3px;">Dgraph ID: ${ dgraphOrderUid }</div>
+                <div style="color: #273142; font-weight: 600; font-size: 18px;">Paypal ID: ${ body.paypalId }</div>
               </td>
               <td style="text-align: right; padding-left: 9px;">
                 <img style="width: 100%; max-width: 99px;" src="https://feelinglovelynow.com${ IMG_FRUIT_METATRON }" />
@@ -184,7 +179,7 @@ async function getOrderItemHtml (orderItem: OrderItem) {
     <table style="width: 100%; margin-bottom: 15px;">
       <tr>
         <td style="width: 126px; vertical-align: top;">
-          <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.id }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
+          <img style="width: 126px; height: auto;" src="https://feelinglovelynow.com${ (await import(`../../../lib/img/store/${ orderItem.product?.primaryImage.uid }.${ orderItem.product?.primaryImage.extension }`)).default }" alt="${ orderItem.product?.name }">
         </td>
       <td style="color: #273142;padding: 3px 0 0 9px; vertical-align: top;">
         <div style="color: #273142; font-weight: 600; margin-bottom: 3px;">${ orderItem.product?.name }</div>

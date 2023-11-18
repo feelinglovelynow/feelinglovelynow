@@ -61,3 +61,13 @@ export enum enumTokenType {
   REFRESH = 'REFRESH',
   SIGN_IN = 'SIGN_IN'
 }
+
+export enum enumTheme {
+  light = 'light',
+  dark = 'dark'
+}
+
+export enum enumCacheKey {
+  sourcesv2 = 'sourcesv2',
+  productsv2 = 'productsv2'
+}

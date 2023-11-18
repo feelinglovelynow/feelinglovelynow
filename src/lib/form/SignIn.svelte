@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Button from '$lib/form/Button.svelte'
+  import Form from '$lib/form/Form.svelte'
   import Title from '$lib/global/Title.svelte'
   import showToast from '@feelinglovelynow/toast'
+  import type { FormInputs, FormOnSuccess } from '$lib'
+  import { schemaVerifySignIn } from '$lib/zod/verifySignIn'
 
-  let email: string
-  let isLoading: boolean
   let removeToast: () => void
 
   onMount(() => {
@@ -14,19 +14,12 @@
     }
   })
 
-  async function signIn () {
-    isLoading = true
+  const inputs: FormInputs = [
+    { name: 'email', label: 'Email', type: 'email' },
+  ]
 
-    const rFetch = await fetch('/auth/verify-sign-in', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-
-    const r = await rFetch.json()
-
-    if (r?._errors?.length) showToast('info', r._errors)
-    else if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
+  const onSuccess = ((r: any) => {
+    if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
     else {
       const linkId = crypto.randomUUID()
       const spinId = crypto.randomUUID()
@@ -59,27 +52,18 @@
 
       removeToast = showToast('success', html) // define removeToast so we may removeToast on unmount
     }
-
-    isLoading = false
-  }
+  }) satisfies FormOnSuccess
 </script>
 
 
 <Title text="Welcome Admin!" noBottom={ true } />
-<section>
-  <form on:submit|preventDefault={ signIn }>
-    <div class="form-item">
-      <label for="email">Email</label>
-      <input bind:value={ email } name="email" type="email" class="brand"/>
-    </div>
-    <Button { isLoading } type="submit" text="Enter" />
-  </form>
-</section>
-
+<div class="sign-in">
+  <Form { inputs } schema={ schemaVerifySignIn } { onSuccess } css="glow" endpoint="/auth/verify-sign-in" buttonText="Enter" />
+</div>
 
 
 <style lang="scss">
-  section {
+  :global(.sign-in section) {
     width: 45rem;
     max-width: 96vw;
   }

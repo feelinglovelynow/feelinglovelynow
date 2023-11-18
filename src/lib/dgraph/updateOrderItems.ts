@@ -1,31 +1,26 @@
 import type { OrderItem } from '$lib'
-import dgraph from '$lib/dgraph/dgraph'
 import { enumOrderItemStatus } from '$lib/global/enums'
 
 
-export default async function updateOrderItems (orderItems: OrderItem[]) {
-  return Promise.all(orderItems.map(orderItem => {
-    return dgraph({
-      query: `
-        mutation MyMutation {
-          updateOrderItem${ getArgs(orderItem) } {
-            numUids
-          }
-        }
-      `
-    })
-  }))
+export default function updateOrderItems (orderItems: OrderItem[]): string {
+  let mutation = ''
+
+  for (const orderItem of orderItems) {
+    mutation += getMutation(orderItem)
+  }
+
+  return mutation
 }
 
 
-function getArgs (orderItem: OrderItem) {
+function getMutation (orderItem: OrderItem) {
   switch(orderItem.status) {
     case enumOrderItemStatus.REFUNDED:
     case enumOrderItemStatus.PURCHASED:
     case enumOrderItemStatus.PRINTFUL_PROCESSING: 
     case enumOrderItemStatus.REFUND_MONEY_PROCESSING:
-    case enumOrderItemStatus.DELIVERED_TO_CUSTOMER: return `(input: {filter: {id: {eq: "${ orderItem.id }"}}, set: {status: ${ orderItem.status }}})`
-    case enumOrderItemStatus.RETURN_REQUESTED: return `(input: {filter: {id: {eq: "${ orderItem.id }"}}, set: {status: ${ orderItem.status }, refundAmount: ${ orderItem.refundAmount }}})`
-    case enumOrderItemStatus.SHIPPING_TO_CUSTOMER: return `(input: {filter: {id: {eq: "${ orderItem.id }"}}, set: {status: ${ orderItem.status }, shippingTrackingId: "${ orderItem.shippingTrackingId }", shippingCarrier: ${ orderItem.shippingCarrier }}})`
+    case enumOrderItemStatus.DELIVERED_TO_CUSTOMER: return `<${ orderItem.uid }> <OrderItem.status> "${ orderItem.status }" . \n`
+    case enumOrderItemStatus.RETURN_REQUESTED: return `<${ orderItem.uid }> <OrderItem.status> "${ orderItem.status }" . \n<${ orderItem.uid }> <OrderItem.refundAmount> "${ orderItem.refundAmount }" . \n`
+    case enumOrderItemStatus.SHIPPING_TO_CUSTOMER: return `<${ orderItem.uid }> <OrderItem.status> "${ orderItem.status }" . \n<${ orderItem.uid }> <OrderItem.shippingTrackingId> "${ orderItem.shippingTrackingId }" . \n<${ orderItem.uid }> <OrderItem.shippingCarrier> "${ orderItem.shippingCarrier }" . \n`
   }
 }

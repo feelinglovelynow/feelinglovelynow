@@ -1,14 +1,14 @@
 // See https://kit.svelte.dev/docs/types#app
 
-import type { Theme } from '$lib'
+import type { enumTheme } from '$lib/global/enums'
 
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			userId?: any,
-			theme: Theme
+			userUid?: any,
+			theme: enumTheme
 		}
 		// interface PageData {}
 		interface Platform {
@@ -17,4 +17,4 @@ declare global {
 	}
 }
 
-export {};
+export {}

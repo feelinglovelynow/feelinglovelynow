@@ -1,57 +1,42 @@
 <script lang="ts">
-  import schema from '$lib/zod/search'
   import Form from '$lib/form/Form.svelte'
+  import { schemaSearch } from '$lib/zod/search'
   import showToast from '@feelinglovelynow/toast'
   import Science from '$lib/source/Science.svelte'
   import Culture from '$lib/source/Culture.svelte'
   import Product from '$lib/source/Product.svelte'
   import SVG_SEARCH from '$lib/svg/nav/SVG_SEARCH.svg'
-  import { Modal, type ShowModal, type OnModalHide } from '@feelinglovelynow/svelte-modal'
-  import type { FormInputs, FormOnSuccess, FormOnSubmitValidate, SearchResponse } from '$lib'
+  import type { FormInputs, FormOnSuccess, SearchResponse } from '$lib'
+  import { Modal, type ShowModal } from '@feelinglovelynow/svelte-modal'
 
 
   let showModal: ShowModal
   let response: SearchResponse | null = null
-  const searchOptions = [ 'quotes', 'sourcesByTitle', 'sourcesByDescription' ]
+  const searchOptions = [ 'sourcesByTitle', 'sourcesByDescription', 'quotes' ]
   const inputs: FormInputs = [
     { name: 'query', focusOnInit: true, autocomplete: 'off' },
-    { name: 'sourcesByTitle', label: 'Search library titles',  type: 'checkbox' },
-    { name: 'sourcesByDescription', label: 'Search library descriptions',  type: 'checkbox' },
-    { name: 'quotes', label: 'Search scientific journal quotes', type: 'checkbox' },
+    { name: 'isSourcesByTitleChecked', label: 'Search library titles',  type: 'checkbox' },
+    { name: 'isSourcesByDescriptionChecked', label: 'Search library descriptions',  type: 'checkbox' },
+    { name: 'isQuotesChecked', label: 'Search scientific journal quotes', type: 'checkbox' },
   ]
 
 
-  const onSubmitValidate = ((fields) => {
-    let isValid = false
-
-    for (const option of searchOptions) {
-      if (fields[option]?.toString() === 'on') isValid = true
-    }
-
-    if (!isValid) {
-      showToast('info', 'Select atleast one checkbox please')
-      isValid = false
-    }
-
-    return isValid
-  }) satisfies FormOnSubmitValidate
-
-
-  const onSuccess = (({ data }) => {
+  const onSuccess = (({ r }) => {
     let resultsFound = false
 
     for (const option of searchOptions) {
-      if (data?.[ option ]?.length) resultsFound = true
+      if (r?.[ option ]?.length) {
+        resultsFound = true
+        break
+      }
     }
 
-    if (!resultsFound) showToast('info', 'No search results found')
-    else response = data
+    if (resultsFound) response = r
+    else {
+      response = null
+      showToast('info', 'No search results found')
+    }
   }) satisfies FormOnSuccess
-
-
-  const onHideModal = (() => {
-    response = null
-  }) satisfies OnModalHide
 </script>
 
 
@@ -63,8 +48,8 @@
   { @html SVG_SEARCH }
 </button>
 
-<Modal header="Search" on:functions={ e => showModal = e.detail.showModal } { onHideModal }>
-  <Form { inputs } { schema } { onSubmitValidate } { onSuccess } reset={ false } action="search" buttonText="Search" />
+<Modal header="Search" on:functions={ e => showModal = e.detail.showModal }>
+  <Form { inputs } schema={ schemaSearch } { onSuccess } endpoint="/search" buttonText="Search" />
 
   <div class="response">
     { #if response?.sourcesByTitle?.length }

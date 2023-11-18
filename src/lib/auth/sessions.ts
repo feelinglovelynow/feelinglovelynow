@@ -1,95 +1,62 @@
-import type { Session } from '$lib'
-import dgraph from '$lib/dgraph/dgraph'
+import { dgraph } from '$lib/dgraph/dgraph'
+import type { Session, AddSession, DgraphResponse } from '$lib'
 
 
 const sessionBody = `
-  id
-  ipAddress
-  accessExpiration
-  refreshExpiration
-  user {
-    id
+  uid
+  ipAddress: Session.ipAddress
+  accessExpiration: Session.accessExpiration
+  refreshExpiration: Session.refreshExpiration
+  user: Session.user {
+    uid
   }
 `
 
 
 export async function getAll (): Promise<Session[]> {
-  const { querySession } = await dgraph({
-    query: `
-      query MyQuery {
-        querySession {
-          ${ sessionBody }
-        }
+  const r = await dgraph({ readOnly: true, discardTxn: true, query: `
+    query {
+      sessions(func: type(Session)) {
+        ${ sessionBody }
       }
-    `
-  })
+    }
+  `})
 
-  return querySession as Session[]
+  return r?.data?.sessions as Session[]
 }
 
 
-export async function getOne (sessionId: string): Promise<Session> {
-  const { getSession } = await dgraph({
-    query: `
-      query MyQuery {
-        getSession(id: "${ sessionId }") {
-          ${ sessionBody }
-        }
+export async function getOne (sessionUid: string): Promise<Session | undefined> {
+  const r = await dgraph({ readOnly: true, discardTxn: true, query: `
+    query {
+      sessions(func: uid(${ sessionUid })) @filter(type(Session)) {
+        ${ sessionBody }
       }
-    `
-  })
+    }
+  `})
 
-  return getSession as Session
+  return r?.data?.sessions?.[0] as Session | undefined
 }
 
 
+export async function add (session: AddSession): Promise<string> {
+  const r = await dgraph({ commitNow: true, mutation: `
+    _:session <dgraph.type> "Session" .
+    _:session <Session.user> <${ session.user.uid }> .
+    _:session <Session.ipAddress> "${ session.ipAddress }" .
+    _:session <Session.accessExpiration> "${ session.accessExpiration }" .
+    _:session <Session.refreshExpiration> "${ session.refreshExpiration }" .
+  `})
 
-export async function add (session: Session): Promise<Session> {
-  const { addSession } = await dgraph({
-    query: `
-      mutation MyMutation {
-        addSession(input: {refreshExpiration: "${ session.refreshExpiration }", ipAddress: "${session.ipAddress }", accessExpiration: "${ session.accessExpiration }", user: {id: "${ session.user.id }"}}) {
-          session {
-            ${ sessionBody }
-          }
-        }
-      }    
-    `
-  })
-
-  return addSession.session[0] as Session
+  return r?.data?.uids?.session // newly created session uid
 }
 
 
-export async function remove (sessionId: string): Promise<Session> {
-  const { deleteSession } = await dgraph({
-    query: `
-      mutation MyMutation {
-        deleteSession(filter: {id: "${ sessionId }"}) {
-          session {
-            ${ sessionBody }
-          }
-        }
-      }
-    `
-  })
-
-  return deleteSession.session[0] as Session
+export async function remove (sessionUid: string): Promise<DgraphResponse> {
+  return dgraph({ commitNow: true, remove: `<${ sessionUid }> * * .`})
 }
 
 
-export async function updateIP (sessionId: string, ipAddress: string): Promise<Session> {
-  const { updateSession } = await dgraph({
-    query: `
-      mutation MyMutation {
-        updateSession(input: {filter: {id: "${ sessionId }"}, set: {ipAddress: "${ ipAddress }"}}) {
-          session {
-            ${ sessionBody }
-          }
-        }
-      }
-    `
-  })
-
-  return updateSession.session[0] as Session
+export async function updateIP (sessionUid: string, ipAddress: string): Promise<DgraphResponse> {
+  return await dgraph({ commitNow: true, mutation: `<${ sessionUid }> <Session.ipAddress> "${ ipAddress }" .`})
 }

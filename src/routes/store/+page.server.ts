@@ -1,5 +1,4 @@
-import search from '$lib/actions/search'
-import type { Actions, PageServerLoad } from './$types'
+import type { PageServerLoad } from './$types'
 import serverPageCatch from '$lib/catch/serverPageCatch'
 
 
@@ -13,8 +12,3 @@ export const load = (({ url }) => {
     return serverPageCatch(e)
   }
 }) satisfies PageServerLoad
-
-
-export const actions = {
-  search
-} satisfies Actions
