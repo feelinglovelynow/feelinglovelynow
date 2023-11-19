@@ -1,5 +1,6 @@
 import { dgraph } from '$lib/dgraph/dgraph'
-import type { Order, ReturnRequestSome, DgraphTransaction } from '$lib'
+import type { Order, ReturnRequestSome } from '$lib'
+import type { DgraphTransaction } from '$lib/global/dgraph/transaction'
 
 
 export default async function returnRequestSomeOrderItems ({ transaction, dgraphOrder, justReturnRequestedSome }: { transaction: DgraphTransaction, dgraphOrder: Order, justReturnRequestedSome: ReturnRequestSome[]}): Promise<string[]> {

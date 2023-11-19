@@ -1,5 +1,6 @@
 import { dgraph } from '$lib/dgraph/dgraph'
-import type { DgraphTransaction, Order, SearchOrdersRequest } from '$lib'
+import type { Order, SearchOrdersRequest } from '$lib'
+import type { DgraphTransaction } from '$lib/global/dgraph/transaction'
 
 
 export default async function queryOrder (transaction: DgraphTransaction | null, { uid, email, startDate, endDate }: SearchOrdersRequest): Promise<Order[]> {

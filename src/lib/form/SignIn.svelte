@@ -18,7 +18,7 @@
     { name: 'email', label: 'Email', type: 'email' },
   ]
 
-  const onSuccess = ((r: any) => {
+  const onSuccess = (({ r }) => {
     if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
     else {
       const linkId = crypto.randomUUID()

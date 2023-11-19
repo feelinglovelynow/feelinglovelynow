@@ -1,5 +1,6 @@
 import { dgraph } from '$lib/dgraph/dgraph'
-import type { Session, AddSession, DgraphResponse } from '$lib'
+import type { Session, AddSession } from '$lib'
+import type { DgraphResponse } from '$lib/global/dgraph'
 
 
 const sessionBody = `

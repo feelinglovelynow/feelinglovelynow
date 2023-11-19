@@ -1,5 +1,3 @@
-import dgraphJsHttp from 'dgraph-js-http'
-
 export type Source = {
   uid: string
   slug: string
@@ -121,17 +119,3 @@ export interface AddSession extends Session {
 export type AddByUid = {
   uid: string
 }
-
-
-export type DgraphTransaction = dgraphJsHttp.Txn
-
-interface DgraphResponseInterface {} // https://stackoverflow.com/a/61281828
-interface DgraphSuccessResponse extends DgraphResponseInterface  { data: any, errors?: never }
-interface DgraphErrorResponse extends DgraphResponseInterface { data?: never, errors: { message: string }[] }
-export type DgraphResponse = DgraphSuccessResponse | DgraphErrorResponse
-
-interface DgraphOptionsInterface {} // https://stackoverflow.com/a/61281828
-interface DgraphQueryOptions extends DgraphOptionsInterface  { query: string, mutation?: never, remove?: never, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
-interface DgraphMutationOptions extends DgraphOptionsInterface { query?: never, mutation: string, remove?: never, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
-interface DgraphRemoveOptions extends DgraphOptionsInterface { query?: never, mutation?: never, remove: string, transaction?: DgraphTransaction, commitNow?: boolean, readOnly?: boolean, discardTxn?: boolean }
-export type DgraphOptions = DgraphQueryOptions | DgraphMutationOptions | DgraphRemoveOptions
