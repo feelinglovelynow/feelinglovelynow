@@ -12,7 +12,7 @@ export const GET = (async ({ locals }) => {
     if (!locals.userUid) throw one('Unauthorized', { locals })
     else {
       const products = await queryProduct()
-      return json(await put(enumCacheKey.productsv2, JSON.stringify(products)))
+      return json(await put(enumCacheKey.products, JSON.stringify(products)))
     }
   } catch (e) {
     return serverRequestCatch(e)

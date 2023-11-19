@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-cloudflare-workers'
 import { vitePreprocess } from '@sveltejs/kit/vite'
+import adapter from '@sveltejs/adapter-cloudflare-workers'
 
 /** @type {import('@sveltejs/kit').Config} */
 export default {
@@ -19,6 +19,7 @@ export default {
         'object-src': [ 'none' ],
         'script-src': [ 'strict-dynamic' ],
         'frame-src': [
+          'https://www.paypal.com',
           'https://checkout.paypal.com',
           'https://www.sandbox.paypal.com',
           'https://w.soundcloud.com/player/',

@@ -12,7 +12,7 @@ export const GET = (async ({ locals }) => {
     if (!locals.userUid) throw one('Unauthorized', { locals })
     else {
       const sources = await getLibrarySources()
-      return json(await put(enumCacheKey.sourcesv2, JSON.stringify(sources)))
+      return json(await put(enumCacheKey.sources, JSON.stringify(sources)))
     }
   } catch (e) {
     return serverRequestCatch(e)

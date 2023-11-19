@@ -68,6 +68,6 @@ export enum enumTheme {
 }
 
 export enum enumCacheKey {
-  sourcesv2 = 'sourcesv2',
-  productsv2 = 'productsv2'
+  sources = 'sources',
+  products = 'products'
 }
