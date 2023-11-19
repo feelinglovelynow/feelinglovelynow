@@ -3,7 +3,7 @@ import { dgraph } from '$lib/dgraph/dgraph'
 
 
 export default async function queryUser (email: string): Promise<User | undefined> {
-  const r = await dgraph({ readOnly: true, discardTxn: true, query: `
+  const r = await dgraph({ readOnly: true, bestEffort: true, discardTxn: true, query: `
     query {
       users(func: eq(User.email, "${ email }")) {
         uid

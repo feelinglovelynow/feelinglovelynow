@@ -15,7 +15,7 @@ const sessionBody = `
 
 
 export async function getAll (): Promise<Session[]> {
-  const r = await dgraph({ readOnly: true, discardTxn: true, query: `
+  const r = await dgraph({ readOnly: true, bestEffort: true, discardTxn: true, query: `
     query {
       sessions(func: type(Session)) {
         ${ sessionBody }

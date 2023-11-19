@@ -82,7 +82,7 @@ export default async function getSearchSources (search: string, isQuotesChecked:
     }
   `
 
-  const transaction = await txn({ readOnly: true, pointMain: true }) // sources are only in main db
+  const transaction = await txn({ readOnly: true, bestEffort: true, pointMain: true }) // sources are only in main db
 
   const r = await dgraph({ transaction, discardTxn: true, query: `
     query {

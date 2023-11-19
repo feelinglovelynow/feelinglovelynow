@@ -1,22 +1,24 @@
-export class DgraphTransaction {
+export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
   hash = ''
   start_ts = 0
   timeout = 600
   apiKey: string
   aborted = false
   endpoint: string
-  readOnly = false
   discarded = false
   keys: string[] = []
   preds: string[] = []
+  readOnly = false // Read-only transactions are useful to increase read speed because they can circumvent the usual consensus protocol. Read-only transactions cannot contain mutations and trying to call txn.Commit() will result in an error. Calling txn.Discard() will be a no-op.
+  bestEffort = false // Using this flag will ask the Dgraph Alpha to try to get timestamps from memory on a best-effort basis to reduce the number of outbound requests to Zero. This may yield improved latencies in read-bound workloads where linearizable reads are not strictly needed.
 
 
-  constructor ({ endpoint, apiKey, readOnly, timeout }: DgraphTransactionConstructor) {
+  constructor ({ endpoint, apiKey, readOnly, bestEffort, timeout }: DgraphTransactionConstructor) {
     this.apiKey = apiKey
     this.endpoint = endpoint
 
     if (readOnly) this.readOnly = true
     if (timeout) this.timeout = timeout
+    if (bestEffort) this.bestEffort = true
   }
 
 
@@ -28,14 +30,12 @@ export class DgraphTransaction {
       if (this.hash) searchParams.set('hash', this.hash)
       if (this.start_ts !== 0) searchParams.set('startTs', String(this.start_ts))
       if (this.timeout > 0) searchParams.set('timeout', String(this.timeout) + 's')
-      if (this.readOnly) {
-        searchParams.set('ro', 'true')
-        searchParams.set('be', 'true')
-      }
+      if (this.readOnly) searchParams.set('ro', 'true')
+      if (this.bestEffort) searchParams.set('be', 'true')
 
       const searchParamsStr = searchParams.toString()
       const path = searchParamsStr ? `query?${ searchParamsStr }` : 'query'
-      const r = await this.#api({ path, contentType: enumContentType.graphql, body: query })
+      const r = await this.#api({ path, contentType: enumContentType.dql, body: query })
       this.#mergeContext(r?.extensions?.txn)
       return r
     } 
@@ -124,9 +124,9 @@ export class DgraphTransaction {
 
 
   #mergeArrays(a: string[], b: string[]) {
-    const res = a.slice().concat(b)
-    res.sort()
-    return res.filter((item: string, idx: number, arr: string[]) => idx === 0 || arr[idx - 1] !== item) // Filter unique in a sorted array
+    const concat = a.concat(b) // merge arrays
+    const set = new Set(concat) // remove duplicates
+    return Array.from(set) // convert back to an array
   }
 }
 
@@ -136,6 +136,7 @@ type DgraphTransactionConstructor = {
   apiKey: string
   timeout?: number
   readOnly?: boolean
+  bestEffort?: boolean
 }
 
 
@@ -156,9 +157,9 @@ type DgraphApiHeaders = {
 
 
 enum enumContentType {
+  dql = 'application/dql',
   rdf = 'application/rdf',
   json = 'application/json',
-  graphql = 'application/graphql+-'
 }
 
 

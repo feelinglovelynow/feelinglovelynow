@@ -8,7 +8,7 @@ export async function dgraph ({ transaction, query, mutation, remove, commitNow,
     if (query) r = await transaction.query(query) as DgraphResponse
     else if (mutation) r = await transaction.mutate({ mutation, commitNow }) as DgraphResponse
     else if (remove) r = await transaction.mutate({ remove, commitNow }) as DgraphResponse
-    else throw { id: 'fln__dgraph__action-missing', message: 'Send function a query mutation or remove string' }
+    else throw { id: 'fln__dgraph__action-missing', message: 'Send dgraph function a query mutation or remove string please' }
 
     if (r?.errors?.length) throw r.errors
 
