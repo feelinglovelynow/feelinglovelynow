@@ -84,7 +84,7 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
     else {
       this.discarded = true
 
-      const body = this.keys.length ? JSON.stringify(this.keys) : '[]'
+      const body = JSON.stringify(this.keys)
 
       const searchParams = new URLSearchParams()
       searchParams.set('startTs', String(this.start_ts))
@@ -131,6 +131,13 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
 }
 
 
+enum enumContentType {
+  dql = 'application/dql',
+  rdf = 'application/rdf',
+  json = 'application/json',
+}
+
+
 type DgraphTransactionConstructor = {
   endpoint: string
   apiKey: string
@@ -153,13 +160,6 @@ type DgraphTransactionExtensions = {
 type DgraphApiHeaders = {
   'X-Auth-Token': string,
   'Content-Type'?: enumContentType
-}
-
-
-enum enumContentType {
-  dql = 'application/dql',
-  rdf = 'application/rdf',
-  json = 'application/json',
 }
 
 
