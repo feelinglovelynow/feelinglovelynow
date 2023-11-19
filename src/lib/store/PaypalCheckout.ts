@@ -3,9 +3,9 @@ import { set } from '$lib/store/cart'
 import { log } from '$lib/catch/error'
 import showToast from '@feelinglovelynow/toast'
 import type { HideModal } from '@feelinglovelynow/svelte-modal'
-import { PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
 import type { CaptureOrderRequest, Cart, CreateOrderRequest } from '$lib'
 import { loadScript, type PayPalNamespace, type OnApproveData } from '@paypal/paypal-js'
+import { PUBLIC_ENVIRONMENT, PUBLIC_PAYPAL_CLIENT_ID, PUBLIC_PAYPAL_SANDBOX_CLIENT_ID } from '$env/static/public'
 
 
 export default class Braintree {
@@ -51,7 +51,9 @@ export default class Braintree {
 
  
   #loadScript () {
-    loadScript({ clientId: PUBLIC_PAYPAL_SANDBOX_CLIENT_ID, currency: 'USD', intent: 'capture' })
+    const clientId = PUBLIC_ENVIRONMENT === 'main' ? PUBLIC_PAYPAL_CLIENT_ID : PUBLIC_PAYPAL_SANDBOX_CLIENT_ID 
+
+    loadScript({ clientId, currency: 'USD', intent: 'capture' })
       .then(x => {
         if (x) this.#onScriptLoaded(x)
         else this.#onError('PayPal script did not load')

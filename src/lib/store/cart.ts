@@ -1,10 +1,16 @@
 import { writable } from 'svelte/store'
-import type { Cart, OrderItem } from '$lib'
 import { browser } from '$app/environment'
+import type { Cart, OrderItem } from '$lib'
+import loopBackwards from '@feelinglovelynow/loop-backwards'
 
 
 const defaultValue: Cart = []
 const localValue = browser ? JSON.parse(window.localStorage.getItem('cart') || '[]') : defaultValue
+
+loopBackwards(localValue, (cartItem, splice) => { // get rid of items in cart that are from dgraph v1
+  if (cartItem.productUid) splice()
+})
+
 export const cart = writable<Cart>(localValue || defaultValue)
 
 
