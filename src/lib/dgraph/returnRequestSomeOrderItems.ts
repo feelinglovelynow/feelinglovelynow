@@ -1,6 +1,5 @@
-import { dgraph } from '$lib/dgraph/dgraph'
 import type { Order, ReturnRequestSome } from '$lib'
-import type { DgraphTransaction } from '$lib/global/dgraph/transaction'
+import type { DgraphTransaction } from '$lib/global/dgraph'
 
 
 export default async function returnRequestSomeOrderItems ({ transaction, dgraphOrder, justReturnRequestedSome }: { transaction: DgraphTransaction, dgraphOrder: Order, justReturnRequestedSome: ReturnRequestSome[]}): Promise<string[]> {
@@ -28,6 +27,7 @@ export default async function returnRequestSomeOrderItems ({ transaction, dgraph
     `
   }
 
-  const r = await dgraph({ transaction, mutation })
+  const r = await transaction.mutate({ mutation })
+
   return Object.values(r?.data?.uids) // return recently created uids in an array
 }

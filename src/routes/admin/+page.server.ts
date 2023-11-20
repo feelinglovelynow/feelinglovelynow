@@ -24,7 +24,7 @@ export const load = (async ({ locals }) => {
 
       return {
         search,
-        orders: await queryOrder(null, search)
+        orders: await queryOrder(null, true, search)
       }
     }
   } catch (e) {

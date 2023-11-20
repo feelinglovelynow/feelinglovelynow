@@ -1,11 +1,12 @@
 import type { Product } from '$lib'
-import { txn, dgraph } from '$lib/dgraph/dgraph'
+import credentials from '$lib/dgraph/credentials'
+import { DgraphTransaction } from '$lib/global/dgraph'
 
 
 export default async function getProducts (): Promise<Product[]> {
-  const transaction = await txn({ readOnly: true, pointMain: true }) // products are only in main db
+  const transaction = new DgraphTransaction({ ...credentials(true), readOnly: true }) // products are only in main db
 
-  const r = await dgraph({ transaction, discardTxn: true, query: `
+  const r = await transaction.query(true, `
     query {
       products(func: type(Product)) {
         uid
@@ -28,7 +29,7 @@ export default async function getProducts (): Promise<Product[]> {
         }
       }
     }
-  `})
+  `)
 
   return r?.data?.products as Product[]
 }

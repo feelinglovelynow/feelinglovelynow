@@ -5,7 +5,8 @@ import send from '$lib/mailchannels/send'
 import getOrder from '$lib/dgraph/getOrder'
 import type { RequestHandler } from './$types'
 import queryOrder from '$lib/dgraph/queryOrder'
-import { dgraph, txn } from '$lib/dgraph/dgraph'
+import credentials from '$lib/dgraph/credentials'
+import { DgraphTransaction } from '$lib/global/dgraph'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import getHeader from '$lib/mailchannels/getHeader'
 import getFooter from '$lib/mailchannels/getFooter'
@@ -93,10 +94,10 @@ export const POST = (async ({ locals, request }) => {
             }
           }
 
-          const transaction = txn({}) // start a transaction
+          const transaction = new DgraphTransaction({ ...credentials() }) // start a transaction
 
           if (justShipped.length || justRefunded.length || justPurchased.length || justDelivered.length || justPrintfulProcessed.length || justReturnRequestedAll.length || justStartedRefundProcessing.length) {
-            await dgraph({ transaction, mutation: `
+            await transaction.mutate({ mutation: `
               ${ (justShipped.length) ? updateOrderItems(justShipped) : '' }
               ${ (justRefunded.length) ? updateOrderItems(justRefunded) : '' }
               ${ (justPurchased.length) ? updateOrderItems(justPurchased) : '' }
@@ -111,7 +112,7 @@ export const POST = (async ({ locals, request }) => {
             newlyCreatedReturnRequestOrderItemUids = await returnRequestSomeOrderItems({ transaction, dgraphOrder, justReturnRequestedSome })
           }
 
-          const freshOrders = await queryOrder(transaction, body.search)
+          const freshOrders = await queryOrder(transaction, false, body.search)
 
           await transaction.commit() // commit the transaction if we made it this far w/o an error
 

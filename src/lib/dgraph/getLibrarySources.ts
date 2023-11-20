@@ -1,11 +1,12 @@
 import type { Source } from '$lib'
-import { txn, dgraph } from '$lib/dgraph/dgraph'
+import credentials from '$lib/dgraph/credentials'
+import { DgraphTransaction } from '$lib/global/dgraph'
 
 
 export default async function getLibrarySources (): Promise<Source[]> {
-  const transaction = await txn({ readOnly: true, pointMain: true }) // sources are only in main db
+  const transaction = new DgraphTransaction({ ...credentials(true), readOnly: true }) // sources are only in main db
 
-  const r = await dgraph({ transaction, discardTxn: true, query: `
+  const r = await transaction.query(true, `
     query {
       sources (func: type(Source), orderdesc: Source.createdAt) {
         uid
@@ -40,7 +41,7 @@ export default async function getLibrarySources (): Promise<Source[]> {
         }
       }
     }
-  `})
+  `)
 
   return r?.data?.sources as Source[]
 }

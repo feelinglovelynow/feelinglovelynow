@@ -33,3 +33,12 @@ export type ReturnRequestSome = {
   bodyOrderItem: OrderItem,
   dgraphOrderItem: OrderItem
 }
+
+export type PublicPaypalCredentials = {
+  clientId: string
+}
+
+export type PrivatePaypalCredentials = {
+  apiUrl: string,
+  clientSecret: string,
+}

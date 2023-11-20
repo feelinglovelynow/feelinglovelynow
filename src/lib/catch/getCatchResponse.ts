@@ -1,5 +1,6 @@
 import { ZodError } from 'zod'
 import type { flnErrors } from '$lib'
+import { log } from '$lib/catch/error'
 import { redirect } from '@sveltejs/kit'
 import _catch from '$lib/catch/getCatchResponse'
 
@@ -18,6 +19,7 @@ export default function getCatchResponse (e: any, DEFAULT_ERROR: string) {
       else response._errors.push(DEFAULT_ERROR)
     }
 
+    log({ e, response })
     return response
   }
 }

@@ -4,7 +4,7 @@ import createToken from '$lib/auth/createToken'
 import verifyToken from '$lib/auth/verifyToken'
 import { enumTokenType } from '$lib/global/enums'
 import type { RequestEvent } from '@sveltejs/kit'
-import { getOne, updateIP } from '$lib/auth/sessions'
+import { get, updateIP } from '$lib/auth/sessions'
 import setAccessAndRefreshCookies from '$lib/auth/setAccessAndRefreshCookies'
 import deleteAccessAndRefreshCookies from '$lib/auth/deleteAccessAndRefreshCookies'
 import viaCookiesGetAccessAndRefreshTokens from '$lib/auth/viaCookiesGetAccessAndRefreshTokens'
@@ -22,7 +22,7 @@ export default async function authHook (event: RequestEvent): Promise<RequestEve
 
         if (!sessionUid) await signThemOut(event, refreshToken) // if no sessionUid found in token => sign them out
         else {
-          const session = await getOne(sessionUid) // find session based on access token
+          const session = await get(sessionUid) // find session based on access token
 
           if (!session) deleteAccessAndRefreshCookies(event.cookies) // if session not found, this is a signed out user so => delete cookies
           else event.locals.userUid = session.user.uid // session found so add userUid to locals so server code down stream may access it
@@ -44,7 +44,7 @@ async function onAccessTokenExpired (event: RequestEvent, refreshToken: string):
     const { sessionUid } = await verifyToken(enumTokenType.REFRESH, refreshToken) // verify the refresh token
 
     if (sessionUid) { // if refresh token is good
-      const session = await getOne(sessionUid) // get dgraph session
+      const session = await get(sessionUid) // get dgraph session
       if (!session) deleteAccessAndRefreshCookies(event.cookies) // IF no dgraph session => this is a signed out user so delete their current cookies
       else await createNewSessionTokenAndCookies(event, session) // dgraph session found => create new session, tokens, cookies
     }

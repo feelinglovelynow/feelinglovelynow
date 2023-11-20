@@ -1,9 +1,12 @@
 import type { Order } from '$lib'
-import { dgraph } from '$lib/dgraph/dgraph'
+import credentials from '$lib/dgraph/credentials'
+import { DgraphTransaction } from '$lib/global/dgraph'
 
 
 export default async function getOrder (orderUid: string): Promise<Order | undefined> {
-  const r = await dgraph({ readOnly: true, discardTxn: true, query: `
+  const transaction = new DgraphTransaction({ ...credentials(), readOnly: true })
+
+  const r = await transaction.query(true, `
     query {
       orders(func: uid(${ orderUid })) @filter(type(Order)) {
         uid
@@ -27,7 +30,7 @@ export default async function getOrder (orderUid: string): Promise<Order | undef
         }
       }
     }  
-  `})
+  `)
 
   return r?.data?.orders?.[0] as Order | undefined
 }
