@@ -7,8 +7,9 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
   startTs = 0
   timeout = 600
   apiKey: string
-  aborted = false
-  commited = false
+  isClosed = false
+  isAborted = false
+  isCommited = false
   endpoint: string
   keys: string[] = []
   preds: string[] = []
@@ -30,9 +31,10 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
   }
 
 
-  async query (abortWhenDone: boolean, query: string): Promise<DgraphResponse> {
-    if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { query } }
-    else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { query } }
+  async query (closeWhenDone: boolean, query: string): Promise<DgraphResponse> {
+    if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { query } }
+    else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { query } }
+    else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed', log: { query } }
     else {
       const searchParams = new URLSearchParams()
 
@@ -46,7 +48,7 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
       const path = searchParamsStr ? `query?${ searchParamsStr }` : 'query'
       const r = await this.#api({ path, body: query, contentType: enumContentType.dql })
 
-      if (abortWhenDone) this.aborted = true
+      if (closeWhenDone) this.isClosed = true
       else this.#mergeContext(r?.extensions?.txn)
 
       return r
@@ -56,8 +58,9 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
 
   async mutate ({ mutation, remove, commitNow }: DgraphMutationOptions): Promise<DgraphResponse> {
     if (!mutation && !remove) throw { id: 'fln__dgraph__empty-mutate', message: 'Mutate function requires a mutation or remove string' }
-    else if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { mutation, remove, commitNow } }
-    else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { mutation, remove, commitNow } }
+    else if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { mutation, remove, commitNow } }
+    else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { mutation, remove, commitNow } }
+    else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed', log: { mutation, remove, commitNow } }
     else if (this.readOnly) throw { id: 'fln__dgraph__readonly-mutation', message: 'Readonly transactions may not contain mutations', log: { mutation, remove, commitNow } }
     else {
       this.didMutations = true
@@ -73,7 +76,7 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
       const path = searchParamsStr ? `mutate?${ searchParamsStr }` : 'mutate'
       const r = await this.#api({ path, body, contentType: enumContentType.rdf })
 
-      if (commitNow) this.aborted = true
+      if (commitNow) this.isCommited = true
       else this.#mergeContext(r?.extensions?.txn)
 
       return r
@@ -81,29 +84,12 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
   }
 
 
-  async abort (): Promise<DgraphResponse | void> {
-    if (!this.aborted) {
-      this.aborted = true
-
-      if (this.didMutations) { // IF transaction did mutations => api call to "/commit?abort=true" happens
-        const searchParams = new URLSearchParams()
-        searchParams.set('startTs', String(this.startTs))
-        searchParams.set('abort', 'true')
-        if (this.hash) searchParams.set('hash', this.hash)
-
-        const path = 'commit?' + searchParams.toString()
-
-        return await this.#api({ path })
-      }
-    }
-  }
-
-
   async commit (): Promise<DgraphResponse | void> {
-    if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted' }
-    else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited' }
+    if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted' }
+    else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited' }
+    else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed' }
     else {
-      this.commited = true
+      this.isCommited = true
 
       if (this.didMutations) { // IF transaction did mutations => api call to "/commit" happens
         const body = JSON.stringify(this.keys)
@@ -115,6 +101,24 @@ export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/
         const path = 'commit?' + searchParams.toString()
 
         return await this.#api({ path, body, contentType: enumContentType.json })
+      }
+    }
+  }
+
+
+  async abort (): Promise<DgraphResponse | void> {
+    if (!this.isAborted) {
+      this.isAborted = true
+
+      if (this.didMutations) { // IF transaction did mutations => api call to "/commit?abort=true" happens
+        const searchParams = new URLSearchParams()
+        searchParams.set('startTs', String(this.startTs))
+        searchParams.set('abort', 'true')
+        if (this.hash) searchParams.set('hash', this.hash)
+
+        const path = 'commit?' + searchParams.toString()
+
+        return await this.#api({ path })
       }
     }
   }

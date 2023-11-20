@@ -261,7 +261,7 @@
 
                                   { #if orderItem.status === enumOrderItemStatus.RETURN_REQUESTED || orderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING || orderItem.status === enumOrderItemStatus.REFUNDED }
                                     <div class="form">
-                                      <input bind:value={ orderItem.refundAmount } disabled={ orderItem.status === enumOrderItemStatus.REFUND_MONEY_PROCESSING || orderItem.status === enumOrderItemStatus.REFUNDED } type="number" class="brand" placeholder="Refund Amount">
+                                      <input bind:value={ orderItem.refundAmount } type="number" class="brand" placeholder="Refund Amount">
                                     </div>
                                   { /if }
                                 </div>

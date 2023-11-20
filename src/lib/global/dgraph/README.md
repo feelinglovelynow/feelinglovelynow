@@ -24,10 +24,10 @@ constructor ({ apiKey, endpoint, readOnly, bestEffort, timeout })
 * **Default is 600**: `timeout { number }:` Max seconds any query of this transaction will be allowed to be attempted
 
 
-## 💛 transaction.query(abortWhenDone: boolean, query: string): Promise\<DgraphResponse\>
-* Sends a query to dgraph cloud instance
+## 💛 transaction.query(closeWhenDone: boolean, query: string): Promise\<DgraphResponse\>
+* Sends a query to a dgraph cloud instance
 * Only accepts `DQL` syntax
-* IF `abortWhenDone` is set to true the transaction will not be allowed to be used again (does not send a request to dbraph cloud instance, just tips `this.aborted` flag)
+* IF `closeWhenDone` is set to true the transaction will not be allowed to be used again (does not send a request to dgraph cloud instance, just tips `this.isClosed` flag)
 ```ts
 async function getProducts (): Promise<Product[]> {
   const transaction = new DgraphTransaction({ ...credentials(), readOnly: true, bestEffort: true })
@@ -57,7 +57,7 @@ interface DgraphErrorResponse extends DgraphResponseInterface { name: string, ur
 
 
 ## ❤️ transaction.mutate({ mutation, remove, commitNow }: DgraphMutationOptions): Promise\<DgraphResponse\>
-* Sends a mutation to dgraph cloud instance
+* Sends a mutation to a dgraph cloud instance
 * Only accepts `rdf` triples syntax
 * If `commitNow` is true we tell dgraph in this mutation api call that this is the last query or mutation coming from this transation
 ```ts
@@ -108,20 +108,23 @@ if (!endpoint) throw { id: 'fln__dgraph__missing-endpoint', message: 'Transactio
 ```
 * `this.query()`
 ```ts
-if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { query } }
-else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { query } }
+if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { query } }
+else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { query } }
+else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed', log: { query } }
 ```
 * `this.mutate()`
 ```ts
 if (!mutation && !remove) throw { id: 'fln__dgraph__empty-mutate', message: 'Mutate function requires a mutation or remove string' }
-else if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { mutation, remove, commitNow } }
-else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { mutation, remove, commitNow } }
+else if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted', log: { mutation, remove, commitNow } }
+else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited', log: { mutation, remove, commitNow } }
+else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed', log: { mutation, remove, commitNow } }
 else if (this.readOnly) throw { id: 'fln__dgraph__readonly-mutation', message: 'Readonly transactions may not contain mutations', log: { mutation, remove, commitNow } }
 ```
 * `this.commit()`
 ```ts
-if (this.aborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted' }
-else if (this.commited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited' }
+if (this.isAborted) throw { id: 'fln__dgraph__already-aborted', message: 'Transaction already aborted' }
+else if (this.isCommited) throw { id: 'fln__dgraph__already-commited', message: 'Transaction already commited' }
+else if (this.isClosed) throw { id: 'fln__dgraph__already-closed', message: 'Transaction already closed' }
 ```
 * `this.query()` |  `this.mutate()` |  `this.abort()` |  `this.commit()`
 ```ts
