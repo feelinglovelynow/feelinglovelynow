@@ -1,4 +1,4 @@
-import type { DgraphTransaction } from './transaction'
+import type { DgraphTransaction } from './DgraphTransaction'
 
 
 export type DgraphFunctionOptions = {

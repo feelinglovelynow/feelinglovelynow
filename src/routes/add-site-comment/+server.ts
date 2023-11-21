@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit'
 import send from '$lib/mailchannels/send'
 import type { RequestHandler } from './$types'
+import { serverCatch } from '$lib/global/catch'
 import validateFields from '$lib/form/validateFields'
 import addSiteComment from '$lib/dgraph/addSiteComment'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import { schemaAddSiteComment, type SchemaAddSiteComment } from '$lib/zod/addSiteComent'
 
 
@@ -26,6 +26,6 @@ export const POST = (async ({ request }) => {
 
     return json({ success: true })
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler

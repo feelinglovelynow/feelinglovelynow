@@ -1,4 +1,4 @@
-import { redirect } from '$lib/catch/error'
+import { redirect } from '$lib/global/svelte-catch'
 
 
 export default function userIsAuthenticated (locals: App.Locals) {

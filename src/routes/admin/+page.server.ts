@@ -1,8 +1,9 @@
-import { redirect } from '$lib/catch/error'
+
+import type { PageServerLoad } from './$types'
 import type { SearchOrdersRequest } from '$lib'
 import queryOrder from '$lib/dgraph/queryOrder'
-import type { PageServerLoad } from './$types'
-import serverPageCatch from '$lib/catch/serverPageCatch'
+import { redirect } from '$lib/global/svelte-catch'
+import { pageServerCatch } from '$lib/global/catch'
 import { dateToDateTimeLocal } from '$lib/global/dateToDateTimeLocal'
 
 
@@ -28,7 +29,7 @@ export const load = (async ({ locals }) => {
       }
     }
   } catch (e) {
-    return serverPageCatch(e)
+    return pageServerCatch(e)
   }
 }) satisfies PageServerLoad
 

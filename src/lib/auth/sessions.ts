@@ -1,5 +1,5 @@
 import type { Session, AddSession } from '$lib'
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction, type DgraphResponse } from '$lib/global/dgraph'
 
 
@@ -15,7 +15,7 @@ const sessionBody = `
 
 
 export async function get (sessionUid: string): Promise<Session | undefined> {
-  const transaction = new DgraphTransaction({ ...credentials(), readOnly: true })
+  const transaction = new DgraphTransaction({ ...txnOptions(), readOnly: true })
 
   const r = await transaction.query(true, `
     query {
@@ -30,7 +30,7 @@ export async function get (sessionUid: string): Promise<Session | undefined> {
 
 
 export async function add (session: AddSession): Promise<string> {
-  const transaction = new DgraphTransaction({ ...credentials() })
+  const transaction = new DgraphTransaction({ ...txnOptions() })
 
   const r = await transaction.mutate({
     commitNow: true,
@@ -48,7 +48,7 @@ export async function add (session: AddSession): Promise<string> {
 
 
 export async function remove (sessionUid: string): Promise<DgraphResponse> {
-  const transaction = new DgraphTransaction({ ...credentials() })
+  const transaction = new DgraphTransaction({ ...txnOptions() })
 
   return transaction.mutate({
     commitNow: true,
@@ -58,7 +58,7 @@ export async function remove (sessionUid: string): Promise<DgraphResponse> {
 
 
 export async function updateIP (sessionUid: string, ipAddress: string): Promise<DgraphResponse> {
-  const transaction = new DgraphTransaction({ ...credentials() })
+  const transaction = new DgraphTransaction({ ...txnOptions() })
 
   return await transaction.mutate({
     commitNow: true,

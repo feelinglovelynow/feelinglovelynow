@@ -1,4 +1,4 @@
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '$lib/global/dgraph'
 import type { Order, SearchOrdersRequest } from '$lib'
 
@@ -10,7 +10,7 @@ export default async function queryOrder (transaction: DgraphTransaction | null,
   else if (email) filter = `@filter(eq(Order.email, "${ email }"))`
   else if (startDate && endDate) filter = ` @filter(between(Order.createdAt, "${ (new Date(startDate)).toISOString() }", "${ (new Date(endDate)).toISOString() }"))`
 
-  transaction = transaction ? transaction : new DgraphTransaction({ ...credentials(), readOnly: true })
+  transaction = transaction ? transaction : new DgraphTransaction({ ...txnOptions(), readOnly: true })
 
   const r = await transaction.query(abortWhenDone, `
     query {

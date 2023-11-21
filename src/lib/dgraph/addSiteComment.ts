@@ -1,10 +1,10 @@
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '$lib/global/dgraph'
 import type { SchemaAddSiteComment } from '$lib/zod/addSiteComent'
 
 
 export default async function addSiteComment (body: SchemaAddSiteComment) {
-  const transaction = new DgraphTransaction({ ...credentials() })
+  const transaction = new DgraphTransaction({ ...txnOptions() })
 
   return transaction.mutate({
     commitNow: true,

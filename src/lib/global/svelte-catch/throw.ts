@@ -1,5 +1,5 @@
-import _log from '$lib/global/log'
-import type { flnErrors } from '$lib/catch/error.d'
+import { log } from './log'
+import type { flnErrors } from './index.d'
 
 
 export function one (message: string, errorData: any = undefined) {
@@ -17,9 +17,4 @@ export function many (_errors: flnErrors, errorData: any = undefined) {
 
 export function redirect (url: string) {
   return { _redirect: url }
-}
-
-
-export function log (data: any) {
-  _log([ '---FLN ERROR START---', data, 'trace',  '---FLN ERROR END---' ])
 }

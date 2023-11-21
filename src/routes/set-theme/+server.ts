@@ -1,8 +1,8 @@
-import { one } from '$lib/catch/error'
 import { enumTheme } from '$lib/global/enums'
 import type { RequestHandler } from './$types'
+import { one } from '$lib/global/svelte-catch'
+import { serverCatch } from '$lib/global/catch'
 import setThemeCookie from '$lib/theme/setThemeCookie'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
 
 
 export const GET = (async ({ url, cookies }) => {
@@ -14,6 +14,6 @@ export const GET = (async ({ url, cookies }) => {
 
     return new Response('success')
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler

@@ -1,19 +1,19 @@
 import { json } from '@sveltejs/kit'
 import Price from '$lib/store/Price'
-import { one } from '$lib/catch/error'
 import send from '$lib/mailchannels/send'
 import getOrder from '$lib/dgraph/getOrder'
+import { one } from '$lib/global/svelte-catch'
 import type { RequestHandler } from './$types'
+import { serverCatch } from '$lib/global/catch'
 import queryOrder from '$lib/dgraph/queryOrder'
-import credentials from '$lib/dgraph/credentials'
-import { DgraphTransaction } from '$lib/global/dgraph'
+import txnOptions from '$lib/dgraph/txnOptions'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import getHeader from '$lib/mailchannels/getHeader'
 import getFooter from '$lib/mailchannels/getFooter'
+import { DgraphTransaction } from '$lib/global/dgraph'
 import { enumOrderItemStatus } from '$lib/global/enums'
 import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import updateOrderItems from '$lib/dgraph/updateOrderItems'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
 import returnRequestSomeOrderItems from '$lib/dgraph/returnRequestSomeOrderItems'
@@ -23,7 +23,6 @@ import type { Order, OrderItem, Product, ReturnRequestSome, UpdateOrderItemsRequ
 export const POST = (async ({ locals, request }) => {
   try {
     if (!locals.userUid) throw one('Unauthorized', { locals })
-    // else if (PUBLIC_ENVIRONMENT === 'local') throw one('Please do this at <a target="_blank" href="https://feelinglovelynow.com/admin">https://feelinglovelynow.com/admin</a> b/c this action requires emails to be sent', { locals })
     else {
       const body = await request.json() as UpdateOrderItemsRequest
 
@@ -94,7 +93,7 @@ export const POST = (async ({ locals, request }) => {
             }
           }
 
-          const transaction = new DgraphTransaction({ ...credentials() }) // start a transaction
+          const transaction = new DgraphTransaction({ ...txnOptions() }) // start a transaction
 
           if (justShipped.length || justRefunded.length || justPurchased.length || justDelivered.length || justPrintfulProcessed.length || justReturnRequestedAll.length || justStartedRefundProcessing.length) {
             await transaction.mutate({ mutation: `
@@ -137,7 +136,7 @@ export const POST = (async ({ locals, request }) => {
       }
     }
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler
 

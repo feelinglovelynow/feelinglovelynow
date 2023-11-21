@@ -3,10 +3,10 @@
   import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
+  import { routeCatch } from '$lib/global/catch'
   import AboutUs from '$lib/global/AboutUs.svelte'
   import GuitarPic from '$lib/global/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
-  import toastRouteError from '$lib/catch/toastRouteError'
   import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import SocialSupport from '$lib/global/SocialSupport.svelte'
   import AddSiteComment from '$lib/form/AddSiteComment.svelte'
@@ -14,7 +14,7 @@
   import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 
   $: products = sortFeaturedProducts(data.products)
 
@@ -33,8 +33,6 @@
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute)
     // November
-    Date.UTC(2023, 10, 15, 24, 44),
-    Date.UTC(2023, 10, 20, 24, 44),
     Date.UTC(2023, 10, 22, 24, 44),
     Date.UTC(2023, 10, 27, 24, 44),
     Date.UTC(2023, 10, 29, 24, 44),

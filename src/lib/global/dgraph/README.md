@@ -30,7 +30,7 @@ constructor ({ apiKey, endpoint, readOnly, bestEffort, timeout })
 * IF `closeWhenDone` is set to true the transaction will not be allowed to be used again (does not send a request to dgraph cloud instance, just tips `this.isClosed` flag)
 ```ts
 async function getProducts (): Promise<Product[]> {
-  const transaction = new DgraphTransaction({ ...credentials(), readOnly: true, bestEffort: true })
+  const transaction = new DgraphTransaction({ ...txnOptions(), readOnly: true, bestEffort: true })
 
   const r = await transaction.query(true, `
     query {
@@ -61,14 +61,14 @@ interface DgraphErrorResponse extends DgraphResponseInterface { name: string, ur
 * Only accepts `rdf` triples syntax
 * If `commitNow` is true we tell dgraph in this mutation api call that this is the last query or mutation coming from this transation
 ```ts
-const t1 = new DgraphTransaction({ ...credentials() })
+const t1 = new DgraphTransaction({ ...txnOptions() })
 
 await t1.mutate({ // remove + commit t1
   commitNow: true,
   remove: `<${ uid }> * * .`
 })
 
-const t2 = new DgraphTransaction({ ...credentials() })
+const t2 = new DgraphTransaction({ ...txnOptions() })
 
 await t2.mutate({ // mutation
   mutation: `

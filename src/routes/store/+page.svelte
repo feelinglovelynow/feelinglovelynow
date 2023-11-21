@@ -3,8 +3,8 @@
   import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
+  import { routeCatch } from '$lib/global/catch'
   import FullProduct from '$lib/store/FullProduct.svelte'
-  import toastRouteError from '$lib/catch/toastRouteError'
   import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import ShoppingCart from '$lib/store/ShoppingCart.svelte'
   import BriefProduct from '$lib/store/BriefProduct.svelte'
@@ -12,8 +12,7 @@
   import ProductCategories from '$lib/store/ProductCategories.svelte'
 
   export let data: PageData
-
-  toastRouteError(data)
+  routeCatch(data)
 
   let isPageLoading = true
   let products: Product[] = []

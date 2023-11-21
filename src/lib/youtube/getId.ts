@@ -1,4 +1,4 @@
-import { one } from '$lib/catch/error'
+import { one } from '$lib/global/svelte-catch'
 
 
 export default function getId (url: string) {

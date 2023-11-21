@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit'
 import apiPaypal from '$lib/store/apiPaypal'
 import type { RequestHandler } from './$types'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
+import { serverCatch } from '$lib/global/catch'
 import { twoDecimalPlaces } from '$lib/store/twoDecimalPlaces'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CreateOrderRequest, ExpandedSubTotal, Cart } from '$lib'
@@ -13,7 +13,7 @@ export const POST = (async ({ request, platform }) => {
     const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform)
     return await createPaypalOrder(body.cart, expandedSubTotal)
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler
 

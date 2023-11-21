@@ -3,14 +3,14 @@
   import { page } from '$app/stores'
   import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
+  import { routeCatch } from '$lib/global/catch'
   import Science from '$lib/source/Science.svelte'
   import Culture from '$lib/source/Culture.svelte'
   import Product from '$lib/source/Product.svelte'
   import formatScience from '$lib/source/formatScience'
-  import toastRouteError from '$lib/catch/toastRouteError'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 
   let source: Source | undefined
 

@@ -1,4 +1,4 @@
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '$lib/global/dgraph'
 import type { AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
 
@@ -20,7 +20,7 @@ export default async function addOrder (paypalId: string, orderItems: AddOrderRe
     linkMutations += `_:order <Order.orderItems> _:${ i } . \n` // build mutation for linking the order with the order item
   }
 
-  const transaction = new DgraphTransaction({ ...credentials() })
+  const transaction = new DgraphTransaction({ ...txnOptions() })
 
   // add order items + order + link order w/ order items
   const r = await transaction.mutate({

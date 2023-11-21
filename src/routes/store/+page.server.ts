@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types'
-import serverPageCatch from '$lib/catch/serverPageCatch'
+import { pageServerCatch } from '$lib/global/catch'
 
 
 export const load = (({ url }) => {
@@ -9,6 +9,6 @@ export const load = (({ url }) => {
       urlCategorySlug: url.searchParams.get('category'),
     }
   } catch (e) {
-    return serverPageCatch(e)
+    return pageServerCatch(e)
   }
 }) satisfies PageServerLoad

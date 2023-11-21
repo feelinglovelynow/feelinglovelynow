@@ -1,20 +1,22 @@
-import put from '$lib/kv/put'
 import { json } from '@sveltejs/kit'
-import { one } from '$lib/catch/error'
 import type { RequestHandler } from './$types'
+import { one } from '$lib/global/svelte-catch'
+import { serverCatch } from '$lib/global/catch'
 import { enumCacheKey } from '$lib/global/enums'
+import { SvelteKV } from '$lib/global/svelte-kv'
 import queryProduct from '$lib/dgraph/queryProduct'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
+import svelteKVOptions from '$lib/global/svelteKVOptions'
 
 
-export const GET = (async ({ locals }) => {
+export const GET = (async ({ locals, platform }) => {
   try {
     if (!locals.userUid) throw one('Unauthorized', { locals })
     else {
       const products = await queryProduct()
-      return json(await put(enumCacheKey.products, JSON.stringify(products)))
+      const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
+      return json(await svelteKV.put(enumCacheKey.products, products))
     }
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler

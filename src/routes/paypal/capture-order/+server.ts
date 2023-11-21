@@ -1,16 +1,16 @@
 import { json } from '@sveltejs/kit'
 import Price from '$lib/store/Price'
-import { one } from '$lib/catch/error'
 import send from '$lib/mailchannels/send'
 import addOrder from '$lib/dgraph/addOrder'
 import apiPaypal from '$lib/store/apiPaypal'
 import type { RequestHandler } from './$types'
+import { one } from '$lib/global/svelte-catch'
+import { serverCatch } from '$lib/global/catch'
 import IMG_LOTUS from '$lib/sacred/IMG_LOTUS.png'
 import getHeader from '$lib/mailchannels/getHeader'
 import getFooter from '$lib/mailchannels/getFooter'
 import IMG_MERKABA from '$lib/sacred/IMG_MERKABA.png'
 import { enumOrderItemStatus } from '$lib/global/enums'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import IMG_FRUIT_METATRON from '$lib/sacred/IMG_FRUIT_METATRON.png'
 import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CaptureOrderRequest, ExpandedSubTotal, OrderItem, AddOrderRequestOrderItems, PrettyPaypal } from '$lib'
@@ -34,7 +34,7 @@ export const POST = (async ({ request, platform }) => {
       }
     }
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler
 

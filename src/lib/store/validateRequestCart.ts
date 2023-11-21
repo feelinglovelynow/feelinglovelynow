@@ -1,9 +1,10 @@
-import get from '$lib/kv/get'
 import Price from '$lib/store/Price'
-import { one } from '$lib/catch/error'
 import type { Cart, Product } from '$lib'
+import { one } from '$lib/global/svelte-catch'
 import { enumCacheKey } from '$lib/global/enums'
 import expandSubTotal from '$lib/store/expandSubTotal'
+import { SvelteKV } from '$lib/global/svelte-kv'
+import svelteKVOptions from '$lib/global/svelteKVOptions'
 
 
 export async function validateRequestCart (cart: Cart, requestTotalPrice: Price, platform: Readonly<App.Platform> | undefined) {
@@ -21,8 +22,8 @@ function validateFields (cart: Cart, requestTotalPrice: Price) {
 
 async function mergeCartWithProducts (cart: Cart, platform: Readonly<App.Platform> | undefined) {
   const cartSubTotal = new Price()
-
-  const kvProducts = await get('CACHE', enumCacheKey.products, platform) as Product[]
+  const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
+  const kvProducts = await svelteKV.get(enumCacheKey.products) as Product[]
 
   for (const cartItem of cart) { // give each product in the cart a product object (so we know it's price)
     for (const product of kvProducts) {

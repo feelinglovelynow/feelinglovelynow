@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types'
-import serverPageCatch from '$lib/catch/serverPageCatch'
+import { pageServerCatch } from '$lib/global/catch'
 import userIsNotAuthenticated from '$lib/auth/userIsNotAuthenticated'
 
 
@@ -7,6 +7,6 @@ export const load = (async ({ locals }) => {
   try {
     userIsNotAuthenticated(locals)
   } catch (e) {
-    return serverPageCatch(e)
+    return pageServerCatch(e)
   }
 }) satisfies PageServerLoad

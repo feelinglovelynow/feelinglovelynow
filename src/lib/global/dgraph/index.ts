@@ -1,3 +1,3 @@
-export * from '$lib/global/dgraph/enums'
-export * from '$lib/global/dgraph/dgraph.d'
-export * from '$lib/global/dgraph/transaction'
+export * from '$lib/global/dgraph/DgraphTransaction'
+export * from '$lib/global/dgraph/enumContentType'
+export * from '$lib/global/dgraph/index.d'

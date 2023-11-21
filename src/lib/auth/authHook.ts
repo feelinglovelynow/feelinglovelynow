@@ -1,5 +1,5 @@
 import type { Session } from '$lib'
-import { log } from '$lib/catch/error'
+import { log } from '$lib/global/svelte-catch'
 import createToken from '$lib/auth/createToken'
 import verifyToken from '$lib/auth/verifyToken'
 import { enumTokenType } from '$lib/global/enums'

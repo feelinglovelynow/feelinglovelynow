@@ -1,4 +1,4 @@
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '$lib/global/dgraph'
 import type { Category, SearchResponse, Source } from '$lib'
 
@@ -83,7 +83,7 @@ export default async function getSearchSources (search: string, isQuotesChecked:
     }
   `
 
-  const transaction = new DgraphTransaction({ ...credentials(true), readOnly: true,  bestEffort: true }) // sources are only in main db
+  const transaction = new DgraphTransaction({ ...txnOptions(true), readOnly: true,  bestEffort: true }) // sources are only in main db
 
   const r = await transaction.query(true, `
     query {

@@ -3,6 +3,7 @@
   import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
+  import { routeCatch } from '$lib/global/catch'
   import Culture from '$lib/source/Culture.svelte'
   import AboutUs from '$lib/global/AboutUs.svelte'
   import Science from '$lib/source/Science.svelte'
@@ -10,14 +11,13 @@
   import SourceProduct from '$lib/source/Product.svelte'
   import formatScience from '$lib/source/formatScience'
   import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.webp'
-  import toastRouteError from '$lib/catch/toastRouteError'
   import SocialSupport from '$lib/global/SocialSupport.svelte'
   import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
   import sortFeaturedProducts from '$lib/store/sortFeaturedProducts'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 
   let culture: Source | undefined = undefined
   let product: Source | undefined = undefined

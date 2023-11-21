@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { one } from '$lib/catch/error'
 import queryUser from '$lib/dgraph/queryUser'
 import type { RequestHandler } from './$types'
+import { one } from '$lib/global/svelte-catch'
+import { serverCatch } from '$lib/global/catch'
 import validateFields from '$lib/form/validateFields'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
 import sendSignInEmailAndSetCookie from '$lib/auth/sendSignInEmailAndSetCookie.ts'
 import { schemaVerifySignIn, type SchemaVerifySignIn } from '$lib/zod/verifySignIn'
 
@@ -20,6 +20,6 @@ export const POST = (async ({ request, cookies }) => {
       return json({ href })
     }
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler

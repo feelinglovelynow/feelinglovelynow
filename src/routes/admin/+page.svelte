@@ -5,8 +5,8 @@
   import Title from '$lib/global/Title.svelte'
   import Button from '$lib/form/Button.svelte'
   import { Slug } from '@feelinglovelynow/slug'
+  import { routeCatch } from '$lib/global/catch'
   import showToast from '@feelinglovelynow/toast'
-  import toastRouteError from '$lib/catch/toastRouteError'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
   import type { Order, Product, UpdateOrderItemsRequest } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
@@ -14,7 +14,7 @@
   import { enumOrderItemStatus, enumShippingCarrier } from '$lib/global/enums'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 
   const shippingCarriers = Object.values(enumShippingCarrier)
   const orderItemStatuses = Object.values(enumOrderItemStatus)

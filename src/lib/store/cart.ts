@@ -8,7 +8,7 @@ const defaultValue: Cart = []
 const localValue = browser ? JSON.parse(window.localStorage.getItem('cart') || '[]') : defaultValue
 
 loopBackwards(localValue, (cartItem, splice) => { // get rid of items in cart that are from dgraph v1
-  if (cartItem.productUid) splice()
+  if (!cartItem.productUid) splice()
 })
 
 export const cart = writable<Cart>(localValue || defaultValue)

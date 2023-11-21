@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit'
-import { one } from '$lib/catch/error'
 import type { RequestHandler } from './$types'
-import type { SearchOrdersRequest } from '$lib'
+import { one } from '$lib/global/svelte-catch'
 import queryOrder from '$lib/dgraph/queryOrder'
-import serverRequestCatch from '$lib/catch/serverRequestCatch'
+import { serverCatch } from '$lib/global/catch'
+import type { SearchOrdersRequest } from '$lib'
 
 
 export const POST = (async ({ locals, request }) => {
@@ -14,6 +14,6 @@ export const POST = (async ({ locals, request }) => {
       return json(await queryOrder(null, true, body))
     }
   } catch (e) {
-    return serverRequestCatch(e)
+    return serverCatch(e)
   }
 }) satisfies RequestHandler

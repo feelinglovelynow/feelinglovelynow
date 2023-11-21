@@ -1,9 +1,10 @@
-import get from '$lib/kv/get'
 import type { Cookies } from '@sveltejs/kit'
+import { SvelteKV } from '$lib/global/svelte-kv'
 import type { LayoutServerLoad } from './$types'
+import { pageServerCatch } from '$lib/global/catch'
 import type { Source, Product, Category } from '$lib'
 import setThemeCookie from '$lib/theme/setThemeCookie'
-import serverPageCatch from '$lib/catch/serverPageCatch'
+import svelteKVOptions from '$lib/global/svelteKVOptions'
 import { enumCacheKey, enumTheme } from '$lib/global/enums'
 
 
@@ -13,7 +14,7 @@ export const load = (async ({ platform, cookies, locals }) => {
     const { sources, products, productCategories } = await doKV(platform)
     return { locals, theme, sources, products, productCategories }
   } catch (e) {
-    return serverPageCatch(e)
+    return pageServerCatch(e)
   }
 }) satisfies LayoutServerLoad
 
@@ -30,9 +31,11 @@ function doTheme (cookies: Cookies) {
 
 
 async function doKV (platform: Readonly<App.Platform> | undefined) {
+  const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
+
   const [ sources, products ] = await Promise.all([
-    get('CACHE', enumCacheKey.sources, platform),
-    get('CACHE', enumCacheKey.products, platform)
+    svelteKV.get(enumCacheKey.sources),
+    svelteKV.get(enumCacheKey.products)
   ])
 
   const mapCategories: Map<string, Category> = new Map()

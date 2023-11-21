@@ -1,10 +1,10 @@
 import type { Product } from '$lib'
-import credentials from '$lib/dgraph/credentials'
+import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '$lib/global/dgraph'
 
 
 export default async function getProducts (): Promise<Product[]> {
-  const transaction = new DgraphTransaction({ ...credentials(true), readOnly: true }) // products are only in main db
+  const transaction = new DgraphTransaction({ ...txnOptions(true), readOnly: true }) // products are only in main db
 
   const r = await transaction.query(true, `
     query {

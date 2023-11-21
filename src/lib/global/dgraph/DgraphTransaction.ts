@@ -1,5 +1,5 @@
-import { enumContentType } from './enums'
-import type { DgraphTransactionConstructor, DgraphMutationOptions, DgraphApiHeaders, DgraphTransactionExtensions, DgraphResponse } from './dgraph.d'
+import { enumContentType } from './enumContentType'
+import type { DgraphTransactionConstructor, DgraphMutationOptions, DgraphApiHeaders, DgraphTransactionExtensions, DgraphResponse } from './index.d'
 
 
 export class DgraphTransaction { // https://dgraph.io/docs/dql/clients/raw-http/

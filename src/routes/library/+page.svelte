@@ -5,6 +5,7 @@
   import Head from '$lib/global/Head.svelte'
   import Title from '$lib/global/Title.svelte'
   import Button from '$lib/form/Button.svelte'
+  import { routeCatch } from '$lib/global/catch'
   import Product from '$lib/source/Product.svelte'
   import Science from '$lib/source/Science.svelte'
   import Culture from '$lib/source/Culture.svelte'
@@ -12,7 +13,6 @@
   import { enumSourceType } from '$lib/global/enums'
   import TypeChips from '$lib/chips/TypeChips.svelte'
   import AuthorChips from '$lib/chips/AuthorChips.svelte'
-  import toastRouteError from '$lib/catch/toastRouteError'
   import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import CategoryChips from '$lib/chips/CategoryChips.svelte'
   import type { Source, Author, Category, Quote } from '$lib'
@@ -21,7 +21,7 @@
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 
   let isPageLoading = true
   let authors: Author[] = []

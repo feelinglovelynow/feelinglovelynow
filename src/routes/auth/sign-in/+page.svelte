@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { PageData } from './$types'
   import SignIn from '$lib/form/SignIn.svelte'
-  import toastRouteError from '$lib/catch/toastRouteError'
+  import { routeCatch } from '$lib/global/catch'
 
   export let data: PageData
-  toastRouteError(data)
+  routeCatch(data)
 </script>
 
 
