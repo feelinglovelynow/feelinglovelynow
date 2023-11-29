@@ -6,7 +6,6 @@
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import showToast from '@feelinglovelynow/toast'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
-  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
   import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'
 
@@ -96,7 +95,7 @@
     <div class="fln__relative">
       <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
-        <SimpleLoader style="paypal" />
+        <div class="fln__circle-load paypal"></div>
       </div>
     </div>
   </Modal>

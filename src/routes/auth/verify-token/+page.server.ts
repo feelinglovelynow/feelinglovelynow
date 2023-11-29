@@ -1,10 +1,11 @@
+import { redirect } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 import createToken from '$lib/auth/createToken'
 import verifyToken from '$lib/auth/verifyToken'
 import { enumTokenType } from '$lib/global/enums'
 import createSession from '$lib/auth/createSession'
 import { pageServerCatch } from '$lib/global/catch'
-import { one, redirect } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 import { SIGN_IN_COOKIE_NAME } from '$lib/auth/variables'
 import userIsNotAuthenticated from '$lib/auth/userIsNotAuthenticated'
 import setAccessAndRefreshCookies from '$lib/auth/setAccessAndRefreshCookies'
@@ -30,7 +31,7 @@ export const load = (async ({ url, cookies, locals, getClientAddress }) => {
         ])
 
         setAccessAndRefreshCookies(cookies, accessToken, refreshToken)
-        throw redirect('/admin')
+        throw redirect(302, '/admin')
       }
     }
   } catch (e) {

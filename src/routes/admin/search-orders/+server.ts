@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
-import { one } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 import queryOrder from '$lib/dgraph/queryOrder'
 import { serverCatch } from '$lib/global/catch'
 import type { SearchOrdersRequest } from '$lib'

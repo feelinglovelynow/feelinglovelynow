@@ -7,7 +7,6 @@
   import AboutUs from '$lib/global/AboutUs.svelte'
   import GuitarPic from '$lib/global/GuitarPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
-  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import SocialSupport from '$lib/global/SocialSupport.svelte'
   import AddSiteComment from '$lib/form/AddSiteComment.svelte'
   import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
@@ -33,19 +32,21 @@
 
   const calendar = [ // Date.UTC(year, monthIndex, day, hour, minute)
     // November
-    Date.UTC(2023, 10, 22, 24, 44),
-    Date.UTC(2023, 10, 27, 24, 44),
     Date.UTC(2023, 10, 29, 24, 44),
 
     // December
+    Date.UTC(2023, 11, 2, 17, 30),
     Date.UTC(2023, 11, 4, 24, 44),
     Date.UTC(2023, 11, 6, 24, 44),
+    Date.UTC(2023, 11, 9, 17, 30),
     Date.UTC(2023, 11, 11, 24, 44),
     Date.UTC(2023, 11, 13, 24, 44),
     Date.UTC(2023, 11, 18, 24, 44),
     Date.UTC(2023, 11, 20, 24, 44),
+    Date.UTC(2023, 11, 23, 17, 30),
     Date.UTC(2023, 11, 25, 24, 44),
     Date.UTC(2023, 11, 27, 24, 44),
+    Date.UTC(2023, 11, 30, 17, 30),
 
     // January
     Date.UTC(2023, 0, 1, 24, 44),
@@ -154,7 +155,7 @@
         { #if yogaClass.remaining }
           { yogaClass.remaining }
         { :else }
-          <SimpleLoader />
+          <div class="fln__circle-load"></div>
         { /if }
       </div>
     </section>
@@ -176,15 +177,9 @@
         margin-bottom: 0;
       }
 
-      :global(.fln__simple-load) {
-        display: flex;
-        justify-content: center;
+      .fln__circle-load {
+        margin: 0 auto;
       }
-    }
-
-    :global(svg) {
-      color: var(--gold-text-color);
-      height: 7.68rem;
     }
   }
 

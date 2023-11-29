@@ -6,7 +6,6 @@
 @import '$lib/scss/source.scss';
 @import '$lib/scss/variables.scss';
 @import '$lib/scss/flow-layout.scss';
-@import '$lib/scss/simple-load.scss';
 
 body {
   font-family: $font-family;
@@ -136,4 +135,11 @@ a,
   -webkit-box-shadow: var(--light-glow);
   -moz-box-shadow: var(--light-glow);
   box-shadow: var(--light-glow);
+}
+
+.fln__circle-load {
+  border-color: var(--gold-text-color) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+  &.paypal {
+    border-color: #2e96ff #ccc #ccc;
+  }
 }

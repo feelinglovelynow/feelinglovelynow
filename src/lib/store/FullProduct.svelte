@@ -592,7 +592,18 @@
           width: 12rem;
           font-size: 1.8rem;
           white-space: nowrap;
-          margin: 0.6rem 1.2rem 0.6rem 0;
+          margin: 0.6rem 0;
+          &[name="size"] {
+            margin-left: 1.2rem;
+
+             @media only screen and (min-width: $image-swap-width) { // big screen
+              margin-left: 0;
+             }
+          }
+
+          @media only screen and (min-width: $image-swap-width) { // big screen
+            margin: 0.6rem 1.2rem 0.6rem 0;
+          }
         }
       }
 

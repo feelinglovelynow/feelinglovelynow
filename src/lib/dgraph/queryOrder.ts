@@ -1,6 +1,6 @@
 import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction } from '$lib/global/dgraph'
 import type { Order, SearchOrdersRequest } from '$lib'
+import { DgraphTransaction } from '@feelinglovelynow/dgraph'
 
 
 export default async function queryOrder (transaction: DgraphTransaction | null, abortWhenDone: boolean, { uid, email, startDate, endDate }: SearchOrdersRequest): Promise<Order[]> {

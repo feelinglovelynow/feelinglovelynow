@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
-import { one } from '$lib/global/svelte-catch'
 import { serverCatch } from '$lib/global/catch'
-import { SvelteKV } from '$lib/global/svelte-kv'
 import { enumCacheKey } from '$lib/global/enums'
+import { one } from '@feelinglovelynow/svelte-catch'
+import { SvelteKV } from '@feelinglovelynow/svelte-kv'
 import svelteKVOptions from '$lib/global/svelteKVOptions'
 import getLibrarySources from '$lib/dgraph/getLibrarySources'
 

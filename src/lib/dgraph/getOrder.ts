@@ -1,6 +1,6 @@
 import type { Order } from '$lib'
 import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction } from '$lib/global/dgraph'
+import { DgraphTransaction } from '@feelinglovelynow/dgraph'
 
 
 export default async function getOrder (orderUid: string): Promise<Order | undefined> {

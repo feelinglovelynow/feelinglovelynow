@@ -20,6 +20,7 @@
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
 - [Dgraph Client](https://www.npmjs.com/package/dgraph-js-http)
+- [JSDOC + Typescript](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
@@ -32,9 +33,12 @@
 - [Open Graph](https://ogp.me/)
 - [CSP](https://w3c.github.io/webappsec-csp/)
 
+
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
 - [Dgraph Client](https://github.com/dgraph-io/dgraph-js-http/tree/master/examples/simple)
+- [Constructor Hover Typescript](https://stackoverflow.com/a/58461269/1549471)
+
 
 #### Articles
 - [NPM to PNPM](https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/)
@@ -54,6 +58,8 @@
 - [Best Practices for Returns and Refunds in eCommerce](https://www.clickpost.ai/blog/ecommerce-returns-best-practices)
 - [SameSite cookies explained](https://web.dev/articles/samesite-cookies-explained)
 - [Everything you always wanted to know about touch icons](https://mathiasbynens.be/notes/touch-icons)
+- [Typescript + Browsers](https://medium.com/@salathielgenese/setup-typescript-for-modern-browser-a75d699673f6)
+
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -71,6 +77,7 @@
 - [AI Image Generator](https://playgroundai.com/create)
 - [AI Photo to Art](https://www.befunky.com/create/photo-to-art/)
 
+
 #### Tech Stack Costs
 - [MailChannels: FREE for Infinite Outbound API Emails/month](https://community.cloudflare.com/t/send-email-from-workers-using-mailchannels-for-free/361973)
 - [Namecheap: $8.16/year for Domain Registration](https://www.namecheap.com/domains/)
@@ -78,6 +85,7 @@
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day and 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
 - [Proton Business: $19.98/month for a secure email inbox, calendar, and 1,000GB of cloud storage](https://proton.me/business/plans)
 - [Dgraph: $39.99 a month for 25GB of graph database storage, 5GB of data transfer per day and encryption at rest](https://dgraph.io/pricing)
+
 
 #### Local install
 1. [Install git](https://github.com/git-guides/install-git)
@@ -94,35 +102,42 @@ source /Users/[ username ]/.zshrc
 pnpm i
 ```
 
+
 #### Start development server
 ```bash
 pnpm dev
 ```
+
 
 #### Validates code & then pushes to [github main branch](https://github.com/feelinglovelynow/feelinglovelynow/tree/main)
 ```bash
 pnpm mainPush
 ```
 
+
 #### Deploy to [production](https://feelinglovelynow.com)
 ```bash
 pnpm mainDeploy
 ```
+
 
 #### View logs for production server
 ```bash
 pnpm mainLogs
 ```
 
+
 #### View logs for qa server
 ```bash
 pnpm qaLogs
 ```
 
+
 #### [Updates all dependencies](https://pnpm.io/cli/update)
 ```bash
 pnpm up
 ```
+
 
 #### Set default tab size in [VSCodium](https://vscodium.com/) to 2 for new files
 Preferences > Settings > JSON
@@ -132,6 +147,7 @@ Preferences > Settings > JSON
 }
 ```
 
+
 #### Show what folder we are in @ the tab level of [VSCodium](https://vscodium.com/)
 Preferences > Settings > JSON
 ```json
@@ -139,6 +155,7 @@ Preferences > Settings > JSON
   "workbench.editor.labelFormat": "short"
 }
 ```
+
 
 #### Stop [VSCodium](https://vscodium.com/) from compacting folders in sidenav
 Preferences > Settings > JSON
@@ -148,6 +165,7 @@ Preferences > Settings > JSON
 }
 ```
 
+
 #### Increase indent for sub folders in [VSCodium](https://vscodium.com/) sidenav
 Preferences > Settings > JSON
 ```json
@@ -155,6 +173,7 @@ Preferences > Settings > JSON
   "workbench.tree.indent": 18
 }
 ```
+
 
 #### Get project wide typescript reporting in [VSCodium](https://vscodium.com/)
 Preferences > Settings > JSON
@@ -164,10 +183,12 @@ Preferences > Settings > JSON
 }
 ```
 
+
 #### Show autocomplete suggestions in [VSCodium](https://vscodium.com/)
 ```
 Control + Space
 ```
+
 
 #### Reload [VSCodium](https://vscodium.com/)
 This is helpful when type definitions are stale (showing incorrect errors)
@@ -176,44 +197,140 @@ Command + Shift + P
 Developer: Reload Window
 ```
 
-## How to create a Svelte NPM Package
-1. Bash `pnpm create svelte@latest example && cd $_`
-1. Select `Library project`
-1. Select `Typescript`
-1. Bash `pnpm up`
-1. Rename `$lib/index.js` to `$lib/index.ts` to get rid of the error `Cannot write file 'index.js' because it would overwrite input file`
-1. Bash `pnpm dev` to remove the typescript error `Cannot find base config file "./.svelte-kit/tsconfig.json"`
-1. Remove `"moduleResolution": "NodeNext"` from `tsconfig.json` to get rid of error `Option 'module' must be set to 'NodeNext' when option 'moduleResolution' is set to 'NodeNext'`
-1. IF ts files access node libraries => Bash `pnpm add @types/node -D` and add to `ts.config.json`, `"compilerOptions": { "types": ["node"] }`
-1. Add `LICENSE` to root folder
-1. Add componenet to `$lib` folder
-1. IF using sass in any components => Bash `pnpm add sass -D`
-1. Export component in `$lib/index.ts` - Example: `export { default as Example } from '$lib/Example.svelte'`
-1. Bash `pnpm build` to create the `dist` folder
+
+## How to create an NPM Package
+1. Bash `mkdir example && cd example && pnpm init && pnpm i typescript -D && touch tsconfig.json`
+1. If the `src` folder will have a class with private elements
+```json
+{ // https://www.typescriptlang.org/tsconfig
+  "include": [
+    "./src/**/*",
+    "./tsc/SvelteCatch.d.ts",
+  ],
+  "compilerOptions": {
+    "noEmit": true, // Do not emit compiler output files like JavaScript source code, source-maps or declarations.
+    "allowJs": true, // Tells TypeScript to read JS files, as normally they are ignored as source files
+    "checkJs": true, // Enable errors in JavaScript files
+    "module": "ESNext", // Sets the module system for the program.
+    "target": "ESNext",  // The target setting changes which JS features are downleveled and which are left intact.
+  }
+}
+```
+1. If the `src` folder will have a class with private elements define this file as `tsconfig.build.json`
+1. If the `src` folder will not have a class with private elements define this file as `tsconfig.json`
+```json
+{ // https://www.typescriptlang.org/tsconfig
+  "files": [],
+  "compilerOptions": {
+    "allowJs": true, // Tells TypeScript to read JS files, as normally they are ignored as source files
+    "esModuleInterop": true, // https://www.typescriptlang.org/tsconfig#esModuleInterop
+    "forceConsistentCasingInFileNames": true, // TypeScript will issue an error if a program tries to include a file by a casing different from the casing on disk.
+    "sourceMap": true, // Enables the generation of sourcemap files. These files allow debuggers and other tools to display the original TypeScript source code when actually working with the emitted JavaScript files.
+    "declaration": true, // Generate d.ts files
+    "strict": true, // The strict flag enables a wide range of type checking behavior that results in stronger guarantees of program correctness.
+    "outDir": "tsc", // Types should go into this directory. Removing this would place the .d.ts files next to the .js files
+    "declarationMap": true, // go to js file when using IDE functions like "Go to Definition" in VSCode
+    "module": "ESNext", // Sets the module system for the program.
+    "target": "ES2015",  // The target setting changes which JS features are downleveled and which are left intact.
+  }
+}
+```
+1. Add `src` folder AND put `.js` or `.svetle` code in there AND ensure all imports w/in `src` have `.js` extension AND ensure no `exports` are `default`
+1. IF adding a `typedefs.js` file and there are no imports in the file => at the end of the file add `export {}`
+1. Create `./src/index.js` file and put all exports in there from `src` folder
+1. IF svelte component is in `src` - Export in `index.js` like this: `export { default as Example } from './Example.svelte'`
+1. Put all `src` files w/ `.js` extension into `tsconfig.build.json` or if that does not exist `tsconfig.json` files array
+1. IF `tsconfig.build.json` exists: Bash `pnpm tsc -p tsconfig.build.json`
+1. IF `tsconfig.build.json` does not exist: Bash `pnpm tsc`
+1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`)
+1. If svelte component is in `src` - Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`
+1. Bash `pnpm i esbuild -D && touch esbuild.js`
+```ts
+import esbuild from 'esbuild'
+
+
+esbuild.build({ // // https://esbuild.github.io/api/
+  logLevel: 'info', // Show warnings, errors, and an output file summary. 
+  sourcemap: true, // Source maps can make it easier to debug your code. They encode the information necessary to translate from a line/column offset in a generated output file back to a line/column offset in the corresponding original input file. 
+  minify: true, // When enabled, the generated code will be minified instead of pretty-printed. 
+  outdir: './dist', // Sets the output directory for the build operation.
+  entryPoints: [ // This is an array of files that each serve as an input to the bundling algorithm.
+    './tsc/DgraphTransaction.js',
+    './tsc/enumContentType.js',
+    './tsc/index.js',
+    './tsc/typedefs.js',
+  ],
+})
+```
+1. Populate `esbuild.js` with all `.js` files that will go from the `tsc` folder to the the `dist` folder - [build options](https://esbuild.github.io/api/)
+1. Bash `touch build.sh`
+```bash
+#!/bin/bash
+rm -rf ./dist ./tsc &&
+pnpm tsc &&
+node ./esbuild.js &&
+cp ./src/index.ts ./dist/index.ts
+```
+1. IF `tsconfig.build.json` exists: Replace the third line with `pnpm tsc -p tsconfig.build.json &&`
+1. If svelte component is in `src` - add `cp` like this: `cp ./src/Example.svelte ./dist/Example.svelte`
+1. Add MIT `LICENSE` to root folder
+1. Remove `main` from `package.json`
+1. Add `description` to `package.json`
+1. Add to `package.json`
+```json
+{
+  "author": "https://github.com/feelinglovelynow?tab=repositories",
+  "license": "MIT",
+  "type": "module",
+  "types": "./dist/index.ts",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist",
+    "tsc",
+    "src"
+  ],
+  "keywords": [
+
+  ],
+  "scripts": {
+    "build": "bash ./build.sh",
+    "cloud": "pnpm build && pnpm publish --access public ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feelinglovelynow/example.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feelinglovelynow/example/issues"
+  }
+}
+```
+1. Update `package.json` [ `name`, `keywords`, `repository`, `bugs` ]
+1. If there is a `svelte` component in this package add to `package.json` - [guidance](https://github.com/hperrin/svelte-material-ui/issues/375)
+```json
+{
+  "main": "./dist/index.js",
+  "svelte": "./dist/index.js",
+}
+```
+1. Bash `pnpm build && touch .gitignore`
+```toml
+dist
+node_modules
+tsc
+```
+1. Bash `pnpm build`
 1. In another app link to this package locally `"example": "link:../../example"`
 1. Publish package to npm
+
+
+### Publish package to npm
 ```bash
 pnpm whoami
 pnpm login
 pnpm publish --access public .
 ```
 
-## Example `tsconfig.json`
-```json
-{
-  "extends": "./.svelte-kit/tsconfig.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true
-  }
-}
-```
 
 ## Deprecate an npm package
 ```bash

@@ -12,8 +12,8 @@
   export let endpoint: string
   export let inputs: FormInputs
   export let buttonText: string = 'Send'
-  export let onSuccess: FormOnSuccess = () => {}
   export let resetOnSuccess: boolean = false
+  export let onSuccess: FormOnSuccess = () => {}
 
   let errors: any
   let isLoading = false
@@ -55,7 +55,7 @@
 
 
 <section class="{ css }">
-  <form method="POST" on:submit|preventDefault={handleSubmit}>
+  <form method="POST" on:submit|preventDefault={ handleSubmit }>
     { #if inputs?.length }
       { #each inputs as input }
         { #if Array.isArray(input) }

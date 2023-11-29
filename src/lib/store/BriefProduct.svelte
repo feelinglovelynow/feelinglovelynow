@@ -7,7 +7,7 @@
 
 <div class="wrapper">
   <section class="glow">
-    <LoadingAnchor css="anchor" href={ `/store?product=${ product.slug }` } loadWidth="huge">
+    <LoadingAnchor css="anchor" href={ `/store?product=${ product.slug }` } widthRem={ 3.6 }>
       <div class="image">
         { #if product.primaryImage?.src }
           <img src={ product.primaryImage.src } alt={ product.name } loading="lazy"/>

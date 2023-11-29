@@ -1,15 +1,15 @@
 
 import type { PageServerLoad } from './$types'
+import { redirect } from '@sveltejs/kit'
 import type { SearchOrdersRequest } from '$lib'
 import queryOrder from '$lib/dgraph/queryOrder'
-import { redirect } from '$lib/global/svelte-catch'
 import { pageServerCatch } from '$lib/global/catch'
 import { dateToDateTimeLocal } from '$lib/global/dateToDateTimeLocal'
 
 
 export const load = (async ({ locals }) => {
   try {
-    if (!locals.userUid) throw redirect('/auth/sign-in')
+    if (!locals.userUid) throw redirect(302, '/auth/sign-in')
     else {
       const endDate = new Date((new Date()).getTime() + (3 * 60000)) // now + 3 minutes
 

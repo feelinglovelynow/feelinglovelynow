@@ -1,6 +1,6 @@
 import type { Source } from '$lib'
 import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction } from '$lib/global/dgraph'
+import { DgraphTransaction } from '@feelinglovelynow/dgraph'
 
 
 export default async function getLibrarySources (): Promise<Source[]> {

@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer/'
 import type { TokenPayload } from '$lib'
-import { one } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 import { enumTokenType } from '$lib/global/enums'
 import { createJWT } from '@feelinglovelynow/jwt'
 import { JWK_FOR_ACCESS_TOKEN_PRIVATE, JWK_FOR_REFRESH_TOKEN_PRIVATE, JWK_FOR_SIGN_IN_PRIVATE } from '$env/static/private'

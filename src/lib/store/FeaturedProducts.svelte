@@ -4,7 +4,7 @@
   import BriefProduct from '$lib/store/BriefProduct.svelte'
   import ProductCategories from '$lib/store/ProductCategories.svelte'
 
-  export let products: Product[]
+  export let products: Product[] | void
   export let productCategories: Category[]
 </script>
 

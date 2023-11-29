@@ -1,9 +1,9 @@
 import Price from '$lib/store/Price'
 import type { Cart, Product } from '$lib'
-import { one } from '$lib/global/svelte-catch'
 import { enumCacheKey } from '$lib/global/enums'
+import { one } from '@feelinglovelynow/svelte-catch'
 import expandSubTotal from '$lib/store/expandSubTotal'
-import { SvelteKV } from '$lib/global/svelte-kv'
+import { SvelteKV } from '@feelinglovelynow/svelte-kv'
 import svelteKVOptions from '$lib/global/svelteKVOptions'
 
 

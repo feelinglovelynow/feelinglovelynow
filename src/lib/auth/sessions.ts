@@ -1,6 +1,6 @@
 import type { Session, AddSession } from '$lib'
 import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction, type DgraphResponse } from '$lib/global/dgraph'
+import { DgraphTransaction, type DgraphResponse } from '@feelinglovelynow/dgraph'
 
 
 const sessionBody = `

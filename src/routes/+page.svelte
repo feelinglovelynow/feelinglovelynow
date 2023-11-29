@@ -52,21 +52,21 @@
   <div class="sources">
     { #if culture }
       <Title noBottom={ true } >
-        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=culture" label="culture" widthRem={ 2.7 } /> addition to our <LoadingAnchor href="/library" label="library" widthRem={ 2.7 } />!
       </Title>
       <Culture source={ culture } location="home" />
     { /if }
 
     { #if science }
       <Title noBottom={ true }>
-        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=science" label="science" widthRem={ 2.7 } /> addition to our <LoadingAnchor href="/library" label="library" widthRem={ 2.7 } />!
       </Title>
       <Science source={ science } location="home" />
     { /if }
 
     { #if product }
       <Title noBottom={ true }>
-        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" loadWidth="big" /> addition to our <LoadingAnchor href="/library" label="library" loadWidth="big" />!
+        <span class="pr-5">Most recent</span> <LoadingAnchor href="/library?type=product" label="product" widthRem={ 2.7 } /> addition to our <LoadingAnchor href="/library" label="library" widthRem={ 2.7 } />!
       </Title>
       <SourceProduct source={ product } location="home" />
     { /if }

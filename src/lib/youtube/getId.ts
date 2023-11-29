@@ -1,4 +1,4 @@
-import { one } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 
 
 export default function getId (url: string) {

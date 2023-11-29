@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/environment'
 import type { Cart, OrderItem } from '$lib'
-import loopBackwards from '@feelinglovelynow/loop-backwards'
+import { loopBackwards } from '@feelinglovelynow/loop-backwards'
 
 
 const defaultValue: Cart = []

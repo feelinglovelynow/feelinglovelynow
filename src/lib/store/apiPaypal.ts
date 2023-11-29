@@ -1,4 +1,4 @@
-import { one } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 import _publicPaypalCredentials from '$lib/store/publicPaypalCredentials'
 import _privatePaypalCredentials from '$lib/store/privatePaypalCredentials'
 import type { PublicPaypalCredentials, PrivatePaypalCredentials } from '$lib'

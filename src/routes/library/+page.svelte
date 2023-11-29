@@ -13,11 +13,10 @@
   import { enumSourceType } from '$lib/global/enums'
   import TypeChips from '$lib/chips/TypeChips.svelte'
   import AuthorChips from '$lib/chips/AuthorChips.svelte'
-  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import CategoryChips from '$lib/chips/CategoryChips.svelte'
   import type { Source, Author, Category, Quote } from '$lib'
-  import loopBackwards from '@feelinglovelynow/loop-backwards'
   import IMG_OG_LIBRARY from '$lib/img/og/IMG_OG_LIBRARY.webp'
+  import { loopBackwards}  from '@feelinglovelynow/loop-backwards'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
   export let data: PageData
@@ -196,7 +195,7 @@
 
 { #if isPageLoading }
   <main>
-    <SimpleLoader />
+    <div class="fln__circle-load"></div>
   </main>
 { :else }
   <main>
@@ -227,7 +226,7 @@
         { /each }
       { :else }
         <Title css="flow-layout__right-item">
-          <span>No library items found. Would you love to <LoadingAnchor href="/library" label="view all" loadWidth="big" />?!</span>
+          <span>No library items found. Would you love to <LoadingAnchor href="/library" label="view all" widthRem={ 2.7 } />?!</span>
         </Title>
       { /if }
 

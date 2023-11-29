@@ -4,10 +4,11 @@
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_MOON from '$lib/svg/nav/SVG_MOON.svg'
   import { enumTheme } from '$lib/global/enums';
+    import showToast from '@feelinglovelynow/toast';
 
   $: layout = browser ? document.getElementById('fln__layout') : null
 
-  function setTheme () {
+  async function setTheme () {
     if (layout) {
       const desiredTheme = ($theme === enumTheme.dark) ? enumTheme.light : enumTheme.dark
 
@@ -21,7 +22,10 @@
         layout.classList.remove('theme--light')
       }
 
-      fetch(`/set-theme?to=${ desiredTheme }`)
+      const rFetch = await fetch(`/set-theme?to=${ desiredTheme }`)
+      const r = await rFetch.json()
+
+      if (r._errors?.length) showToast('info', r._errors)
     }
   }
 </script>

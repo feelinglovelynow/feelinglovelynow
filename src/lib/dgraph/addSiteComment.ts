@@ -1,5 +1,5 @@
 import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction } from '$lib/global/dgraph'
+import { DgraphTransaction } from '@feelinglovelynow/dgraph'
 import type { SchemaAddSiteComment } from '$lib/zod/addSiteComent'
 
 

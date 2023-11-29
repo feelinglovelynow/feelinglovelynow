@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit'
 import queryUser from '$lib/dgraph/queryUser'
 import type { RequestHandler } from './$types'
-import { one } from '$lib/global/svelte-catch'
+import { one } from '@feelinglovelynow/svelte-catch'
 import { serverCatch } from '$lib/global/catch'
 import validateFields from '$lib/form/validateFields'
 import sendSignInEmailAndSetCookie from '$lib/auth/sendSignInEmailAndSetCookie.ts'

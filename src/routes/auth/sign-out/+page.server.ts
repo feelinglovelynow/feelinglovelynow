@@ -1,5 +1,5 @@
+import { redirect } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
-import { redirect } from '$lib/global/svelte-catch'
 import { pageServerCatch } from '$lib/global/catch'
 import userIsAuthenticated from '$lib/auth/userIsAuthenticated'
 import deleteAccessAndRefreshCookies from '$lib/auth/deleteAccessAndRefreshCookies'
@@ -11,7 +11,7 @@ export const load = (async ({ locals, cookies }) => {
     userIsAuthenticated(locals)
     await viaCookiesOrRefreshTokenDeleteSession({ cookies })
     deleteAccessAndRefreshCookies(cookies)
-    throw redirect('/auth/sign-in')
+    throw redirect(302, '/auth/sign-in')
   } catch (e) {
     return pageServerCatch(e)
   }

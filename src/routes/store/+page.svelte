@@ -8,7 +8,6 @@
   import IMG_OG_STORE from '$lib/img/og/IMG_OG_STORE.webp'
   import ShoppingCart from '$lib/store/ShoppingCart.svelte'
   import BriefProduct from '$lib/store/BriefProduct.svelte'
-  import SimpleLoader from '$lib/global/SimpleLoader.svelte'
   import ProductCategories from '$lib/store/ProductCategories.svelte'
 
   export let data: PageData
@@ -90,9 +89,8 @@
     <Head title="Store" ogImageSrc={ IMG_OG_STORE } description="Organic t-shirts and books available for purchase!" />
   { /if }
 
-
   { #if isPageLoading }
-  <SimpleLoader />
+    <div class="fln__circle-load"></div>
   { :else }
     <ShoppingCart { mapAllProducts } />
     <Title text="Store" size="one" />

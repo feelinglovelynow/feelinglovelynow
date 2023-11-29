@@ -22,23 +22,21 @@
     if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
     else {
       const linkId = crypto.randomUUID()
-      const spinId = crypto.randomUUID()
+      const loadId = crypto.randomUUID()
 
       const html = `
         <div style="position: relative; display: flex;">
           <div class="fln__pr-text">Success!</div>
           <div style="position: relative;">
             <a id="${ linkId }" style="position: relative; opacity: 1; transition: all 0.3s;" href="${ r.href }">Sign In Link</a>
-            <div id="${ spinId }" style="opacity: 0; transition: all 0.3s; position: absolute; top: 0; left: 50%; margin-left: -15px; z-index: -1;" class="fln__simple-load brand">
-              <div class="fln__simple-load__wheel"></div>
-            </div>
+            <div id="${ loadId }" style="opacity: 0; transition: all 0.3s; position: absolute; top: 0; left: 50%; margin-left: -15px; z-index: -1;" class="fln__circle-load"></div>
           </div>
         <div>
       `
 
       setTimeout(() => {// wait for toast to be in DOM
         const link = document.getElementById(linkId)
-        const spin = document.getElementById(spinId)
+        const spin = document.getElementById(loadId)
 
         if (link && spin) {
           link.addEventListener('click', () => { // on link in toast click => show spinner and hide link

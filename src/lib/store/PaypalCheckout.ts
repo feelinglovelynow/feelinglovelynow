@@ -1,6 +1,6 @@
 import Price from '$lib/store/Price'
 import { set } from '$lib/store/cart'
-import { log } from '$lib/global/svelte-catch'
+import { log } from '@feelinglovelynow/svelte-catch'
 import showToast from '@feelinglovelynow/toast'
 import type { HideModal } from '@feelinglovelynow/svelte-modal'
 import publicPaypalCredentials from '$lib/store/publicPaypalCredentials'

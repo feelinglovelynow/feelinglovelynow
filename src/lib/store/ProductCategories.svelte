@@ -3,7 +3,6 @@
   import Title from '$lib/global/Title.svelte'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
-
   export let title: string = ''
   export let categories: Category[] = []
   export let isAllShowing: boolean = true

@@ -1,7 +1,7 @@
-import { redirect } from '$lib/global/svelte-catch'
+import { redirect } from '@sveltejs/kit'
 
 
 export default function userIsNotAuthenticated (locals: App.Locals) {
   if (!locals.userUid) return true
-  else throw redirect('/admin')
+  else throw redirect(302, '/admin')
 }

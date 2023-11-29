@@ -20,7 +20,7 @@
 
 <div class="nav">
   <div class="logo hide-on-modal-visible">
-    <LoadingAnchor loadWidth="huge">      
+    <LoadingAnchor widthRem={ 3.6 }>      
       { #if activeRoute?.includes('/library')  }
         <Flower merkaba={ true } />
       { :else if activeRoute === '/links'  }
@@ -38,14 +38,14 @@
   </div>
 
   <nav class="hide-on-modal-visible light-glow">
-    <LoadingAnchor label="Home" loadWidth="big" css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
-    <LoadingAnchor label="Store" href="/store" loadWidth="big" css="item { activeRoute?.includes('/store') ? 'active' : '' }">
+    <LoadingAnchor label="Home" widthRem={ 2.7 } css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
+    <LoadingAnchor label="Store" href="/store" widthRem={ 2.7 } css="item { activeRoute?.includes('/store') ? 'active' : '' }">
       { @html SVG_STORE }
       { #if $cart.length > 0 }
         <div class="count">{ $cart.length }</div>
       { /if }
     </LoadingAnchor>
-    <LoadingAnchor label="Library" href="/library" loadWidth="big" css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
-    <LoadingAnchor label="Links" href="/links" loadWidth="big" css="item { activeRoute === '/links' ? 'active' : '' }">{ @html SVG_SUPPORT }</LoadingAnchor>
+    <LoadingAnchor label="Library" href="/library" widthRem={ 2.7 } css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
+    <LoadingAnchor label="Links" href="/links" widthRem={ 2.7 } css="item { activeRoute === '/links' ? 'active' : '' }">{ @html SVG_SUPPORT }</LoadingAnchor>
   </nav>
 </div>
