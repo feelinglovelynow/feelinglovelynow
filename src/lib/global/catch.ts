@@ -1,6 +1,6 @@
 import { onMount } from 'svelte'
 import { json } from '@sveltejs/kit'
-import showToast from '@feelinglovelynow/toast'
+import { showToast } from '@feelinglovelynow/toast'
 import { SvelteCatch, enumCatchLocation } from '@feelinglovelynow/svelte-catch'
 
 

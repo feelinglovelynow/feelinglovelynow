@@ -63,14 +63,16 @@
       if (data.urlProductSlug === product.slug) products = [ product ]
     }
 
-    for (const product of products[0].similarProducts) {
-      const pFromAll = mapAllProducts.get(product.uid)
+    if (products[0].similarProducts) {
+      for (const product of products[0].similarProducts) {
+        const pFromAll = mapAllProducts.get(product.uid)
 
-      if (pFromAll) {
-        product.name = pFromAll.name
-        product.slug = pFromAll.slug
-        product.price = pFromAll.price
-        product.primaryImage = pFromAll.primaryImage
+        if (pFromAll) {
+          product.name = pFromAll.name
+          product.slug = pFromAll.slug
+          product.price = pFromAll.price
+          product.primaryImage = pFromAll.primaryImage
+        }
       }
     }
   }
@@ -112,7 +114,7 @@
     { /if }
 
     { #if data.urlProductSlug }
-      { #if products[0].similarProducts.length }
+      { #if products[0].similarProducts?.length }
         <Title text="May also love" noBottom={ true }/>
         <div class="products">
           { #each products[0].similarProducts as p (p.slug) }

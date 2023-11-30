@@ -176,6 +176,7 @@ Preferences > Settings > JSON
 
 
 #### Get project wide typescript reporting in [VSCodium](https://vscodium.com/)
+* Turn this off when getting errors in `node_modules`
 Preferences > Settings > JSON
 ```json
 {
@@ -200,50 +201,57 @@ Developer: Reload Window
 
 ## How to create an NPM Package
 1. Bash `mkdir example && cd example && pnpm init && pnpm i typescript -D && touch tsconfig.json`
-1. If the `src` folder will have a class with private elements
 ```json
-{ // https://www.typescriptlang.org/tsconfig
-  "include": [
-    "./src/**/*",
-    "./tsc/SvelteCatch.d.ts",
-  ],
-  "compilerOptions": {
-    "noEmit": true, // Do not emit compiler output files like JavaScript source code, source-maps or declarations.
-    "allowJs": true, // Tells TypeScript to read JS files, as normally they are ignored as source files
-    "checkJs": true, // Enable errors in JavaScript files
-    "module": "ESNext", // Sets the module system for the program.
-    "target": "ESNext",  // The target setting changes which JS features are downleveled and which are left intact.
-  }
-}
-```
-1. If the `src` folder will have a class with private elements define this file as `tsconfig.build.json`
-1. If the `src` folder will not have a class with private elements define this file as `tsconfig.json`
-```json
-{ // https://www.typescriptlang.org/tsconfig
+{
   "files": [],
   "compilerOptions": {
-    "allowJs": true, // Tells TypeScript to read JS files, as normally they are ignored as source files
-    "esModuleInterop": true, // https://www.typescriptlang.org/tsconfig#esModuleInterop
-    "forceConsistentCasingInFileNames": true, // TypeScript will issue an error if a program tries to include a file by a casing different from the casing on disk.
-    "sourceMap": true, // Enables the generation of sourcemap files. These files allow debuggers and other tools to display the original TypeScript source code when actually working with the emitted JavaScript files.
-    "declaration": true, // Generate d.ts files
-    "strict": true, // The strict flag enables a wide range of type checking behavior that results in stronger guarantees of program correctness.
-    "outDir": "tsc", // Types should go into this directory. Removing this would place the .d.ts files next to the .js files
-    "declarationMap": true, // go to js file when using IDE functions like "Go to Definition" in VSCode
-    "module": "ESNext", // Sets the module system for the program.
-    "target": "ES2015",  // The target setting changes which JS features are downleveled and which are left intact.
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true,
+    "outDir": "tsc",
+    "declarationMap": true,
+    "module": "ESNext",
+    "target": "ES2015",
   }
 }
 ```
 1. Add `src` folder AND put `.js` or `.svetle` code in there AND ensure all imports w/in `src` have `.js` extension AND ensure no `exports` are `default`
 1. IF adding a `typedefs.js` file and there are no imports in the file => at the end of the file add `export {}`
 1. Create `./src/index.js` file and put all exports in there from `src` folder
-1. IF svelte component is in `src` - Export in `index.js` like this: `export { default as Example } from './Example.svelte'`
-1. Put all `src` files w/ `.js` extension into `tsconfig.build.json` or if that does not exist `tsconfig.json` files array
-1. IF `tsconfig.build.json` exists: Bash `pnpm tsc -p tsconfig.build.json`
-1. IF `tsconfig.build.json` does not exist: Bash `pnpm tsc`
+1. IF svelte component is in `src` => Export in `index.js` like this: `export { default as Example } from './Example.svelte'`
+1. IF svelte component is in `src` => Add `Example.svelte.d.ts`
+1. IF file in `src` updates `window` at the top of the file add `/// <reference path="./types.d.ts" />` and in that file put
+```ts
+declare global { // Node global types
+  interface Window { // Browser window types
+    flnToastWrapper: HTMLElement | null | undefined
+  }
+}
+
+export {}
+```
+```ts
+import { SvelteComponent } from 'svelte'
+
+
+export default class Example extends SvelteComponent<{
+  css?: string
+  label?: string
+  href?: string
+  widthRem?: number
+}> {}
+
+```
+1. Put all `src` files w/ `.js` extension into `tsconfig.json` files array
+1. Bash `pnpm tsc`
 1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`)
-1. If svelte component is in `src` - Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`
+1. IF `src` folder has a `types.d.ts` file => Include `export * from './types.d'` in `index.ts` file
+1. IF svelte component is in `src` => Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`
 1. Bash `pnpm i esbuild -D && touch esbuild.js`
 ```ts
 import esbuild from 'esbuild'
@@ -271,8 +279,10 @@ pnpm tsc &&
 node ./esbuild.js &&
 cp ./src/index.ts ./dist/index.ts
 ```
-1. IF `tsconfig.build.json` exists: Replace the third line with `pnpm tsc -p tsconfig.build.json &&`
-1. If svelte component is in `src` - add `cp` like this: `cp ./src/Example.svelte ./dist/Example.svelte`
+1. IF Svelte component is in `src` => Bash: `pnpm add svelte -D`
+1. IF Svelte component is in `src` => add `cp` like this: `cp ./src/Example.svelte ./dist/Example.svelte` and add `cp ./src/Example.svelte.d.ts ./dist/Example.svelte.d.ts`
+1. IF `types.d.ts` is in `src` => add `cp` like this: `cp ./src/types.d.ts ./dist/types.d.ts`
+1. IF CSS files in `src` => add `cp` like this: `cp ./src/example.css ./dist/example.css`
 1. Add MIT `LICENSE` to root folder
 1. Remove `main` from `package.json`
 1. Add `description` to `package.json`
@@ -293,6 +303,7 @@ cp ./src/index.ts ./dist/index.ts
 
   ],
   "scripts": {
+    "watch": "pnpm tsc -w",
     "build": "bash ./build.sh",
     "cloud": "pnpm build && pnpm publish --access public ."
   },
@@ -313,14 +324,22 @@ cp ./src/index.ts ./dist/index.ts
   "svelte": "./dist/index.js",
 }
 ```
+1. IF there is a `.css` file in `./src` => add to `package.json`
+```json
+{
+  "exports": {
+    ".": "./dist/index.js",
+    "./index.css": "./dist/index.css"
+  },
+}
+```
 1. Bash `pnpm build && touch .gitignore`
 ```toml
 dist
 node_modules
 tsc
 ```
-1. Bash `pnpm build`
-1. In another app link to this package locally `"example": "link:../../example"`
+1. In another app link to this package locally `"example": "link:../example"`
 1. Publish package to npm
 
 

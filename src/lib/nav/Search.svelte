@@ -1,7 +1,7 @@
 <script lang="ts">
   import Form from '$lib/form/Form.svelte'
   import { schemaSearch } from '$lib/zod/search'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import Science from '$lib/source/Science.svelte'
   import Culture from '$lib/source/Culture.svelte'
   import Product from '$lib/source/Product.svelte'

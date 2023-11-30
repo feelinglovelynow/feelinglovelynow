@@ -6,7 +6,7 @@
   import Button from '$lib/form/Button.svelte'
   import { Slug } from '@feelinglovelynow/slug'
   import { routeCatch } from '$lib/global/catch'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
   import type { Order, Product, UpdateOrderItemsRequest } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'

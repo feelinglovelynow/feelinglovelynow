@@ -1,10 +1,10 @@
 <script lang="ts">
   import { theme } from '$lib/theme/theme'
   import { browser } from '$app/environment'
+  import { enumTheme } from '$lib/global/enums'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_MOON from '$lib/svg/nav/SVG_MOON.svg'
-  import { enumTheme } from '$lib/global/enums';
-    import showToast from '@feelinglovelynow/toast';
+  import { showToast } from '@feelinglovelynow/toast'
 
   $: layout = browser ? document.getElementById('fln__layout') : null
 

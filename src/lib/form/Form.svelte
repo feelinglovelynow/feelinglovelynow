@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from '$lib/form/Button.svelte'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import FormItem from '$lib/form/FormItem.svelte'
   import type { FormInputs, FormOnSuccess } from '$lib'
   import { getFormEntries } from '@feelinglovelynow/get-form-entries'

@@ -4,7 +4,7 @@
   import type { Cart, Product } from '$lib'
   import loopCart from '$lib/store/loopCart'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
   import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'

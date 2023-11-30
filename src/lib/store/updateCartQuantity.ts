@@ -1,6 +1,6 @@
 import type { Cart } from '$lib'
 import { set } from '$lib/store/cart'
-import showToast from '@feelinglovelynow/toast'
+import { showToast } from '@feelinglovelynow/toast'
 import type { HideModal } from '@feelinglovelynow/svelte-modal'
 
 

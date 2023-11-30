@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import Form from '$lib/form/Form.svelte'
   import Title from '$lib/global/Title.svelte'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import type { FormInputs, FormOnSuccess } from '$lib'
   import { schemaVerifySignIn } from '$lib/zod/verifySignIn'
 

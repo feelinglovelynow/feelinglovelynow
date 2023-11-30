@@ -32,6 +32,7 @@ export enum enumProductDescription {
   FLOWER_OF_LIFE = 'FLOWER_OF_LIFE',
   METATRONS_CUBE = 'METATRONS_CUBE',
   UNITY = 'UNITY',
+  SEED_OF_LIFE = 'SEED_OF_LIFE',
 }
 
 export enum enumOrderItemSize {

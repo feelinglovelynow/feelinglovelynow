@@ -2,7 +2,7 @@
   import { cart, set } from '$lib/store/cart'
   import type { Product, OrderItem } from '$lib'
   import Flower from '$lib/sacred/Flower.svelte'
-  import showToast from '@feelinglovelynow/toast'
+  import { showToast } from '@feelinglovelynow/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import { enumOrderItemSize } from '$lib/global/enums'
   import IMG_SHIRT_SIZING_MEN from '$lib/img/shirtSizing/men.webp'
@@ -380,7 +380,26 @@
         <p>“American physicist Willis Lamb was measuring the spectrum of hydrogen, German American physicist Hans Bethe realized that the measurements showed a quantum field interaction, the quantum field, the zero point field and ether are the same thing.”</p>
         <p>Just like how water unites all in the ocean, be aware that the space surrounding your atoms is filled with the uniting field, be aware that the space that surrounds your body is filled with the uniting field and be aware that the space that unites all in our Universe is filled with the uniting field</p>
         <p>Because space without Ether is unthinkable, know that Reality is Unity!</p>
-      { /if }
+      { :else if product.description === 'SEED_OF_LIFE' }
+        <div class="geometry">
+          <Flower flower={ true } flowerSurroundingCircle={ true } />
+          <Flower genesis={ true } />
+          <Flower genesis={ true } genesisSurroundingCircle={ true } />
+        </div>
+        <div>{ topDescription }</div>
+        <p>"In the middle of the Flower of Life are seven interconnected circles which, if you take them out and draw a circle around them, would create the image called the Seed of Life.</p>
+        <p>Christian and the Egyptian understandings of Reality are almost identical. Here are the first three sentences of the Christian Bible: 'In the beginning God created the heaven and the earth. And the earth was without form and void, and darkness was upon the face of the deep, and the spirit of God moved upon the face of the waters. And God said, Let there be light, and there was light.'</p>
+        <p>Both Egyptian and Christian religions believe that all that is needed to start the process of creation is nothing and spirit, and when those two concepts are brought together, then all things can be created.</p>
+        <p>In order to understand the process of creation on the deepest level, Egyptian students were told to imagine and enact the process we are about to go through. The following description is how they explained and practiced it in their mystery schools.</p>
+        <p>Spirit shoots a beam of consciousness out into the Void. It shoots this beam first to the front, then to the back, then to the left, then the right, then straight up and straight down. In the mystery schools, after they've projected these six beams in the six directions, the next thing they do is connect the ends of these projections.</p>
+        <p>The octahedron the students created this way had three axes front to back, left to right, and up and down. They were told to spin the shape around one of the axes, it didn't matter which, and it didn't matter which direction. Before the students were allowed to move their own point of consciousness, they were taught to spin this octahedral form and create a sphere around themselves.</p>
+        <p>Remember that spirit is now sitting in a sphere. The instructions are to move to that which is newly created, then project another sphere exactly like the first. Since nothing exists except this bubble in the Void, and the inside of the bubble is the same as the outside, the only thing thatís new or different is the membrane itself, the surface of the sphere.</p>
+        <p>So once it arrives on the surface, it makes another octahedron, spins it through the three axes and forms another sphere identical in size to the first one. Itís identical in size because its ability to project into the Void is the same. Nothing has changed in that respect. So it creates a second sphere exactly the same size as the first.</p>
+        <p>When it does that, it has done something that, in terms of sacred geometry, is very special. It has formed a vesica piscis at the intersection of the two spheres.</p>
+        <p>After that pattern is created, thereís only one instruction left to followóforever. The only other action to be taken until the end of time is always to move to the innermost circle point(s) and project another sphere.</p>
+        <p>The last circle forms a complete six-petaled flower. This is what many of the earlier Bibles meant when they said, 'In the beginning there were six.' Our Bible now says that creation was formed in six days, and this fits exactly. This is the pattern of Genesis, so we refer to it as the Genesis pattern. Itís the beginning of the creation of this universe we live in."</p>
+        <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
+    { /if }
       <div class="fln__clear"></div>
     </div>
     
