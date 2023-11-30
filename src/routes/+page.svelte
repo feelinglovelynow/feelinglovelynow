@@ -7,7 +7,7 @@
   import Culture from '$lib/source/Culture.svelte'
   import AboutUs from '$lib/global/AboutUs.svelte'
   import Science from '$lib/source/Science.svelte'
-  import GuitarPic from '$lib/global/GuitarPic.svelte'
+  import ChrisPic from '$lib/global/ChrisPic.svelte'
   import SourceProduct from '$lib/source/Product.svelte'
   import formatScience from '$lib/source/formatScience'
   import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.webp'
@@ -42,7 +42,7 @@
 <Head title="Home" ogImageSrc={ IMG_OG_HOME } description="Welcome to Feeling Lovely Now!" />
 
 <main>
-  <GuitarPic />
+  <ChrisPic />
   <Title text="Aloha!" size="two" />
   <SocialSupport />
   <AboutUs />

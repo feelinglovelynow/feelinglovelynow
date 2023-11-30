@@ -5,7 +5,7 @@
   import Title from '$lib/global/Title.svelte'
   import { routeCatch } from '$lib/global/catch'
   import AboutUs from '$lib/global/AboutUs.svelte'
-  import GuitarPic from '$lib/global/GuitarPic.svelte'
+  import ChrisPic from '$lib/global/ChrisPic.svelte'
   import IMG_OG_LINKS from '$lib/img/og/IMG_OG_LINKS.webp'
   import SocialSupport from '$lib/global/SocialSupport.svelte'
   import AddSiteComment from '$lib/form/AddSiteComment.svelte'
@@ -125,7 +125,7 @@
 <Head title="Links" ogImageSrc={ IMG_OG_LINKS } description="Chris Carrington offers free, Gentle Yoga & Sound Healing classes, in Mount Shasta & online. This page provides links & helpful information to stay connected with Chris & his class!" />
 
 <main>
-  <GuitarPic />
+  <ChrisPic />
   <Title text="Aloha!" size="two" />
   <SocialSupport />
   <AboutUs />

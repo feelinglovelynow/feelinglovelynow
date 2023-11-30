@@ -1,11 +1,11 @@
 <script lang="ts">
-  import IMG_GUITAR from '$lib/img/IMG_GUITAR.webp'
+  import IMG_CHRIS from '$lib/img/IMG_CHRIS.webp'
 </script>
 
 
 <div class="profile-pic">
   <div class="img glow">
-    <img src={ IMG_GUITAR } alt="Chris Carrington playing guitar" />
+    <img src={ IMG_CHRIS } alt="Chris Carrington playing" />
   </div>
 </div>
 
@@ -24,8 +24,8 @@
       margin-bottom: 1.5rem;
 
       img {
-        width: 111%;
-        transform: translate(0rem, -7.9rem);
+        height: 111%;
+        transform: translate(-0.6rem, -0.12rem);
       }
     }
   }
