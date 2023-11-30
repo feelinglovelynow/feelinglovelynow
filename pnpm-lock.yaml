@@ -11,12 +11,15 @@ importers:
       '@cloudflare/workers-types':
         specifier: ^4.20231121.0
         version: 4.20231121.0
+      '@feelinglovelynow/datetime-local':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@feelinglovelynow/dgraph':
         specifier: ^1.1.6
         version: 1.1.6
       '@feelinglovelynow/env-write':
-        specifier: ^1.0.0
-        version: 1.0.0(svelte@4.2.3)
+        specifier: ^1.0.1
+        version: 1.0.1
       '@feelinglovelynow/get-form-entries':
         specifier: ^1.0.0
         version: 1.0.0(svelte@4.2.3)
@@ -584,16 +587,16 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /@feelinglovelynow/datetime-local@1.0.0:
+    resolution: {integrity: sha512-u2TbxQSih3ZG0rdDcDDzpeSViUmKOVlWrx1RbHSXu5YyAsTmKVvWIOv2Vv5hYtxJ+IvwPzkZei5ojHmm7PyAYQ==}
+    dev: true
+
   /@feelinglovelynow/dgraph@1.1.6:
     resolution: {integrity: sha512-UONKikrgRVaHeoF6C7z2/1ZssV1qc1gLhSkCGva1MtqrYVQq+2TkisKJf2k9uDWs3EoDfSTDKvY/ySHw2ITJDg==}
     dev: true
 
-  /@feelinglovelynow/env-write@1.0.0(svelte@4.2.3):
-    resolution: {integrity: sha512-lt39leShHoGb6X5oOPRebABR7wtZYFxERIMfcE+XguV3LGAlibFgLzcTBTj1Wfp3su7fOhSh5j6WMZhSVFGH8A==}
-    peerDependencies:
-      svelte: ^4.0.0
-    dependencies:
-      svelte: 4.2.3
+  /@feelinglovelynow/env-write@1.0.1:
+    resolution: {integrity: sha512-WgBO6sjyJu4imLa9irxNlcXHzOsZhr2zRN5TUEZBUqCSRLAZzh+EL6U6X/yjf7yXYSjAVegA5EkpFnMV8OQD9Q==}
     dev: true
 
   /@feelinglovelynow/get-form-entries@1.0.0(svelte@4.2.3):

@@ -20,8 +20,9 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",
+    "@feelinglovelynow/datetime-local": "^1.0.0",
     "@feelinglovelynow/dgraph": "^1.1.6",
-    "@feelinglovelynow/env-write": "^1.0.0",
+    "@feelinglovelynow/env-write": "^1.0.1",
     "@feelinglovelynow/get-form-entries": "^1.0.0",
     "@feelinglovelynow/global-style": "^1.0.2",
     "@feelinglovelynow/jwt": "^1.0.4",

@@ -216,7 +216,7 @@ Developer: Reload Window
     "outDir": "tsc",
     "declarationMap": true,
     "module": "ESNext",
-    "target": "ES2015",
+    "target": "ES6",
   }
 }
 ```
@@ -225,16 +225,6 @@ Developer: Reload Window
 1. Create `./src/index.js` file and put all exports in there from `src` folder
 1. IF svelte component is in `src` => Export in `index.js` like this: `export { default as Example } from './Example.svelte'`
 1. IF svelte component is in `src` => Add `Example.svelte.d.ts`
-1. IF file in `src` updates `window` at the top of the file add `/// <reference path="./types.d.ts" />` and in that file put
-```ts
-declare global { // Node global types
-  interface Window { // Browser window types
-    flnToastWrapper: HTMLElement | null | undefined
-  }
-}
-
-export {}
-```
 ```ts
 import { SvelteComponent } from 'svelte'
 
@@ -245,10 +235,19 @@ export default class Example extends SvelteComponent<{
   href?: string
   widthRem?: number
 }> {}
+```
+1. IF file in `src` updates `window` at the top of the file add `/// <reference path="./types.d.ts" />` and in that file put
+```ts
+declare global { // Node global types
+  interface Window { // Browser window types
+    flnToastWrapper: HTMLElement | null | undefined
+  }
+}
 
+export {}
 ```
 1. Put all `src` files w/ `.js` extension into `tsconfig.json` files array
-1. Bash `pnpm tsc`
+1. Bash `pnpm tsc -w`
 1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`)
 1. IF `src` folder has a `types.d.ts` file => Include `export * from './types.d'` in `index.ts` file
 1. IF svelte component is in `src` => Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`

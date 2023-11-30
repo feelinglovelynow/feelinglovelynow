@@ -4,7 +4,7 @@ import { redirect } from '@sveltejs/kit'
 import type { SearchOrdersRequest } from '$lib'
 import queryOrder from '$lib/dgraph/queryOrder'
 import { pageServerCatch } from '$lib/global/catch'
-import { dateToDateTimeLocal } from '$lib/global/dateToDateTimeLocal'
+import { toInputValue } from '@feelinglovelynow/datetime-local'
 
 
 export const load = (async ({ locals }) => {
@@ -19,8 +19,8 @@ export const load = (async ({ locals }) => {
       const search: SearchOrdersRequest = {
         uid: '',
         email: '',
-        startDate: dateToDateTimeLocal(startDate),
-        endDate: dateToDateTimeLocal(endDate)
+        startDate: toInputValue(startDate),
+        endDate: toInputValue(endDate)
       }
 
       return {

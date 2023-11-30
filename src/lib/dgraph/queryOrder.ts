@@ -1,6 +1,7 @@
 import txnOptions from '$lib/dgraph/txnOptions'
 import type { Order, SearchOrdersRequest } from '$lib'
 import { DgraphTransaction } from '@feelinglovelynow/dgraph'
+import { toISOString } from '@feelinglovelynow/datetime-local'
 
 
 export default async function queryOrder (transaction: DgraphTransaction | null, abortWhenDone: boolean, { uid, email, startDate, endDate }: SearchOrdersRequest): Promise<Order[]> {
@@ -8,7 +9,7 @@ export default async function queryOrder (transaction: DgraphTransaction | null,
 
   if (uid) filter = `@filter(uid(${ uid }))`
   else if (email) filter = `@filter(eq(Order.email, "${ email }"))`
-  else if (startDate && endDate) filter = ` @filter(between(Order.createdAt, "${ (new Date(startDate)).toISOString() }", "${ (new Date(endDate)).toISOString() }"))`
+  else if (startDate && endDate) filter = ` @filter(between(Order.createdAt, "${ toISOString(startDate) }", "${ toISOString(endDate) }"))`
 
   transaction = transaction ? transaction : new DgraphTransaction({ ...txnOptions(), readOnly: true })
 
