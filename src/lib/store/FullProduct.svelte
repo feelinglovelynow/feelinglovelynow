@@ -2,8 +2,8 @@
   import { cart, set } from '$lib/store/cart'
   import type { Product, OrderItem } from '$lib'
   import Flower from '$lib/sacred/Flower.svelte'
-  import { showToast } from '@feelinglovelynow/toast'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
+  import { showToast } from '@feelinglovelynow/toast'
   import { enumOrderItemSize } from '$lib/global/enums'
   import IMG_SHIRT_SIZING_MEN from '$lib/img/shirtSizing/men.webp'
   import ProductCategories from '$lib/store/ProductCategories.svelte'
@@ -100,7 +100,7 @@
       <li>Email us@feelinglovelynow.com the order items you would love to return within 120 days of purchase</li>
       <li>We send you return address information</li>
       <li>We recieve the items within 150 days of the purchase and verify the items are in good quality</li>
-      <li>We send you a refund for the items sub total, shipping to you, sales tax and $6 for shipping back to us</li>
+      <li>We send you a refund for the items sub total + shipping to you + sales tax + $9 for shipping back to us</li>
     </ol>
   </Modal>
 </div>

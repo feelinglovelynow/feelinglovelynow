@@ -3,24 +3,19 @@ import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction, type DgraphResponse } from '@feelinglovelynow/dgraph'
 
 
-const sessionBody = `
-  uid
-  ipAddress: Session.ipAddress
-  accessExpiration: Session.accessExpiration
-  refreshExpiration: Session.refreshExpiration
-  user: Session.user {
-    uid
-  }
-`
-
-
 export async function get (sessionUid: string): Promise<Session | undefined> {
   const transaction = new DgraphTransaction({ ...txnOptions(), readOnly: true })
 
   const r = await transaction.query(true, `
     query {
       sessions(func: uid(${ sessionUid })) @filter(type(Session)) {
-        ${ sessionBody }
+        uid
+        ipAddress: Session.ipAddress
+        accessExpiration: Session.accessExpiration
+        refreshExpiration: Session.refreshExpiration
+        user: Session.user {
+          uid
+        }
       }
     }
   `)
@@ -62,6 +57,6 @@ export async function updateIP (sessionUid: string, ipAddress: string): Promise<
 
   return await transaction.mutate({
     commitNow: true,
-     mutation: `<${ sessionUid }> <Session.ipAddress> "${ ipAddress }" .`
+    mutation: `<${ sessionUid }> <Session.ipAddress> "${ ipAddress }" .`
   })
 }
