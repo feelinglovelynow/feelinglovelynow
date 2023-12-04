@@ -19,8 +19,11 @@
 - [Paypal JS](https://www.npmjs.com/package/@paypal/paypal-js)
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
 - [Dgraph](https://dgraph.io/docs)
-- [Dgraph Client](https://www.npmjs.com/package/dgraph-js-http)
+- [Dgraph Raw Http](https://dgraph.io/docs/dql/clients/raw-http/#compression-via-http)
 - [JSDOC + Typescript](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)
+- [Vitest](https://vitest.dev/api/)
+- [Jest](https://jestjs.io/docs/api)
+-[Istanbul Code Coverage](https://github.com/the-bugging/istanbul-badges-readme/blob/develop/README.md#advanced-usage-arguments)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
@@ -36,8 +39,12 @@
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
-- [Dgraph Client](https://github.com/dgraph-io/dgraph-js-http/tree/master/examples/simple)
+- [Dgraph Client Example](https://github.com/dgraph-io/dgraph-js-http/tree/master/examples/simple)
 - [Constructor Hover Typescript](https://stackoverflow.com/a/58461269/1549471)
+- [Vitest + Svelte](https://stackblitz.com/edit/vitest-dev-vitest-dv3yuv?file=package.json&initialPath=__vitest__/)
+- [Vitest + SvelteKit](https://stackblitz.com/edit/vitest-dev-vitest-rfr2d4?file=test%2Fhello.test.ts&initialPath=__vitest__/)
+- [JEST + Fetch](https://stackoverflow.com/a/74128806/1549471)
+- [Dgraph-Js-Http](https://github.com/dgraph-io/dgraph-js-http/tree/master/src)
 
 
 #### Articles
@@ -59,6 +66,7 @@
 - [SameSite cookies explained](https://web.dev/articles/samesite-cookies-explained)
 - [Everything you always wanted to know about touch icons](https://mathiasbynens.be/notes/touch-icons)
 - [Typescript + Browsers](https://medium.com/@salathielgenese/setup-typescript-for-modern-browser-a75d699673f6)
+- [Jest + ES6](https://jestjs.io/docs/ecmascript-modules)
 
 
 #### Utilities
@@ -273,6 +281,8 @@ esbuild.build({ // // https://esbuild.github.io/api/
 1. Bash `touch build.sh`
 ```bash
 #!/bin/bash
+pnpm test &&
+npx istanbul-badges-readme --statementsLabel='Coverage' &&
 rm -rf ./dist ./tsc &&
 pnpm tsc &&
 node ./esbuild.js &&
@@ -283,6 +293,25 @@ cp ./src/index.ts ./dist/index.ts
 1. IF `types.d.ts` is in `src` => add `cp` like this: `cp ./src/types.d.ts ./dist/types.d.ts`
 1. IF CSS files in `src` => add `cp` like this: `cp ./src/example.css ./dist/example.css`
 1. Add MIT `LICENSE` to root folder
+1. Add `README.md` to root folder
+1. Add to `README.md`
+```md
+## 🤓 Unit Tests
+![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg?style=flat)
+```
+1. Bash `pnpm i jest -D && touch jest.config.js`
+```js
+/** @type { import('jest').Config } */
+const config = { // https://jestjs.io/docs/configuration
+  clearMocks: true, // Automatically clear mock calls, instances, contexts and results before every test
+  collectCoverage: true, // Indicates whether the coverage information should be collected while executing the test
+  coverageDirectory: 'coverage', // The directory where Jest should output its coverage files
+  coverageProvider: 'v8', // Indicates which provider should be used to instrument code for coverage
+  coverageReporters: [ 'json-summary' ], // A list of reporter names that Jest uses when writing coverage reports + https://github.com/the-bugging/istanbul-badges-readme/blob/develop/README.md#advanced-usage-arguments
+}
+
+export default config
+```
 1. Remove `main` from `package.json`
 1. Add `description` to `package.json`
 1. Add to `package.json`
@@ -304,7 +333,8 @@ cp ./src/index.ts ./dist/index.ts
   "scripts": {
     "watch": "pnpm tsc -w",
     "build": "bash ./build.sh",
-    "cloud": "pnpm build && pnpm publish --access public ."
+    "cloud": "pnpm build && pnpm publish --access public .",
+    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest"
   },
   "repository": {
     "type": "git",
@@ -332,12 +362,15 @@ cp ./src/index.ts ./dist/index.ts
   },
 }
 ```
-1. Bash `pnpm build && touch .gitignore`
+1. Bash `touch .gitignore`
 ```toml
+coverage
 dist
 node_modules
 tsc
 ```
+1. In `./src` folder add a `.test.js` file for each `.js` file in `./src` that is not `./src/index.js` or `./src/typedefs.js`
+1. Bash `pnpm build`
 1. In another app link to this package locally `"example": "link:../example"`
 1. Publish package to npm
 
