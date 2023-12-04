@@ -23,7 +23,7 @@
 - [JSDOC + Typescript](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)
 - [Vitest](https://vitest.dev/api/)
 - [Jest](https://jestjs.io/docs/api)
--[Istanbul Code Coverage](https://github.com/the-bugging/istanbul-badges-readme/blob/develop/README.md#advanced-usage-arguments)
+- [Istanbul Code Coverage](https://github.com/the-bugging/istanbul-badges-readme/blob/develop/README.md#advanced-usage-arguments)
 - [Zod](https://zod.dev/)
 - [Validator](https://github.com/validatorjs/validator.js)
 - [Sass](https://sass-lang.com/documentation/)
