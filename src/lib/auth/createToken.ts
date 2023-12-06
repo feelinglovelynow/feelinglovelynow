@@ -1,8 +1,8 @@
 import { Buffer } from 'buffer/'
 import type { TokenPayload } from '$lib'
-import { one } from '@feelinglovelynow/svelte-catch'
 import { enumTokenType } from '$lib/global/enums'
 import { createJWT } from '@feelinglovelynow/jwt'
+import { one } from '@feelinglovelynow/svelte-catch'
 import { JWK_FOR_ACCESS_TOKEN_PRIVATE, JWK_FOR_REFRESH_TOKEN_PRIVATE, JWK_FOR_SIGN_IN_PRIVATE } from '$env/static/private'
 import { ACCESS_COOKIE_MAX_AGE_IN_SECONDS, REFRESH_COOKIE_MAX_AGE_IN_SECONDS, SIGN_IN_COOKIE_MAX_AGE_IN_SECONDS } from '$lib/auth/variables'
 

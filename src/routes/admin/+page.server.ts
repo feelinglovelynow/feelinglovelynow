@@ -14,7 +14,7 @@ export const load = (async ({ locals }) => {
       const endDate = new Date((new Date()).getTime() + (3 * 60000)) // now + 3 minutes
 
       const startDate = new Date()
-      startDate.setDate(startDate.getDate() - 7) // now - 7 days
+      startDate.setDate(startDate.getDate() - 90) // now - 90 days
 
       const search: SearchOrdersRequest = {
         uid: '',

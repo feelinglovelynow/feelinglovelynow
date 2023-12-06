@@ -208,10 +208,11 @@ Developer: Reload Window
 
 
 ## How to create an NPM Package
-1. Bash `mkdir example && cd example && pnpm init && pnpm i typescript -D && touch tsconfig.json`
+1. Bash `mkdir example && cd example && pnpm init && pnpm i typescript -D && touch tsconfig.json && touch tsconfig.build.json`
 ```json
+// tsconfig.build.json
 {
-  "files": [],
+  "files": [], // all src files (including index.js) (not including .test.js)
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -223,10 +224,27 @@ Developer: Reload Window
     "strict": true,
     "outDir": "tsc",
     "declarationMap": true,
-    "module": "ESNext",
-    "target": "ES6",
+    "module": "NodeNext",
+    "target": "ES2017"
   }
 }
+
+// tsconfig.json
+{
+  "files": [], // all src files with a .js extension
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "module": "NodeNext",
+    "target": "ES2017"
+  }
+}
+
 ```
 1. Add `src` folder AND put `.js` or `.svetle` code in there AND ensure all imports w/in `src` have `.js` extension AND ensure no `exports` are `default`
 1. IF adding a `typedefs.js` file and there are no imports in the file => at the end of the file add `export {}`
@@ -284,7 +302,7 @@ esbuild.build({ // // https://esbuild.github.io/api/
 pnpm test &&
 npx istanbul-badges-readme --statementsLabel='Coverage' &&
 rm -rf ./dist ./tsc &&
-pnpm tsc &&
+pnpm tsc -p tsconfig.build.json &&
 node ./esbuild.js &&
 cp ./src/index.ts ./dist/index.ts
 ```
@@ -299,7 +317,7 @@ cp ./src/index.ts ./dist/index.ts
 ## 🤓 Unit Tests
 ![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg?style=flat)
 ```
-1. Bash `pnpm i jest -D && touch jest.config.js`
+1. Bash `pnpm i jest && pnpm i @jest/globals -D && touch jest.config.js`
 ```js
 /** @type { import('jest').Config } */
 const config = { // https://jestjs.io/docs/configuration
@@ -307,7 +325,6 @@ const config = { // https://jestjs.io/docs/configuration
   collectCoverage: true, // Indicates whether the coverage information should be collected while executing the test
   coverageDirectory: 'coverage', // The directory where Jest should output its coverage files
   coverageProvider: 'v8', // Indicates which provider should be used to instrument code for coverage
-  coverageReporters: [ 'json-summary' ], // A list of reporter names that Jest uses when writing coverage reports + https://github.com/the-bugging/istanbul-badges-readme/blob/develop/README.md#advanced-usage-arguments
 }
 
 export default config
