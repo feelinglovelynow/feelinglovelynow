@@ -19,8 +19,10 @@
   ]
 
   const onSuccess = (({ r }) => {
-    if (!r?.href) removeToast = showToast('success', 'Success! Check your email inbox for a sign in link please!') // define removeToast so we may removeToast on unmount
-    else {
+    if (!r?.href) {
+      const rShowToast = showToast('success', 'Success! Check your email inbox for a sign in link please!')
+      removeToast = rShowToast.removeToast // define removeToast so we may removeToast on unmount
+    } else {
       const linkId = crypto.randomUUID()
       const loadId = crypto.randomUUID()
 
@@ -48,7 +50,8 @@
         }
       })
 
-      removeToast = showToast('success', html) // define removeToast so we may removeToast on unmount
+      const rShowToast = showToast('success', html)
+      removeToast = rShowToast.removeToast // define removeToast so we may removeToast on unmount
     }
   }) satisfies FormOnSuccess
 </script>
