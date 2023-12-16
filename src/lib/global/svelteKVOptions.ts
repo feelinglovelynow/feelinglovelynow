@@ -2,6 +2,7 @@ import { PUBLIC_ENVIRONMENT } from '$env/static/public'
 import { enumSvelteKVPoint } from '@feelinglovelynow/svelte-kv'
 import { CLOUDFLARE_KV_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_NAMESPACE_ID } from '$env/static/private'
 
+
 export default {
   doJSONParse: true,
   doJSONStringify: true,

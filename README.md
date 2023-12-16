@@ -4,7 +4,9 @@
 - [Svelte](https://svelte.dev/docs)
 - [SvelteKit](https://kit.svelte.dev/docs/introduction)
 - [SvelteKit SVG](https://www.npmjs.com/package/@poppanator/sveltekit-svg)
+- [Svelte Jester](https://www.npmjs.com/package/svelte-jester)
 - [Svelte Code Checker](https://www.npmjs.com/package/svelte-check)
+- [Svelte Testing Library](https://testing-library.com/docs/svelte-testing-library/api)
 - [Cloudflare Workers](https://kit.svelte.dev/docs/adapter-cloudflare-workers)
 - [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv)
 - [Cloudflare Images](https://developers.cloudflare.com/images/)
@@ -208,7 +210,7 @@ Developer: Reload Window
 
 
 ## How to create an NPM Package
-1. Bash `mkdir example && cd example && pnpm init && pnpm i typescript -D && touch tsconfig.json && touch tsconfig.build.json`
+1. Bash `mkdir example && cd example && touch tsconfig.json && touch tsconfig.build.json && pnpm init && pnpm i typescript -D`
 ```json
 // tsconfig.build.json
 {
@@ -224,7 +226,7 @@ Developer: Reload Window
     "strict": true,
     "outDir": "tsc",
     "declarationMap": true,
-    "module": "NodeNext",
+    "module": "NodeNext", // use ESNext if .svelte components in /src
     "target": "ES2017"
   }
 }
@@ -246,6 +248,7 @@ Developer: Reload Window
 }
 
 ```
+
 1. Add `src` folder AND put `.js` or `.svetle` code in there AND ensure all imports w/in `src` have `.js` extension AND ensure no `exports` are `default`
 1. IF adding a `typedefs.js` file and there are no imports in the file => at the end of the file add `export {}`
 1. Create `./src/index.js` file and put all exports in there from `src` folder
@@ -277,7 +280,7 @@ export {}
 1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`)
 1. IF `src` folder has a `types.d.ts` file => Include `export * from './types.d'` in `index.ts` file
 1. IF svelte component is in `src` => Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`
-1. Bash `pnpm i esbuild -D && touch esbuild.js`
+1. Bash `touch esbuild.js && pnpm i esbuild -D`
 ```ts
 import esbuild from 'esbuild'
 
@@ -317,7 +320,7 @@ cp ./src/index.ts ./dist/index.ts
 ## 🤓 Unit Tests
 ![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg?style=flat)
 ```
-1. Bash `pnpm i jest && pnpm i @jest/globals -D && touch jest.config.js`
+1. Bash `touch jest.config.js && pnpm i jest -D && pnpm i @jest/globals -D`
 ```js
 /** @type { import('jest').Config } */
 const config = { // https://jestjs.io/docs/configuration
@@ -325,9 +328,24 @@ const config = { // https://jestjs.io/docs/configuration
   collectCoverage: true, // Indicates whether the coverage information should be collected while executing the test
   coverageDirectory: 'coverage', // The directory where Jest should output its coverage files
   coverageProvider: 'v8', // Indicates which provider should be used to instrument code for coverage
+  injectGlobals: false, // Insert Jest's globals (expect, test, describe, beforeEach etc.) into the global environment. If you set this to false, you should import from @jest/globals
 }
 
 export default config
+```
+1. IF `jest` tests will have any DOM tests or tests for any `.svelte` files => Bash `pnpm i jest-environment-jsdom -D` AND add to `jest.config.js`
+```js
+{
+  testEnvironment: 'jest-environment-jsdom', // The test environment that will be used for testing. The default environment in Jest is a Node.js environment. If you are building a web app, you can use a browser-like environment via 'jest-environment-jsdom'
+}
+```
+1. IF `jest` tests will have any `.svelte` files => Bash `pnpm i @testing-library/svelte -D && pnpm i svelte-jester -D` AND add to `jest.config.js`
+```js
+{
+  moduleFileExtensions: ['js', 'svelte'], // An array of file extensions your modules use
+  extensionsToTreatAsEsm: ['.svelte'], // If you have files that are not `.js` and `.cjs` that should run with native ESM, you need to specify their file extension here
+  transform: { '^.+\\.svelte$': 'svelte-jester' }, // https://www.npmjs.com/package/svelte-jester
+}
 ```
 1. Remove `main` from `package.json`
 1. Add `description` to `package.json`
@@ -386,7 +404,7 @@ dist
 node_modules
 tsc
 ```
-1. In `./src` folder add a `.test.js` file for each `.js` file in `./src` that is not `./src/index.js` or `./src/typedefs.js`
+1. In `./src` folder add a `__tests__` folder and in it add a `.test.js` file for each `.js` file in `./src` that is not `./src/index.js` or `./src/typedefs.js`
 1. Bash `pnpm build`
 1. In another app link to this package locally `"example": "link:../example"`
 1. Publish package to npm

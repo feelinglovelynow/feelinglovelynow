@@ -6,6 +6,7 @@
   $: fullTitle = title + ' ⋅ Feeling Lovely Now'
 </script>
 
+
 <svelte:head>
   <title>{ fullTitle }</title>
   <meta name="description" content={ description || fullTitle } />

@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer/'
 import { one } from '@feelinglovelynow/svelte-catch'
 import _publicPaypalCredentials from '$lib/store/publicPaypalCredentials'
 import _privatePaypalCredentials from '$lib/store/privatePaypalCredentials'
@@ -31,7 +32,7 @@ export default async function apiPaypal (url: string, body: any = undefined) {
 
 async function getApiPaypalAccessToken (publicPaypalCredentials: PublicPaypalCredentials, privatePaypalCredentials: PrivatePaypalCredentials): Promise<string> {
   const fetchUrl = `${ privatePaypalCredentials.apiUrl }/v1/oauth2/token`
-  const auth = btoa(`${ publicPaypalCredentials.clientId }:${ privatePaypalCredentials.clientSecret }`)
+  const auth = Buffer.from(`${publicPaypalCredentials.clientId}:${privatePaypalCredentials.clientSecret}`).toString('base64')
 
   const init: RequestInit = {
     method: 'POST',

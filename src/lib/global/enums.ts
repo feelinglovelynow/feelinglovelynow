@@ -55,6 +55,7 @@ export enum enumOrderItemStatus {
 export enum enumShippingCarrier {
   FED_EX = 'FED_EX',
   USPS = 'USPS',
+  LATVIAN_POSTAL_SERVICES = 'LATVIAN_POSTAL_SERVICES',
 }
 
 export enum enumTokenType {
