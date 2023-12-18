@@ -235,6 +235,7 @@
     &.visible {
       opacity: 1;
       max-height: 8.1rem;
+      margin-top: 0.9rem;
     }
 
     .brand {

@@ -26,7 +26,7 @@
       { :else if activeRoute === '/links'  }
         <Lotus />
       { :else if activeRoute === '/store' }
-        <Flower metatronsCube={ true } fruit={ true } />
+        <Flower metatronsCube={ true } fruit={ true } flowerSurroundingCircle={ true } strokeWidth={ 6.3 } />
       { :else }
         <Flower flower={ true } flowerSurroundingCircle={ true } />
       { /if }

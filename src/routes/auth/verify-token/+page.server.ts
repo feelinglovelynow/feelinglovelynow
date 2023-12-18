@@ -31,7 +31,7 @@ export const load = (async ({ url, cookies, locals, getClientAddress }) => {
         ])
 
         setAccessAndRefreshCookies(cookies, accessToken, refreshToken)
-        throw redirect(302, '/admin')
+        redirect(302, '/admin')
       }
     }
   } catch (e) {

@@ -3,7 +3,7 @@ import txnOptions from '$lib/dgraph/txnOptions'
 import { DgraphTransaction } from '@feelinglovelynow/dgraph'
 
 
-export default async function getProducts (): Promise<Product[]> {
+export default async function queryProduct (): Promise<Product[]> {
   const transaction = new DgraphTransaction({ ...txnOptions(true), readOnly: true }) // products are only in main db
 
   const r = await transaction.query(true, `

@@ -1,6 +1,7 @@
 import type { Cookies } from '@sveltejs/kit'
 import type { LayoutServerLoad } from './$types'
 import { pageServerCatch } from '$lib/global/catch'
+// import queryProduct from '$lib/dgraph/queryProduct'
 import type { Source, Product, Category } from '$lib'
 import { SvelteKV } from '@feelinglovelynow/svelte-kv'
 import setThemeCookie from '$lib/theme/setThemeCookie'
@@ -33,9 +34,10 @@ function doTheme (cookies: Cookies) {
 async function doKV (platform: Readonly<App.Platform> | undefined) {
   const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
 
-  const [ sources, products ] = await Promise.all([
+  const [sources, products] = await Promise.all([
     svelteKV.get(enumCacheKey.sources),
     svelteKV.get(enumCacheKey.products)
+    // queryProduct()
   ])
 
   const mapCategories: Map<string, Category> = new Map()

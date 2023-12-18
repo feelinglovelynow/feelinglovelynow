@@ -4,12 +4,12 @@
   import Flower from '$lib/sacred/Flower.svelte'
   import IMG_TORUS from '$lib/img/IMG_TORUS.webp'
   import { showToast } from '@feelinglovelynow/toast'
-  import { enumOrderItemSize } from '$lib/global/enums'
   import IMG_SHIRT_SIZING_MEN from '$lib/img/shirtSizing/men.webp'
   import ProductCategories from '$lib/store/ProductCategories.svelte'
   import IMG_SHIRT_SIZING_WOMEN from '$lib/img/shirtSizing/women.webp'
   import { Modal, type ShowModal } from '@feelinglovelynow/svelte-modal'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
+  import { enumOrderItemSize, enumProductDescription } from '$lib/global/enums'
 
   export let product: Product
 
@@ -303,7 +303,7 @@
     </div>
 
     <div class="description">
-      { #if product.description === 'FLOWER_OF_LIFE' || product.description === 'METATRONS_CUBE' }
+      { #if product.description === enumProductDescription.FLOWER_OF_LIFE || product.description === enumProductDescription.METATRONS_CUBE }
         <div class="geometry">
           <Flower flower={ true } flowerSurroundingCircle={ true } />
           <Flower fruit={ true } flowerSurroundingCircle={ true } />
@@ -317,7 +317,7 @@
         <p>"The tetrahedron is considered fire, the cube is earth, the octahedron is air, the icosahedron is water and the dodecahedron is ether. (Ether, prana and tachyon energy are the same thing; they extend everywhere and are accessible at any point in space/time/dimension. This is the great secret of zero-point technology.) And the sphere is voidness. These six elements are the building blocks of the universe. They create the qualities of the universe."</p>
         <p>"There are all kinds of ways that atoms can join. The resulting molecules are always associated with the five Platonic solids… Even when you get into this complicated molecule and break it down, you see the shapes in it, and they always revert to one of the five Platonic solids it doesn't matter what the structure is. No matter what you call it - metal, crystal, anything else - will always come down to one of these original five shapes."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if product.description === 'MERKABA' }
+      { :else if product.description === enumProductDescription.MERKABA }
         <div class="geometry">
           <Flower flower={ true } flowerSurroundingCircle={ true }  />
           <Flower fruit={ true } flowerSurroundingCircle={ true }  />
@@ -330,31 +330,25 @@
         <p>"<strong>Connecting with the higher self is more important than learning to activate the Mer-Ka-Ba</strong>, because if you connect yourself to your Self, you will get absolutely clear information on how to proceed step by step through any reality and how to lead yourself back home into the full consciousness of God. When you connect with your higher self, the rest will happen automatically. You will still have to live your life, but everything you do will have great power and wisdom within your actions, thoughts and emotions."</p>
         <p>"It is now becoming clear that geometry - and thereby proportion - is the hidden law of nature. It is even more fundamental than mathematics, for all the laws of nature can be derived directly from sacred geometry. The geometries are located in the electromagnetic fields around your body that are about 55 feet in diameter. Remembering these fields is the beginning of human awakening, like a baby bird breaking into the light and out of the darkness inside its eggshell. The sacred and holy human lightbody, called the <strong>Mer-Ka-Ba</strong> by the ancients, becomes a reality."</p>
         <a target="_blank" href="https://www.amazon.com/Ancient-Secret-Flower-Life-Vol/dp/1891824171">Source</a>
-      { :else if product.description === 'HOW_TO_GET_HIGH' }
-        <div>Missed opportunities, was the theme of my life, thanks to erratic emotions. Common solutions like booze, mary jane or x, led me to experience less motor function, less will and sleep paralysis. Recently, gracefully and thankfully I’ve been guided to  simple, natural and efficient solutions, that are detailed in this tiny book. I dream this book, provides the <strong>scientific evidence</strong> and <strong>implementation guidance</strong>, for you to:</div>
-        <ul>
-          <li>Experience the <strong>highest</strong> level emotions that science has measured, which in ascending order are, love, joy, peace and enlightenment! </li>
-          <li>Increase your emotional stability, mental acuity and physiological efficiency</li>
-          <li>Improve your quality of life, mental health and immune system</li>
-          <li>Increase your empathy (magnetic field information awareness)</li>
-          <li>Feel united with our entire Universe</li>
-          <li>And enhance your cognition!</li>
-        </ul>
-        <div class="light-bottom">If you would love, please feel free to <LoadingAnchor href="/links" label="contact me"/> (Chris Carrington)!</div>
-        <div class="light-bottom">Edition: 11/11/23 · Written and Published in Mount Shasta California</div>
+      { :else if product.description === enumProductDescription.WHO_AM_I }
+        <div class="big-bottom">
+          <span class="fln__pr-text">I</span><strong class="fln__pr-text">dream</strong><span class="fln__pr-text">this book helps you</span><strong class="fln__pr-text">blissfully</strong><span class="fln__pr-text">jack</span><strong class="fln__pr-text">out</strong><span class="fln__pr-text">of the</span><strong class="fln__pr-text">Matrix</strong><span class="fln__pr-text">aka the Universe aka Spacetime. This book explains three ways how</span><strong class="fln__pr-text">all</strong><span class="fln__pr-text">humans on Earth are</span><strong>connected</strong><span class="fln__pr-text">, how your</span><strong class="fln__pr-text">mind</strong><span class="fln__pr-text">is connected with your</span><strong class="fln__pr-text">body</strong><span class="fln__pr-text">and how your</span><strong class="fln__pr-text">mind</strong><span class="fln__pr-text">is connected to</span><strong>others</strong><span class="fln__pr-text">, via</span><strong>empathy</strong><span class="fln__pr-text">. Then we explore</span><strong>optimal thoughts</strong><span class="fln__pr-text">, since they</span><strong class="fln__pr-text">affect a lot, where</strong><span class="fln__pr-text">your</span><strong class="fln__pr-text">mind is</strong><span class="fln__pr-text">and how to establish a</span><strong>connection beyond Spacetime</strong><span class="fln__pr-text">!</span><strong>Are you ready</strong><span class="fln__pr-text">!?</span>
+        </div>
+        <div class="big-bottom">By Christopher Alexander Carrington (<LoadingAnchor href="/links" label="contact me"/>)</div>
         <div class="light-bottom">Paper is 50% Recycled Paper and 50% Organic Hemp</div>
+        <div class="light-bottom">Edition: 12/19/23 · Written and Published in Mount Shasta</div>
         <div>💚 Intention ⋅ Good of all please!</div>
-      { :else if product.description === 'LOTUS' || product.description === 'TORUS' }
+      { :else if product.description === enumProductDescription.LOTUS || product.description === enumProductDescription.TORUS }
         <img class="torus" src={ IMG_TORUS } alt="Lady meditating in her torus field"/>
         <div>{ topDescription }</div>
         <p>Our heart, generates our largest electromagnetic field; that surrounds body, fills body and is the shape of a <strong>torus</strong>.</p>
-        { #if product.description === 'LOTUS' }
+        { #if product.description === enumProductDescription.LOTUS }
           <p>The <strong>Lotus of Life is our torus field</strong>; circles flowing outward from our center</p>
         { /if }
         <p>A <strong>torus</strong> looks like a fountain in a pond that sprays water up and out from the center, then the water falls down to the pond and finally the water moves into the fountain and sprays up again</p>
         <p>Energy in your torus field circles out top of heart, out top of head, around body, in base of spine and in base of heart</p>
         <p>The <strong>torus</strong> is the fundamental form of <strong>balanced energy flow</strong> found in sustainable systems at all scales</p>
-      { :else if product.description === 'HEART_LIGHT' }
+      { :else if product.description === enumProductDescription.HEART_LIGHT }
         <div>{ topDescription }</div>
         <p>Light is electromagnetic radiation that is visible or not visible and most of our Universes light is invisible to our eyes</p>
         <p>How much energy light has and if light is visible, is determined by its frequency</p>
@@ -363,7 +357,7 @@
         <p>Thoughts about gathering and directing prana (invisible light), lead to mental health, quality of life and immune system benefits</p>
         <p>Heart awareness is placing focus and prana (via thoughts) at heart and leads to increased emotional stability, physiological efficiency and mental acuity</p>
         <p>Heart awareness also helps us relax, be highly aware and strengthen the communication link between our brain and our heart</p>
-      { :else if product.description === 'EMOTIONS' }
+      { :else if product.description === enumProductDescription.EMOTIONS }
         <div>{ topDescription }</div>
         <div style="padding-top: 1.2rem;">Feelings influence our bodies order, harmony and stability. According to science, positive emotions:</div>
         <ul>
@@ -374,13 +368,13 @@
           <li>Increase our empathy (magnetic field information awareness)</li>
           <li>Lead us to radiate an electromagnetic field from our heart that contains a more coherent structure</li>
         </ul>
-      { :else if product.description === 'UNITY' }
+      { :else if product.description === enumProductDescription.UNITY }
         <div>{ topDescription }</div>
         <p>During his talk at the University of Leiden in 1920 Albert Einstein said “There exists an ether. According to the general theory of relativity, space without ether is unthinkable; for in such space there not only would be no propagation of light, but also no possibility of existence”</p>
         <p>“American physicist Willis Lamb was measuring the spectrum of hydrogen, German American physicist Hans Bethe realized that the measurements showed a quantum field interaction, the quantum field, the zero point field and ether are the same thing.”</p>
         <p>Just like how water unites all in the ocean, be aware that the space surrounding your atoms is filled with the uniting field, be aware that the space that surrounds your body is filled with the uniting field and be aware that the space that unites all in our Universe is filled with the uniting field</p>
         <p>Because space without Ether is unthinkable, know that Reality is Unity!</p>
-      { :else if product.description === 'SEED_OF_LIFE' }
+      { :else if product.description === enumProductDescription.SEED_OF_LIFE }
         <div class="geometry">
           <Flower flower={ true } flowerSurroundingCircle={ true } />
           <Flower genesis={ true } />
@@ -532,27 +526,28 @@
       .image {
         display: flex;
         justify-content: center;
-        aspect-ratio: 1/1;
         width: 100%;
+        aspect-ratio: 1/1;
         max-height: none;
         border: none;
         background: transparent;
         cursor: pointer;
+        transition: all 0.9s;
 
         @media only screen and (min-width: $image-swap-width) { // big screen
           aspect-ratio: auto;
+          height: 54rem;
           width: 54rem;
           min-width: 54rem;
-          transition: all 0.9s;
         }
 
         img {
-          height: 100%;
-          width: auto;
+          width: 100%;
+          height: auto;
 
           @media only screen and (min-width: $image-swap-width) { // big screen
-            width: 100%;
-            height: auto;
+            height: 54rem;
+            width: 54rem;
           }
         }
       }
@@ -628,6 +623,10 @@
 
       .description {
         width: 100%;
+
+        .big-bottom {
+          margin-bottom: 0.63rem;
+        }
 
         .light-bottom {
           margin-bottom: 0.36rem;

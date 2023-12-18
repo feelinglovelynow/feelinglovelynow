@@ -27,12 +27,12 @@ export enum enumProductDescription {
   TORUS = 'TORUS',
   LOTUS = 'LOTUS',
   EMOTIONS = 'EMOTIONS',
-  HOW_TO_GET_HIGH = 'HOW_TO_GET_HIGH',
   MERKABA = 'MERKABA',
   FLOWER_OF_LIFE = 'FLOWER_OF_LIFE',
   METATRONS_CUBE = 'METATRONS_CUBE',
   UNITY = 'UNITY',
   SEED_OF_LIFE = 'SEED_OF_LIFE',
+  WHO_AM_I = 'WHO_AM_I',
 }
 
 export enum enumOrderItemSize {

@@ -11,7 +11,7 @@ export const load = (async ({ locals, cookies }) => {
     userIsAuthenticated(locals)
     await viaCookiesOrRefreshTokenDeleteSession({ cookies })
     deleteAccessAndRefreshCookies(cookies)
-    throw redirect(302, '/auth/sign-in')
+    redirect(302, '/auth/sign-in')
   } catch (e) {
     return pageServerCatch(e)
   }
