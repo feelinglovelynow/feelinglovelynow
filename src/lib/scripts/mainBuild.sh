@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Set permissions for directories
-sudo find /var/www/html/feelinglovelynow/ace -type d -exec chmod 755 {} \; && \
-
 # Set permissions for files
-sudo find /var/www/html/feelinglovelynow/ace -type f -exec chmod 666 {} \; && \
+sudo chmod 666 /var/www/feelinglovelynow/html/feelinglovelynow/ace/aol.txt &&
+sudo chmod 666 /var/www/feelinglovelynow/html/feelinglovelynow/ace/schemas/details.json &&
 
 # Run npm scripts and build
 npm run mainWrite && \
