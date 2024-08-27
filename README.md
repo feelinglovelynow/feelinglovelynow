@@ -453,3 +453,4 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 ## Digital Ocean
 * [Node Setup Article](https://marketplace.digitalocean.com/apps/nodejs)
 * Restart App After Filezilla: `sudo -u nodejs pm2 restart hello`
+* [Node Info Article](https://marketplace.digitalocean.com/apps/nodejs)

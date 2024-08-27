@@ -4,7 +4,7 @@
   import Head from '$lib/global/Head.svelte'
   import { routeCatch } from '$lib/global/catch'
   import Flower from '$lib/sacred/Flower.svelte'
-  import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.webp'
+  import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.jpg'
   import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
 
   export let data: {
