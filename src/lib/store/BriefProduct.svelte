@@ -77,14 +77,14 @@
           </div>
 
           <div class="form">
-            <select name="quantity" value="" class="brand quantity" on:change={ x => { quantity = x.currentTarget.value } }>
+            <select aria-label="Quantity" name="quantity" value="" class="brand quantity" on:change={ x => { quantity = x.currentTarget.value } }>
               <option value="" disabled>Quantity</option>
               { #each { length: 27 } as _, index }
                 <option value={ index + 1 }>{ index + 1 }</option>
               { /each }
             </select>
   
-            <select name="size" value="" class="brand size" on:change={ x => { size = x.currentTarget.value } }>
+            <select aria-label="Size" name="size" value="" class="brand size" on:change={ x => { size = x.currentTarget.value } }>
               { #each sizes as { value, name } }
                 <option { value } disabled={ value === '' }>{ name }</option>
               { /each }

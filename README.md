@@ -450,7 +450,16 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 * `"@ace/db": "git+https://github.com/acedatabasefoundation/db.git",`
 
 
-## Digital Ocean
-* [Node Setup Article](https://marketplace.digitalocean.com/apps/nodejs)
-* [Node Info Article](https://marketplace.digitalocean.com/apps/nodejs)
-* Fresh: `cd /var/www/html/feelinglovelynow && git pull && npm run build && sudo -u nodejs pm2 restart index`
+## Digital Ocean Links
+* [NodeJS](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04)
+* [Filezilla](https://docs.digitalocean.com/products/droplets/how-to/transfer-files/)
+* [NVM](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04)
+
+
+### Digital Ocean Scrips
+* Always allow ssh in the firewall
+    * `sudo ufw allow ssh`
+* Git Pull + Deploy
+    * `cd /var/www/feelinglovelynow && git pull && npm run build && sudo -u nodejs pm2 restart index`
+* After updating sites available
+    * `sudo ln -s /etc/nginx/sites-available/feelinglovelynow /etc/nginx/sites-enabled/`

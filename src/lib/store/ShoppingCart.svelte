@@ -50,7 +50,7 @@
 
 <div id="shopping-cart-button">
   <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
-  <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
+  <div class="count">{ $cart.length }</div>
 </div>
 
 
@@ -68,7 +68,7 @@
               <div class="price">Item Price: ${ c.product.price } USD</div>
               <div class="quantity-wrapper">
                 <span>Quantity:</span> 
-                <select on:change={ x => { updateCartQuantity($cart, hideModal, cartIndex, x.currentTarget.value); showCartUpdatedToast(); } } value={ c.quantity } class="brand">
+                <select aria-label="Quantity" on:change={ x => { updateCartQuantity($cart, hideModal, cartIndex, x.currentTarget.value); showCartUpdatedToast(); } } value={ c.quantity } class="brand">
                   { #each { length: 28 } as _, index }
                     <option value={ index }>{ index }</option>
                   { /each }

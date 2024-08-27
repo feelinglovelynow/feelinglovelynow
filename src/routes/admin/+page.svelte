@@ -211,14 +211,14 @@
                                   </div>
 
                                   <div class="form top">
-                                    <select bind:value={ orderItem.status } class="brand status">
+                                    <select aria-label="Status" bind:value={ orderItem.status } class="brand status">
                                       <option value="" disabled>Set Order Items Status</option>
                                       { #each orderItemStatuses as orderItemStatus (orderItemStatus) }
                                         <option value={ orderItemStatus }>{ orderItemStatus }</option>
                                       { /each }
                                     </select>
 
-                                    <select bind:value={ orderItem.quantity } disabled={ orderItem.status !== enumOrderItemStatus.RETURN_REQUESTED } name="quantity" class="brand quantity">
+                                    <select aria-label="Quantity" bind:value={ orderItem.quantity } disabled={ orderItem.status !== enumOrderItemStatus.RETURN_REQUESTED } name="quantity" class="brand quantity">
                                       <option value="" disabled>Quantity</option>
                                       { #each { length: 28 } as _, index }
                                         <option value={ index }>{ index }</option>
@@ -229,7 +229,7 @@
                                   { #if orderItem.status === enumOrderItemStatus.SHIPPING_TO_CUSTOMER || orderItem.status === enumOrderItemStatus.DELIVERED_TO_CUSTOMER }
                                     <div class="form">
                                       <input bind:value={ orderItem.shippingTrackingId } type="text" class="brand" placeholder="Tracking ID">
-                                      <select bind:value={ orderItem.shippingCarrier } class="brand shipping-carrier">
+                                      <select aria-label="Carrier" bind:value={ orderItem.shippingCarrier } class="brand shipping-carrier">
                                         <option disabled value="">Carrier</option>
                                         { #each shippingCarriers as shippingCarrier (shippingCarrier) }
                                           <option value={ shippingCarrier }>{ shippingCarrier }</option>

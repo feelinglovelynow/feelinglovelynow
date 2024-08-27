@@ -28,7 +28,7 @@
   </div>
 
   { #if showDown }
-    <a href="#products" class="hero__down" type="button">
+    <a href="#products" class="hero__down" type="button" aria-label="Scroll to products section">
       { @html SVG_CHEVRON_DOWN }
     </a>
   { /if }
