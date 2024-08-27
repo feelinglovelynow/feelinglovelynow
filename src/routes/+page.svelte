@@ -61,7 +61,7 @@
       <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a><span>! 😀</span>
     </div>
 
-    <div class="papyrus one" style="margin-top: 1.8rem;">About Sacred Geometry</div>
+    <div class="papyrus one" style="margin-top: 2.7rem;">About Sacred Geometry</div>
     <div class="p">Some believe that shapes are fundamental building blocks of our Universe. For example, when atoms make x shape, y happens.</div>
     <div class="p">The Flower of Life is 61 interconnecting circles.</div>
     <Flower flower={ true }  />
