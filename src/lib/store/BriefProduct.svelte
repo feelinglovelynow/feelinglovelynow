@@ -115,13 +115,6 @@
       padding: 0;
       margin: 0;
       background-color: transparent;
-      &:hover {
-        // box-shadow: var(--glow), 0 0 0 .2rem rgba(234, 198, 3, 0.63);
-
-        img {
-          scale: 1.02;
-        }
-      }
 
       @media only screen and (min-width: 561px) { // medium screen
         margin: 0 1.8rem;
@@ -139,17 +132,14 @@
       .image {
         aspect-ratio: 1/1;
         width: 100%;
-        max-height: 51rem;
-        min-width: 20rem;
-        max-width: 100%;
-        min-height: 22rem;
+        max-width: calc(100vw - 3.6rem);
         display: block;
         text-align: center;
         padding: 1.8rem;
         background-color: transparent;
 
         img {
-          height: 100%;
+          width: 100%;
           transition: all 0.9s;
         }
       }

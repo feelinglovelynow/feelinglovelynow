@@ -80,13 +80,19 @@
 <style lang="scss">
   @import '$lib/scss/variables.scss';
 
+  #products {
+    padding-top: 7rem; // smooth scroll padding
+    margin-top: -7rem; // smooth scroll padding
+    margin-bottom: 1.5rem;
+  }
+
   #about {
     color: white;
     padding: 0 1.8rem;
     margin: 0 auto;
     max-width: 99rem;
-    padding-top: 8.7rem; // smooth scroll padding
-    margin-top: -8.7rem;  // smooth scroll padding
+    padding-top: 10.2rem; // smooth scroll padding
+    margin-top: -10.2rem;  // smooth scroll padding
 
     .p {
       margin-bottom: 0.9rem;
@@ -100,10 +106,5 @@
     a {
       color: var(--gold-text-color);
     }
-  }
-
-  #products {
-    padding-top: 7rem; // smooth scroll padding
-    margin-top: -7rem; // smooth scroll padding
   }
 </style>
