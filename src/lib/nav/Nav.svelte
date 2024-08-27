@@ -22,7 +22,7 @@
 <div class="nav">
   <div class="top-mobile background"></div>
   <div class="logo hide-on-modal-visible">
-    <LoadingAnchor href="/" widthRem={ 3.6 }>      
+    <LoadingAnchor href="/" widthRem={ 3 }>      
       <Flower metatronsCube={ true } color="var(--gold-text-color)" fruit={ true }  />
     </LoadingAnchor>
   </div>

@@ -138,7 +138,7 @@
 
       .image {
         aspect-ratio: 1/1;
-        width: auto;
+        width: 100%;
         max-height: 51rem;
         min-width: 20rem;
         max-width: 100%;
