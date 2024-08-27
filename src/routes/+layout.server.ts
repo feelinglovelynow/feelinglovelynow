@@ -1,62 +1,64 @@
-import type { Cookies } from '@sveltejs/kit'
+import { ace, td } from '@ace/db'
+import type { Product } from '$lib'
+// import { seed } from '$lib/global/seed'
 import type { LayoutServerLoad } from './$types'
 import { pageServerCatch } from '$lib/global/catch'
-// import queryProduct from '$lib/dgraph/queryProduct'
-import type { Source, Product, Category } from '$lib'
-import { SvelteKV } from '@feelinglovelynow/svelte-kv'
-import setThemeCookie from '$lib/theme/setThemeCookie'
-import svelteKVOptions from '$lib/global/svelteKVOptions'
-import { enumCacheKey, enumTheme } from '$lib/global/enums'
+import { ACE_CRYPT_IV, ACE_CRYPT_JWK, ACE_DIRECTORY, ACE_ENVIRONMENT } from '$env/static/private'
 
 
-export const load = (async ({ platform, cookies, locals }) => {
+export const load = (async ({ locals }): Promise<{ locals: App.Locals, products: Product[]}> => {
   try {
-    const theme = doTheme(cookies)
-    const { sources, products, productCategories } = await doKV(platform)
-    return { locals, theme, sources, products, productCategories }
+    const products = await getProducts()
+
+    await bindImages(products)
+
+    return { locals, products }
   } catch (e) {
     return pageServerCatch(e)
   }
 }) satisfies LayoutServerLoad
 
 
-function doTheme (cookies: Cookies) {
-  const DEFAULT_THEME = enumTheme.dark
-  const COOKIE_THEME = cookies.get('fln__theme')
-  const theme: enumTheme = (COOKIE_THEME === enumTheme.light || COOKIE_THEME === enumTheme.dark) ? COOKIE_THEME : DEFAULT_THEME
+async function getProducts () {
+  const req: td.AceFnRequest = []
 
-  if (!COOKIE_THEME) setThemeCookie(cookies, theme)
+  // seed(req)
 
-  return theme
+  req.push({
+    do: 'NodeQuery',
+    how: {
+      node: 'Product',
+      resKey: 'products',
+      resValue: {
+        id: true,
+        name: true,
+        price: true,
+        highPrice: true,
+        displayOrder: true,
+        image: {
+          id: true,
+          extension: true,
+        }
+      }
+    }
+  })
+
+  const { products } = await ace({
+    req,
+    dir: ACE_DIRECTORY,
+    env: ACE_ENVIRONMENT,
+    ivs: { crypt: ACE_CRYPT_IV },
+    jwks: { crypt: { type: 'crypt', jwk: ACE_CRYPT_JWK } },
+  })
+
+  return products as Product[]
 }
 
 
-async function doKV (platform: Readonly<App.Platform> | undefined) {
-  const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
-
-  const [sources, products] = await Promise.all([
-    svelteKV.get(enumCacheKey.sources),
-    svelteKV.get(enumCacheKey.products)
-    // queryProduct()
-  ])
-
-  const mapCategories: Map<string, Category> = new Map()
-
-  const primaryImages = await Promise.all(products.map((product: Product) => {
-    return import(`../lib/img/store/${ product.primaryImage.uid }.${ product.primaryImage.extension }`)
-  }))
-
-  for (let i = 0; i < products.length; i++) {
-    products[i].primaryImage.src = primaryImages[i].default
-
-    for (const category of products[i].categories) {
-      mapCategories.set(category.slug, category)
+async function bindImages (products: Product[]) {
+  for (const product of products) {
+    if (product.image) {
+      product.image.src = (await import(`../lib/img/store/${ product.image.id }.${ product.image.extension }`)).default
     }
-  }
-
-  return {
-    sources: sources as Source[],
-    products: products as Product[],
-    productCategories: [...mapCategories.values()].sort((a, b) => Number(a.name > b.name) - Number(a.name < b.name)) // sort categories by name
   }
 }

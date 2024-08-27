@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import queryUser from '$lib/dgraph/queryUser'
+import { queryUser } from '$lib/ace/queryUser'
 import type { RequestHandler } from './$types'
 import { one } from '@feelinglovelynow/svelte-catch'
 import { serverCatch } from '$lib/global/catch'
@@ -13,10 +13,10 @@ export const POST = (async ({ request, cookies }) => {
     const body = (await request.json()) as SchemaVerifySignIn
     await validateFields(body, schemaVerifySignIn)
     const user = await queryUser(body.email)
-
-    if (!user) throw one('Please enter a valid email address', { body, user })
+console.log('user', user)
+    if (!user?.id) throw one('Please enter a valid email address', { body, user })
     else {
-      const href = await sendSignInEmailAndSetCookie(cookies, user.uid, body.email, user.firstName)
+      const href = await sendSignInEmailAndSetCookie(cookies, user.id, body.email, user.firstName)
       return json({ href })
     }
   } catch (e) {

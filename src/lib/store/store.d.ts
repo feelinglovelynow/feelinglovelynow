@@ -8,13 +8,6 @@ export type ExpandedSubTotal = {
   totalPrice: Price
 }
 
-export type AddOrderRequestOrderItems = {
-  quantity: number
-  size?: enumOrderItemSize
-  product: AddByUid
-  status: enumOrderItemStatus
-}[]
-
 export type PrettyPaypal = {
   email: string
   name: string
@@ -31,7 +24,7 @@ export type PrettyPaypal = {
 
 export type ReturnRequestSome = {
   bodyOrderItem: OrderItem,
-  dgraphOrderItem: OrderItem
+  graphOrderItem: OrderItem
 }
 
 export type PublicPaypalCredentials = {

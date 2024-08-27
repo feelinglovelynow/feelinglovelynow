@@ -1,7 +1,7 @@
-interface TokenBasic { userUid: string } // https://stackoverflow.com/a/61281828
-interface TokenWithIPAddress extends TokenBasic { signInId: string, sessionUid?: never }
-interface TokenWithSessionUid extends TokenBasic { sessionUid: string, signInId?: never }
-export type TokenPayload = TokenWithIPAddress | TokenWithSessionUid
+interface TokenBasic { userId: number } // https://stackoverflow.com/a/61281828
+interface TokenWithIPAddress extends TokenBasic { signInId: string, sessionId?: never }
+interface TokenWithSessionId extends TokenBasic { sessionId: number, signInId?: never }
+export type TokenPayload = TokenWithIPAddress | TokenWithSessionId
 
 
 export type GetTokenResponseData = {
@@ -12,15 +12,15 @@ export type GetTokenResponseData = {
 
 export type VerifySignInEmailTokenResponseData = {
   error?: string,
-  userUid?: string,
+  userId?: string,
   ipAddress?: string,
 }
 
 
 export type VerifyAccessAndRefreshTokenResponseData = {
   error?: string,
-  userUid?: string,
-  sessionUid?: string,
+  userId?: string,
+  sessionId?: string,
 }
 
 

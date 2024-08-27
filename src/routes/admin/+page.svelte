@@ -1,19 +1,24 @@
 <script lang="ts">
   import Price from '$lib/store/Price'
-  import type { PageData } from './$types'
   import Head from '$lib/global/Head.svelte'
+  import Hero from '$lib/global/Hero.svelte'
   import Title from '$lib/global/Title.svelte'
   import Button from '$lib/form/Button.svelte'
-  import { Slug } from '@feelinglovelynow/slug'
   import { routeCatch } from '$lib/global/catch'
   import { showToast } from '@feelinglovelynow/toast'
   import SVG_CHEVRON_RIGHT from '$lib/svg/SVG_CHEVRON_RIGHT.svg'
-  import type { Order, Product, UpdateOrderItemsRequest } from '$lib'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
   import getShippingTrackingHref from '$lib/store/getShippingTrackingHref'
   import { enumOrderItemStatus, enumShippingCarrier } from '$lib/global/enums'
+  import type { Order, Product, UpdateOrderItemsRequest, SearchOrdersRequest } from '$lib'
 
-  export let data: PageData
+  export let data: {
+    locals: App.Locals
+    products: Product[]
+    orders: Order[]
+    search: SearchOrdersRequest
+  }
+
   routeCatch(data)
 
   const shippingCarriers = Object.values(enumShippingCarrier)
@@ -28,37 +33,26 @@
 
 
   $: if (data.orders && data.products) {
-    const mapProducts = new Map<string, Product>()
+    const mapProducts = new Map<number, Product>()
 
     for (const product of data.products) {
-      mapProducts.set(product.uid, product)
+      if (product.id) mapProducts.set(product.id, product)
     }
 
     for (const order of data.orders) {
-      for (const orderItem of order.orderItems) {
-        if (orderItem.product) {
-          const mapProduct = mapProducts.get(orderItem.product.uid)
+      if (order.items) {
+        for (const orderItem of order.items) {
+          if (orderItem.product?.id) {
+            const mapProduct = mapProducts.get(orderItem.product.id)
 
-          if (mapProduct) {
-            orderItem.product.name = mapProduct.name
-            orderItem.product.primaryImage = mapProduct.primaryImage
+            if (mapProduct) {
+              orderItem.product.name = mapProduct.name
+              orderItem.product.image = mapProduct.image
+            }
           }
         }
       }
     }
-  }
-
-
-  async function dgraphToKV (key: 'library' | 'products', url: string) {
-    isLoading[key] = true
-
-    const rFetch = await fetch(url)
-    const r = await rFetch.json()
-
-    if (r?._errors?.length) showToast('info', r._errors)
-    else showToast('success', 'Success!')
-
-    isLoading[key] = false
   }
 
 
@@ -130,24 +124,9 @@
 <Head title="Admin" />
 
 <main>
-  <Title text="Welcome Admin!" />
+  <Hero showContent={ false } showDown={ false } isAbsolute= { true } count={ 2 } />
 
   <div class="wrapper">
-    <!-- Cache -->
-    <div class="cache flex-center">
-      <Title noBottom={ true } text="Cache" />
-      <section>
-        <Button
-          text="Dgraph Library to KV"
-          isLoading={ isLoading.library }
-          onClick={ () => dgraphToKV('library', '/admin/dgraph-library-to-kv') } />
-
-        <Button
-          text="Dgraph Products to KV"
-          isLoading={ isLoading.products }
-          onClick={ () => dgraphToKV('products', '/admin/dgraph-products-to-kv') } />
-      </section>
-    </div>
 
     <!-- Orders -->
     <div class="orders-table">
@@ -159,19 +138,19 @@
           <form class="search-form">
             <div class="form-item">
               <label for="">Order ID</label>
-              <input bind:value={ data.search.uid } disabled={ Boolean(data.search.email) } type="text" class="brand">
+              <input bind:value={ data.search.id } disabled={ Boolean(data.search.email) } type="text" class="brand">
             </div>
             <div class="form-item">
               <label for="">Email</label>
-              <input bind:value={ data.search.email } disabled={ Boolean(data.search.uid) } type="text" class="brand">
+              <input bind:value={ data.search.email } disabled={ Boolean(data.search.id) } type="text" class="brand">
             </div>
             <div class="form-item">
               <label for="">Start</label>
-              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.uid || data.search.email) } type="datetime-local" class="brand">
+              <input bind:value={ data.search.startDate } disabled={ Boolean(data.search.id || data.search.email) } type="datetime-local" class="brand">
             </div>
             <div class="form-item">
               <label for="">End</label>
-              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.uid || data.search.email) } type="datetime-local" class="brand">
+              <input bind:value={ data.search.endDate } disabled={ Boolean(data.search.id || data.search.email) } type="datetime-local" class="brand">
             </div>
 
             <Button onClick={ () => searchOrders() } css="brand" type="button" text="Search" isLoading={ isLoading.search } />
@@ -190,19 +169,19 @@
               </tr>
             </thead>
             <tbody>
-              { #each data.orders as order, index (order.uid) }
+              { #each data.orders as order, index (order.id) }
                 <tr class="top-row">
                   <td>
                     <div class="toggle-wrapper">
                       <button on:click={ (e) => toggleOrderDetails(e, order) } class="brand toggle { order.showOrderDetails ? 'is-open': '' }">{ @html SVG_CHEVRON_RIGHT }</button>
                     </div>
                   </td>
-                  <td>{ order.uid }</td>
+                  <td>{ order.id }</td>
                   <td>{ order.email }</td>
-                  <td>{ (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) }</td>
+                  <td>{ order.createdAt ? (new Date(order.createdAt)).toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Los_Angeles' }) : '' }</td>
                   <td class="right">${ (new Price(order.totalPrice)).str }</td>
                 </tr>
-                { #if order.showOrderDetails }
+                { #if order.showOrderDetails && order.items }
                   <tr class="order-details--tr" bind:this={ order.trOrderDetails }>
                     <td class="button-cell"></td>
                     <td colspan="4">
@@ -211,10 +190,10 @@
                           <div class="order-items">
                             <div class="papyrus two">Order Items</div>
 
-                            { #each order.orderItems as orderItem (orderItem.uid) }
+                            { #each order.items as orderItem (orderItem.id) }
                               <div class="order-item">
                                 <div class="img">
-                                  <img src={ orderItem.product?.primaryImage.src } alt={ orderItem.product?.name }>
+                                  <img src={ orderItem.product?.image?.src } alt={ orderItem.product?.name }>
                                 </div>
                                 <div class="info">
                                   <div class="title">
@@ -292,19 +271,10 @@
       </section>
     </div>
 
-
-    <!-- Slug -->
-    <div class="slug flex-center">
-      <Title noBottom={ true } text="Slug" />
-      <section>
-        <Slug />
-      </section>
-    </div>
+    <section class="sign-out">
+      <LoadingAnchor href="/auth/sign-out" label="Sign Out" />
+    </section>
   </div>
-
-  <section>
-    <LoadingAnchor href="/auth/sign-out" label="Sign Out" />
-  </section>
 </main>
 
 
@@ -312,37 +282,21 @@
   @import '$lib/scss/variables';
 
   .wrapper {
+    padding-top: 6rem;
     max-width: 90vw;
+    position: relative;
+    z-index: $zindex-orders-table;
+
+    .sign-out {
+      max-width: 12rem;
+      margin: 0 auto;
+      text-align: center;
+    }
 
     .flex-center {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .cache {
-
-      section {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1.8rem;
-        align-items: center;
-
-        @media only screen and (min-width: 510px) { // big screen
-          flex-direction: row;
-          justify-content: center;
-        }
-
-        :global(button) {
-          margin: 0.6rem;
-          width: 24rem;
-        }
-
-        :global(.text) {
-          font-size: 1.8rem;
-          white-space: nowrap;
-        }
-      }
     }
 
     .orders-table {
@@ -543,37 +497,6 @@
           }
         }
       }
-    }
-
-    .slug {
-
-      :global(.fln__slug) {
-        margin-bottom: 1.5rem;
-      }
-
-      :global(.fln__slug div) {
-        max-width: 270px;
-        word-wrap: break-word;
-        margin-top: 2.1rem;
-        border-radius: 1.8rem;
-      }
-
-      :global(.fln__slug textarea) {
-        transition: all $theme-swap-speed;
-        appearance: none;
-        background-color: var(--input-bg-color);
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        line-height: 1.32;
-        padding: 0.8rem;
-        font-size: 1.6rem;
-      }
-
-      :global(.fln__slug textarea:focus) {
-        outline: 0;
-        border-color: transparent;
-        box-shadow: var(--focus-box-shadow);
-      }
-    }    
+    }   
   }
 </style>

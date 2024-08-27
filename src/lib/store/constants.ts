@@ -1,2 +1,2 @@
-export const shippingCost = 9
+export const shippingCost = 6
 export const salesTaxPercentage = 0.09

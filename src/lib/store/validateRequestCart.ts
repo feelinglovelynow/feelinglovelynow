@@ -1,15 +1,14 @@
+import { ace } from '@ace/db'
 import Price from '$lib/store/Price'
 import type { Cart, Product } from '$lib'
-import { enumCacheKey } from '$lib/global/enums'
 import { one } from '@feelinglovelynow/svelte-catch'
 import expandSubTotal from '$lib/store/expandSubTotal'
-import { SvelteKV } from '@feelinglovelynow/svelte-kv'
-import svelteKVOptions from '$lib/global/svelteKVOptions'
+import { ACE_DIRECTORY, ACE_ENVIRONMENT } from '$env/static/private'
 
 
-export async function validateRequestCart (cart: Cart, requestTotalPrice: Price, platform: Readonly<App.Platform> | undefined) {
+export async function validateRequestCart (cart: Cart, requestTotalPrice: Price) {
   validateFields(cart, requestTotalPrice)
-  const requestSubTotal = await mergeCartWithProducts(cart, platform)
+  const requestSubTotal = await mergeCartWithProducts(cart)
   return _expandSubTotal(requestSubTotal, requestTotalPrice)
 }
 
@@ -20,15 +19,30 @@ function validateFields (cart: Cart, requestTotalPrice: Price) {
 }
 
 
-async function mergeCartWithProducts (cart: Cart, platform: Readonly<App.Platform> | undefined) {
+async function mergeCartWithProducts (cart: Cart) {
   const cartSubTotal = new Price()
-  const svelteKV = new SvelteKV({ ...svelteKVOptions, platform })
-  const kvProducts = await svelteKV.get(enumCacheKey.products) as Product[]
+
+  const { products } = await ace({
+    dir: ACE_DIRECTORY,
+    env: ACE_ENVIRONMENT,
+    req: {
+      do: 'NodeQuery',
+      how: {
+        node: 'Product',
+        resKey: 'products',
+        resValue: {
+          id: true,
+          name: true,
+          price: true,
+        }
+      }
+    }
+  })
 
   for (const cartItem of cart) { // give each product in the cart a product object (so we know it's price)
-    for (const product of kvProducts) {
-      if (!cartItem.productUid) break
-      else if (cartItem.productUid === product.uid) {
+    for (const product of products as Product[]) {
+      if (!cartItem.productId) break
+      else if (cartItem.productId === product.id) {
         cartItem.product = product
         break
       }
@@ -36,11 +50,11 @@ async function mergeCartWithProducts (cart: Cart, platform: Readonly<App.Platfor
   }
 
   for (const cartItem of cart) {
-    if (!cartItem.productUid) throw one('All items in cart need a productUid', { cartItem })
-    else if (!cartItem.product) throw one(`Product id: "${ cartItem.productUid }", that is in your cart, is not a valid product id`, { cartItem })
+    if (!cartItem.productId) throw one('All items in cart need a productId', { cartItem })
+    else if (!cartItem.product) throw one(`Product id: "${ cartItem.productId }", that is in your cart, is not a valid product id`, { cartItem })
     else if (!cartItem.quantity || !Number.isInteger(cartItem.quantity)) {
       if (cartItem?.product?.name) throw one(`Product name: "${ cartItem.product.name }" needs a quantity to proceed`, { cartItem })
-      else if (cartItem.productUid) throw one(`Product id: "${ cartItem.productUid }" needs a quantity to proceed`, { cartItem })
+      else if (cartItem.productId) throw one(`Product id: "${ cartItem.productId }" needs a quantity to proceed`, { cartItem })
       else throw one('All items in cart need a quantity', { cartItem })
     } else {
       cartItem.subTotal = new Price(cartItem.product.price * cartItem.quantity) // sets the num and the str

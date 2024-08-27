@@ -7,10 +7,17 @@
 @import '$lib/scss/variables.scss';
 @import '$lib/scss/flow-layout.scss';
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: $font-family;
   background-color: var(--bg-color);
   transition: background-color $theme-swap-speed;
+  background-image: linear-gradient(to bottom, #01144d, #060187);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 main {
@@ -19,22 +26,29 @@ main {
   align-items: center;
   position: absolute;
   z-index: $zindex-main;
-  top: 10.5rem;
+  top: 9.6rem;
   left: 0.9rem;
   right: 0.9rem;
   margin-left: 0;
-  padding-top: 3rem;
   padding-bottom: 12rem;
   color: var(--text-color);
   transition: all 0.9s;
+  &.initial {
+    position: initial;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 
   @media only screen and (min-width: $move-nav-window-width) { // big screen
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
   }
 
   @media only screen and (min-width: 72rem) { // big screen
-    padding-left: 3vw;
-    padding-right: 3vw;
+    left: 0;
+    right: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   @media only screen and (min-width: 108rem) { // huge screen
@@ -142,4 +156,9 @@ a,
   &.paypal {
     border-color: #2e96ff #ccc #ccc;
   }
+}
+
+.background {
+  backdrop-filter: blur(0.3rem);
+  background-color: rgba(0, 0, 0, 0.6);
 }

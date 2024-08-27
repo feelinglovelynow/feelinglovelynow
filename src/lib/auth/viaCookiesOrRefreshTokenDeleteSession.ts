@@ -1,4 +1,3 @@
-import { Buffer } from 'buffer/'
 import { remove } from '$lib/auth/sessions'
 import type { Cookies } from '@sveltejs/kit'
 import { REFRESH_COOKIE_NAME } from '$lib/auth/variables'
@@ -9,7 +8,7 @@ export default async function viaCookiesOrRefreshTokenDeleteSession ({ cookies, 
 
   if (refreshToken) {
     const base64Payload = refreshToken.split('.')[1]
-    const { sessionUid } = JSON.parse((Buffer.from(base64Payload, 'base64')).toString('utf-8'))
-    await remove(sessionUid)
+    const { sessionId } = JSON.parse((Buffer.from(base64Payload, 'base64')).toString('utf-8'))
+    await remove(sessionId)
   }
 }

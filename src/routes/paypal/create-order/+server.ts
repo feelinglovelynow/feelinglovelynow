@@ -7,10 +7,10 @@ import { validateRequestCart } from '$lib/store/validateRequestCart'
 import type { CreateOrderRequest, ExpandedSubTotal, Cart } from '$lib'
 
 
-export const POST = (async ({ request, platform }) => {
+export const POST = (async ({ request }) => {
   try {
     const body = await request.json() as CreateOrderRequest
-    const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice, platform)
+    const expandedSubTotal = await validateRequestCart(body.cart, body.totalPrice)
     return await createPaypalOrder(body.cart, expandedSubTotal)
   } catch (e) {
     return serverCatch(e)
@@ -42,7 +42,7 @@ async function createPaypalOrder (cart: Cart, expandedSubTotal: ExpandedSubTotal
         }
       },
       items: cart.map(cartItem => ({
-        sku: cartItem.product?.uid,
+        sku: cartItem.product?.id,
         quantity: cartItem.quantity,
         name: cartItem.size ?
           `Size: ${cartItem.size} ⋅ ${ cartItem.product?.name }` :

@@ -2,13 +2,29 @@
 
 .nav {
 
+  .top-mobile {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 9rem;
+    z-index: $zindex-top-mobile;
+    opacity: 1;
+    transition: opacity $move-nav-speed;
+    box-shadow: 0 0.3rem 0.3rem 0 rgba(163, 161, 163, 0.3);
+
+    @media only screen and (min-width: $move-nav-window-width) { // big screen
+      opacity: 0;
+    }
+  }
+
   @media only screen and (min-width: $move-nav-window-width) { // big screen
     align-items: start;
   }
 
   .logo { // tiny screen
     position: fixed;
-    z-index: $zindex-nav;
+    z-index: $zindex-nav-logo;
     top: 0.9rem;
     left: 0.9rem;
     transition: $move-nav-transition;
@@ -18,7 +34,7 @@
     }
 
     @media only screen and (min-width: $move-nav-window-width) { // big screen
-      top: 1.8rem;
+      top: 0.4rem;
     }
 
     .fln__loading-anchor__loading-icon {
@@ -32,8 +48,8 @@
       height: 8.1rem;
 
       @media only screen and (min-width: $nav-smallest-alignment) { // medium screen
-        width: 9rem;
-        height: 9rem;
+        width: 7.2rem;
+        height: 7.2rem;
       }
     }
   }
@@ -45,7 +61,7 @@
     right: 0;
     left: auto;
     padding: 0;
-    z-index: $zindex-nav;
+    z-index: $zindex-nav-name-wrapper;
     $smallNameWidth: 21rem;
     height: 6.3rem;
     overflow: hidden;
@@ -53,14 +69,15 @@
     text-align: center;
 
     @media only screen and (min-width: $nav-smallest-alignment) { // medium screen
-      top: 2.61rem;
-      width: calc(100% - 9.6rem);
+      top: 1.66rem;
+      width: calc(100% - 7.7rem);
     }
 
     @media only screen and (min-width: $move-nav-window-width) { // big screen
-      top: 1.5rem;
+      top: 2rem;
       font-size: 2.3rem;
-      right: 0.9rem;
+      right: auto;
+      left: 8.1rem;
       width: $smallNameWidth;
     }
 
@@ -71,17 +88,19 @@
       text-align: center;
       font-weight: 600;
       border-radius: 0.9rem;
-      background-color: var(--opacity-bg);
+      background-color: transparent;
+      // background-color: var(--opacity-bg);
       transition: all 0.3s;
       white-space: nowrap;
       font-family: $font-family-papyrus;
-      color: var(--papyrus-text-color);
+      color: white;
+      // color: var(--gold-text-color);
       text-decoration: none;
       border: none;
       cursor: pointer;
 
       @media only screen and (min-width: $nav-smallest-alignment) { // medium screen
-        font-size: 2.45rem;
+        font-size: 2.7rem;
       }
   
       @media only screen and (min-width: $move-nav-window-width) { // big screen
@@ -101,14 +120,14 @@
     transition: $move-nav-transition, background-color $theme-swap-speed;
     display: flex;
     justify-content: space-between;
-    background-color: var(--bottom-nav-bg);
+    box-shadow: 0.3rem 0 0 0.3rem rgba(163, 161, 163, 0.3);
 
     @media only screen and (min-width: $move-nav-window-width) { // big screen
-      right: 1rem;
-      bottom: calc(100% - 11.3rem);
-      left: auto;
-      border-radius: 1rem;
-      background-color: var(--opacity-bg);
+      right: 0;
+      left: 0;
+      bottom: calc(100% - 8.8rem);
+      padding: 0 3rem 0 36rem;
+      box-shadow: 0 0.3rem 0.3rem 0 rgba(163, 161, 163, 0.3);
     }
 
     .item { // tiny / medium screen
@@ -117,21 +136,21 @@
       align-items: center;
       flex-direction: column;
       text-decoration: none;
-      padding: 1.5rem 0;
+      padding: 1.2rem 0;
       position: relative;
+      color: white;
       cursor: pointer;
-      &.active {
-        text-decoration: underline;
-      }
+      background-color: transparent;
+      border: none;
 
       @media only screen and (min-width: $move-nav-window-width) { // big screen
-        padding: 0;
+        padding: 2.1rem 0;
       }
 
       svg:not(.fln__loading-anchor__loading-icon) { // tiny / medium screen
         width: auto;
         max-height: 2.1rem;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.6rem;
         transition: max-height $move-nav-speed, margin-bottom $move-nav-speed, opacity 0.25s;
 
         @media only screen and (min-width: $move-nav-window-width) { // big screen
@@ -151,6 +170,7 @@
       span {
         font-size: 1.5rem;
         transition: all 0.25s;
+        color: white;
         &.hidden {
           @media only screen and (min-width: $move-nav-window-width) { // big screen
             opacity: 0;
@@ -159,14 +179,14 @@
 
         @media only screen and (min-width: $move-nav-window-width) { // big screen
           padding: 1.02rem 1.14rem;
-          font-size: inherit;
+          font-size: 1.92rem;
         }
       }
 
       .count {
         position: absolute;
-        top: -0.6rem;
-        right: -0.9rem;
+        top: -0.9rem;
+        right: -1.5rem;
         color: #fff;
         font-size: 1.4rem;
         background-color: var(--red-text-color);
@@ -176,6 +196,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media only screen and (min-width: $move-nav-window-width) { // big screen
+          top: 1.2rem;
+          right: -0.9rem;
+        }
       }
     }
   }

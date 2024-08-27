@@ -5,8 +5,11 @@ node_modules
 wrangler.toml
 .apps.toml
 .env
+.env_og
 priv_key.pem
 priv_key.txt
 pub_key_record.txt
 vite.config.ts.timestamp*
 .wrangler/*
+/dgraph
+/src/lib/global/seed.ts

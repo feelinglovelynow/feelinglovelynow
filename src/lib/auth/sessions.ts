@@ -1,62 +1,100 @@
-import type { Session, AddSession } from '$lib'
-import txnOptions from '$lib/dgraph/txnOptions'
-import { DgraphTransaction, type DgraphResponse } from '@feelinglovelynow/dgraph'
+import { ace, td } from '@ace/db'
+import type { Session } from '$lib'
+import { ACE_DIRECTORY, ACE_ENVIRONMENT } from '$env/static/private'
 
 
-export async function get (sessionUid: string): Promise<Session | undefined> {
-  const transaction = new DgraphTransaction({ ...txnOptions(), readOnly: true })
-
-  const r = await transaction.query(true, `
-    query {
-      sessions(func: uid(${ sessionUid })) @filter(type(Session)) {
-        uid
-        ipAddress: Session.ipAddress
-        accessExpiration: Session.accessExpiration
-        refreshExpiration: Session.refreshExpiration
-        user: Session.user {
-          uid
+export async function get (sessionId: number): Promise<Session | undefined> {
+  const { session } = await ace({
+    dir: ACE_DIRECTORY,
+    env: ACE_ENVIRONMENT,
+    req: {
+      do: 'NodeQuery',
+      how: {
+        node: 'Session',
+        resKey: 'session',
+        resValue: {
+          $o: { findById: sessionId },
+          id: true,
+          ipAddress: true,
+          accessExpiration: true,
+          refreshExpiration: true,
+          user: {
+            id: true,
+          }
         }
       }
     }
-  `)
-
-  return r?.data?.sessions?.[0] as Session | undefined
-}
-
-
-export async function add (session: AddSession): Promise<string> {
-  const transaction = new DgraphTransaction({ ...txnOptions() })
-
-  const r = await transaction.mutate({
-    commitNow: true,
-    mutation: `
-      _:session <dgraph.type> "Session" .
-      _:session <Session.user> <${ session.user.uid }> .
-      _:session <Session.ipAddress> "${ session.ipAddress }" .
-      _:session <Session.accessExpiration> "${ session.accessExpiration }" .
-      _:session <Session.refreshExpiration> "${ session.refreshExpiration }" .
-    `
   })
 
-  return r?.data?.uids?.session // newly created session uid
+  return session as Session | undefined
 }
 
 
-export async function remove (sessionUid: string): Promise<DgraphResponse> {
-  const transaction = new DgraphTransaction({ ...txnOptions() })
+export async function add (session: Session): Promise<number | undefined> {
+  let sessionId
 
-  return transaction.mutate({
-    commitNow: true,
-    remove: `<${ sessionUid }> * * .`
+  if (session.user?.id) {
+    const { $ace } = await ace({
+      dir: ACE_DIRECTORY,
+      env: ACE_ENVIRONMENT,
+      req: [
+        {
+          do: 'NodeInsert',
+          how: {
+            node: 'Session',
+            props: {
+              id: '_:session',
+              ipAddress: session.ipAddress,
+              accessExpiration: session.accessExpiration,
+              refreshExpiration: session.refreshExpiration,
+            }
+          }
+        },
+        {
+          do: 'RelationshipInsert',
+          how: {
+            relationship: 'userSessions',
+            props: {
+              a: session.user.id,
+              b: '_:session',
+            }
+          }
+        }
+      ]
+    })
+
+    sessionId = $ace?.enumIds?.['_:session']
+  }
+
+  return sessionId // newly created session id
+}
+
+
+export async function remove (sessionId: string): Promise<td.AceFnResponse> {
+  return await ace({
+    dir: ACE_DIRECTORY,
+    env: ACE_ENVIRONMENT,
+    req: {
+      do: 'NodeDelete',
+      how: [ sessionId ]
+    }
   })
 }
 
 
-export async function updateIP (sessionUid: string, ipAddress: string): Promise<DgraphResponse> {
-  const transaction = new DgraphTransaction({ ...txnOptions() })
-
-  return await transaction.mutate({
-    commitNow: true,
-    mutation: `<${ sessionUid }> <Session.ipAddress> "${ ipAddress }" .`
+export async function updateIP (id: number, ipAddress: string): Promise<td.AceFnResponse> {
+  return await ace({
+    dir: ACE_DIRECTORY,
+    env: ACE_ENVIRONMENT,
+    req: {
+      do: 'NodeUpdate',
+      how: {
+        node: 'Session',
+        props: {
+          id,
+          ipAddress,
+        }
+      }
+    }
   })
 }

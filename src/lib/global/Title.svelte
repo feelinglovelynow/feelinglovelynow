@@ -15,6 +15,11 @@
 
 
 <style>
+  .title {
+    position: relative;
+    z-index: 1;
+  }
+
   .papyrus {
     text-align: center;
     margin: 0.9rem 0.6rem 0.6rem 0.6rem;

@@ -4,7 +4,7 @@
   import FormItem from '$lib/form/FormItem.svelte'
   import type { FormInputs, FormOnSuccess } from '$lib'
   import { getFormEntries } from '@feelinglovelynow/get-form-entries'
-  import { PUBLIC_ENVIRONMENT, PUBLIC_CLOUDFLARE_TURNSTILE_KEY } from '$env/static/public'
+  import { PUBLIC_ENVIRONMENT, PUBLIC_TURNSTILE_SITEKEY } from '$env/static/public'
   import { Turnstile, PUBLIC_KEY_ALWAYS_PASSES } from '@feelinglovelynow/svelte-turnstile'
 
   export let schema: any
@@ -69,7 +69,7 @@
         { /if}
       {/each }
     { /if }
-    <Turnstile sitekey={ PUBLIC_ENVIRONMENT === 'local' ? PUBLIC_KEY_ALWAYS_PASSES : PUBLIC_CLOUDFLARE_TURNSTILE_KEY } />
+    <Turnstile sitekey={ PUBLIC_ENVIRONMENT === 'local' ? PUBLIC_KEY_ALWAYS_PASSES : PUBLIC_TURNSTILE_SITEKEY } />
     <Button text={ buttonText } { isLoading } />
   </form>
 </section>

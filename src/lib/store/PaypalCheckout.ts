@@ -86,55 +86,59 @@ export default class Braintree {
   async #createOrder () { // on paypal checkout click
     const self = this
 
-    const body: CreateOrderRequest = {
-      cart: self.cart,
-      totalPrice: self.totalPrice,
+    if (self.cart) {
+      const body: CreateOrderRequest = {
+        cart: self.cart,
+        totalPrice: self.totalPrice,
+      }
+
+      this.#showLoadingIcon('bottom')
+
+      const rFetch = await fetch('/paypal/create-order', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const r = await rFetch.json()
+
+      if (r._errors?.length) showToast('info', r._errors)
+
+      this.#hideLoadingIcon()
+
+      return r?.id
     }
-
-    this.#showLoadingIcon('bottom')
-
-    const rFetch = await fetch('/paypal/create-order', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
-    })
-
-    const r = await rFetch.json()
-
-    if (r._errors?.length) showToast('info', r._errors)
-
-    this.#hideLoadingIcon()
-
-    return r?.id
   }
 
 
   async #onApprove (data: OnApproveData) { // on paypal widget completion success
     const self = this
 
-    const body: CaptureOrderRequest = {
-      cart: self.cart,
-      paypalId: data.orderID,
-      totalPrice: self.totalPrice,
+    if (self.cart) {
+      const body: CaptureOrderRequest = {
+        cart: self.cart,
+        paypalId: data.orderID,
+        totalPrice: self.totalPrice,
+      }
+
+      this.#showLoadingIcon('bottom')
+
+      const rFetch = await fetch('/paypal/capture-order', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      })
+
+      const r = await rFetch.json()
+
+      if (r._errors?.length) showToast('info', r._errors)
+      else {
+        set([])
+        if (this.hideModal) this.hideModal()
+        showToast('success', 'Thank you for your successful purchase!')
+      }
+
+      this.#hideLoadingIcon()
     }
-
-    this.#showLoadingIcon('bottom')
-
-    const rFetch = await fetch('/paypal/capture-order', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
-    })
-
-    const r = await rFetch.json()
-
-    if (r._errors?.length) showToast('info', r._errors)
-    else {
-      set([])
-      if (this.hideModal) this.hideModal()
-      showToast('success', 'Thank you for your successful purchase!')
-    }
-
-    this.#hideLoadingIcon()
   }
 }

@@ -1,39 +1,36 @@
 <script lang="ts">
-  import Price from '$lib/store/Price'
   import { cart } from '$lib/store/cart'
-  import type { Cart, Product } from '$lib'
   import loopCart from '$lib/store/loopCart'
   import SVG_CART from '$lib/svg/SVG_CART.svg'
   import { showToast } from '@feelinglovelynow/toast'
   import PaypalCheckout from '$lib/store/PaypalCheckout'
+  import type { Cart, Product, ExpandedSubTotal } from '$lib'
   import updateCartQuantity from '$lib/store/updateCartQuantity'
   import { Modal, type ShowModal, type HideModal } from '@feelinglovelynow/svelte-modal'
 
-  export let mapAllProducts: Map<string, Product>
+  export let mapAllProducts: Map<number, Product>
 
+  let savings: string
   let showModal: ShowModal
   let hideModal: HideModal
   let cartItems: Cart = []
-  let salesTax = new Price()
-  let subTotal = new Price()
-  let shipping = new Price()
-  let totalPrice = new Price()
+  let price: ExpandedSubTotal
+  let highPrice: ExpandedSubTotal
   let divPaypalLoading: HTMLDivElement
   let divPaypalCheckout: HTMLDivElement
 
   const paypalCheckout = new PaypalCheckout()
 
   $: if ($cart && divPaypalCheckout) {
-    const response = loopCart($cart, mapAllProducts)
+    const r = loopCart($cart, mapAllProducts)
 
-    if (response) {
-      subTotal = response.subTotal
-      salesTax = response.salesTax
-      shipping = response.shipping
-      totalPrice = response.totalPrice
-      cartItems = response.cartItems
+    if (r) {
+      price = r.price
+      savings = r.savings
+      cartItems = r.cartItems
+      highPrice = r.highPrice
 
-      paypalCheckout.create(divPaypalCheckout, divPaypalLoading, $cart, totalPrice, hideModal)
+      if (r.cartItems.length) paypalCheckout.create(divPaypalCheckout, divPaypalLoading, $cart, r.price.totalPrice, hideModal)
     }
   }
 
@@ -44,14 +41,14 @@
 
   function showCartUpdatedToast () {
     setTimeout(() => { // setTimeout allows inner fn to happen after updateCartQuantity() AND loopCart()
-      if ($cart.length) showToast('success', `Item quantity and Paypal checkout updated, with the updated total price: <strong>$${ totalPrice.str } USD</strong>`)
+      if ($cart.length) showToast('success', `Item quantity and Paypal checkout updated, with the updated total price: <strong>$${ price.totalPrice.str } USD</strong>`)
     })
   }
 </script>
 
 
 
-<div class="{ $cart.length > 0 ? 'visible' : '' }" id="shopping-cart-button">
+<div id="shopping-cart-button">
   <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
   <button on:click|stopPropagation={ showModal } class="count">{ $cart.length }</button>
 </div>
@@ -59,17 +56,12 @@
 
 <div class="cart">
   <Modal header="Shopping Cart" on:functions={ bindModalFunctions }>
-    <div class="total-price">
-      { `Sub Total $${ subTotal.str } ⋅ Shipping $${ shipping.str } ⋅ Sales Tax $${ salesTax.str } ⋅` }
-      <strong>{ `Total Price $${ totalPrice.str } USD` }</strong>
-    </div>
-
     <div class="cart-items">
-      { #each cartItems as c, cartIndex (c.uid) }
+      { #each cartItems as c, cartIndex (c.key) }
         { #if c.product }
           <div class="cart-item">
             <div class="img-wrapper">
-              <img src={ c.product.primaryImage.src } alt={ c.product.name } />
+              <img src={ c.product.image.src } alt={ c.product.name } />
             </div>
             <div class="info">
               <div class="name">{ c.product.name }</div>
@@ -91,9 +83,20 @@
       { /each }
     </div>
 
-    <div class="papyrus two options-head">💚 Purchase</div>
+    { #if cartItems.length }
+      <div class="total-price">
+        <span class="fln__pr-text">{ `Sub Total $${ price.subTotal.str } ⋅ Shipping $${ price.shipping.str } ⋅ Sales Tax $${ price.salesTax.str } ⋅` }</span>
+        <strong class="fln__pr-text">{ `Total Price $${ price.totalPrice.str }` }</strong>
+        <span class="fln__pr-text">⋅</span>
+        <span class="discount">Savings ${ savings }</span>
+      </div>
+    { :else }
+      <div class="soon">Aloha! Add items to your cart and they will display here! This is also where you may purchse the items in your cart!</div>
+    { /if }
+    
+
     <div class="fln__relative">
-      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout"></div>
+      <div bind:this={ divPaypalCheckout } class="cart__paypal-checkout { cartItems.length ? 'visible' : '' }"></div>
       <div bind:this={ divPaypalLoading } class="cart__paypal-loading">
         <div class="fln__circle-load paypal"></div>
       </div>
@@ -108,7 +111,7 @@
   .cart {
 
     :global(.fln__modal) {
-      max-width: 75rem;
+      max-width: 90rem !important;
     }
 
     :global(.fln__modal__header) {
@@ -117,10 +120,6 @@
 
     :global(.fln__modal__body) {
       padding: 1.2rem;
-    }
-
-    .options-head {
-      margin: 1.8rem 0 0.3em 0;
     }
 
     &__paypal-loading {
@@ -134,7 +133,7 @@
     :global(.cart__paypal-loading.visible-bottom) {
       display: block;
       bottom: 0;
-      transform: translate(-10.26rem, 0.43rem);
+      transform: translate(-10.26rem, 1.43rem);
     }
 
     :global(.cart__paypal-loading.visible-middle) {
@@ -147,10 +146,12 @@
       position: relative;
       background-color: white;
       border-radius: 0.3rem;
-      margin-bottom: 1.8rem;
       padding: 0.9rem 0.9rem 0 0.9rem;
-      min-height: 25.4rem;
+      min-height: 0;
       transition: all 0.9s;
+      &.visible {
+        min-height: 9rem;
+      }
 
       :global(.paypal-buttons) {
         transition: all 0.9s;
@@ -165,15 +166,27 @@
       border-radius: 0.3rem;
       color: var(--text-color);
       border: 1px solid var(--border-color);
-      margin-bottom: 1.8rem;
+      margin-bottom: 0.9rem;
       font-size: 1.8rem;
       text-align: center;
       background-color: var(--input-bg-color);
+
+      .discount {
+        color: green;
+        font-weight: bold;
+      }
+    }
+
+    .soon {
+      margin-top: 1.5rem;
+      color: #004085;
+      background-color: #cce5ff;
+      border-color: #b8daff;
+      padding: .72rem 1.2rem;
+      border-radius: .25rem;
     }
 
     .cart-items {
-      border-bottom: 1px solid var(--border-color);
-
       .cart-item {
         display: flex;
         margin-bottom: 1.8rem;
@@ -228,15 +241,11 @@
   }
 
   #shopping-cart-button {
-    position: relative;
+    position: absolute;
     max-height: 0;
     opacity: 0;
     transition: all 0.9s;
-    &.visible {
-      opacity: 1;
-      max-height: 8.1rem;
-      margin-top: 0.9rem;
-    }
+    left:-12rem;
 
     .brand {
       font-size: 1.98rem;

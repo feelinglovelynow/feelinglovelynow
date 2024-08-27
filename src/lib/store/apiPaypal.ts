@@ -1,4 +1,3 @@
-import { Buffer } from 'buffer/'
 import { one } from '@feelinglovelynow/svelte-catch'
 import _publicPaypalCredentials from '$lib/store/publicPaypalCredentials'
 import _privatePaypalCredentials from '$lib/store/privatePaypalCredentials'

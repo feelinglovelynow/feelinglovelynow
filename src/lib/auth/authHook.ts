@@ -18,14 +18,14 @@ export default async function authHook (event: RequestEvent): Promise<RequestEve
     if (!accessToken) await onAccessTokenExpired(event, refreshToken)
     else {
       try {
-        const { sessionUid } = await verifyToken(enumTokenType.ACCESS, accessToken)
+        const { sessionId } = await verifyToken(enumTokenType.ACCESS, accessToken)
 
-        if (!sessionUid) await signThemOut(event, refreshToken) // if no sessionUid found in token => sign them out
+        if (!sessionId) await signThemOut(event, refreshToken) // if no sessionId found in token => sign them out
         else {
-          const session = await get(sessionUid) // find session based on access token
+          const session = await get(sessionId) // find session based on access token
 
-          if (!session) deleteAccessAndRefreshCookies(event.cookies) // if session not found, this is a signed out user so => delete cookies
-          else event.locals.userUid = session.user.uid // session found so add userUid to locals so server code down stream may access it
+          if (!session?.user?.id) deleteAccessAndRefreshCookies(event.cookies) // if session not found, this is a signed out user so => delete cookies
+          else event.locals.userId = session.user.id // session found so add userId to locals so server code down stream may access it
         }
       } catch (e: any) {
         if (e?.id === 'fln__verify__expired') await onAccessTokenExpired(event, refreshToken) // if access token is expired
@@ -41,12 +41,12 @@ export default async function authHook (event: RequestEvent): Promise<RequestEve
 
 async function onAccessTokenExpired (event: RequestEvent, refreshToken: string): Promise<void> {
   try {
-    const { sessionUid } = await verifyToken(enumTokenType.REFRESH, refreshToken) // verify the refresh token
+    const { sessionId } = await verifyToken(enumTokenType.REFRESH, refreshToken) // verify the refresh token
 
-    if (sessionUid) { // if refresh token is good
-      const session = await get(sessionUid) // get dgraph session
-      if (!session) deleteAccessAndRefreshCookies(event.cookies) // IF no dgraph session => this is a signed out user so delete their current cookies
-      else await createNewSessionTokenAndCookies(event, session) // dgraph session found => create new session, tokens, cookies
+    if (sessionId) { // if refresh token is good
+      const session = await get(sessionId) // get graph session
+      if (!session) deleteAccessAndRefreshCookies(event.cookies) // IF no graph session => this is a signed out user so delete their current cookies
+      else await createNewSessionTokenAndCookies(event, session) // graph session found => create new session, tokens, cookies
     }
   } catch (e: any) {
     if (e?.id?.startsWith('fln__verify__')) await signThemOut(event, refreshToken) // if refreshToken has a verify error this is a signed out user so => sign them out
@@ -66,10 +66,12 @@ async function signThemOut (event: RequestEvent, refreshToken: string): Promise<
 
 
 async function createNewSessionTokenAndCookies (event: RequestEvent, session: Session): Promise<void> {
-  const payload = { userUid: session.user.uid, sessionUid: session.uid }
-  const [ accessToken, refreshToken ] = await Promise.all([ createToken(enumTokenType.ACCESS, payload), createToken(enumTokenType.REFRESH, payload) ]) // create new auth tokens for this user
-
-  await updateIP(session.uid, event.getClientAddress()) // update dgraph session with their most recent ip address
-  setAccessAndRefreshCookies(event.cookies, accessToken, refreshToken) // set auth cookies w/ newly created tokens
-  event.locals.userUid = session.user.uid // add userUid to locals so server code down stream may access it
+  if (session.user?.id && session.id) {
+    const payload = { userId: session.user.id, sessionId: session.id }
+    const [ accessToken, refreshToken ] = await Promise.all([ createToken(enumTokenType.ACCESS, payload), createToken(enumTokenType.REFRESH, payload) ]) // create new auth tokens for this user
+  
+    await updateIP(session.id, event.getClientAddress()) // update graph session with their most recent ip address
+    setAccessAndRefreshCookies(event.cookies, accessToken, refreshToken) // set auth cookies w/ newly created tokens
+    event.locals.userId = session.user.id // add userId to locals so server code down stream may access it
+  }
 }

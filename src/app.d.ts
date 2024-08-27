@@ -7,8 +7,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			userUid?: any,
-			theme: enumTheme
+			userId?: number,
 		}
 		// interface PageData {}
 		interface Platform {

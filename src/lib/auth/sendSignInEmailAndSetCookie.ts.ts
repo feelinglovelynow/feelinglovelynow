@@ -1,4 +1,3 @@
-import send from '$lib/mailchannels/send'
 import type { Cookies } from '@sveltejs/kit'
 import createToken from '$lib/auth/createToken'
 import { enumTokenType } from '$lib/global/enums'
@@ -7,9 +6,9 @@ import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
 import { PUBLIC_ENVIRONMENT, PUBLIC_HOST } from '$env/static/public'
 
 
-export default async function sendSignInEmailAndSetCookie (cookies: Cookies, userUid: string, email: string, firstName?: string): Promise<string | void> {
+export default async function sendSignInEmailAndSetCookie (cookies: Cookies, userId: number, email: string, firstName?: string): Promise<string | void> {
   const signInId = crypto.randomUUID() // sign in id will be in the token & in the cookie
-  const token = await createToken(enumTokenType.SIGN_IN, { userUid, signInId }) // create token to place in sign in email
+  const token = await createToken(enumTokenType.SIGN_IN, { userId, signInId }) // create token to place in sign in email
   const href = `${ PUBLIC_HOST }/auth/verify-token?token=${ token }`
 
   setSignInCookie(signInId, cookies)
@@ -25,7 +24,7 @@ async function sendEmail (href: string, email: string, firstName?: string) {
     .replace(':/', '<span>:/</span>')
     .replace('.co', '<span>.co</span>')
 
-    await send({
+    const data = {
       to: email, 
       subject: `Feeling Lovely Now sign in link${ firstName ? ' for ' + firstName : '' }!`,
       content: `
@@ -43,5 +42,5 @@ async function sendEmail (href: string, email: string, firstName?: string) {
           </tr>
         </table>
       `,
-    })
+    }
 }

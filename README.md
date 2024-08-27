@@ -20,8 +20,6 @@
 - [Paypal API](https://developer.paypal.com/docs/api/orders/v2/#orders_create)
 - [Paypal JS](https://www.npmjs.com/package/@paypal/paypal-js)
 - [Printful API](https://developers.printful.com/docs/#tag/Products-API)
-- [Dgraph](https://dgraph.io/docs)
-- [Dgraph Raw Http](https://dgraph.io/docs/dql/clients/raw-http/#compression-via-http)
 - [JSDOC + Typescript](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)
 - [Vitest](https://vitest.dev/api/)
 - [Jest](https://jestjs.io/docs/api)
@@ -37,16 +35,24 @@
 - [Markdown](https://www.markdownguide.org/basic-syntax)
 - [Open Graph](https://ogp.me/)
 - [CSP](https://w3c.github.io/webappsec-csp/)
+- [Volta](https://volta.sh/)
+- [Weaviate](https://weaviate.io/)
 
 
 #### Code Examples
 - [Sveltekit + Turnstile](https://github.com/ghostdevv/svelte-turnstile)
-- [Dgraph Client Example](https://github.com/dgraph-io/dgraph-js-http/tree/master/examples/simple)
 - [Constructor Hover Typescript](https://stackoverflow.com/a/58461269/1549471)
 - [Vitest + Svelte](https://stackblitz.com/edit/vitest-dev-vitest-dv3yuv?file=package.json&initialPath=__vitest__/)
 - [Vitest + SvelteKit](https://stackblitz.com/edit/vitest-dev-vitest-rfr2d4?file=test%2Fhello.test.ts&initialPath=__vitest__/)
 - [JEST + Fetch](https://stackoverflow.com/a/74128806/1549471)
-- [Dgraph-Js-Http](https://github.com/dgraph-io/dgraph-js-http/tree/master/src)
+- [Jsdoc Extends](https://stackoverflow.com/a/55358934/1549471)
+- [Jsdoc Import](https://stackoverflow.com/a/73232942/1549471)
+- [Durable Object Counter](https://developers.cloudflare.com/durable-objects/examples/build-a-counter/)
+- [Mongodb Stop Words](https://github.com/igorbrigadir/stopwords/blob/master/en/mongodb.txt)
+- [Array Intersection](https://stackoverflow.com/a/43820518/1549471)
+- [Package.json + Bin + NPM Link](https://medium.com/nerd-for-tech/what-bin-does-in-package-json-931d691b1e33)
+- [Stop Readline](https://stackoverflow.com/a/57798824)
+- [Double type cast](https://stackoverflow.com/a/71464992)
 
 
 #### Articles
@@ -69,6 +75,21 @@
 - [Everything you always wanted to know about touch icons](https://mathiasbynens.be/notes/touch-icons)
 - [Typescript + Browsers](https://medium.com/@salathielgenese/setup-typescript-for-modern-browser-a75d699673f6)
 - [Jest + ES6](https://jestjs.io/docs/ecmascript-modules)
+- [Best time to publish on YouTube](https://www.tubebuddy.com/blog/best-time-to-publish-video-youtube/)
+- [Node command line package](https://x-team.com/blog/a-guide-to-creating-a-nodejs-command/)
+- [Mongodb Full Text Search](https://www.mongodb.com/basics/full-text-search)
+- [Mongodb Search Scoring](https://www.mongodb.com/docs/atlas/atlas-search/scoring/)
+- [Mongodb Search Analyzers](https://www.mongodb.com/docs/atlas/atlas-search/analyzers/language/)
+- [Neo4j System](https://neo4j.com/docs/operations-manual/current/database-administration/)
+- [Neo4j Access Control](https://neo4j.com/docs/operations-manual/current/tutorial/access-control/)
+- [Neo4j Auth](https://neo4j.com/docs/operations-manual/current/authentication-authorization/)
+- [What is a graph](https://aws.amazon.com/nosql/graph/)
+- [Neo4j + LLM](https://graphacademy.neo4j.com/courses/llm-fundamentals/1-introduction/1-neo4j-and-genai/)
+- [Cloudflare Cookies](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/)
+- [Cloudflare Database Integrations](https://developers.cloudflare.com/workers/databases/native-integrations/)
+- [Sign and Verify Messages with Web Crypto API](https://bradyjoslin.com/blog/hmac-sig-webcrypto/)
+- [FS Open Write Files](https://brainbell.com/javascript/fs-open-read-write-file.html)
+- [Deep Clone](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)
 
 
 #### Utilities
@@ -79,13 +100,14 @@
 - [White to Grey Hex's](https://www.htmlcolor-picker.com/color-groups/white-grey-black)
 - [CSP Validator](https://csp-evaluator.withgoogle.com/)
 - [DNS Checker](https://dnschecker.org)
-- [Emoji's](https://www.iemoji.com/)
+- [Emoji's](https://www.iemoji.com/) or [Command + Cotrol + Spacebar]
 - [Open Graph Preview](https://www.opengraph.xyz)
-- [Dgraph Forum](https://discuss.dgraph.io/)
 - [SVG to PNG](https://svgtopng.com/)
 - [SVG Formatter](https://htmlformatter.com/)
 - [AI Image Generator](https://playgroundai.com/create)
 - [AI Photo to Art](https://www.befunky.com/create/photo-to-art/)
+- [Movie Green Screen Videos](https://pixabay.com/videos/)
+- [MOV to GIF](https://ezgif.com/video-to-gif)
 
 
 #### Tech Stack Costs
@@ -94,7 +116,6 @@
 - [Github Team: $4/month for 2G of storage](https://github.com/pricing)
 - [Cloudflare Workers: $5/month for 285 servers allowing 10 million requests/month, 100,000 KV reads/day, 1,000 KV writes/day and 1 GB of KV storage allowed](https://developers.cloudflare.com/workers/platform/pricing)
 - [Proton Business: $19.98/month for a secure email inbox, calendar, and 1,000GB of cloud storage](https://proton.me/business/plans)
-- [Dgraph: $39.99 a month for 25GB of graph database storage, 5GB of data transfer per day and encryption at rest](https://dgraph.io/pricing)
 
 
 #### Local install
@@ -276,8 +297,8 @@ declare global { // Node global types
 export {}
 ```
 1. Put all `src` files w/ `.js` extension into `tsconfig.json` files array
-1. Bash `pnpm tsc -w`
-1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`)
+1. Bash `pnpm tsc -p tsconfig.build.json -w`
+1. Create `./src/index.ts` file and put all `.d.ts` exports in there from `tsc` folder (only put extension as `.d`), do not include `index.d`
 1. IF `src` folder has a `types.d.ts` file => Include `export * from './types.d'` in `index.ts` file
 1. IF svelte component is in `src` => Export in `index.ts` like this: `export { default as Example } from './Example.svelte'`
 1. Bash `touch esbuild.js && pnpm i esbuild -D`
@@ -422,3 +443,13 @@ pnpm publish --access public .
 ```bash
 npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install using @feelinglovelynow/toast instead."
 ```
+
+
+## Different Ace Options
+* `"@ace/db": "file:../acedatabasefoundation/db",`
+* `"@ace/db": "git+https://github.com/acedatabasefoundation/db.git",`
+
+
+## Digital Ocean
+* [Node Setup Article](https://marketplace.digitalocean.com/apps/nodejs)
+* Restart App After Filezilla: `sudo -u nodejs pm2 restart hello`

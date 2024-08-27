@@ -1,16 +1,17 @@
 <script lang="ts">
   import '$lib/nav/Nav.scss'
   import { cart } from '$lib/store/cart'
-  import Lotus from '$lib/sacred/Lotus.svelte'
-  import { page, navigating } from '$app/stores'
+  import SVG_CART from '$lib/svg/SVG_CART.svg'
   import Flower from '$lib/sacred/Flower.svelte'
   import SVG_HOME from '$lib/svg/nav/SVG_HOME.svg'
   import SVG_STORE from '$lib/svg/nav/SVG_STORE.svg'
-  import SVG_LIBRARY from '$lib/svg/nav/SVG_LIBRARY.svg'
   import SVG_SUPPORT from '$lib/svg/nav/SVG_SUPPORT.svg'
   import { LoadingAnchor } from '@feelinglovelynow/svelte-loading-anchor'
 
-  $: activeRoute = ($navigating) ? $navigating?.to?.route.id : $page.route.id
+  function openCart () {
+    const btn = document.querySelector('#shopping-cart-button button') as HTMLButtonElement | undefined
+    if (btn) btn.click()
+  }
 
   function smoothToTop () {
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
@@ -19,33 +20,39 @@
 
 
 <div class="nav">
+  <div class="top-mobile background"></div>
   <div class="logo hide-on-modal-visible">
-    <LoadingAnchor widthRem={ 3.6 }>      
-      { #if activeRoute?.includes('/library')  }
-        <Flower merkaba={ true } />
-      { :else if activeRoute === '/links'  }
-        <Lotus />
-      { :else if activeRoute === '/store' }
-        <Flower metatronsCube={ true } fruit={ true } flowerSurroundingCircle={ true } strokeWidth={ 6.3 } />
-      { :else }
-        <Flower flower={ true } flowerSurroundingCircle={ true } />
-      { /if }
+    <LoadingAnchor href="/" widthRem={ 3.6 }>      
+      <Flower metatronsCube={ true } color="var(--gold-text-color)" fruit={ true }  />
     </LoadingAnchor>
   </div>
 
   <div class="name-wrapper hide-on-modal-visible">
-    <button on:click={ () => { smoothToTop() } } class="name light-glow">Feeling Lovely Now</button>
+    <button type="button" on:click={ () => { smoothToTop() } } class="name">Feeling Lovely Now</button>
   </div>
 
-  <nav class="hide-on-modal-visible light-glow">
-    <LoadingAnchor label="Home" widthRem={ 2.7 } css="item { activeRoute === '/' ? 'active' : '' }">{ @html SVG_HOME }</LoadingAnchor>
-    <LoadingAnchor label="Store" href="/store" widthRem={ 2.7 } css="item { activeRoute?.includes('/store') ? 'active' : '' }">
+  <nav class="hide-on-modal-visible background">
+    <a href="/" class="item">
+      { @html SVG_HOME }
+      <span>Home</span>
+    </a>
+
+    <a href="#products" class="item">
       { @html SVG_STORE }
+      <span>Poducts</span>
+    </a>
+
+    <button class="item" on:click={ () => { openCart() } }>
+      { @html SVG_CART }
+      <span>Cart</span>
       { #if $cart.length > 0 }
         <div class="count">{ $cart.length }</div>
       { /if }
-    </LoadingAnchor>
-    <LoadingAnchor label="Library" href="/library" widthRem={ 2.7 } css="item { activeRoute?.includes('/library') ? 'active' : '' }">{ @html SVG_LIBRARY }</LoadingAnchor>
-    <LoadingAnchor label="Links" href="/links" widthRem={ 2.7 } css="item { activeRoute === '/links' ? 'active' : '' }">{ @html SVG_SUPPORT }</LoadingAnchor>
+    </button>
+
+    <a href="#about" class="item">
+      { @html SVG_SUPPORT }
+      <span>About</span>
+    </a>
   </nav>
 </div>

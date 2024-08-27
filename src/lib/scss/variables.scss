@@ -1,6 +1,6 @@
 $move-source-header-window-width: 50rem;
 
-$move-nav-window-width: 27rem;
+$move-nav-window-width: 42rem;
 $nav-smallest-alignment: 21.9rem;
 $move-nav-speed: 0.9s;
 $move-nav-transition: all $move-nav-speed;
@@ -18,7 +18,15 @@ $font-family-papyrus: papyrus, $font-family;
 $zindex-background-images: 30;
 $zindex-nav-when-modal-is-visible: 60;
 $zindex-main: 90;
-$zindex-nav: 120;
-$zindex-modal-container: 150;
-$zindex-modal: 180;
-$zindex-toast: 210;
+$zindex-hero-img: 120;
+$zindex-hero: 150;
+$zindex-orders-table: 160;
+$zindex-top-mobile: 180;
+$zindex-nav: 210;
+$zindex-nav-logo: 240;
+$zindex-nav-name-wrapper: 240;
+$zindex-modal-container: 270;
+$zindex-modal: 300;
+$zindex-toast: 330;
+$zindex-discount: 360;
+

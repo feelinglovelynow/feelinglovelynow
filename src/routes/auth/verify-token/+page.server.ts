@@ -18,20 +18,26 @@ export const load = (async ({ url, cookies, locals, getClientAddress }) => {
 
     if (!urlToken) one('Please add a token to the request url', { urlToken })
     else {
-      const { userUid, signInId } = await verifyToken(enumTokenType.SIGN_IN, urlToken)
+      const { userId, signInId } = await verifyToken(enumTokenType.SIGN_IN, urlToken)
       const cookieSignInId = cookies.get(SIGN_IN_COOKIE_NAME)
+      console.log('userId', userId)
+      console.log('signInId', signInId)
+      console.log('cookieSignInId', cookieSignInId)
 
       if (signInId !== cookieSignInId) throw one('The email link must be clicked from the same computer and browser that signed in', { signInId, cookieSignInId })
-      else {
-        const sessionUid = await createSession(userUid, getClientAddress())
-        const payload = { userUid, sessionUid }
-        const [ accessToken, refreshToken ] = await Promise.all([
-          createToken(enumTokenType.ACCESS, payload),
-          createToken(enumTokenType.REFRESH, payload)
-        ])
+      else if (userId) {
+        const sessionId = await createSession(userId, getClientAddress())
+console.log('sessionId', sessionId)
+        if (sessionId) {
+          const payload = { userId, sessionId }
+          const [ accessToken, refreshToken ] = await Promise.all([
+            createToken(enumTokenType.ACCESS, payload),
+            createToken(enumTokenType.REFRESH, payload)
+          ])
 
-        setAccessAndRefreshCookies(cookies, accessToken, refreshToken)
-        redirect(302, '/admin')
+          setAccessAndRefreshCookies(cookies, accessToken, refreshToken)
+          redirect(302, '/admin')
+        }
       }
     }
   } catch (e) {

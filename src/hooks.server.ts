@@ -1,5 +1,5 @@
-import type { Handle } from '@sveltejs/kit'
 import authHook from '$lib/auth/authHook'
+import type { Handle } from '@sveltejs/kit'
 
 
 export const handle = (async ({ event, resolve }) => {

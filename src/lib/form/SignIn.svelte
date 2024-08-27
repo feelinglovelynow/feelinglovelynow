@@ -64,6 +64,11 @@
 
 
 <style lang="scss">
+  .sign-in {
+    position: relative;
+    z-index: 1;
+  }
+
   :global(.sign-in section) {
     width: 45rem;
     max-width: 96vw;

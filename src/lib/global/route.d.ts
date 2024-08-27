@@ -1,11 +1,9 @@
-export type SearchResponse = {
-  quotes?: Source[]
-  sourcesByTitle?: Source[]
-  sourcesByDescription?: Source[]
-}
+import type { Order } from '$lib/ace/ace.d'
+import type { Cart } from '$lib/store/store.d'
+
 
 export type SearchOrdersRequest = {
-  uid?: string
+  id?: number
   email?: string
   startDate?: string
   endDate?: string
