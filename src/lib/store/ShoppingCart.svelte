@@ -49,7 +49,7 @@
 
 
 <div id="shopping-cart-button">
-  <button on:click={ showModal } class="brand glow">{ @html SVG_CART }</button>
+  <button on:click={ showModal } class="brand glow" aria-label="Open shopping cart modal">{ @html SVG_CART }</button>
   <div class="count">{ $cart.length }</div>
 </div>
 

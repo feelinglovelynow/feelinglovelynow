@@ -460,6 +460,7 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 * Always allow ssh in the firewall
     * `sudo ufw allow ssh`
 * Git Pull + Deploy
-    * `cd /var/www/feelinglovelynow && git pull && npm run build && sudo -u nodejs pm2 restart index`
+    * `cd /var/www/feelinglovelynow && git pull && npm run build && pm2 restart index`
 * After updating sites available
     * `sudo ln -s /etc/nginx/sites-available/feelinglovelynow /etc/nginx/sites-enabled/`
+    * `sudo systemctl restart nginx`
