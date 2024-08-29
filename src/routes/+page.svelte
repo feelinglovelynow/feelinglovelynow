@@ -49,14 +49,14 @@
       <span>I also make</span>
       <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a>
       <span>videos! The videos are free and if you would love to support their production, thanks! This is my</span>
-      <a href="https://patreon.com" target="_blank">Patreon</a>
+      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a>
       <span>and</span>
       <a href="https://www.paypal.com/paypalme/feelinglovelynow" target="_blank">Paypal</a><span>!</span>
     </div>
     <div class="p">
       <span>& lastly, I provide 90 minute Coaching Calls, I love to call them Alignment Chats, b/c we chat about what you would love to align with, maybe God, Joy, Peace, your heart, you passion, your call please! If that interests you, or if you would love to contact me for any other reason, please feel free to send me an email at chris@feelinglovelynow.com or send me a message on</span>
       <a href="https://instagram.com/feelinglovelynow" target="_blank">Instagram</a><span>,</span>
-      <a href="https://patreon.com" target="_blank">Patreon</a>
+      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a>
       <span>or</span>
       <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a><span>! 😀</span>
     </div>
