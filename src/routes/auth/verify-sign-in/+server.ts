@@ -13,7 +13,7 @@ export const POST = (async ({ request, cookies }) => {
     const body = (await request.json()) as SchemaVerifySignIn
     await validateFields(body, schemaVerifySignIn)
     const user = await queryUser(body.email)
-console.log('user', user)
+
     if (!user?.id) throw one('Please enter a valid email address', { body, user })
     else {
       const href = await sendSignInEmailAndSetCookie(cookies, user.id, body.email, user.firstName)
