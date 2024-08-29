@@ -16,8 +16,8 @@ export const POST = (async ({ request, cookies }) => {
 
     if (!user?.id) throw one('Please enter a valid email address', { body, user })
     else {
-      const href = await sendSignInEmailAndSetCookie(cookies, user.id, body.email, user.firstName)
-      return json({ href })
+      await sendSignInEmailAndSetCookie(cookies, user.id, body.email, user.firstName)
+      return json({ success: true })
     }
   } catch (e) {
     return serverCatch(e)

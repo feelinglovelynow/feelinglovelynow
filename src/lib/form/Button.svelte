@@ -11,7 +11,7 @@
 </script>
 
 
-<button { type } class="{ color } { isLoading ? 'loading': '' } { css ? css : 'full-width' }" disabled={ isLoading || disabled } on:click={ onClick }>
+<button { type } class="{ color } { isLoading ? 'loading': '' } { css ? css : 'full-width' }" disabled={ isLoading || disabled } on:click={ onClick } aria-label={ text }>
   { @html SVG_LOADING }
   <span class="text">{ text }</span>
 </button>

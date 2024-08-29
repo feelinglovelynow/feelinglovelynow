@@ -38,7 +38,7 @@
 
     <a href="#products" class="item" aria-label="Scroll to products section">
       { @html SVG_STORE }
-      <span>Poducts</span>
+      <span>Products</span>
     </a>
 
     <button class="item" on:click={ () => { openCart() } } aria-label="Open shopping cart modal">

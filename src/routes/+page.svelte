@@ -67,7 +67,7 @@
     <Flower flower={ true }  />
     <div class="p">This creates The Fruit of Life which is 13 perfectly touching cicles.</div>
     <Flower fruit={ true } />
-    <div class="p">When all the circles in the Fruit of Life are connected with lines this creates Metatron's Cube.</div>
+    <div class="p">When lines connect the centers of each circle in the Fruit of Life, Metatron's Cube is created.</div>
     <Flower fruit={ true } metatronsCube={ true } />
     <div class="p">Metatron's Cube contains all of the Platonic Shapes, aka all of the the perfectly symetrical shapes in our Universe (all angles and side lengths are equal).</div>
     <div class="p">Yes Platonic as in Plato, Plato discussed these solids in his works and amazingly each Platonic Solid is contained in Metatron's cube. In other words Metatron's cube sources each Platonic Solid.</div>

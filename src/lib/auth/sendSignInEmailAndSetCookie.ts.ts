@@ -1,9 +1,10 @@
 import type { Cookies } from '@sveltejs/kit'
 import createToken from '$lib/auth/createToken'
+import { PUBLIC_HOST } from '$env/static/public'
 import { enumTokenType } from '$lib/global/enums'
 import setSignInCookie from '$lib/auth/setSignInCookie'
 import IMG_EMAIL_HEAD from '$lib/img/email/IMG_EMAIL_HEAD.png'
-import { PUBLIC_ENVIRONMENT, PUBLIC_HOST } from '$env/static/public'
+import { MAILJET_API_KEY, MAILJET_SECRET_KEY } from '$env/static/private'
 
 
 export default async function sendSignInEmailAndSetCookie (cookies: Cookies, userId: number, email: string, firstName?: string): Promise<string | void> {
@@ -12,9 +13,7 @@ export default async function sendSignInEmailAndSetCookie (cookies: Cookies, use
   const href = `${ PUBLIC_HOST }/auth/verify-token?token=${ token }`
 
   setSignInCookie(signInId, cookies)
-
-  if (PUBLIC_ENVIRONMENT === 'local') return href // so we may click the link w/in the email locally, b/c emails do not work outside of cloudflare workers (aka locally)
-  else await sendEmail(href, email, firstName) // do not return href off local so they must access email to sign in
+  await sendEmail(href, email, firstName)
 }
 
 
@@ -29,6 +28,7 @@ async function sendEmail (href: string, email: string, firstName?: string) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + Buffer.from(`${ MAILJET_API_KEY }:${ MAILJET_SECRET_KEY }`).toString('base64'),
       },
       body: JSON.stringify({
         Messages: [
@@ -37,10 +37,12 @@ async function sendEmail (href: string, email: string, firstName?: string) {
               Email: 'us@feelinglovelynow.com',
               Name: 'Feeling Lovely Now',
             },
-            To: {
-              Email: email,
-              Name: firstName,
-            },
+            To: [
+              {
+                Email: email,
+                Name: firstName,
+              }
+            ],
             Subject: `Feeling Lovely Now sign in link${ firstName ? ' for ' + firstName : '' }!`,
             HTMLPart: `
               <table style="padding: 18px 18px 27px 18px; color: #273142; table-layout: fixed; width: 100%; max-width: 100vw; font-size: 16px; text-align:center; font-family: Inter, ui-sans-serif, system-ui;">
