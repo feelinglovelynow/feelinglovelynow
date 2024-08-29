@@ -34,12 +34,12 @@ async function sendEmail (href: string, email: string, firstName?: string) {
         Messages: [
           {
             From: {
-              Email: email,
+              Email: 'us@feelinglovelynow.com',
               Name: 'Feeling Lovely Now',
             },
             To: {
               Email: email,
-              Name: 'Feeling Lovely Now',
+              Name: firstName,
             },
             Subject: `Feeling Lovely Now sign in link${ firstName ? ' for ' + firstName : '' }!`,
             HTMLPart: `
