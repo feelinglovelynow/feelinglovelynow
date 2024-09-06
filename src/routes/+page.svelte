@@ -44,24 +44,32 @@
   <div id="about">
     <div class="papyrus one">About Me</div>
 
-    <div class="p">Aloha! My name is Chistopher Carrington, thanks for being here! I was born in New York, I currently live in Mount Shasta and I provide yoga, meditation & sound healing classes here!</div>
+    <div class="p">💜 Aloha! My name is Christopher Carrington, thanks for being here! I was born in New York, I currently live in Mount Shasta and I provide yoga, meditation & sound healing classes here!</div>
     <div class="p">
-      <span>I also make</span>
+      <span>💙 I also make</span>
       <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a>
-      <span>videos! The videos are free and if you would love to support their production, thanks! This is my</span>
-      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a>
-      <span>and</span>
-      <a href="https://www.paypal.com/paypalme/feelinglovelynow" target="_blank">Paypal</a><span>!</span>
+      <span>videos! I release a video every day and the theme is stories about</span>
+      <a href="https://www.youtube.com/watch?v=KdSsMFtfbZ0&list=PLtjDq853eyCiOjlNGt9DzYWovUesimw5Z" target="_blank">Inner Conflict Solutions</a><span>!</span>
+    </div>
+    <div class="p">💚 My email is chris@feelinglovelynow.com - Send me an email if you would just love to chat or if you are interested in a Coaching Call! I provide Coaching Calls that I love to call Alignment Chats, where we chat about whatever you would love to align with, maybe God, Joy, Peace, your heart, you passion, your call please!</div>
+    <div class="p">
+      <span>🧡 Here is my</span>
+      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a><span>!</span>
+      <span>Please check it out if you'd love to support these daily Inner Conflict Solutions videos, thank you sooo much! 🥰</span>
     </div>
     <div class="p">
-      <span>& lastly, I provide 90 minute Coaching Calls, I love to call them Alignment Chats, b/c we chat about what you would love to align with, maybe God, Joy, Peace, your heart, you passion, your call please! If that interests you, or if you would love to contact me for any other reason, please feel free to send me an email at chris@feelinglovelynow.com or send me a message on</span>
-      <a href="https://instagram.com/feelinglovelynow" target="_blank">Instagram</a><span>,</span>
-      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a>
-      <span>or</span>
-      <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a><span>! 😀</span>
+      <span>💛 Here is my</span>
+      <a href="https://www.paypal.com/paypalme/feelinglovelynow" target="_blank">Paypal</a><span>!</span>
+      <span>Please check it out if you'd love to support with a donation, thank you so much! 😀</span>
+    </div>
+    <div class="p">
+      <span>❤️ & here is my</span>
+      <a href="https://instagram.com/feelinglovelynow " target="_blank">Instagram</a><span>!</span>
+      <span>Please feel free to send me a message! 🙏</span>
     </div>
 
-    <div class="papyrus one" style="margin-top: 2.7rem;">About Sacred Geometry</div>
+
+    <div class="papyrus one" style="margin-top: 3rem;">About Sacred Geometry</div>
     <div class="p">Some believe that shapes are fundamental building blocks of our Universe. For example, when atoms make x shape, y happens.</div>
     <div class="p">The Flower of Life is 61 interconnecting circles.</div>
     <Flower flower={ true }  />
@@ -95,7 +103,7 @@
     margin-top: -10.2rem;  // smooth scroll padding
 
     .p {
-      margin-bottom: 0.9rem;
+      margin-bottom: 1.2rem;
     }
 
     :global(svg) {

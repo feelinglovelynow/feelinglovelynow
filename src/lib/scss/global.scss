@@ -12,6 +12,7 @@ html {
 }
 
 body {
+  line-height: 1.41;
   font-family: $font-family;
   background-color: var(--bg-color);
   transition: background-color $theme-swap-speed;
