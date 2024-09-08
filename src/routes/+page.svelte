@@ -51,7 +51,7 @@
       <span>videos! I release a video every day and the theme is stories about</span>
       <a href="https://www.youtube.com/watch?v=KdSsMFtfbZ0&list=PLtjDq853eyCiOjlNGt9DzYWovUesimw5Z" target="_blank">Inner Conflict Solutions</a><span>!</span>
     </div>
-    <div class="p">💚 My email is chris@feelinglovelynow.com - Send me an email if you would just love to chat or if you are interested in a Coaching Call! I provide Coaching Calls that I love to call Alignment Chats, where we chat about whatever you would love to align with, maybe God, Joy, Peace, your heart, you passion, your call please!</div>
+    <div class="p">💚 My email is chris@feelinglovelynow.com - Send me an email if you'd love to chat or if you are interested in a Coaching Call; where we will chat about how to transcend a struggle, how to accomplish a goal, or how to align with something you'd love to align with, maybe God, Joy, Peace, your heart, your passion and/or your dream please!</div>
     <div class="p">
       <span>🧡 Here is my</span>
       <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a><span>!</span>
