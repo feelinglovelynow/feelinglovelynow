@@ -173,15 +173,16 @@
     </div>
     <div class="p">
       <span>💛 Here is my</span>
+      <a href="https://venmo.com/u/feelinglovelynow" target="_blank">Venmo</a>
+      <span>and </span>
       <a href="https://www.paypal.com/paypalme/feelinglovelynow" target="_blank">Paypal</a><span>!</span>
-      <span>Please check it out if you'd love to support with a donation, thank you so much! 😀</span>
+      <span>Please check it out if you would love to support with a donation, thank you sooo much!!! 😀</span>
     </div>
     <div class="p">
       <span>❤️ & here is my</span>
       <a href="https://instagram.com/feelinglovelynow " target="_blank">Instagram</a><span>!</span>
-      <span>Please feel free to send me a message! 🙏</span>
+      <span>Please feel free to follow and/or send me a message! 🙏</span>
     </div>
-
 
     <div class="papyrus one" style="margin-top: 3rem;">About Sacred Geometry</div>
     <div class="p">Some believe that shapes are fundamental building blocks of our Universe. For example, when atoms make x shape, y happens.</div>
