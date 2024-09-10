@@ -1,11 +1,19 @@
 <script lang="ts">
   import type { Product } from '$lib'
+  import { fade } from 'svelte/transition'
   import Hero from '$lib/global/Hero.svelte'
   import Head from '$lib/global/Head.svelte'
   import { routeCatch } from '$lib/global/catch'
   import Flower from '$lib/sacred/Flower.svelte'
+  import SVG_VENMO from '$lib/svg/logo/SVG_VENMO.svg'
+  import SVG_PAYPAL from '$lib/svg/logo/SVG_PAYPAL.svg'
   import IMG_OG_HOME from '$lib/img/og/IMG_OG_HOME.jpg'
+  import SVG_YOUTUBE from '$lib/svg/logo/SVG_YOUTUBE.svg'
+  import SVG_PATREON from '$lib/svg/logo/SVG_PATREON.svg'
+  import SVG_FACEBOOK from '$lib/svg/logo/SVG_FACEBOOK.svg'
+  import SVG_INSTAGRAM from '$lib/svg/logo/SVG_INSTAGRAM.svg'
   import FeaturedProducts from '$lib/store/FeaturedProducts.svelte'
+
 
   export let data: {
     locals: App.Locals
@@ -29,6 +37,28 @@
 
     return featuredProducts
   }
+
+  type PopoverVisibility = {
+    youtube: boolean;
+    instagram: boolean;
+    patreon: boolean;
+    facebook: boolean;
+    venmo: boolean;
+    paypal: boolean;
+  }
+
+  let popoverVisibility = {
+    youtube: false,
+    instagram: false,
+    patreon: false,
+    facebook: false,
+    venmo: false,
+    paypal: false,
+  }
+
+  function setPopoverVisiblity (name: keyof PopoverVisibility, flag: boolean) {
+    popoverVisibility[name] = flag
+  }
 </script>
 
 
@@ -42,7 +72,89 @@
   </div>
 
   <div id="about">
-    <div class="papyrus one">About Me</div>
+    <div class="top">
+      <div class="papyrus one">About Me</div>
+
+      <div class="logos">
+        <!-- YouTube -->
+        <a
+          target="_blank"
+          href="https://www.youtube.com/@FeelingLovelyNow"
+          aria-label="Click here to view my YouTube page"
+          on:mouseenter={ () => setPopoverVisiblity('youtube', true) }
+          on:mouseleave={ () => setPopoverVisiblity('youtube', false) }>
+          { #if popoverVisibility.youtube }
+            <div transition:fade={{ duration: 150 }} class="popover">YouTube</div>
+          { /if }
+          { @html SVG_YOUTUBE }
+        </a>
+
+        <!-- Instagram -->
+        <a
+          target="_blank"
+          href="https://instagram.com/feelinglovelynow"
+          aria-label="Click here to view my YouTube page"
+          on:mouseenter={ () => setPopoverVisiblity('instagram', true) }
+          on:mouseleave={ () => setPopoverVisiblity('instagram', false) }>
+          { #if popoverVisibility.instagram }
+            <div transition:fade={{ duration: 150 }} class="popover">Instagram</div>
+          { /if }
+          { @html SVG_INSTAGRAM }
+        </a>
+
+        <!-- Patreon -->
+        <a
+          target="_blank"
+          href="https://www.patreon.com/feelinglovelynow"
+          aria-label="Click here to view my Patreon page"
+          on:mouseenter={ () => setPopoverVisiblity('patreon', true) }
+          on:mouseleave={ () => setPopoverVisiblity('patreon', false) }>
+          { #if popoverVisibility.patreon }
+            <div transition:fade={{ duration: 150 }} class="popover">Patreon</div>
+          { /if }
+          { @html SVG_PATREON }
+        </a>
+
+        <!-- Facebook -->
+        <a
+          target="_blank"
+          href="https://facebook.com/feelinglovelynow"
+          aria-label="Click here to view my FaceBook page"
+          on:mouseenter={ () => setPopoverVisiblity('facebook', true) }
+          on:mouseleave={ () => setPopoverVisiblity('facebook', false) }>
+          { #if popoverVisibility.facebook }
+            <div class="popover">FaceBook</div>
+          { /if }
+          { @html SVG_FACEBOOK }
+        </a>
+
+        <!-- Venmo -->
+        <a
+          target="_blank"
+          href="https://venmo.com/u/feelinglovelynow"
+          aria-label="Click here to view my Venmo page"
+          on:mouseenter={ () => setPopoverVisiblity('venmo', true) }
+          on:mouseleave={ () => setPopoverVisiblity('venmo', false) }>
+          { #if popoverVisibility.venmo }
+            <div class="popover">Venmo</div>
+          { /if }
+          { @html SVG_VENMO }
+        </a>
+
+        <!-- PayPal -->
+        <a
+          href="https://paypal.me/feelinglovelynow"
+          target="_blank"
+          aria-label="Click here to view my PayPal page"
+          on:mouseenter={ () => setPopoverVisiblity('paypal', true) }
+          on:mouseleave={ () => setPopoverVisiblity('paypal', false) }>
+          { #if popoverVisibility.paypal }
+            <div class="popover">PayPal</div>
+          { /if }
+          { @html SVG_PAYPAL }
+        </a>
+      </div>
+    </div>
 
     <div class="p">💜 Aloha! My name is Christopher Carrington, thanks for being here! I was born in New York, I currently live in Mount Shasta and I provide yoga, meditation & sound healing classes here!</div>
     <div class="p">
@@ -103,6 +215,39 @@
     max-width: 99rem;
     padding-top: 10.2rem; // smooth scroll padding
     margin-top: -10.2rem;  // smooth scroll padding
+
+    .top {
+      display: flex;
+      align-items: center;
+
+      .logos {
+        display: flex;
+        align-items: center;
+      }
+
+      a {
+        width: 3.3rem;
+        height: 3.3rem;
+        margin: 0 1.8rem;
+        position: relative;
+
+        .popover {
+          position: absolute;
+          left: 50%;
+          transform: translate(-50%, 4.2rem);
+          color: var(--text-color);
+          background-color: var(--opacity-bg);
+          padding: 0.9rem;
+          border-radius: 1.5rem;
+          font-weight: 500;
+        }
+
+        :global(svg) {
+          height: 100%;
+          width: auto;
+        }
+      }
+    }
 
     .p {
       margin-bottom: 1.2rem;
