@@ -457,7 +457,7 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 * [NVM](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04)
 
 
-### Digital Ocean Scrips
+### Digital Ocean Scripts
 * Always allow ssh in the firewall
     * `sudo ufw allow ssh`
 * Git Pull + Deploy
