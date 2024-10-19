@@ -72,6 +72,21 @@
   </div>
 
   <div id="about">
+    <div class="papyrus one">About Sacred Geometry</div>
+    <p>Einstein: <a href="https://mathshistory.st-andrews.ac.uk/Extras/Einstein_ether/" target="_blank">"Space without ether is unthinkable"</a>.</p>
+    <p>Within this void we abide in, could shapes of ether, atoms or energy be the fundamental building blocks of our Universe?!</p>
+    <p>The Flower of Life is 61 interconnecting circles as seen below. This may seem insignificant but these circles source all the perfect shapes in our Universe.</p>
+    <Flower flower={ true }  />
+    <p>When we remove the additional guiding circles fom The Flower of Life we see The Fruit of Life which is 13 perfectly touching cicles.</p>
+    <Flower fruit={ true } />
+    <p>When lines connect the centers of each circle in the Fruit of Life, Metatron's Cube is created.</p>
+    <Flower fruit={ true } metatronsCube={ true } />
+    <p>Metatron's Cube contains all of the Platonic Shapes or Solids. The Platonic Solids include all of the the perfectly symetrical shapes in our Universe (all angles and side lengths are equal).</p>
+    <p>Yes Platonic as in Plato! Plato discussed these solids in his works, he taught that these geometrical forms each represent an element in our Universe and amazingly each Platonic Solid is contained in Metatron's cube. In other words Metatron's cube sources each Platonic Solid.</p>
+    <p>Plato: <a href="https://mathshistory.st-andrews.ac.uk/Biographies/Plato/quotations/" target="_blank">"So their combinations with themselves and with each other give rise to endless complexities, which anyone who is to give a likely account of reality must survey."</a></p>
+    <p style="margin-bottom: 0;">The triangle version of the Platonic Solids is the Merkaba! Notice all the equal angle and side length triangles within it below?! There are many spiritual ideas about what these shapes mean. I see them as fundamenatal, perfect & lovely repesentives of our Universe (aka our Home)!</p>
+    <Flower merkaba={ true } />
+
     <div class="top">
       <div class="papyrus one">About Me</div>
 
@@ -156,46 +171,14 @@
       </div>
     </div>
 
-    <div class="p">💜 Aloha! My name is Christopher Carrington, thanks for being here! I was born in New York, I currently live in Mount Shasta and I provide yoga, meditation & sound healing classes here!</div>
-    <div class="p">
+    <p>💜 Aloha! My name is Christopher Carrington, thanks for being here! I was born in New York, I currently live in Mount Shasta and I provide yoga, meditation and sound healing classes here!</p>
+    <p>
       <span>💙 I also make</span>
       <a href="https://youtube.com/@FeelingLovelyNow" target="_blank">YouTube</a>
       <span>videos about</span>
       <a href="https://www.youtube.com/playlist?list=PLtjDq853eyCiOjlNGt9DzYWovUesimw5Z" target="_blank">Loving Self Mastery</a><span>!</span>
-    </div>
-    <div class="p">💚 My email is chris@feelinglovelynow.com - Send me an email if you'd love to chat or if you are interested in a Coaching Call; where we will chat about how to transcend a struggle, how to accomplish a goal, or how to align with something you'd love to align with, maybe God, Joy, Peace, your heart, your passion and/or your dream please!</div>
-    <div class="p">
-      <span>🧡 Here is my</span>
-      <a href="https://www.patreon.com/feelinglovelynow" target="_blank">Patreon</a><span>!</span>
-      <span>Please check it out if you'd love to support these daily</span>
-      <a href="https://www.youtube.com/playlist?list=PLtjDq853eyCiOjlNGt9DzYWovUesimw5Z" target="_blank">Loving Self Mastery</a>
-      <span>videos, thank you sooo much! 🥰</span>
-    </div>
-    <div class="p">
-      <span>💛 Here is my</span>
-      <a href="https://venmo.com/u/feelinglovelynow" target="_blank">Venmo</a>
-      <span>and </span>
-      <a href="https://www.paypal.com/paypalme/feelinglovelynow" target="_blank">Paypal</a><span>!</span>
-      <span>Please check it out if you would love to support with a donation, thank you sooo much!!! 😀</span>
-    </div>
-    <div class="p">
-      <span>❤️ & here is my</span>
-      <a href="https://instagram.com/feelinglovelynow " target="_blank">Instagram</a><span>!</span>
-      <span>Please feel free to follow and/or send me a message! 🙏</span>
-    </div>
-
-    <div class="papyrus one" style="margin-top: 3rem;">About Sacred Geometry</div>
-    <div class="p">Some believe that shapes are fundamental building blocks of our Universe. For example, when atoms make x shape, y happens.</div>
-    <div class="p">The Flower of Life is 61 interconnecting circles.</div>
-    <Flower flower={ true }  />
-    <div class="p">This creates The Fruit of Life which is 13 perfectly touching cicles.</div>
-    <Flower fruit={ true } />
-    <div class="p">When lines connect the centers of each circle in the Fruit of Life, Metatron's Cube is created.</div>
-    <Flower fruit={ true } metatronsCube={ true } />
-    <div class="p">Metatron's Cube contains all of the Platonic Shapes, aka all of the the perfectly symetrical shapes in our Universe (all angles and side lengths are equal).</div>
-    <div class="p">Yes Platonic as in Plato, Plato discussed these solids in his works and amazingly each Platonic Solid is contained in Metatron's cube. In other words Metatron's cube sources each Platonic Solid.</div>
-    <div class="p">The triangle version of the Platonic Solids is the Merkaba! Notice all the equal angle and side length triangles?!</div>
-    <Flower merkaba={ true } />
+    </p>
+    <p>💚 My email is chris@feelinglovelynow.com - Send me an email if you'd love to chat and/or if you are interested in a Coaching Call; where we can chat about how to transcend a struggle, how to accomplish a goal, and/or how to align with something you'd love to align with, maybe God, Joy, Peace, your heart, your passion and/or your goals please!</p>
   </div>
 </main>
 
@@ -213,13 +196,14 @@
     color: white;
     padding: 0 1.8rem;
     margin: 0 auto;
-    max-width: 99rem;
+    max-width: 101rem;
     padding-top: 10.2rem; // smooth scroll padding
     margin-top: -10.2rem;  // smooth scroll padding
 
     .top {
       display: flex;
       align-items: center;
+      margin-top: 2.7rem;
 
       .logos {
         display: flex;
@@ -250,8 +234,8 @@
       }
     }
 
-    .p {
-      margin-bottom: 1.2rem;
+    p {
+      margin: 0 0 1.2rem 0;
     }
 
     :global(svg) {

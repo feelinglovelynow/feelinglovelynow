@@ -457,6 +457,12 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 * Source: [Link](https://github.com/desktop/desktop/issues/14936)
 
 
+## Navigate Filezilla
+1. File
+1. Site Manger
+1. Connect
+
+
 ## Digital Ocean Links
 * [NodeJS](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04)
 * [Filezilla](https://docs.digitalocean.com/products/droplets/how-to/transfer-files/)
