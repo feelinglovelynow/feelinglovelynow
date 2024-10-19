@@ -14,7 +14,7 @@
   { #if showContent }
     <div class="hero__content background">
       <div class="hero__content__primary">Elevate Your Wardrobe</div>
-      <div class="hero__content__secondary">Experience the Power of Sacred Geometry with Our 100% Organic Clothing!</div>
+      <div class="hero__content__secondary">Experience the Power of Sacred Geometry with Our <span style="color: #4fe8dd;">100% Organic</span> Clothing!</div>
       <a href="#products">
         <Button text="Shop Now" css="large" />
       </a>

@@ -264,8 +264,8 @@
       top: -1.62rem;
       right: -1.42rem;
       color: #fff;
-      border: 0.1rem solid var(--red-text-color);
-      background-color: var(--red-text-color);
+      border: 0.1rem solid var(--red-bg-color);
+      background-color: var(--red-bg-color);
       display: inline-block;
       border-radius: 50%;
       padding: 0;

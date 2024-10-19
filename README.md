@@ -108,6 +108,7 @@
 - [AI Photo to Art](https://www.befunky.com/create/photo-to-art/)
 - [Movie Green Screen Videos](https://pixabay.com/videos/)
 - [MOV to GIF](https://ezgif.com/video-to-gif)
+- [SVG to JSX](https://react-svgr.com/playground/?native=true&typescript=true)
 
 
 #### Tech Stack Costs

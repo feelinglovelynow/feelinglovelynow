@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@ace/db':
-        specifier: git+https://github.com/acedatabasefoundation/db.git
-        version: https://codeload.github.com/acedatabasefoundation/db/tar.gz/f0975e96419cdfcb214109641b4d33dd2626e3da
+        specifier: file:../acedatabasefoundation/db
+        version: file:../acedatabasefoundation/db
       '@feelinglovelynow/datetime-local':
         specifier: latest
         version: 1.0.3
@@ -92,9 +92,8 @@ importers:
 
 packages:
 
-  '@ace/db@https://codeload.github.com/acedatabasefoundation/db/tar.gz/f0975e96419cdfcb214109641b4d33dd2626e3da':
-    resolution: {tarball: https://codeload.github.com/acedatabasefoundation/db/tar.gz/f0975e96419cdfcb214109641b4d33dd2626e3da}
-    version: 0.0.1
+  '@ace/db@file:../acedatabasefoundation/db':
+    resolution: {directory: ../acedatabasefoundation/db, type: directory}
     hasBin: true
 
   '@ampproject/remapping@2.3.0':
@@ -1140,7 +1139,7 @@ packages:
 
 snapshots:
 
-  '@ace/db@https://codeload.github.com/acedatabasefoundation/db/tar.gz/f0975e96419cdfcb214109641b4d33dd2626e3da': {}
+  '@ace/db@file:../acedatabasefoundation/db': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:

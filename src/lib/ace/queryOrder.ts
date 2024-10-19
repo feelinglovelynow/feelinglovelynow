@@ -4,7 +4,7 @@ import type { SearchOrdersRequest } from '$lib/global/route'
 import { ACE_CRYPT_IV, ACE_CRYPT_JWK, ACE_DIRECTORY, ACE_ENVIRONMENT } from '$env/static/private'
 
 
-export async function queryOrder (search: SearchOrdersRequest): Promise<Order[] | undefined> {
+export async function queryOrder (search?: SearchOrdersRequest): Promise<Order[] | undefined> {
   const { orders } = await ace({
     dir: ACE_DIRECTORY,
     env: ACE_ENVIRONMENT,

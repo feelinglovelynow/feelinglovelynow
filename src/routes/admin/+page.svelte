@@ -428,7 +428,7 @@
 
                     .order-item {
                       display: flex;
-                      margin-bottom: 1.8rem;
+                      margin-bottom: 2.7rem;
                       transition: all $theme-swap-speed;
                       &:last-child {
                         border: none;
@@ -452,8 +452,6 @@
                           width: 100%;
                           font-weight: 500;
                           margin-bottom: 1.2rem;
-                          white-space: nowrap;
-                          text-overflow: ellipsis;
                           overflow: auto;
                           max-width: 51rem;
                           font-size: 2.1rem;

@@ -35,7 +35,8 @@
       --light-black-text-color: #515357;
       --green-text-color: green;
       --blue-text-color: #2196F3;
-      --red-text-color: #FE544B;
+      --red-text-color: #bb0c0c;
+      --red-bg-color: #FE544B;
       --gold-text-color: #eac603;
       --light-opacity-bg: rgba(255, 255, 255, 0.95);
       --light-glow: 0.09rem 0.09rem 0.9rem 0.09rem rgba(234, 198, 3, 0.18);

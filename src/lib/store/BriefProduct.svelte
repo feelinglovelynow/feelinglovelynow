@@ -72,7 +72,7 @@
         </div>
         <div class="row">
           <div class="name">
-            <div>100% Organic Cotton</div>
+            <div style="color: var(--papyrus-text-color);">100% Organic Cotton</div>
             <div>{ product.name }</div>
           </div>
 
@@ -121,6 +121,7 @@
       }
 
       .brief {
+        position: relative;
         width: 100%;
         height: 100%;
         display: flex;
@@ -133,8 +134,9 @@
         aspect-ratio: 1/1;
         width: 100%;
         max-width: calc(100vw - 3.6rem);
-        display: block;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: end;
         padding: 1.8rem;
         background-color: transparent;
 
@@ -155,7 +157,7 @@
           justify-content: center;
 
           .sale {
-            color: #bb0c0c;
+            color: var(--red-text-color);
           }
 
           .regular {
