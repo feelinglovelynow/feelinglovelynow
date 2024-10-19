@@ -451,6 +451,12 @@ npm deprecate @sensethenlove/toast@1.x "This project has been renamed. Install u
 * `"@ace/db": "git+https://github.com/acedatabasefoundation/db.git",`
 
 
+## Github Desktop Error
+* Error: The remote disconnected. Check your Internet connection and try again.
+* Fix: `git config --global http.postBuffer 157286400`
+* Source: [Link](https://github.com/desktop/desktop/issues/14936)
+
+
 ## Digital Ocean Links
 * [NodeJS](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-20-04)
 * [Filezilla](https://docs.digitalocean.com/products/droplets/how-to/transfer-files/)
