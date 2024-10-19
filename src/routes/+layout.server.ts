@@ -1,6 +1,6 @@
 import { ace, td } from '@ace/db'
 import type { Product } from '$lib'
-// import { seed } from '$lib/global/seed'
+import { seed } from '$lib/global/seed'
 import type { LayoutServerLoad } from './$types'
 import { pageServerCatch } from '$lib/global/catch'
 import { ACE_CRYPT_IV, ACE_CRYPT_JWK, ACE_DIRECTORY, ACE_ENVIRONMENT } from '$env/static/private'
@@ -22,7 +22,7 @@ export const load = (async ({ locals }): Promise<{ locals: App.Locals, products:
 async function getProducts () {
   const req: td.AceFnRequest = []
 
-  // seed(req)
+  seed(req)
 
   req.push({
     do: 'NodeQuery',
