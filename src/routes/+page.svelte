@@ -214,6 +214,10 @@
         width: 100%;
       }
 
+      :global(svg) {
+        margin-bottom: 0.9rem;
+      }
+
       @media only screen and (min-width: 40rem) { // big screen
         align-items: start;
       }
