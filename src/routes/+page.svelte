@@ -205,7 +205,18 @@
     margin-top: -10.2rem;  // smooth scroll padding
 
     .sacred {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin-bottom: 1.8rem;
+
+      p {
+        width: 100%;
+      }
+
+      @media only screen and (min-width: 40rem) { // big screen
+        align-items: start;
+      }
     }
 
     .me {
@@ -214,6 +225,21 @@
       .header {
         display: flex;
         align-items: center;
+        flex-direction: column;
+
+        .logos,
+        .papyrus {
+          margin-bottom: 0.6rem;
+        }
+
+        @media only screen and (min-width: 40rem) { // big screen
+          flex-direction: row;
+
+          .logos,
+          .papyrus {
+            margin-bottom: 0;
+          }
+        }
 
         .logos {
           display: flex;
@@ -224,8 +250,12 @@
         a {
           width: 3.3rem;
           height: 3.3rem;
-          margin: 0 1.8rem;
+          margin: 0 1.2rem;
           position: relative;
+
+          @media only screen and (min-width: 40rem) { // big screen
+            margin: 0 1.8rem;
+          }
 
           .popover {
             position: absolute;
