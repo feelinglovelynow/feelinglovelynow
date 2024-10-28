@@ -90,7 +90,9 @@
 - [Sign and Verify Messages with Web Crypto API](https://bradyjoslin.com/blog/hmac-sig-webcrypto/)
 - [FS Open Write Files](https://brainbell.com/javascript/fs-open-read-write-file.html)
 - [Deep Clone](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone)
-
+- [Tanstack Query + Websockets](https://tkdodo.eu/blog/using-web-sockets-with-react-query)
+- [Next.js + Websockets](https://socket.io/how-to/use-with-nextjs)
+- [Next.js + Custom Server](https://nextjs.org/docs/app/building-your-application/configuring/custom-server)
 
 #### Utilities
 - [Squoosh](https://squoosh.app)
@@ -109,6 +111,7 @@
 - [Movie Green Screen Videos](https://pixabay.com/videos/)
 - [MOV to GIF](https://ezgif.com/video-to-gif)
 - [SVG to JSX](https://react-svgr.com/playground/?native=true&typescript=true)
+- [Tailwind Cheatsheet](https://nerdcave.com/tailwind-cheat-sheet)
 
 
 #### Tech Stack Costs

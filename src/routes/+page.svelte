@@ -181,7 +181,7 @@
         <span>videos about</span>
         <a href="https://www.youtube.com/playlist?list=PLtjDq853eyCiOjlNGt9DzYWovUesimw5Z" target="_blank">Loving Self Mastery</a><span>!</span>
       </p>
-      <p>💚 My email is chris@feelinglovelynow.com - Send me an email if you'd love to chat and/or if you are interested in a Coaching Call; where we can chat about how to transcend a struggle, how to accomplish a goal, and/or how to align with something you'd love to align with, maybe God, Joy, Peace, your heart, your passion and/or your goals please!</p>
+      <p>💚 My email is chris@feelinglovelynow.com - Please feel free to send me an email if you'd love to chat!</p>
     </div>
   </div>
 </main>
